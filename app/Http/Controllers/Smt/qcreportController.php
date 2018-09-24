@@ -10,6 +10,7 @@ use App\Models\Smt\Smt_qcreport;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\qcreportExport;
+use App\Imports\qcreportImport;
 use App\Charts\Smt\ECharts;
 
 
@@ -302,6 +303,22 @@ class qcreportController extends Controller
 	}
 	
 	
+    /**
+     * qcreportImport
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function qcreportImport(Request $request)
+    {
+		// if (! $request->ajax()) { return null; }
+		// dd('aaaaaa');
+		
+		return Excel::import(new qcreportImport, 'import.xlsx');
+		
+	}	
+	
+	
 	// chart1 未使用
 	/**
 	* Computes the sample chart.
@@ -459,8 +476,6 @@ class qcreportController extends Controller
 		return $chart2->api();
 		
 	}	
-	
-	
 	
 	
 	

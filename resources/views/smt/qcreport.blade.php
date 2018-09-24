@@ -238,6 +238,7 @@ SMT - QC report
 	<br>
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart1()" type="info" size="small">刷新图表一</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart2()" type="info" size="small">刷新图表二</i-button>&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;<i-button @click="onimport()" type="info" size="small">导入数据</i-button>&nbsp;&nbsp;
 
 	<br><br>
 	<i-row :gutter="16">
@@ -1580,6 +1581,13 @@ var vm_app = new Vue({
 			_this.chart2_option_series_data = data;
 			_this.chart2_function();
 
+		},
+		
+		
+		//
+		onimport: function () {
+			alert('aa');
+			
 		},
 			
 			

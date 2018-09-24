@@ -3,7 +3,7 @@
 namespace App\Exports\Smt;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-use App\Models\Smt\Qcreport;
+// use App\Models\Smt\Smt_qcreport;
 
 use Illuminate\Support\Collection;
 
