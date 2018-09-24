@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDailyreportsTable extends Migration
+class CreateSmtPdreportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -55,6 +55,6 @@ class CreateDailyreportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dailyreports');
+        Schema::dropIfExists('smt_pdreports');
     }
 }

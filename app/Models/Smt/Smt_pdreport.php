@@ -5,7 +5,7 @@ namespace App\Models\Smt;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class Pdreport extends Model
+class Smt_pdreport extends Model
 {
 	protected $fillable = [
         'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'taishu', 'lotcan', 'chajiandianshu', 'jiadonglv', 'heji',

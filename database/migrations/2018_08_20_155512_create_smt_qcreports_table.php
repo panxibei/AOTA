@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQcreportsTable extends Migration
+class CreateSmtQcreportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -46,6 +46,6 @@ class CreateQcreportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('qcreports');
+        Schema::dropIfExists('smt_qcreports');
     }
 }

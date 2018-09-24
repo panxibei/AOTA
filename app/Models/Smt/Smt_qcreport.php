@@ -4,7 +4,7 @@ namespace App\Models\Smt;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Qcreport extends Model
+class Smt_qcreport extends Model
 {
 	protected $fillable = [
         'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu',

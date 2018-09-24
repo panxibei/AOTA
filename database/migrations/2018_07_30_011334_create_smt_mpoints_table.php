@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMpointsTable extends Migration
+class CreateSmtMpointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -32,6 +32,6 @@ class CreateMpointsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mpoints');
+        Schema::dropIfExists('smt_mpoints');
     }
 }

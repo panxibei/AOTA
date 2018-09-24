@@ -1061,6 +1061,9 @@ var vm_app = new Vue({
 				piliangluru: piliangluru
 			})
 			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
 				if (response.data) {
 					_this.onclear();
 					_this.success(false, '成功', '记入成功！');

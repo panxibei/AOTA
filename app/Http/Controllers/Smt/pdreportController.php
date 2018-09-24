@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Smt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Models\Smt\Mpoint;
-use App\Models\Smt\Pdreport;
+use App\Models\Smt\Smt_mpoint;
+use App\Models\Smt\Smt_pdreport;
 use DB;
 
 class pdreportController extends Controller
@@ -57,7 +57,7 @@ class pdreportController extends Controller
 		$jizhongming_filter = $request->input('jizhongming_filter');
 		
 		// $mpoint = DB::table('mpoints')
-		$mpoint = Mpoint::when($dailydate_filter, function ($query) use ($dailydate_filter) {
+		$mpoint = Smt_mpoint::when($dailydate_filter, function ($query) use ($dailydate_filter) {
 				return $query->where('created_at', 'like', '%'.$dailydate_filter.'%');
 			})
 			->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
@@ -95,7 +95,7 @@ class pdreportController extends Controller
 		// 写入数据库
 		try	{
 			// $result = DB::table('mpoints')->insert([
-			$result = Mpoint::create([
+			$result = Smt_mpoint::create([
 				'jizhongming'	=> $mpoint['jizhongming'],
 				'pinming'		=> $mpoint['pinming'],
 				'mian'			=> $mpoint['mian'],
@@ -136,7 +136,7 @@ class pdreportController extends Controller
 		// 写入数据库
 		try	{
 			// $result = DB::table('mpoints')
-			$result = Mpoint::where('id', $mpoint['id'])
+			$result = Smt_mpoint::where('id', $mpoint['id'])
 				->update([
 					'jizhongming'	=> $mpoint['jizhongming'],
 					'pinming'		=> $mpoint['pinming'],
@@ -168,7 +168,7 @@ class pdreportController extends Controller
 		$id = $request->only('tableselect');
 
 		// $result = DB::table('mpoints')->whereIn('id', $id)->delete();
-		$result = Mpoint::whereIn('id', $id)->delete();
+		$result = Smt_mpoint::whereIn('id', $id)->delete();
 		return $result;
 
 	}
@@ -187,7 +187,7 @@ class pdreportController extends Controller
 		$jizhongming = $request->only('jizhongming');
 
 		// $result = DB::table('mpoints')
-		$result = Mpoint::where('jizhongming', $jizhongming)
+		$result = Smt_mpoint::where('jizhongming', $jizhongming)
 			->get();
 		// dd($result);
 		return $result;
@@ -220,7 +220,7 @@ class pdreportController extends Controller
 		
 		//读取点/枚
 		// $t = DB::table('mpoints')->select('diantai', 'pinban')
-		$t = Mpoint::select('diantai', 'pinban')
+		$t = Smt_mpoint::select('diantai', 'pinban')
 			->where('jizhongming', $dailyreport['jizhongming'])
 			->where('pinming', $dailyreport['pinming'])
 			->where('mian', $dailyreport['gongxu'])
@@ -237,7 +237,7 @@ class pdreportController extends Controller
 		// 写入数据库
 		try	{
 			// $result = DB::table('dailyreports')->insert([
-			$result = Pdreport::create([
+			$result = Smt_pdreport::create([
 				'xianti'		=> $dailyreport['xianti'],
 				'banci'			=> $dailyreport['banci'],
 				'jizhongming'	=> $dailyreport['jizhongming'],
@@ -285,7 +285,7 @@ class pdreportController extends Controller
 		$banci_filter = $request->input('banci_filter');
 		
 		// $mpoint = DB::table('mpoints')
-		$dailyreport = Pdreport::when($dailydate_filter, function ($query) use ($dailydate_filter) {
+		$dailyreport = Smt_pdreport::when($dailydate_filter, function ($query) use ($dailydate_filter) {
 				return $query->where('created_at', 'like', '%'.$dailydate_filter.'%');
 			})
 			->when($xianti_filter, function ($query) use ($xianti_filter) {
@@ -316,7 +316,7 @@ class pdreportController extends Controller
 
 		$id = $request->only('tableselect');
 
-		$result = Pdreport::whereIn('id', $id)->delete();
+		$result = Smt_pdreport::whereIn('id', $id)->delete();
 		return $result;
 
 	}
@@ -340,13 +340,13 @@ class pdreportController extends Controller
 		// dd($data);
 
 		try	{
-			// $result = Pdreport::where('id', $dailyreport['id'])
+			// $result = Smt_pdreport::where('id', $dailyreport['id'])
 				// ->update([
 					// 'dandangzhe'	=> $dailyreport['dandangzhe']
 				// ]);
 				
 			// 批量更新
-			app(Pdreport::class)->updateBatch($data);
+			app(Smt_pdreport::class)->updateBatch($data);
 			
 			$result = 1;
 		}
@@ -376,13 +376,13 @@ class pdreportController extends Controller
 		}
 		
 		try	{
-			// $result = Pdreport::where('id', $dailyreport['id'])
+			// $result = Smt_pdreport::where('id', $dailyreport['id'])
 				// ->update([
 					// 'querenzhe'	=> $dailyreport['querenzhe']
 				// ]);
 
 			// 批量更新
-			app(Pdreport::class)->updateBatch($data);
+			app(Smt_pdreport::class)->updateBatch($data);
 			$result = 1;
 		}
 		catch (\Exception $e) {

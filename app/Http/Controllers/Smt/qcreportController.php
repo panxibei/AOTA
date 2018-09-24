@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Smt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Models\Smt\Mpoint;
-use App\Models\Smt\Qcreport;
+// use App\Models\Smt\Smt_mpoint;
+use App\Models\Smt\Smt_qcreport;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\qcreportExport;
@@ -42,7 +42,7 @@ class qcreportController extends Controller
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
 		
 		// $mpoint = DB::table('mpoints')
-		// $dailyreport = Qcreport::select('*', DB::raw('dianmei * meishu as hejidianshu'))
+		// $dailyreport = Smt_qcreport::select('*', DB::raw('dianmei * meishu as hejidianshu'))
 			// ->when($qcdate_filter, function ($query) use ($qcdate_filter) {
 				// return $query->whereBetween('created_at', $qcdate_filter);
 			// })
@@ -55,7 +55,7 @@ class qcreportController extends Controller
 			// ->orderBy('created_at', 'asc')
 			// ->paginate($perPage, ['*'], 'page', $page);
 
-		$dailyreport = Qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+		$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 				return $query->whereBetween('created_at', $qcdate_filter);
 			})
 			->when($xianti_filter, function ($query) use ($xianti_filter) {
@@ -92,7 +92,7 @@ class qcreportController extends Controller
 		// $banci_filter = $request->input('banci_filter');
 		
 		// $mpoint = DB::table('mpoints')
-		$qcreport = Qcreport::whereIn('dr_id', $dr_id)
+		$qcreport = Smt_qcreport::whereIn('dr_id', $dr_id)
 			->get();
 		
 
@@ -123,7 +123,7 @@ class qcreportController extends Controller
 			$pinming = $saomiao_arr[2];
 			$lotshu = $saomiao_arr[3];
 
-			$result = Qcreport::where('jizhongming', $jizhongming)
+			$result = Smt_qcreport::where('jizhongming', $jizhongming)
 				->where('pinming', $pinming)
 				->where('spno', $spno)
 				->where('lotshu', $lotshu)
@@ -195,7 +195,7 @@ class qcreportController extends Controller
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
 			foreach ($p as $value) {
-				Qcreport::create($value);
+				Smt_qcreport::create($value);
 			}
 
 			$result = 1;
@@ -203,6 +203,7 @@ class qcreportController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
+			// return 'Message: ' .$e->getMessage();
 			return 0;
 		}
 
@@ -224,7 +225,7 @@ class qcreportController extends Controller
 		$id = $request->input('tableselect1');
 
 		try	{
-			$result = Qcreport::whereIn('id', $id)->delete();
+			$result = Smt_qcreport::whereIn('id', $id)->delete();
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
@@ -269,7 +270,7 @@ class qcreportController extends Controller
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
 
-		$qcreport = Qcreport::select('id', 'created_at', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+		$qcreport = Smt_qcreport::select('id', 'created_at', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
 			'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe')
 			->whereBetween('created_at', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
