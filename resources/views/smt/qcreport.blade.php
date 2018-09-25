@@ -239,6 +239,15 @@ SMT - QC report
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart1()" type="info" size="small">刷新图表一</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart2()" type="info" size="small">刷新图表二</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;<i-button @click="onimport()" type="info" size="small">导入数据</i-button>&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;
+	<br><br>
+	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+	<Upload
+		:before-upload="handleUpload"
+		action="{{ route('smt.qcreport.qcreportimport') }}">
+        <i-button icon="ios-cloud-upload-outline">Upload files</i-button>
+    </Upload>
+	<div v-if="file !== null">Upload file: @{{ file.name }} <i-button @click="upload" :loading="loadingStatus" size="small">@{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</i-button></div>
 
 	<br><br>
 	<i-row :gutter="16">
@@ -868,6 +877,12 @@ var vm_app = new Vue({
 			{value:310, name:'SMT-9'},
 			{value:234, name:'SMT-10'}
 		],
+		
+		file: null,
+		loadingStatus: false
+		
+		
+		
 			
 			
 	},
@@ -1589,6 +1604,57 @@ var vm_app = new Vue({
 			alert('aa');
 			
 		},
+		
+		
+		// upload
+		handleUpload (file) {
+			this.file = file;
+			return false;
+		},
+		upload () {
+			this.loadingStatus = true;
+			
+			
+			
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('smt.qcreport.qcreportimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				console.log(response.data)
+			})
+			.catch(function (error) {
+				this.error(false, 'Error', error);
+			})
+			
+			
+			
+			
+			
+			setTimeout(() => {
+				this.file = null;
+				this.loadingStatus = false;
+				this.$Message.success('Success')
+			}, 1500);
+		},
+		
+		
+		
+		
+		
 			
 			
 	},

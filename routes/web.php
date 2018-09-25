@@ -25,7 +25,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 	Route::post('qcreportcreate', 'qcreportController@qcreportCreate')->name('smt.qcreport.qcreportcreate');
 	Route::post('qcreportdelete', 'qcreportController@qcreportDelete')->name('smt.qcreport.qcreportdelete');
 	Route::get('qcreportexport', 'qcreportController@qcreportExport')->name('smt.qcreport.qcreportexport');
-	Route::get('qcreportimport', 'qcreportController@qcreportImport')->name('smt.qcreport.qcreportimport');
+	Route::post('qcreportimport', 'qcreportController@qcreportImport')->name('smt.qcreport.qcreportimport');
 	Route::get('chart1', 'qcreportController@chart1')->name('smt.qcreport.chart1');
 	Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
 });
