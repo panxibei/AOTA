@@ -37,9 +37,7 @@ SMT - MPoint
 			</i-select>
 		</i-col>
 		<i-col span="10">
-			<i-button @click="oncreate()" type="primary">记入</i-button>&nbsp;&nbsp;&nbsp;
-			<i-button @click="onupdate()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;&nbsp;
-			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
+			&nbsp;
 		</i-col>
 	</i-row>
 
@@ -55,18 +53,26 @@ SMT - MPoint
 			<Input-number v-model.lazy="pinban" :min="1" size="small"></Input-number>
 		</i-col>
 		<i-col span="4">
-		&nbsp;
+			<i-button @click="oncreate()" type="primary">记入</i-button>&nbsp;&nbsp;&nbsp;
+			<i-button @click="onupdate()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;&nbsp;
+			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
 		</i-col>
 		<i-col span="10">
 			<Upload
-				:before-upload="handleUpload"
-				action="">
-				<i-button icon="ios-cloud-upload-outline">批量导入</i-button>
+				:before-upload="uploadstart"
+				:show-upload-list="false"
+				:format="['xls','xlsx']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
 			</Upload>
+			<!--
 			<div v-if="file !== null">等待上传: @{{ file.name }} &nbsp;&nbsp;
 				<i-button @click="uploadstart" :loading="loadingStatus" size="small">@{{ loadingStatus ? '上传中' : '上传' }}</i-button>
 				<i-button @click="uploadcancel" size="small">取消</i-button>
 			</div>
+			-->
 
 		</i-col>
 	</i-row>
@@ -511,12 +517,25 @@ var vm_app = new Vue({
 		},
 		
 		// upload
+		handleFormatError (file) {
+			this.$Notice.warning({
+				title: 'The file format is incorrect',
+				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
+			});
+		},
+		handleMaxSize (file) {
+			this.$Notice.warning({
+				title: 'Exceeding file size limit',
+				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
+			});
+		},
 		handleUpload: function (file) {
 			this.file = file;
 			return false;
 		},
-		uploadstart: function () {
+		uploadstart: function (file) {
 			var _this = this;
+			_this.file = file;
 			_this.loadingStatus = true;
 
 			
@@ -549,16 +568,20 @@ var vm_app = new Vue({
 				_this.error(false, 'Error', error);
 			})
 			
-			
-			setTimeout(() => {
-				this.file = null;
-				this.loadingStatus = false;
-				// this.$Message.success('Success')
+			setTimeout( function () {
+				_this.file = null;
+				_this.loadingStatus = false;
 			}, 1500);
+			
+			// setTimeout(() => {
+				// _this.file = null;
+				// this.loadingStatus = false;
+				// this.$Message.success('Success')
+			// }, 1500);
 		},
 		uploadcancel: function () {
 			this.file = null;
-			this.loadingStatus = false;
+			// this.loadingStatus = false;
 		},
 
 
