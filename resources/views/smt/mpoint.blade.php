@@ -24,7 +24,7 @@ SMT - MPoint
 	<i-row :gutter="16">
 		<i-col span="5">
 			* 机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming" size="small" clearable style="width: 160px"></i-input>
+			<i-input v-model.lazy="jizhongming" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 160px"></i-input>
 		</i-col>
 		<i-col span="5">
 			* 品名&nbsp;&nbsp;
@@ -37,6 +37,9 @@ SMT - MPoint
 			</i-select>
 		</i-col>
 		<i-col span="10">
+			<i-button @click="oncreate()" type="primary">记入</i-button>&nbsp;&nbsp;&nbsp;
+			<i-button @click="onupdate()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;&nbsp;
+			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
 		</i-col>
 	</i-row>
 
@@ -51,10 +54,20 @@ SMT - MPoint
 			* 拼板&nbsp;&nbsp;
 			<Input-number v-model.lazy="pinban" :min="1" size="small"></Input-number>
 		</i-col>
-		<i-col span="14">
-			<i-button @click="create()" type="primary">记入</i-button>&nbsp;&nbsp;
-			<i-button @click="update()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;
-			<i-button @click="clear()">清除</i-button>
+		<i-col span="4">
+		&nbsp;
+		</i-col>
+		<i-col span="10">
+			<Upload
+				:before-upload="handleUpload"
+				action="">
+				<i-button icon="ios-cloud-upload-outline">批量导入</i-button>
+			</Upload>
+			<div v-if="file !== null">等待上传: @{{ file.name }} &nbsp;&nbsp;
+				<i-button @click="uploadstart" :loading="loadingStatus" size="small">@{{ loadingStatus ? '上传中' : '上传' }}</i-button>
+				<i-button @click="uploadcancel" size="small">取消</i-button>
+			</div>
+
 		</i-col>
 	</i-row>
 
@@ -249,7 +262,9 @@ var vm_app = new Vue({
 		pagepagesize: 10,
 		pagelast: 1,
 		
-		
+		file: null,
+		loadingStatus: false
+
 
 			
 	},
@@ -335,7 +350,7 @@ var vm_app = new Vue({
 		
 		
 		//
-		clear: function () {
+		onclear: function () {
 			var _this = this;
 			_this.jizhongming = '';
 			_this.pinming = '';
@@ -345,8 +360,8 @@ var vm_app = new Vue({
 			_this.boo_update = true;
 		},
 		
-		// create
-		create: function () {
+		// oncreate
+		oncreate: function () {
 			var _this = this;
 			
 			var jizhongming = _this.jizhongming;
@@ -376,7 +391,7 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, 'Success', 'Created successfully!');
-					_this.clear();
+					_this.onclear();
 					_this.mpointgets(_this.pagecurrent, _this.pagelast);
 				} else {
 					_this.error(false, 'Fail', 'Created failed!');
@@ -388,8 +403,8 @@ var vm_app = new Vue({
 			})
 		},
 		
-		// update
-		update: function () {
+		// onupdate
+		onupdate: function () {
 			var _this = this;
 			
 			if (_this.mpointid == '') return false;
@@ -422,7 +437,7 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, 'Success', 'Updated successfully!');
-					_this.clear();
+					_this.onclear();
 					_this.mpointgets(_this.pagecurrent, _this.pagelast);
 				} else {
 					_this.error(false, 'Fail', 'Updated failed!');
@@ -488,7 +503,68 @@ var vm_app = new Vue({
 			_this.pinban = row.pinban;
 			_this.mpointid = row.id
 			_this.boo_update = false;
-		}
+		},
+		
+		//
+		onimport: function () {
+			alert();
+		},
+		
+		// upload
+		handleUpload: function (file) {
+			this.file = file;
+			return false;
+		},
+		uploadstart: function () {
+			var _this = this;
+			_this.loadingStatus = true;
+
+			
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('smt.qcreport.qcreportimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				if (response.data == 1) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+			})
+			
+			
+			setTimeout(() => {
+				this.file = null;
+				this.loadingStatus = false;
+				// this.$Message.success('Success')
+			}, 1500);
+		},
+		uploadcancel: function () {
+			this.file = null;
+			this.loadingStatus = false;
+		},
+
+
+
+
+
 		
 	},
 	mounted: function () {
