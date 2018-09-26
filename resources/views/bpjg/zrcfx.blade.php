@@ -1,7 +1,7 @@
-@extends('smt.layouts.mainbase')
+@extends('bpjg.layouts.mainbase')
 
 @section('my_title')
-SMT - QC report 
+BuPinJiaGong - 中日程分析 
 @parent
 @endsection
 
@@ -20,7 +20,7 @@ SMT - QC report
 @endsection
 
 @section('my_project')
-<strong>SMT QC Report</strong>
+<strong>BuPinJiaGong 中日程分析</strong>
 @endsection
 
 @section('my_body')

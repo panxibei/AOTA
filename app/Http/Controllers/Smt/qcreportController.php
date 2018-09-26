@@ -334,6 +334,8 @@ class qcreportController extends Controller
 			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
 			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
 			$fileCharater->storeAs('excel', 'import.xlsx');
+		} else {
+			return 0;
 		}
 		
 		// dd($filename);
