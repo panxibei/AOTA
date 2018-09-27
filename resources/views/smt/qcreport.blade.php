@@ -238,9 +238,9 @@ SMT - QC report
 	<br>
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart1()" type="info" size="small">刷新图表一</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart2()" type="info" size="small">刷新图表二</i-button>&nbsp;&nbsp;
-	&nbsp;&nbsp;&nbsp;<i-button @click="onimport()" type="info" size="small">导入数据</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;
 	<br><br>
+	<!--
 	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 	<Upload
 		:before-upload="handleUpload"
@@ -248,7 +248,8 @@ SMT - QC report
         <i-button icon="ios-cloud-upload-outline">Upload files</i-button>
     </Upload>
 	<div v-if="file !== null">Upload file: @{{ file.name }} <i-button @click="upload" :loading="loadingStatus" size="small">@{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</i-button></div>
-
+	-->
+	
 	<br><br>
 	<i-row :gutter="16">
 		<i-col span="24">
@@ -1598,12 +1599,6 @@ var vm_app = new Vue({
 
 		},
 		
-		
-		//
-		onimport: function () {
-			alert('aa');
-			
-		},
 		
 		
 		// upload

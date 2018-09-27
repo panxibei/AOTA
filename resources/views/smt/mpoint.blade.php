@@ -65,7 +65,7 @@ SMT - MPoint
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
 			</Upload>
 			<!--
 			<div v-if="file !== null">等待上传: @{{ file.name }} &nbsp;&nbsp;
@@ -269,7 +269,8 @@ var vm_app = new Vue({
 		pagelast: 1,
 		
 		file: null,
-		loadingStatus: false
+		loadingStatus: false,
+		uploaddisabled: false,
 
 
 			
@@ -536,6 +537,7 @@ var vm_app = new Vue({
 		uploadstart: function (file) {
 			var _this = this;
 			_this.file = file;
+			_this.uploaddisabled = true;
 			_this.loadingStatus = true;
 
 			
@@ -546,7 +548,7 @@ var vm_app = new Vue({
 			
 			// return false;
 			
-			var url = "{{ route('smt.qcreport.qcreportimport') }}";
+			var url = "{{ route('smt.pdreport.mpointimport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
@@ -563,15 +565,29 @@ var vm_app = new Vue({
 				} else {
 					_this.error(false, 'Error', '导入失败！');
 				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
 			})
 			.catch(function (error) {
 				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
 			})
 			
-			setTimeout( function () {
-				_this.file = null;
-				_this.loadingStatus = false;
-			}, 1500);
+			// setTimeout( function () {
+				// _this.file = null;
+				// _this.loadingStatus = false;
+				// _this.uploaddisabled = false;
+			// }, 1500);
 			
 			// setTimeout(() => {
 				// _this.file = null;
