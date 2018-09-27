@@ -336,17 +336,15 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				// return false;
-				// if (typeof(response.data.data) == "undefined") {
-					// _this.alert_exit();
-				// }
-				// _this.spinShow = !_this.spinShow;
-				
-				_this.pagecurrent = response.data.current_page;
-				_this.pagetotal = response.data.total;
-				_this.pagelast = response.data.last_page
-				
-				_this.tabledata = response.data.data;
+				if (response.data) {
+					_this.pagecurrent = response.data.current_page;
+					_this.pagetotal = response.data.total;
+					_this.pagelast = response.data.last_page
+					
+					_this.tabledata = response.data.data;
+				} else {
+					_this.tabledata1 = [];
+				}
 			})
 			.catch(function (error) {
 				console.log(error);

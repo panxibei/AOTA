@@ -88,7 +88,7 @@ SMT - QC report
 		</i-col>
 		<i-col span="6">
 			* 不良内容&nbsp;&nbsp;
-			<i-select v-model.lazy="item.buliangneirong" size="small" clearable style="width:200px" placeholder="例：部品不良">
+			<i-select v-model.lazy="item.buliangneirong" multiple size="small" clearable style="width:200px" placeholder="例：部品不良">
 				<Option-group label="****** 印刷系 ******">
 					<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
@@ -164,7 +164,7 @@ SMT - QC report
 			&nbsp;
 		</i-col>
 		<i-col span="7">
-			查询：&nbsp;&nbsp;&nbsp;&nbsp;日期范围&nbsp;&nbsp;
+			查询：&nbsp;&nbsp;&nbsp;&nbsp;*日期范围&nbsp;&nbsp;
 			<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets();onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
@@ -234,14 +234,13 @@ SMT - QC report
 
 	<br><br>
 	<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+	<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total></Page>
+	
 	<br>
-	
-	
 	<Divider orientation="left">品质管理图表</Divider>
 	
 	<br>
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart1()" type="info" size="small">刷新图表一</i-button>&nbsp;&nbsp;
-	&nbsp;&nbsp;&nbsp;<i-button @click="onchart2()" type="info" size="small">刷新图表二</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;
 	<br><br>
 	<!--
@@ -261,6 +260,9 @@ SMT - QC report
 		</i-col>
 	</i-row>
 
+	<Divider></Divider>
+	<br>
+	&nbsp;&nbsp;&nbsp;<i-button @click="onchart2()" type="info" size="small">刷新图表二</i-button>&nbsp;&nbsp;
 	<br><br>
 	<i-row :gutter="16">
 		<i-col span="24">
@@ -500,7 +502,7 @@ var vm_app = new Vue({
 			},
 			{
 				type: 'index',
-				width: 40,
+				width: 60,
 				align: 'center'
 			},
 			{
@@ -886,6 +888,12 @@ var vm_app = new Vue({
 			{value:234, name:'SMT-10'}
 		],
 		
+		//分页
+		pagecurrent: 1,
+		pagetotal: 1,
+		pagepagesize: 10,
+		pagelast: 1,
+		
 		file: null,
 		loadingStatus: false
 		
@@ -929,9 +937,21 @@ var vm_app = new Vue({
 			];
 		},
 		
+		// 切换当前页
+		oncurrentpagechange: function (currentpage) {
+			this.qcreportgets(currentpage, this.pagelast);
+		},
+		
 		// qcreport列表
-		qcreportgets: function(){
+		qcreportgets: function (page, last_page) {
 			var _this = this;
+			
+			if (page > last_page) {
+				page = last_page;
+			} else if (page < 1) {
+				page = 1;
+			}
+			
 			var qcdate_filter = [];
 
 			for (var i in _this.qcdate_filter) {
@@ -952,6 +972,8 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
+					perPage: _this.pagepagesize,
+					page: page,
 					qcdate_filter: qcdate_filter,
 					jizhongming_filter: jizhongming_filter,
 					xianti_filter: xianti_filter,
@@ -960,7 +982,12 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				if (response.data) {
+					_this.pagecurrent = response.data.current_page;
+					_this.pagetotal = response.data.total;
+					_this.pagelast = response.data.last_page
+					
 					_this.tabledata1 = response.data.data;
+					// console.log(_this.tabledata1);
 				} else {
 					_this.tabledata1 = [];
 				}
@@ -1427,112 +1454,154 @@ var vm_app = new Vue({
 				ppm[i] = 0;
 			}
 			
-			_this.tabledata1.map(function (v,j) {
-				switch(v.xianti)
-				{
-					case 'SMT-1':
-						i = 0;
-						break;
-					case 'SMT-2':
-						i = 1;
-						break;
-					case 'SMT-3':
-						i = 2;
-						break;
-					case 'SMT-4':
-						i = 3;
-						break;
-					case 'SMT-5':
-						i = 4;
-						break;
-					case 'SMT-6':
-						i = 5;
-						break;
-					case 'SMT-7':
-						i = 6;
-						break;
-					case 'SMT-8':
-						i = 7;
-						break;
-					case 'SMT-9':
-						i = 8;
-						break;
-					case 'SMT-10':
-						i = 9;
-						break;
-					default:
-					  
+			// 图表按当前表格中最大记录数重新查询
+			
+			var qcdate_filter = [];
+
+			for (var i in _this.qcdate_filter) {
+				if (typeof(_this.qcdate_filter[i])!='string') {
+					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
+				} else if (_this.qcdate_filter[i] == '') {
+					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
+				} else {
+					qcdate_filter.push(_this.qcdate_filter[i]);
 				}
+			}
 			
-				hejidianshu[i] += v.hejidianshu;
-				bushihejianshuheji[i] += v.bushihejianshuheji;
+			var jizhongming_filter = _this.jizhongming_filter;
+			var xianti_filter = _this.xianti_filter;
+			var buliangneirong_filter = _this.buliangneirong_filter;
 
-				// if (hejidianshu[i] == 0) {
-					// ppm[i] = 0;
-				// } else {
-					// ppm[i] = bushihejianshuheji[i] / hejidianshu[i] * 1000000;
-				// }
-				ppm[i] += v.ppm;
+			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					perPage: _this.pagetotal,
+					page: 1,
+					qcdate_filter: qcdate_filter,
+					jizhongming_filter: jizhongming_filter,
+					xianti_filter: xianti_filter,
+					buliangneirong_filter: buliangneirong_filter
+				}
+			})
+			.then(function (response) {
+				if (response.data) {
+					var chartdata1 = response.data.data;
+					
+					chartdata1.map(function (v,j) {
+						switch(v.xianti)
+						{
+							case 'SMT-1':
+								i = 0;
+								break;
+							case 'SMT-2':
+								i = 1;
+								break;
+							case 'SMT-3':
+								i = 2;
+								break;
+							case 'SMT-4':
+								i = 3;
+								break;
+							case 'SMT-5':
+								i = 4;
+								break;
+							case 'SMT-6':
+								i = 5;
+								break;
+							case 'SMT-7':
+								i = 6;
+								break;
+							case 'SMT-8':
+								i = 7;
+								break;
+							case 'SMT-9':
+								i = 8;
+								break;
+							case 'SMT-10':
+								i = 9;
+								break;
+							default:
+							  
+						}
+					
+						hejidianshu[i] += v.hejidianshu;
+						bushihejianshuheji[i] += v.bushihejianshuheji;
 
-			});
-			
-			// console.log(bushihejianshuheji);
-			// console.log(hejidianshu);
-			// console.log(ppm);
-			// return false;
-			
-			// bushihejianshuheji
-			var a1 = [{
-				name: '不适合件数合计',
-				type: 'bar',
-				barWidth: 30,
-				itemStyle: {
-					normal: {
-						label: {
-							show: true,
-							position: 'top'
-						}
-					}
-				},
-				data: bushihejianshuheji
-			},
-			{
-				name: '合计点数',
-				type: 'bar',
-				barWidth: 30,
-				itemStyle: {
-					normal: {
-						label: {
-							show: true,
-							position: 'top'
-						}
-					}
-				},
-				data: hejidianshu
-			},
-			{
-				name: 'PPM',
-				type: 'line',
-				yAxisIndex: 1,
-				itemStyle: {
-					normal: {
-						label: {
-							show: true,
-							// 'position' => 'outer'
-							textStyle: {
-								fontSize: '20',
-								fontFamily: '微软雅黑',
-								fontWeight: 'bold'
+						// if (hejidianshu[i] == 0) {
+							// ppm[i] = 0;
+						// } else {
+							// ppm[i] = bushihejianshuheji[i] / hejidianshu[i] * 1000000;
+						// }
+						ppm[i] += v.ppm;
+
+					});
+					
+					// console.log(bushihejianshuheji);
+					// console.log(hejidianshu);
+					// console.log(ppm);
+					// return false;
+					
+					// bushihejianshuheji
+					var a1 = [{
+						name: '不适合件数合计',
+						type: 'bar',
+						barWidth: 30,
+						itemStyle: {
+							normal: {
+								label: {
+									show: true,
+									position: 'top'
+								}
 							}
-						}
-					}
-				},
-				data: ppm
-			}];
+						},
+						data: bushihejianshuheji
+					},
+					{
+						name: '合计点数',
+						type: 'bar',
+						barWidth: 30,
+						itemStyle: {
+							normal: {
+								label: {
+									show: true,
+									position: 'top'
+								}
+							}
+						},
+						data: hejidianshu
+					},
+					{
+						name: 'PPM',
+						type: 'line',
+						yAxisIndex: 1,
+						itemStyle: {
+							normal: {
+								label: {
+									show: true,
+									// 'position' => 'outer'
+									textStyle: {
+										fontSize: '20',
+										fontFamily: '微软雅黑',
+										fontWeight: 'bold'
+									}
+								}
+							}
+						},
+						data: ppm
+					}];
 
-			_this.chart1_option_series = a1;
-			_this.chart1_function();
-			
+					_this.chart1_option_series = a1;
+					_this.chart1_function();				
+				
+				}
+				
+			})
+			.catch(function (error) {
+				// _this.loadingbarerror();
+				// _this.error(false, 'Error', error);
+			})
+
 		},
 		
 		
@@ -1549,62 +1618,104 @@ var vm_app = new Vue({
 				bushihejianshuheji[i] = 0;
 			}
 			
-			_this.tabledata1.map(function (v,j) {
-				switch(v.xianti)
-				{
-					case 'SMT-1':
-						i = 0;
-						break;
-					case 'SMT-2':
-						i = 1;
-						break;
-					case 'SMT-3':
-						i = 2;
-						break;
-					case 'SMT-4':
-						i = 3;
-						break;
-					case 'SMT-5':
-						i = 4;
-						break;
-					case 'SMT-6':
-						i = 5;
-						break;
-					case 'SMT-7':
-						i = 6;
-						break;
-					case 'SMT-8':
-						i = 7;
-						break;
-					case 'SMT-9':
-						i = 8;
-						break;
-					case 'SMT-10':
-						i = 9;
-						break;
-					default:
-					  
+			// 图表按当前表格中最大记录数重新查询
+			
+			var qcdate_filter = [];
+
+			for (var i in _this.qcdate_filter) {
+				if (typeof(_this.qcdate_filter[i])!='string') {
+					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
+				} else if (_this.qcdate_filter[i] == '') {
+					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
+				} else {
+					qcdate_filter.push(_this.qcdate_filter[i]);
 				}
+			}
 			
-				bushihejianshuheji[i] += v.bushihejianshuheji;
-			});
+			var jizhongming_filter = _this.jizhongming_filter;
+			var xianti_filter = _this.xianti_filter;
+			var buliangneirong_filter = _this.buliangneirong_filter;
+
+			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					perPage: _this.pagetotal,
+					page: 1,
+					qcdate_filter: qcdate_filter,
+					jizhongming_filter: jizhongming_filter,
+					xianti_filter: xianti_filter,
+					buliangneirong_filter: buliangneirong_filter
+				}
+			})
+			.then(function (response) {
+				if (response.data) {
+					var chartdata2 = response.data.data;			
 			
-			var data = 
-			[
-				{value: bushihejianshuheji[0], name:'SMT-1'},
-				{value: bushihejianshuheji[1], name:'SMT-2'},
-				{value: bushihejianshuheji[2], name:'SMT-3'},
-				{value: bushihejianshuheji[3], name:'SMT-4'},
-				{value: bushihejianshuheji[4], name:'SMT-5'},
-				{value: bushihejianshuheji[5], name:'SMT-6'},
-				{value: bushihejianshuheji[6], name:'SMT-7'},
-				{value: bushihejianshuheji[7], name:'SMT-8'},
-				{value: bushihejianshuheji[8], name:'SMT-9'},
-				{value: bushihejianshuheji[9], name:'SMT-10'},
-			];
+					chartdata2.map(function (v,j) {
+						switch(v.xianti)
+						{
+							case 'SMT-1':
+								i = 0;
+								break;
+							case 'SMT-2':
+								i = 1;
+								break;
+							case 'SMT-3':
+								i = 2;
+								break;
+							case 'SMT-4':
+								i = 3;
+								break;
+							case 'SMT-5':
+								i = 4;
+								break;
+							case 'SMT-6':
+								i = 5;
+								break;
+							case 'SMT-7':
+								i = 6;
+								break;
+							case 'SMT-8':
+								i = 7;
+								break;
+							case 'SMT-9':
+								i = 8;
+								break;
+							case 'SMT-10':
+								i = 9;
+								break;
+							default:
+							  
+						}
+					
+						bushihejianshuheji[i] += v.bushihejianshuheji;
+					});
+					
+					var data = 
+					[
+						{value: bushihejianshuheji[0], name:'SMT-1'},
+						{value: bushihejianshuheji[1], name:'SMT-2'},
+						{value: bushihejianshuheji[2], name:'SMT-3'},
+						{value: bushihejianshuheji[3], name:'SMT-4'},
+						{value: bushihejianshuheji[4], name:'SMT-5'},
+						{value: bushihejianshuheji[5], name:'SMT-6'},
+						{value: bushihejianshuheji[6], name:'SMT-7'},
+						{value: bushihejianshuheji[7], name:'SMT-8'},
+						{value: bushihejianshuheji[8], name:'SMT-9'},
+						{value: bushihejianshuheji[9], name:'SMT-10'},
+					];
+					
+					_this.chart2_option_series_data = data;
+					_this.chart2_function();
 			
-			_this.chart2_option_series_data = data;
-			_this.chart2_function();
+				}
+				
+			})
+			.catch(function (error) {
+				// _this.loadingbarerror();
+				// _this.error(false, 'Error', error);
+			})
 
 		},
 		

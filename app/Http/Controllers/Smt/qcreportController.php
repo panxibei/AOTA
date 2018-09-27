@@ -36,9 +36,8 @@ class qcreportController extends Controller
     {
 		if (! $request->ajax()) { return null; }
 
-		$perPage = $request->input('perPage');
-		$page = $request->input('page');
-		if (null == $page) $page = 1;
+		$perPage = $request->input('perPage') ?: 10000;
+		$page = $request->input('page') ?: 1;
 
 		$qcdate_filter = $request->input('qcdate_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
@@ -188,6 +187,12 @@ class qcreportController extends Controller
 		} else {
 			$s['ppm'] = $s['bushihejianshuheji'] / $s['hejidianshu'] * 1000000;
 		}
+		
+		// 不良内容为一维数组，字符串化
+		foreach ($piliangluru as $key => $value) {
+			$piliangluru[$key]['buliangneirong'] = implode(',', $value['buliangneirong']);
+		}
+		// dd($piliangluru);
 		
 		$p = [];
 		foreach ($piliangluru as $value) {
