@@ -173,6 +173,10 @@ SMT - QC report
 				<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
+		<i-col span="4">
+			机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets()" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
 		<i-col span="6">
 			不良内容&nbsp;&nbsp;
 			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets();onselectchange1();" size="small" clearable style="width:200px" placeholder="例：部品不良">
@@ -205,7 +209,7 @@ SMT - QC report
 				</Option-group>
 			</i-select>
 		</i-col>
-		<i-col span="6">
+		<i-col span="2">
 		&nbsp;
 		</i-col>
 	</i-row>
@@ -819,6 +823,9 @@ var vm_app = new Vue({
 		// 日期范围过滤
 		qcdate_filter: [], //new Date(),
 		
+		// 机种名
+		jizhongming_filter: '',
+		
 		// 线体过滤
 		xianti_filter: '',
 		
@@ -937,6 +944,7 @@ var vm_app = new Vue({
 				}
 			}
 			
+			var jizhongming_filter = _this.jizhongming_filter;
 			var xianti_filter = _this.xianti_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 
@@ -945,6 +953,7 @@ var vm_app = new Vue({
 			axios.get(url,{
 				params: {
 					qcdate_filter: qcdate_filter,
+					jizhongming_filter: jizhongming_filter,
 					xianti_filter: xianti_filter,
 					buliangneirong_filter: buliangneirong_filter
 				}

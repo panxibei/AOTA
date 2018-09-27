@@ -41,6 +41,7 @@ class qcreportController extends Controller
 		if (null == $page) $page = 1;
 
 		$qcdate_filter = $request->input('qcdate_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
 		$xianti_filter = $request->input('xianti_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
 		
@@ -60,6 +61,9 @@ class qcreportController extends Controller
 
 		$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 				return $query->whereBetween('created_at', $qcdate_filter);
+			})
+			->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+				return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 			})
 			->when($xianti_filter, function ($query) use ($xianti_filter) {
 				return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
