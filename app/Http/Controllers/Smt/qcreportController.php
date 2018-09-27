@@ -398,7 +398,8 @@ class qcreportController extends Controller
 		
 		// options，使用数组对象形式
 		// $chart1->dataset('不适合件数合计', 'bar', [3,4,1,15,20,23,7,8,22,32])
-		$chart1->dataset('不适合件数合计', 'bar', $hejidianshu)
+		// $chart1->dataset('不适合件数合计', 'bar', $hejidianshu)
+		$chart1->dataset('不良件数', 'bar', $hejidianshu)
 			->options([
 				'barWidth' => 30,
 				'itemStyle' => [

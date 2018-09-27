@@ -242,7 +242,6 @@ SMT - QC report
 	<br>
 	&nbsp;&nbsp;&nbsp;<i-button @click="onchart1()" type="info" size="small">刷新图表一</i-button>&nbsp;&nbsp;
 	&nbsp;&nbsp;&nbsp;
-	<br><br>
 	<!--
 	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 	<Upload
@@ -849,7 +848,8 @@ var vm_app = new Vue({
 		
 		chart1_option_tooltip_show: true,
 		
-		chart1_option_legend_data: ['不适合件数合计', '合计点数', 'PPM'],
+		// chart1_option_legend_data: ['不适合件数合计', '合计点数', 'PPM'],
+		chart1_option_legend_data: ['不良件数', '合计点数', 'PPM'],
 		
 		chart1_option_xAxis_data: ['SMT-1','SMT-2','SMT-3','SMT-4','SMT-5','SMT-6','SMT-7','SMT-8','SMT-9','SMT-10'],
 		
@@ -1445,12 +1445,14 @@ var vm_app = new Vue({
 			
 			var hejidianshu = [];
 			var bushihejianshuheji = [];
+			var shuliang = [];
 			var ppm = [];
 			
 			var i = 0;
 			for (i=0;i<10;i++) {
 				hejidianshu[i] = 0;
 				bushihejianshuheji[i] = 0;
+				shuliang[i] = 0;
 				ppm[i] = 0;
 			}
 			
@@ -1487,7 +1489,7 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					var chartdata1 = response.data.data;
-					
+					// console.log(chartdata1);
 					chartdata1.map(function (v,j) {
 						switch(v.xianti)
 						{
@@ -1527,13 +1529,31 @@ var vm_app = new Vue({
 					
 						hejidianshu[i] += v.hejidianshu;
 						bushihejianshuheji[i] += v.bushihejianshuheji;
+						shuliang[i] += v.shuliang;
 
 						// if (hejidianshu[i] == 0) {
 							// ppm[i] = 0;
 						// } else {
 							// ppm[i] = bushihejianshuheji[i] / hejidianshu[i] * 1000000;
 						// }
-						ppm[i] += v.ppm;
+						// ppm[i] += v.ppm;
+
+					});
+					console.log(shuliang);
+
+					// ppm计算
+					hejidianshu.map(function (v,i) {
+
+					
+						// ppm[i] += v.ppm;
+						// hejidianshu[i] += v.hejidianshu;
+						// bushihejianshuheji[i] += v.bushihejianshuheji;
+
+						if (hejidianshu[i] == 0) {
+							ppm[i] = 0;
+						} else {
+							ppm[i] = shuliang[i] / hejidianshu[i] * 1000000;
+						}
 
 					});
 					
@@ -1544,7 +1564,8 @@ var vm_app = new Vue({
 					
 					// bushihejianshuheji
 					var a1 = [{
-						name: '不适合件数合计',
+						// name: '不适合件数合计',
+						name: '不良件数',
 						type: 'bar',
 						barWidth: 30,
 						itemStyle: {
@@ -1555,7 +1576,8 @@ var vm_app = new Vue({
 								}
 							}
 						},
-						data: bushihejianshuheji
+						// data: bushihejianshuheji
+						data: shuliang
 					},
 					{
 						name: '合计点数',
