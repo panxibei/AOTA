@@ -1272,14 +1272,19 @@ var vm_app = new Vue({
 					var option = {
 						title : {
 							text: '工程内不良记录（PPM）',
-							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd') //'2018.06-2018-07'
+							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd'), //'2018.06-2018-07'
+							x: 'center'
 						},
 						tooltip: {
 							show: vm_app.chart1_option_tooltip_show,
 							trigger: 'axis'
 						},
 						legend: {
-							data: vm_app.chart1_option_legend_data
+							data: vm_app.chart1_option_legend_data,
+							x: 'left'
+						},
+						grid: {
+							y: 80
 						},
 						xAxis : [
 							{
@@ -1552,7 +1557,7 @@ var vm_app = new Vue({
 						if (hejidianshu[i] == 0) {
 							ppm[i] = 0;
 						} else {
-							ppm[i] = shuliang[i] / hejidianshu[i] * 1000000;
+							ppm[i] = (shuliang[i] / hejidianshu[i] * 1000000).toFixed(2);
 						}
 
 					});
@@ -1635,9 +1640,11 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			var bushihejianshuheji = [];
+			// var bushihejianshuheji = [];
+			var shuliang = [];
 			for (var i=0;i<10;i++) {
-				bushihejianshuheji[i] = 0;
+				// bushihejianshuheji[i] = 0;
+				shuliang[i] = 0;
 			}
 			
 			// 图表按当前表格中最大记录数重新查询
@@ -1711,21 +1718,32 @@ var vm_app = new Vue({
 							  
 						}
 					
-						bushihejianshuheji[i] += v.bushihejianshuheji;
+						// bushihejianshuheji[i] += v.bushihejianshuheji;
+						shuliang[i] += v.shuliang;
 					});
 					
 					var data = 
 					[
-						{value: bushihejianshuheji[0], name:'SMT-1'},
-						{value: bushihejianshuheji[1], name:'SMT-2'},
-						{value: bushihejianshuheji[2], name:'SMT-3'},
-						{value: bushihejianshuheji[3], name:'SMT-4'},
-						{value: bushihejianshuheji[4], name:'SMT-5'},
-						{value: bushihejianshuheji[5], name:'SMT-6'},
-						{value: bushihejianshuheji[6], name:'SMT-7'},
-						{value: bushihejianshuheji[7], name:'SMT-8'},
-						{value: bushihejianshuheji[8], name:'SMT-9'},
-						{value: bushihejianshuheji[9], name:'SMT-10'},
+						// {value: bushihejianshuheji[0], name:'SMT-1'},
+						// {value: bushihejianshuheji[1], name:'SMT-2'},
+						// {value: bushihejianshuheji[2], name:'SMT-3'},
+						// {value: bushihejianshuheji[3], name:'SMT-4'},
+						// {value: bushihejianshuheji[4], name:'SMT-5'},
+						// {value: bushihejianshuheji[5], name:'SMT-6'},
+						// {value: bushihejianshuheji[6], name:'SMT-7'},
+						// {value: bushihejianshuheji[7], name:'SMT-8'},
+						// {value: bushihejianshuheji[8], name:'SMT-9'},
+						// {value: bushihejianshuheji[9], name:'SMT-10'},
+						{value: shuliang[0], name:'SMT-1'},
+						{value: shuliang[1], name:'SMT-2'},
+						{value: shuliang[2], name:'SMT-3'},
+						{value: shuliang[3], name:'SMT-4'},
+						{value: shuliang[4], name:'SMT-5'},
+						{value: shuliang[5], name:'SMT-6'},
+						{value: shuliang[6], name:'SMT-7'},
+						{value: shuliang[7], name:'SMT-8'},
+						{value: shuliang[8], name:'SMT-9'},
+						{value: shuliang[9], name:'SMT-10'},
 					];
 					
 					_this.chart2_option_series_data = data;
