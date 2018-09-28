@@ -49,13 +49,13 @@ SMT - QC report
 		</i-col>
 		<i-col span="3">
 			* 工序&nbsp;&nbsp;
-			<i-select v-model.lazy="gongxu" clearable style="width:80px" placeholder="">
+			<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:80px" placeholder="">
 				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
 		<i-col span="3">
 			* 点/枚&nbsp;&nbsp;
-			<Input-number v-model.lazy="dianmei" :min="1" style="width: 80px"></Input-number>
+			<Input-number v-model.lazy="dianmei" :min="1" readonly style="width: 80px"></Input-number>
 		</i-col>
 		<i-col span="4">
 			* 枚数&nbsp;&nbsp;
@@ -306,7 +306,11 @@ var vm_app = new Vue({
 		gongxu: '',
 		option_gongxu: [
 			{value: 'A', label: 'A'},
-			{value: 'B', label: 'B'}
+			{value: 'B', label: 'B'},
+			{value: 'CP', label: 'CP'},
+			{value: 'RB', label: 'RB'},
+			{value: 'RD', label: 'RD'},
+			{value: 'RF', label: 'RF'},
 		],
 		
 		// 点/枚
@@ -1544,7 +1548,7 @@ var vm_app = new Vue({
 						// ppm[i] += v.ppm;
 
 					});
-					console.log(shuliang);
+					// console.log(shuliang);
 
 					// ppm计算
 					hejidianshu.map(function (v,i) {
@@ -1798,8 +1802,6 @@ var vm_app = new Vue({
 			
 			
 			
-			
-			
 			setTimeout(() => {
 				this.file = null;
 				this.loadingStatus = false;
@@ -1807,6 +1809,39 @@ var vm_app = new Vue({
 			}, 1500);
 		},
 		
+		
+		//
+		onchangegongxu: function () {
+			var _this = this;
+			
+			var saomiao = _this.saomiao;
+			var gongxu = _this.gongxu;
+			
+			if (saomiao == '' || saomiao == undefined || gongxu == '' || gongxu == undefined ) {
+				_this.dianmei = '';
+				return false;
+			}
+			
+			var url = "{{ route('smt.qcreport.getsaomiao') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					saomiao: saomiao,
+					gongxu: gongxu
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				_this.dianmei = response.data;
+
+
+			})
+			.catch(function (error) {
+				this.error(false, 'Error', error);
+			})
+
+			
+		},
 		
 		
 		

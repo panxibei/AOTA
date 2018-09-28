@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 // 中日程分析页面
 Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function() {
-	Route::get('zrcfx', 'zrcfjController@zrcfxIndex')->name('bpjg.zrcfx.index');
+	Route::get('zrcfx', 'zrcfxController@zrcfxIndex')->name('bpjg.zrcfx.index');
 	// Route::get('qcreportgets', 'qcreportController@qcreportGets')->name('smt.qcreport.qcreportgets');
 	// Route::get('bulianggets', 'qcreportController@buliangGets')->name('smt.qcreport.bulianggets');
 	// Route::get('getsaomiao', 'qcreportController@getSaomiao')->name('smt.qcreport.getsaomiao');
@@ -42,6 +42,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 	Route::post('qcreportimport', 'qcreportController@qcreportImport')->name('smt.qcreport.qcreportimport');
 	Route::get('chart1', 'qcreportController@chart1')->name('smt.qcreport.chart1');
 	Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
+	Route::get('getdianmei', 'qcreportController@getDianmei')->name('smt.qcreport.getdianmei');
 });
 
 

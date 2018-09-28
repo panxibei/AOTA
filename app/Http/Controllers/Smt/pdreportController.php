@@ -417,34 +417,37 @@ class pdreportController extends Controller
 			//获取文件的扩展名 
 			$ext = $fileCharater->extension();
 			// dd($ext);
-			if ($ext != 'xlsx') {
+			if ($ext != 'xls' && $ext != 'xlsx') {
 				return 0;
 			}
 
 			//获取文件的绝对路径
-			$path = $fileCharater->path();
+			// $path = $fileCharater->path();
 			// dd($path);
 
 			//定义文件名
 			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
+			$filename = 'importmpoint.'.$ext;
+			// dd($filename);
 
 			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
 			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
-			$fileCharater->storeAs('excel', 'importmpoint.xlsx');
+			$fileCharater->storeAs('excel', $filename);
+			// dd($filename);
 		} else {
 			return 0;
 		}
 		
 		// 导入excel文件内容
 		try {
-			$ret = Excel::import(new mpointImport, 'excel/importmpoint.xlsx');
+			$ret = Excel::import(new mpointImport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			$result = 0;
 		} finally {
-			Storage::delete('excel/importmpoint.xlsx');
+			Storage::delete('excel/'.$filename);
 		}
 		
 		return $result;

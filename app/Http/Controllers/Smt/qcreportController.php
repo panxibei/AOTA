@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Smt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-// use App\Models\Smt\Smt_mpoint;
+use App\Models\Smt\Smt_mpoint;
 use App\Models\Smt\Smt_qcreport;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -115,11 +115,12 @@ class qcreportController extends Controller
      */
     public function getSaomiao(Request $request)
     {
-		if (! $request->ajax()) { return null; }
+		if (! $request->ajax()) return null;
 
 		$saomiao = $request->input('saomiao');
+		$gongxu = $request->input('gongxu');
 		
-		if ($saomiao == null) return 0;
+		if ($saomiao == null || $gongxu == null) return 0;
 		
 		try {
 			$saomiao_arr = explode('/', $saomiao);
@@ -129,11 +130,20 @@ class qcreportController extends Controller
 			$pinming = $saomiao_arr[2];
 			$lotshu = $saomiao_arr[3];
 
-			$result = Smt_qcreport::where('jizhongming', $jizhongming)
+			// $result = Smt_qcreport::where('jizhongming', $jizhongming)
+				// ->where('pinming', $pinming)
+				// ->where('spno', $spno)
+				// ->where('lotshu', $lotshu)
+				// ->first();
+			$result = Smt_mpoint::select('diantai', 'pinban')
+				->where('jizhongming', $jizhongming)
 				->where('pinming', $pinming)
-				->where('spno', $spno)
-				->where('lotshu', $lotshu)
+				->where('mian', $gongxu)
+				// ->where('spno', $spno)
+				// ->where('lotshu', $lotshu)
 				->first();
+			
+			$result = $result['diantai'] * $result['pinban']; 
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
@@ -526,7 +536,9 @@ class qcreportController extends Controller
 				
 		return $chart2->api();
 		
-	}	
+	}
+	
+	
 	
 	
 	
