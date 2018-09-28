@@ -69,6 +69,12 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 });
 
 
+// AOTA门户页面
+Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>[]], function() {
+	Route::get('aota', 'mainController@mainIndex');
+});
+
+
 // 测试用
 Route::get('test', 'testController@test');
 Route::get('chart', 'testController@chart')->name('test.chart');
