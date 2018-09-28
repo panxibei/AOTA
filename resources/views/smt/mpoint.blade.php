@@ -605,8 +605,8 @@ var vm_app = new Vue({
 		
 	},
 	mounted: function () {
-		// var _this = this;
-		// _this.mpointgets(1, 1); // page: 1, last_page: 1
+		var _this = this;
+		_this.mpointgets(1, 1); // page: 1, last_page: 1
 
 	}
 })
