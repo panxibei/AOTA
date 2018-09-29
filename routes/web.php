@@ -32,7 +32,7 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function
 
 // 品质日报页面
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function() {
-	Route::get('qcreport', 'qcreportController@qcreport');
+	Route::get('qcreport', 'qcreportController@qcreport')->name('smt.qcreport.qcreport');
 	Route::get('qcreportgets', 'qcreportController@qcreportGets')->name('smt.qcreport.qcreportgets');
 	Route::get('bulianggets', 'qcreportController@buliangGets')->name('smt.qcreport.bulianggets');
 	Route::get('getsaomiao', 'qcreportController@getSaomiao')->name('smt.qcreport.getsaomiao');
@@ -48,7 +48,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 
 // 生产日报页面
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function() {
-	Route::get('pdreport', 'pdreportController@pdreport');
+	Route::get('pdreport', 'pdreportController@pdreport')->name('smt.pdreport.pdreport');
 	Route::get('dailyreportgets', 'pdreportController@dailyreportGets')->name('smt.pdreport.dailyreportgets');
 	Route::get('getjizhongming', 'pdreportController@getJizhongming')->name('smt.pdreport.getjizhongming');
 	Route::post('dailyreportcreate', 'pdreportController@dailyreportCreate')->name('smt.pdreport.dailyreportcreate');
@@ -60,7 +60,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 
 // MPoint页面
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function() {
-	Route::get('mpoint', 'pdreportController@mpoint');
+	Route::get('mpoint', 'pdreportController@mpoint')->name('smt.pdreport.mpoint');
 	Route::get('mpointgets', 'pdreportController@mpointGets')->name('smt.pdreport.mpointgets');
 	Route::post('mpointcreate', 'pdreportController@mpointCreate')->name('smt.pdreport.mpointcreate');
 	Route::post('mpointupdate', 'pdreportController@mpointUpdate')->name('smt.pdreport.mpointupdate');

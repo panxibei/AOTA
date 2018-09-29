@@ -1500,7 +1500,7 @@ var vm_app = new Vue({
 					var chartdata1 = response.data.data;
 					// console.log(chartdata1);
 					chartdata1.map(function (v,j) {
-						switch(v.xianti)
+						switch(v.xianti.trim())
 						{
 							case 'SMT-1':
 								i = 0;
@@ -1621,7 +1621,7 @@ var vm_app = new Vue({
 						},
 						data: ppm
 					}];
-
+// console.log(a1);
 					_this.chart1_option_series = a1;
 					_this.chart1_function();				
 				

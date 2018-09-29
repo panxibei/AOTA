@@ -93,17 +93,17 @@ var vm_app = new Vue({
 		CardListSmt: [
 			{
 				name: 'Mpoint',
-				url: 'http://172.22.15.199:8888/smt/mpoint',
+				url: "{{ route('smt.pdreport.mpoint') }}", //'http://172.22.15.199:8888/smt/mpoint',
 				hits: '???'
 			},
 			{
 				name: '生产日报',
-				url: 'http://172.22.15.199:8888/smt/pdreport',
+				url: "{{ route('smt.pdreport.pdreport') }}",
 				hits: '???'
 			},
 			{
 				name: '品质日报',
-				url: 'http://172.22.15.199:8888/smt/qcreport',
+				url: "{{ route('smt.qcreport.qcreport') }}",
 				hits: '???'
 			},
 		],
