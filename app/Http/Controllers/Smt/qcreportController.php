@@ -43,7 +43,7 @@ class qcreportController extends Controller
 		$jizhongming_filter = $request->input('jizhongming_filter');
 		$xianti_filter = $request->input('xianti_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
-		
+		// dd($buliangneirong_filter);
 		// $mpoint = DB::table('mpoints')
 		// $dailyreport = Smt_qcreport::select('*', DB::raw('dianmei * meishu as hejidianshu'))
 			// ->when($qcdate_filter, function ($query) use ($qcdate_filter) {
@@ -65,10 +65,10 @@ class qcreportController extends Controller
 				return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 			})
 			->when($xianti_filter, function ($query) use ($xianti_filter) {
-				return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
+				return $query->where('xianti', '=', $xianti_filter);
 			})
 			->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
-				return $query->where('buliangneirong', 'like', '%'.$buliangneirong_filter.'%');
+				return $query->whereIn('buliangneirong', $buliangneirong_filter);
 			})
 			->orderBy('created_at', 'asc')
 			->paginate($perPage, ['*'], 'page', $page);
@@ -138,7 +138,7 @@ class qcreportController extends Controller
 			$result = Smt_mpoint::select('diantai', 'pinban')
 				->where('jizhongming', $jizhongming)
 				->where('pinming', $pinming)
-				->where('mian', $gongxu)
+				->where('gongxu', $gongxu)
 				// ->where('spno', $spno)
 				// ->where('lotshu', $lotshu)
 				->first();
@@ -199,9 +199,9 @@ class qcreportController extends Controller
 		}
 		
 		// 不良内容为一维数组，字符串化
-		foreach ($piliangluru as $key => $value) {
-			$piliangluru[$key]['buliangneirong'] = implode(',', $value['buliangneirong']);
-		}
+		// foreach ($piliangluru as $key => $value) {
+			// $piliangluru[$key]['buliangneirong'] = implode(',', $value['buliangneirong']);
+		// }
 		// dd($piliangluru);
 		
 		$p = [];

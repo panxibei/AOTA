@@ -88,7 +88,7 @@ SMT - QC report
 		</i-col>
 		<i-col span="6">
 			* 不良内容&nbsp;&nbsp;
-			<i-select v-model.lazy="item.buliangneirong" multiple size="small" clearable style="width:200px" placeholder="例：部品不良">
+			<i-select v-model.lazy="item.buliangneirong" size="small" clearable style="width:200px" placeholder="例：部品不良">
 				<Option-group label="****** 印刷系 ******">
 					<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
@@ -163,8 +163,11 @@ SMT - QC report
 		<i-col span="2">
 			&nbsp;
 		</i-col>
-		<i-col span="7">
-			查询：&nbsp;&nbsp;&nbsp;&nbsp;*日期范围&nbsp;&nbsp;
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="6">
+			*日期范围&nbsp;&nbsp;
 			<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets();onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
@@ -173,13 +176,41 @@ SMT - QC report
 				<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
+		<i-col span="3">
+			班次&nbsp;&nbsp;
+			<i-select v-model.lazy="banci_filter" @on-change="qcreportgets();onselectchange1();" clearable size="small" style="width:80px" placeholder="">
+				<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="9">
+		&nbsp;
+		</i-col>
+	</i-row>
+	<br><br>
+
+	<i-row :gutter="16">
+		<i-col span="3">
+			&nbsp;
+		</i-col>
 		<i-col span="4">
 			机种名&nbsp;&nbsp;
 			<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets()" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
-		<i-col span="6">
+		<i-col span="4">
+			品名&nbsp;&nbsp;
+			<i-select v-model.lazy="pinming_filter" @on-change="qcreportgets()" clearable style="width:120px" size="small" placeholder="">
+				<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="3">
+			工序&nbsp;&nbsp;
+			<i-select v-model.lazy="gonxu_filter" @on-change="qcreportgets()" clearable style="width:80px" size="small" placeholder="">
+				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="10">
 			不良内容&nbsp;&nbsp;
-			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets();onselectchange1();" size="small" clearable style="width:200px" placeholder="例：部品不良">
+			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets();onselectchange1();" multiple size="small" clearable style="width:200px" placeholder="例：部品不良">
 				<Option-group label="****** 印刷系 ******">
 					<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
@@ -209,11 +240,10 @@ SMT - QC report
 				</Option-group>
 			</i-select>
 		</i-col>
-		<i-col span="2">
-		&nbsp;
-		</i-col>
 	</i-row>
-	<br><br>
+	<br>
+
+	<Divider dashed></Divider>
 	<i-row :gutter="16">
 		<i-col span="2">
 			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
@@ -232,7 +262,8 @@ SMT - QC report
 		</i-col>
 	</i-row>
 
-	<br><br>
+	<br>
+	<Divider dashed></Divider>
 	<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
 	<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total></Page>
 	
@@ -457,6 +488,17 @@ var vm_app = new Vue({
 			{value: '其他', label: '其他'},
 		],
 
+		// 品名
+		option_pinming: [
+			{
+				value: 'MAIN',
+				label: 'MAIN'
+			},
+			{
+				value: 'DIGITAL',
+				label: 'DIGITAL'
+			}
+		],
 		
 		// 位号
 		// weihao: '',
@@ -833,6 +875,15 @@ var vm_app = new Vue({
 		
 		// 线体过滤
 		xianti_filter: '',
+
+		// 班次过滤
+		banci_filter: '',
+
+		// 品名过滤
+		pinming_filter: '',
+
+		// 工序过滤
+		gonxu_filter: '',
 		
 		// 不良内容过滤
 		buliangneirong_filter: '',
@@ -1060,14 +1111,31 @@ var vm_app = new Vue({
 		onclear: function () {
 			var _this = this;
 			_this.saomiao = '';
+			_this.xianti = '';
+			_this.banci = '';
+			_this.gongxu = '';
+			_this.dianmei = '';
+			_this.meishu = '';
 			
-			_this.piliangluru.map(function (v,i) {
-				v.jianchajileixing = '';
-				v.buliangneirong = '';
-				v.weihao = '';
-				v.shuliang = '';
-				v.jianchazhe = '';
-			});
+			// _this.piliangluru.map(function (v,i) {
+				// v.jianchajileixing = '';
+				// v.buliangneirong = '';
+				// v.weihao = '';
+				// v.shuliang = '';
+				// v.jianchazhe = '';
+			// });
+			
+			_this.piliangluru = [
+				{
+					jianchajileixing: '',
+					buliangneirong: '',
+					weihao: '',
+					shuliang: '',
+					jianchazhe: '',
+				}
+			];
+			
+			_this.piliangluruxiang = 1;
 			
 			_this.$refs.saomiao.focus();
 		},
@@ -1083,27 +1151,31 @@ var vm_app = new Vue({
 			var meishu = _this.meishu;
 			
 			if (saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
-				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined) {
-				_this.warning(false, '警告', '输入内容为空或不正确！');
+				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
+				|| dianmei == '' || dianmei == undefined || dianmei == 0
+				|| meishu == '' || meishu == undefined || meishu == 0) {
+				_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
 				return false;
 			}
 			
-			_this.piliangluru.map(function (v,i) {
-				// console.log(v.jianchajileixing);
-				// console.log(v.buliangneirong);
-				// console.log(v.weihao);
-				// console.log(v.shuliang);
-				// console.log(v.jianchazhe);
-				
+			// 其他循环不支持跳出
+			var flag = true;
+			for (var v of _this.piliangluru) {
 				if (v.jianchajileixing == '' || v.buliangneirong == '' || v.weihao == ''  || v.shuliang == '' || v.jianchazhe == ''
 					|| v.jianchajileixing == undefined || v.buliangneirong == undefined || v.weihao == undefined || v.shuliang == undefined || v.jianchazhe == undefined) {
-					_this.warning(false, '警告', '输入内容为空或不正确！');
-					return false;
+					// _this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
+					// console.log(v.jianchajileixing);
+					flag = false;
+					break;
 				}
-			});
+			}
+			
+			if (flag == false) {
+				_this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
+				return false;
+			}
 			
 			var piliangluru = _this.piliangluru;
-			
 			var tableselect1 = _this.tableselect1;
 
 			var url = "{{ route('smt.qcreport.qcreportcreate') }}";

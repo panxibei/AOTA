@@ -89,7 +89,7 @@ class pdreportController extends Controller
 		$mpoint = $request->only(
 			'jizhongming',
 			'pinming',
-			'mian',
+			'gongxu',
 			'diantai',
 			'pinban'
 			// 'created_at'
@@ -102,7 +102,7 @@ class pdreportController extends Controller
 			$result = Smt_mpoint::create([
 				'jizhongming'	=> $mpoint['jizhongming'],
 				'pinming'		=> $mpoint['pinming'],
-				'mian'			=> $mpoint['mian'],
+				'gongxu'			=> $mpoint['gongxu'],
 				'diantai'		=> $mpoint['diantai'],
 				'pinban'		=> $mpoint['pinban']
 				// 'created_at'	=> date("Y-m-d H:i:s",time())
@@ -130,7 +130,7 @@ class pdreportController extends Controller
 		$mpoint = $request->only(
 			'jizhongming',
 			'pinming',
-			'mian',
+			'gongxu',
 			'diantai',
 			'pinban',
 			'id'
@@ -144,7 +144,7 @@ class pdreportController extends Controller
 				->update([
 					'jizhongming'	=> $mpoint['jizhongming'],
 					'pinming'		=> $mpoint['pinming'],
-					'mian'			=> $mpoint['mian'],
+					'gongxu'			=> $mpoint['gongxu'],
 					'diantai'		=> $mpoint['diantai'],
 					'pinban'		=> $mpoint['pinban'],
 				]);
@@ -227,7 +227,7 @@ class pdreportController extends Controller
 		$t = Smt_mpoint::select('diantai', 'pinban')
 			->where('jizhongming', $dailyreport['jizhongming'])
 			->where('pinming', $dailyreport['pinming'])
-			->where('mian', $dailyreport['gongxu'])
+			->where('gongxu', $dailyreport['gongxu'])
 			->first();
 		// dd($t);
 		

@@ -17,7 +17,7 @@ class CreateSmtMpointsTable extends Migration
             $table->increments('id');
 			$table->string('jizhongming', 50);
 			$table->string('pinming', 50);
-			$table->string('mian', 50);
+			$table->string('gongxu', 10);
 			$table->integer('diantai')->unsigned();
 			$table->integer('pinban')->unsigned();
             $table->timestamps();

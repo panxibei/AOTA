@@ -19,7 +19,7 @@ class mpointImport implements ToModel
 		return new Smt_mpoint([
 			'jizhongming' => $row[0],
 			'pinming' => $row[1],
-			'mian' => $row[2],
+			'gongxu' => $row[2],
 			'diantai' => $row[3],
 			'pinban' => $row[4],
 		]);

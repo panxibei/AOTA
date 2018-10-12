@@ -177,7 +177,7 @@ var vm_app = new Vue({
 			// 4
 			{
 				title: '面',
-				key: 'mian',
+				key: 'gongxu',
 				align: 'center',
 				width: 120,
 				filters: [
@@ -193,9 +193,9 @@ var vm_app = new Vue({
 				filterMultiple: false,
 				filterMethod: function (value, row) {
 					if (value === 'A') {
-						return row.mian === 'A';
+						return row.gongxu === 'A';
 					} else if (value === 'B') {
-						return row.mian === 'B';
+						return row.gongxu === 'B';
 					}
 				}
 			},
@@ -371,14 +371,14 @@ var vm_app = new Vue({
 			
 			var jizhongming = _this.jizhongming;
 			var pinming = _this.pinming;
-			var mian = _this.mian_select;
+			var gongxu = _this.mian_select;
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
 			
 			// var created_at = new Date().Format("yyyy-MM-dd");
 			
-			if (jizhongming == '' || pinming == '' || mian == '' || diantai == '' || pinban == ''
-				|| jizhongming == undefined || pinming == undefined || mian == undefined || diantai == undefined || pinban == undefined) {
+			if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
+				|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
 				_this.warning(false, 'Warning', 'Values are incorrect!');
 				return false;
 			}
@@ -388,7 +388,7 @@ var vm_app = new Vue({
 			axios.post(url, {
 				jizhongming: jizhongming,
 				pinming: pinming,
-				mian: mian,
+				gongxu: gongxu,
 				diantai: diantai,
 				pinban: pinban
 				// created_at: created_at
@@ -416,14 +416,14 @@ var vm_app = new Vue({
 			
 			var jizhongming = _this.jizhongming;
 			var pinming = _this.pinming;
-			var mian = _this.mian_select;
+			var gongxu = _this.mian_select;
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
 			
 			var id = _this.mpointid;
 			
-			if (jizhongming == '' || pinming == '' || mian == '' || diantai == '' || pinban == ''
-				|| jizhongming == undefined || pinming == undefined || mian == undefined || diantai == undefined || pinban == undefined) {
+			if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
+				|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
 				_this.warning(false, 'Warning', 'Values are incorrect!');
 				return false;
 			}
@@ -434,7 +434,7 @@ var vm_app = new Vue({
 			axios.post(url, {
 				jizhongming: jizhongming,
 				pinming: pinming,
-				mian: mian,
+				gongxu: gongxu,
 				diantai: diantai,
 				pinban: pinban,
 				id: id
@@ -503,7 +503,7 @@ var vm_app = new Vue({
 			var _this = this;
 			_this.jizhongming = row.jizhongming;
 			_this.pinming = row.pinming;
-			_this.mian_select = row.mian;
+			_this.mian_select = row.gongxu;
 			_this.diantai = row.diantai;
 			_this.pinban = row.pinban;
 			_this.mpointid = row.id
