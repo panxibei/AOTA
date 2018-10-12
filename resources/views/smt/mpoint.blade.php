@@ -31,9 +31,9 @@ SMT - MPoint
 			<i-input v-model.lazy="pinming" size="small" clearable style="width: 160px"></i-input>
 		</i-col>
 		<i-col span="4">
-			* 面&nbsp;&nbsp;
-			<i-select v-model.lazy="mian_select" placeholder="" clearable size="small" style="width:120px">
-				<i-option v-for="item in mian_option" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			* 工序&nbsp;&nbsp;
+			<i-select v-model.lazy="gongxu_select" placeholder="" clearable size="small" style="width:120px">
+				<i-option v-for="item in gongxu_option" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
 		<i-col span="10">
@@ -101,7 +101,7 @@ SMT - MPoint
 	
 		<br><br>
 		<i-table stripe height="300" size="small" border :columns="tablecolumns" :data="tabledata" @on-selection-change="selection => onselectchange(selection)"></i-table>
-		<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total></Page>
+		<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page>
 	</div>					
 
 </div>
@@ -125,9 +125,9 @@ var vm_app = new Vue({
 		//品名
 		pinming: '',
 
-		// 面
-		mian_select: '',
-		mian_option: [
+		// 工序
+		gongxu_select: '',
+		gongxu_option: [
 			{
 				value: 'A',
 				label: 'A'
@@ -176,7 +176,7 @@ var vm_app = new Vue({
 			},
 			// 4
 			{
-				title: '面',
+				title: '工序',
 				key: 'gongxu',
 				align: 'center',
 				width: 120,
@@ -237,10 +237,10 @@ var vm_app = new Vue({
 							},
 							on: {
 								click: () => {
-									vm_app.viewmpoint(params.row)
+									vm_app.editmpoint(params.row)
 								}
 							}
-						}, 'View')
+						}, 'Edit')
 					]);
 				}
 			}
@@ -359,7 +359,7 @@ var vm_app = new Vue({
 			var _this = this;
 			_this.jizhongming = '';
 			_this.pinming = '';
-			_this.mian_select = '';
+			_this.gongxu_select = '';
 			_this.diantai = '';
 			_this.pinban = '';
 			_this.boo_update = true;
@@ -371,7 +371,7 @@ var vm_app = new Vue({
 			
 			var jizhongming = _this.jizhongming;
 			var pinming = _this.pinming;
-			var gongxu = _this.mian_select;
+			var gongxu = _this.gongxu_select;
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
 			
@@ -416,7 +416,7 @@ var vm_app = new Vue({
 			
 			var jizhongming = _this.jizhongming;
 			var pinming = _this.pinming;
-			var gongxu = _this.mian_select;
+			var gongxu = _this.gongxu_select;
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
 			
@@ -499,11 +499,11 @@ var vm_app = new Vue({
 			})
 		},
 		// 查看
-		viewmpoint: function (row) {
+		editmpoint: function (row) {
 			var _this = this;
 			_this.jizhongming = row.jizhongming;
 			_this.pinming = row.pinming;
-			_this.mian_select = row.gongxu;
+			_this.gongxu_select = row.gongxu;
 			_this.diantai = row.diantai;
 			_this.pinban = row.pinban;
 			_this.mpointid = row.id

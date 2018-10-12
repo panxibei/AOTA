@@ -7,7 +7,7 @@ SMT - daily production report
 
 @section('my_style')
 <style>
-.ivu-table td.tableclass1{
+.ivu-table td.table-info-column{
 	background-color: #2db7f5;
 	color: #fff;
 }
@@ -610,7 +610,7 @@ var vm_app = new Vue({
 						key: 'chajiandianshu',
 						align: 'center',
 						width: 100,
-						className: 'tableclass1',
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.chajiandianshu.toLocaleString()
@@ -622,7 +622,7 @@ var vm_app = new Vue({
 						key: 'jiadonglv',
 						align: 'center',
 						width: 100,
-						className: 'tableclass1',
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								parseFloat(params.row.jiadonglv * 100) + '%'

@@ -5,15 +5,6 @@ SMT - QC report
 @parent
 @endsection
 
-@section('my_style')
-<style>
-.ivu-table td.tableclass1{
-	background-color: #2db7f5;
-	color: #fff;
-}
-</style>
-@endsection
-
 @section('my_js')
 <script type="text/javascript">
 </script>
@@ -208,9 +199,11 @@ SMT - QC report
 				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
-		<i-col span="10">
-			不良内容&nbsp;&nbsp;
-			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets();onselectchange1();" multiple size="small" clearable style="width:200px" placeholder="例：部品不良">
+		<i-col span="1">
+			不良内容
+		</i-col>
+		<i-col span="9">
+			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets();onselectchange1();" multiple size="small" clearable style="width:400px" placeholder="例：部品不良">
 				<Option-group label="****** 印刷系 ******">
 					<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
@@ -241,12 +234,11 @@ SMT - QC report
 			</i-select>
 		</i-col>
 	</i-row>
-	<br>
+	<br><br>
 
-	<Divider dashed></Divider>
-	<i-row :gutter="16">
+	<i-row :gutter="16"><br>
 		<i-col span="2">
-			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
+			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>
 		<i-col span="8">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -262,10 +254,12 @@ SMT - QC report
 		</i-col>
 	</i-row>
 
-	<br>
-	<Divider dashed></Divider>
-	<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
-	<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total></Page>
+	<i-row :gutter="16">
+		<i-col span="24">
+			<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+			<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+		</i-col>
+	</i-row>
 	
 	<br>
 	<Divider orientation="left">品质管理图表</Divider>
@@ -759,7 +753,7 @@ var vm_app = new Vue({
 				title: 'PPM',
 				key: 'ppm',
 				align: 'center',
-				width: 80
+				width: 100
 			},
 			{
 				title: '不良内容',
