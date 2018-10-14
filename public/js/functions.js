@@ -28,3 +28,33 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
+
+// 201810141449
+// 判断浏览器，IE或Edge不让使用
+function checkBrowser () {
+	var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+	// console.log(userAgent);
+	var isFirefox = userAgent.indexOf("Firefox") > -1;
+	var isChrome = userAgent.indexOf("Chrome") > -1;
+	var isSafari = userAgent.indexOf("Safari") > -1;
+	var isOpera = userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1;
+	if (isOpera) {
+		// alert("Opera");
+	}; //判断是否Firefox浏览器
+	if (isFirefox) {
+		// alert("FF");
+	} //判断是否Chrome浏览器
+	else if (isChrome){
+		// alert("Chrome");
+	} //判断是否Safari浏览器
+	else if (isSafari) {
+		// alert("Safari");
+	}
+	// if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && userAgent.indexOf(".NET") > -1 && !isOpera) {
+	//判断是否IE浏览器
+	else {
+		// alert("IE");
+		alert('请使用Chrome或Firefox浏览器！');
+		document.execCommand("stop");
+	};	
+}

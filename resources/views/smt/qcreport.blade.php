@@ -236,7 +236,8 @@ SMT - QC report
 	</i-row>
 	<br><br>
 
-	<i-row :gutter="16"><br>
+	<i-row :gutter="16">
+		<br>
 		<i-col span="2">
 			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>

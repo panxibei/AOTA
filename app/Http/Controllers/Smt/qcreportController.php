@@ -14,6 +14,7 @@ use App\Imports\qcreportImport;
 use App\Charts\Smt\ECharts;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 
 class qcreportController extends Controller
@@ -44,38 +45,31 @@ class qcreportController extends Controller
 		$xianti_filter = $request->input('xianti_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
 		// dd($buliangneirong_filter);
-		// $mpoint = DB::table('mpoints')
-		// $dailyreport = Smt_qcreport::select('*', DB::raw('dianmei * meishu as hejidianshu'))
-			// ->when($qcdate_filter, function ($query) use ($qcdate_filter) {
-				// return $query->whereBetween('created_at', $qcdate_filter);
-			// })
-			// ->when($xianti_filter, function ($query) use ($xianti_filter) {
-				// return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
-			// })
-			// ->when($banci_filter, function ($query) use ($banci_filter) {
-				// return $query->where('banci', 'like', '%'.$banci_filter.'%');
-			// })
-			// ->orderBy('created_at', 'asc')
-			// ->paginate($perPage, ['*'], 'page', $page);
 
-		$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+		//首先查寻cache如果找到
+		if (Cache::has('dailyreport')) {
+			$dailyreport = Cache::get('dailyreport');    //直接读取cache
+		} else {                                   //如果cache里面没有        
+			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 				return $query->whereBetween('created_at', $qcdate_filter);
-			})
-			->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
-				return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
-			})
-			->when($xianti_filter, function ($query) use ($xianti_filter) {
-				return $query->where('xianti', '=', $xianti_filter);
-			})
-			->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
-				return $query->whereIn('buliangneirong', $buliangneirong_filter);
-			})
-			->orderBy('created_at', 'asc')
-			->paginate($perPage, ['*'], 'page', $page);
+				})
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', '=', $xianti_filter);
+				})
+				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
+					return $query->whereIn('buliangneirong', $buliangneirong_filter);
+				})
+				->orderBy('created_at', 'asc')
+				->paginate($perPage, ['*'], 'page', $page);
+			
+			Cache::put('dailyreport', $dailyreport, 5);
+		}
 		
-
-		// dd($dailyreport);
 		return $dailyreport;
+			
     }	
 
 	
