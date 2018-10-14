@@ -67,12 +67,13 @@
 
 <script>
 	var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+	// console.log(userAgent);
 	var isFirefox = userAgent.indexOf("Firefox") > -1;
 	var isChrome = userAgent.indexOf("Chrome") > -1;
 	var isSafari = userAgent.indexOf("Safari") > -1;
-	var isOpera = userAgent.indexOf("Opera") > -1;
+	var isOpera = userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1;
 	if (isOpera) {
-		alert("Opera");
+		// alert("Opera");
 	}; //判断是否Firefox浏览器
 	if (isFirefox) {
 		// alert("FF");
