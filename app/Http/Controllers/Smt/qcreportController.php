@@ -37,18 +37,40 @@ class qcreportController extends Controller
     {
 		if (! $request->ajax()) { return null; }
 
-		$perPage = $request->input('perPage') ?: 10000;
-		$page = $request->input('page') ?: 1;
-
+		$url = request()->url();
+		$queryParams = request()->query();
+		
+		if (isset($queryParams['perPage'])) {
+			$perPage = $queryParams['perPage'] ?: 10000;
+		} else {
+			$perPage = 10000;
+		}
+		
+		if (isset($queryParams['page'])) {
+			$page = $queryParams['page'] ?: 1;
+		} else {
+			$page = 1;
+		}
+		
 		$qcdate_filter = $request->input('qcdate_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
 		$xianti_filter = $request->input('xianti_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
-		// dd($buliangneirong_filter);
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
 
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		// dd($fullUrl);
+		// dd($queryParams);
+		
 		//首先查寻cache如果找到
-		if (Cache::has('dailyreport')) {
-			$dailyreport = Cache::get('dailyreport');    //直接读取cache
+		if (Cache::has($fullUrl)) {
+			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 				return $query->whereBetween('created_at', $qcdate_filter);
@@ -65,7 +87,7 @@ class qcreportController extends Controller
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put('dailyreport', $dailyreport, 5);
+			Cache::put($fullUrl, $dailyreport, 5);
 		}
 		
 		return $dailyreport;
