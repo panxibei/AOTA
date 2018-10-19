@@ -51,10 +51,13 @@ class qcreportController extends Controller
 		} else {
 			$page = 1;
 		}
-		
+		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
-		$jizhongming_filter = $request->input('jizhongming_filter');
 		$xianti_filter = $request->input('xianti_filter');
+		$banci_filter = $request->input('banci_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
+		$pinming_filter = $request->input('pinming_filter');
+		$gongxu_filter = $request->input('gongxu_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
 		
 		//对查询参数按照键名排序
@@ -75,11 +78,20 @@ class qcreportController extends Controller
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 				return $query->whereBetween('created_at', $qcdate_filter);
 				})
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', '=', $xianti_filter);
+				})
+				->when($banci_filter, function ($query) use ($banci_filter) {
+					return $query->where('banci', '=', $banci_filter);
+				})
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				})
-				->when($xianti_filter, function ($query) use ($xianti_filter) {
-					return $query->where('xianti', '=', $xianti_filter);
+				->when($pinming_filter, function ($query) use ($pinming_filter) {
+					return $query->where('pinming', '=', $pinming_filter);
+				})
+				->when($gongxu_filter, function ($query) use ($gongxu_filter) {
+					return $query->where('gongxu', '=', $gongxu_filter);
 				})
 				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
 					return $query->whereIn('buliangneirong', $buliangneirong_filter);

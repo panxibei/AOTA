@@ -195,7 +195,7 @@ SMT - QC report
 		</i-col>
 		<i-col span="3">
 			工序&nbsp;&nbsp;
-			<i-select v-model.lazy="gonxu_filter" @on-change="qcreportgets()" clearable style="width:80px" size="small" placeholder="">
+			<i-select v-model.lazy="gongxu_filter" @on-change="qcreportgets()" clearable style="width:80px" size="small" placeholder="">
 				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -878,7 +878,7 @@ var vm_app = new Vue({
 		pinming_filter: '',
 
 		// 工序过滤
-		gonxu_filter: '',
+		gongxu_filter: '',
 		
 		// 不良内容过滤
 		buliangneirong_filter: '',
@@ -1014,8 +1014,11 @@ var vm_app = new Vue({
 				}
 			}
 			
-			var jizhongming_filter = _this.jizhongming_filter;
 			var xianti_filter = _this.xianti_filter;
+			var banci_filter = _this.banci_filter;
+			var jizhongming_filter = _this.jizhongming_filter;
+			var pinming_filter = _this.pinming_filter;
+			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
@@ -1025,8 +1028,11 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize,
 					page: page,
 					qcdate_filter: qcdate_filter,
-					jizhongming_filter: jizhongming_filter,
 					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
+					jizhongming_filter: jizhongming_filter,
+					pinming_filter: pinming_filter,
+					gongxu_filter: gongxu_filter,
 					buliangneirong_filter: buliangneirong_filter
 				}
 			})
@@ -1557,8 +1563,11 @@ var vm_app = new Vue({
 					perPage: _this.pagetotal,
 					page: 1,
 					qcdate_filter: qcdate_filter,
-					jizhongming_filter: jizhongming_filter,
 					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
+					jizhongming_filter: jizhongming_filter,
+					pinming_filter: pinming_filter,
+					gongxu_filter: gongxu_filter,
 					buliangneirong_filter: buliangneirong_filter
 				}
 			})
@@ -1743,8 +1752,11 @@ var vm_app = new Vue({
 					perPage: _this.pagetotal,
 					page: 1,
 					qcdate_filter: qcdate_filter,
-					jizhongming_filter: jizhongming_filter,
 					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
+					jizhongming_filter: jizhongming_filter,
+					pinming_filter: pinming_filter,
+					gongxu_filter: gongxu_filter,
 					buliangneirong_filter: buliangneirong_filter
 				}
 			})
