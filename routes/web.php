@@ -71,7 +71,11 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 
 // AOTA门户页面
 Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>[]], function() {
-	Route::get('aota', 'mainController@mainIndex');
+	Route::get('portal', 'mainController@mainPortal');
+	Route::get('config', 'mainController@mainConfig');
+	Route::get('configgets', 'mainController@configGets')->name('config.configgets');
+	Route::post('configcreate', 'mainController@configCreate')->name('config.create');
+	Route::post('configupdate', 'mainController@configUpdate')->name('config.update');
 });
 
 

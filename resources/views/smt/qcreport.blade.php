@@ -319,11 +319,7 @@ var vm_app = new Vue({
 		// 扫描
 		saomiao: 'MRAP808A/5283600121-51/MAIN/900',
 		
-		// 线体
-		xianti: '',
 		
-		// 班次
-		banci: '',
 		
 		// 批量录入项
 		piliangluruxiang: 1,
@@ -346,7 +342,6 @@ var vm_app = new Vue({
 		meishu: '',
 		
 		// 检查机类型
-		select_jianchajileixing: '',
 		option_jianchajileixing: [
 			{
 				value: 'AOI-1',
@@ -375,7 +370,7 @@ var vm_app = new Vue({
 		],
 		
 		// 线体
-		select_xianti: '',
+		xianti: '',
 		option_xianti: [
 			{
 				value: 'SMT-1',
@@ -420,7 +415,7 @@ var vm_app = new Vue({
 		],
 		
 		// 班次
-		select_banci: '',
+		banci: '',
 		option_banci: [
 			{
 				value: 'A-1',
@@ -495,14 +490,7 @@ var vm_app = new Vue({
 			}
 		],
 		
-		// 位号
-		// weihao: '',
-		
-		// 数量
-		// shuliang: '',
-		
 		// 检查者
-		// select_jianchazhe: '',
 		option_jianchazhe1: [
 			{value: '许瑞萍', label: '许瑞萍'},
 			{value: '李世英', label: '李世英'},
