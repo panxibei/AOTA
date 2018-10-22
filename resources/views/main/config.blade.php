@@ -35,27 +35,30 @@ AOTA Management System Beta - Config
 				<p slot="title">
 					SMT管理系统配置（Beta版）
 				</p>
-					<p v-for="item in CardListSmt">
-						&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
-						
-						<i-select v-model.lazy="item.select" clearable size="small" style="width:80px" placeholder="">
-							<i-option v-for="item in item.option" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</i-select>
-			
-						&nbsp;&nbsp;&nbsp;&nbsp;
+				<p v-for="item in CardListSmt">
+					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
+					
+					
+					<i-input v-model.lazy="item.value" type="textarea" size="small" style="width: 120px"></i-input>
+		
+					&nbsp;&nbsp;&nbsp;&nbsp;
 
-						<span style="float:right">
-							<i-input v-model.lazy="item.input" size="small" clearable style="width: 80px"></i-input>
+					
 
-							&nbsp;&nbsp;
-							<Input-number v-model.lazy="item.position" :min="1" :max="50" size="small" style="width: 50px"></Input-number>
-							<i-button type="default" size="small" @click="oninsert(item.position, item.name, item.input)" v-if="item.type=='select'">插入</i-button>
-							&nbsp;
-							<i-button type="default" size="small" @click="onupdate">更新</i-button>
-						
-						</span>
-						<br><br>
-					</p>
+					&nbsp;&nbsp;
+					<i-button type="default" size="small" @click="onupdate(item.name, item.value)">更新</i-button>
+					
+					<span style="float:right">
+					&nbsp;
+					<!--
+					<i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
+						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+					-->
+
+					</span>
+					<br><br>
+				</p>
 			</Card>
 
 		</i-col>
@@ -70,12 +73,6 @@ AOTA Management System Beta - Config
 				<p slot="title">
 					部品加工管理系统（Beta版）
 				</p>
-					<p v-for="item in CardListBupinjiagong">
-						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
-						<span style="float:right">
-							Hits: @{{ item.hits }}
-						</span>
-					</p>
 			</Card>
 		
 		</i-col>
@@ -113,100 +110,17 @@ var vm_app = new Vue({
 			{
 				title: '线体',
 				name: 'xianti',
-				type: 'select',
-				position: 1,
-				select: '',
-				option: [
-					{
-						value: 'SMT-1',
-						label: 'SMT-1'
-					},
-					{
-						value: 'SMT-2',
-						label: 'SMT-2'
-					},
-					{
-						value: 'SMT-3',
-						label: 'SMT-3'
-					},
-					{
-						value: 'SMT-4',
-						label: 'SMT-4'
-					},
-					{
-						value: 'SMT-5',
-						label: 'SMT-5'
-					},
-					{
-						value: 'SMT-6',
-						label: 'SMT-6'
-					},
-					{
-						value: 'SMT-7',
-						label: 'SMT-7'
-					},
-					{
-						value: 'SMT-8',
-						label: 'SMT-8'
-					},
-					{
-						value: 'SMT-9',
-						label: 'SMT-9'
-					},
-					{
-						value: 'SMT-10',
-						label: 'SMT-10'
-					}
-				],
-				input: '',
+				value: '',
 			},
 			{
 				title: '班次',
 				name: 'banci',
-				type: 'select',
-				position: 1,
-				select: '',
-				option: [
-					{
-						value: 'A-1',
-						label: 'A-1'
-					},
-					{
-						value: 'A-2',
-						label: 'A-2'
-					},
-					{
-						value: 'A-3',
-						label: 'A-3'
-					},
-					{
-						value: 'B-1',
-						label: 'B-1'
-					},
-					{
-						value: 'B-2',
-						label: 'B-2'
-					},
-					{
-						value: 'B-3',
-						label: 'B-3'
-					}
-				],
-				input: '',
+				value: '',
 			},
 			{
 				title: '品质日报',
 				name: '品质日报',
-				type: 'select',
-				position: 1,
-				select: '',
-				option: [
-					{
-						value: 'SMT-1',
-						label: 'SMT-1'
-					},
-				],
-				input: '',
+				value: '',
 			},
 		],
 
@@ -220,7 +134,49 @@ var vm_app = new Vue({
 		],
 		
 		
-		
+		xianti: '',
+		option_xianti: [
+			{
+				value: 'SMT-1',
+				label: 'SMT-1'
+			},
+			{
+				value: 'SMT-2',
+				label: 'SMT-2'
+			},
+			{
+				value: 'SMT-3',
+				label: 'SMT-3'
+			},
+			{
+				value: 'SMT-4',
+				label: 'SMT-4'
+			},
+			{
+				value: 'SMT-5',
+				label: 'SMT-5'
+			},
+			{
+				value: 'SMT-6',
+				label: 'SMT-6'
+			},
+			{
+				value: 'SMT-7',
+				label: 'SMT-7'
+			},
+			{
+				value: 'SMT-8',
+				label: 'SMT-8'
+			},
+			{
+				value: 'SMT-9',
+				label: 'SMT-9'
+			},
+			{
+				value: 'SMT-10',
+				label: 'SMT-10'
+			}
+		],
 			
 			
 	},
@@ -251,6 +207,18 @@ var vm_app = new Vue({
 			});
 		},
 		
+		// 把laravel返回的结果转换成select能接受的格式
+		json2select: function (value) {
+			var arr = value.split(/[\s\n]/);
+			var arr_result = [];
+
+			arr.map(function (v, i) {
+				arr_result.push({ value: v, label: v });
+			});
+
+			return arr_result;
+		},
+		
 		
 		configgets: function () {
 			var _this = this;
@@ -264,16 +232,31 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				if (response.data) {
-					console.log(response.data);
+					_this.CardListSmt = response.data;
 					
-					var a = response.data;
+					_this.CardListSmt.map(function (v, i) {
+						
+						if (v.name == 'xianti') {
+							_this.option_xianti = _this.json2select(v.value);
+						}
+						else if (v.name == 'banci') {
+							_this.option_banci = _this.json2select(v.value);
+						}
+						else if (v.name == 'gongxu') {
+							_this.option_gongxu = _this.json2select(v.value);
+						}
+						else if (v.name == 'jianchajileixing') {
+							_this.option_jianchajileixing = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong') {
+							_this.option_buliangneirong = _this.json2select(v.value);
+						}
+						else if (v.name == 'jianchazhe') {
+							_this.option_jianchazhe = _this.json2select(v.value);
+						}
 					
-					a.map(function (v,i) {
-						v.name = '';
-						v.value = '';
-						v.type = '';
 					});
-					
+
 				}
 				
 			})
@@ -281,31 +264,26 @@ var vm_app = new Vue({
 				_this.error(false, 'Error', error);
 			})
 		},
-		
-		
-		oninsert: function (position, name, value) {
+
+
+		onupdate: function (name, value) {
 			var _this = this;
-			
+
 			if (name == '' || name == undefined
 				|| value == '' || value == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
 
-			var url = "{{ route('config.create') }}";
+			var url = "{{ route('config.update') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				position: position,
 				name : name,
 				value: value
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
-				
 				if (response.data) {
 					_this.success(false, '成功', '记入成功！');
-
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
@@ -314,13 +292,7 @@ var vm_app = new Vue({
 				_this.error(false, '错误', '记入失败！');
 				// console.log(error);
 			})
-		},
-		
-
-		onupdate: function (name, value) {
-			var _this = this;
-		
-		},
+		},		
 		
 		
 			
@@ -329,8 +301,6 @@ var vm_app = new Vue({
 	mounted: function () {
 		var _this = this;
 		_this.configgets();
-		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
-		// _this.qcreportgets(1, 1); // page: 1, last_page: 1
 	}
 })
 </script>

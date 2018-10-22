@@ -15,9 +15,9 @@ class CreateSmtConfigsTable extends Migration
     {
         Schema::create('smt_configs', function (Blueprint $table) {
             $table->increments('id');
+			$table->string('title', 100);
 			$table->string('name', 100);
 			$table->text('value')->nullable();
-			$table->string('type', 20);
             $table->timestamps();
 			$table->engine = 'InnoDB';
 		});

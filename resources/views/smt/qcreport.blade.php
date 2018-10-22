@@ -980,6 +980,67 @@ var vm_app = new Vue({
 			this.qcreportgets(currentpage, this.pagelast);
 		},
 		
+		// 把laravel返回的结果转换成select能接受的格式
+		json2select: function (value) {
+			var arr = value.split(/[\s\n]/);
+			var arr_result = [];
+
+			arr.map(function (v, i) {
+				arr_result.push({ value: v, label: v });
+			});
+
+			return arr_result;
+		},
+		
+		
+		configgets: function () {
+			var _this = this;
+
+			var url = "{{ route('config.configgets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+				}
+			})
+			.then(function (response) {
+				if (response.data) {
+					response.data.map(function (v, i) {
+						
+						if (v.name == 'xianti') {
+							_this.option_xianti = _this.json2select(v.value);
+						}
+						else if (v.name == 'banci') {
+							_this.option_banci = _this.json2select(v.value);
+						}
+						else if (v.name == 'gongxu') {
+							_this.option_gongxu = _this.json2select(v.value);
+						}
+						else if (v.name == 'jianchajileixing') {
+							_this.option_jianchajileixing = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong') {
+							_this.option_buliangneirong = _this.json2select(v.value);
+						}
+						else if (v.name == 'jianchazhe1') {
+							_this.option_jianchazhe1 = _this.json2select(v.value);
+						}
+						else if (v.name == 'jianchazhe2') {
+							_this.option_jianchazhe2 = _this.json2select(v.value);
+						}
+						else if (v.name == 'jianchazhe3') {
+							_this.option_jianchazhe3 = _this.json2select(v.value);
+						}
+					
+					});
+
+				}
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+			})
+		},		
+		
 		// qcreport列表
 		qcreportgets: function (page, last_page) {
 			var _this = this;
@@ -1032,6 +1093,7 @@ var vm_app = new Vue({
 					
 					_this.tabledata1 = response.data.data;
 					// console.log(_this.tabledata1);
+					
 				} else {
 					_this.tabledata1 = [];
 				}
@@ -1917,7 +1979,8 @@ var vm_app = new Vue({
 			
 	},
 	mounted: function () {
-		// var _this = this;
+		var _this = this;
+		_this.configgets();
 		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
 		// _this.qcreportgets(1, 1); // page: 1, last_page: 1
 	}
