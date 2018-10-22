@@ -1007,7 +1007,7 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				
 				var tmp_pinming = '';
-				var tmp_mian = '';
+				var tmp_gongxu = '';
 				var boo_flag = false;
 				
 				_this.option_pinming = [];
@@ -1032,12 +1032,12 @@ var vm_app = new Vue({
 						_this.option_pinming.push({value: tmp_pinming, label: tmp_pinming});
 					}
 					
-					// mian
-					tmp_mian = response.data[i].mian;
+					// gongxu
+					tmp_gongxu = response.data[i].gongxu;
 					
 					if (_this.option_gongxu.length != 0) {
 						for (var j in _this.option_gongxu) {
-							if (_this.option_gongxu[j].value == tmp_mian) {
+							if (_this.option_gongxu[j].value == tmp_gongxu) {
 								boo_flag = true;
 								break;
 							} else {
@@ -1045,10 +1045,10 @@ var vm_app = new Vue({
 							}
 						}
 						if (boo_flag == false) {
-							_this.option_gongxu.push({value: tmp_mian, label: tmp_mian});
+							_this.option_gongxu.push({value: tmp_gongxu, label: tmp_gongxu});
 						}
 					} else {
-						_this.option_gongxu.push({value: tmp_mian, label: tmp_mian});
+						_this.option_gongxu.push({value: tmp_gongxu, label: tmp_gongxu});
 					}
 					
 				}

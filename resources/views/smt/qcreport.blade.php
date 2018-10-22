@@ -52,6 +52,7 @@ SMT - QC report
 			* 枚数&nbsp;&nbsp;
 			<Input-number v-model.lazy="meishu" :min="1" style="width: 80px"></Input-number>
 		</i-col>
+		<input v-model.lazy="shengchanriqi" hidden="hidden"></input>
 	</i-row>
 
 	<br><br><br>
@@ -72,13 +73,13 @@ SMT - QC report
 			&nbsp;No.@{{index+1}}
 		</i-col>
 		<i-col span="5">
-			* 检查机类型&nbsp;&nbsp;
+			检查机类型&nbsp;&nbsp;
 			<i-select v-model.lazy="item.jianchajileixing" size="small" clearable style="width:120px" placeholder="">
 				<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
 		<i-col span="6">
-			* 不良内容&nbsp;&nbsp;
+			不良内容&nbsp;&nbsp;
 			<i-select v-model.lazy="item.buliangneirong" size="small" clearable style="width:200px" placeholder="例：部品不良">
 				<Option-group label="****** 印刷系 ******">
 					<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
@@ -101,15 +102,15 @@ SMT - QC report
 			</i-select>
 		</i-col>
 		<i-col span="4">
-			* 位号&nbsp;&nbsp;
+			位号&nbsp;&nbsp;
 			<i-input v-model.lazy="item.weihao" @on-keyup="item.weihao=item.weihao.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="3">
-			* 数量&nbsp;&nbsp;
+			数量&nbsp;&nbsp;
 			<Input-number v-model.lazy="item.shuliang" :min="1" size="small" style="width: 80px"></Input-number>
 		</i-col>
 		<i-col span="5">
-			* 检查者&nbsp;&nbsp;
+			检查者&nbsp;&nbsp;
 			<i-select v-model.lazy="item.jianchazhe" size="small" clearable style="width:140px" placeholder="">
 				<Option-group label="****** 一组 ******">
 					<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
@@ -149,7 +150,7 @@ SMT - QC report
 			查询：
 		</i-col>
 		<i-col span="6">
-			*日期范围&nbsp;&nbsp;
+			* 日期范围&nbsp;&nbsp;
 			<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets();onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
@@ -351,6 +352,9 @@ var vm_app = new Vue({
 			}
 		],
 		
+		// 生产日期
+		shengchanriqi: '',
+		
 		// 线体
 		xianti: '',
 		option_xianti: [
@@ -510,8 +514,8 @@ var vm_app = new Vue({
 				align: 'center'
 			},
 			{
-				title: '日期',
-				key: 'created_at',
+				title: '生产日期',
+				key: 'shengchanriqi',
 				align: 'center',
 				width: 160,
 			},
@@ -819,7 +823,13 @@ var vm_app = new Vue({
 				key: 'jianchazhe',
 				align: 'center',
 				width: 120
-			}
+			},
+			{
+				title: '创建日期',
+				key: 'created_at',
+				align: 'center',
+				width: 160,
+			},
 		],
 		tabledata1: [],
 		tableselect1: [],
@@ -1156,6 +1166,7 @@ var vm_app = new Vue({
 		onclear: function () {
 			var _this = this;
 			_this.saomiao = '';
+			_this.shengchanriqi = '';
 			_this.xianti = '';
 			_this.banci = '';
 			_this.gongxu = '';
@@ -1189,6 +1200,7 @@ var vm_app = new Vue({
 		oncreate: function () {
 			var _this = this;
 			var saomiao = _this.saomiao;
+			var shengchanriqi = _this.shengchanriqi;
 			var xianti = _this.xianti;
 			var banci = _this.banci;
 			var gongxu = _this.gongxu;
@@ -1204,21 +1216,19 @@ var vm_app = new Vue({
 			}
 			
 			// 其他循环不支持跳出
-			var flag = true;
-			for (var v of _this.piliangluru) {
-				if (v.jianchajileixing == '' || v.buliangneirong == '' || v.weihao == ''  || v.shuliang == '' || v.jianchazhe == ''
-					|| v.jianchajileixing == undefined || v.buliangneirong == undefined || v.weihao == undefined || v.shuliang == undefined || v.jianchazhe == undefined) {
-					// _this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
-					// console.log(v.jianchajileixing);
-					flag = false;
-					break;
-				}
-			}
+			// var flag = true;
+			// for (var v of _this.piliangluru) {
+				// if (v.jianchajileixing == '' || v.buliangneirong == '' || v.weihao == ''  || v.shuliang == '' || v.jianchazhe == ''
+					// || v.jianchajileixing == undefined || v.buliangneirong == undefined || v.weihao == undefined || v.shuliang == undefined || v.jianchazhe == undefined) {
+					// flag = false;
+					// break;
+				// }
+			// }
 			
-			if (flag == false) {
-				_this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
-				return false;
-			}
+			// if (flag == false) {
+				// _this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
+				// return false;
+			// }
 			
 			var piliangluru = _this.piliangluru;
 			var tableselect1 = _this.tableselect1;
@@ -1226,7 +1236,8 @@ var vm_app = new Vue({
 			var url = "{{ route('smt.qcreport.qcreportcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				saomiao : saomiao,
+				saomiao: saomiao,
+				shengchanriqi: shengchanriqi,
 				xianti: xianti,
 				banci: banci,
 				gongxu: gongxu,
@@ -1954,16 +1965,12 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				_this.dianmei = response.data;
-
-
+				_this.dianmei = response.data.dianmei;
+				_this.shengchanriqi = response.data.shengchanriqi;
 			})
 			.catch(function (error) {
 				this.error(false, 'Error', error);
 			})
-
-			
 		},
 		
 		

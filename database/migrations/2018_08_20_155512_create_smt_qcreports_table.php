@@ -16,6 +16,7 @@ class CreateSmtQcreportsTable extends Migration
         Schema::create('smt_qcreports', function (Blueprint $table) {
             $table->increments('id');
 			// $table->integer('dr_id')->unsigned();
+			$table->timestamp('shengchanriqi');
 			$table->string('xianti', 20);
 			$table->string('banci', 20);
 			$table->string('jizhongming', 50);
@@ -29,11 +30,11 @@ class CreateSmtQcreportsTable extends Migration
 			$table->integer('bushihejianshuheji')->default(0)->unsigned();
 			$table->float('ppm')->default(0);
 			
-			$table->string('buliangneirong', 50);
-			$table->string('weihao', 50);
-			$table->integer('shuliang')->unsigned();
-			$table->string('jianchajileixing', 20);
-			$table->string('jianchazhe', 20);
+			$table->string('buliangneirong', 50)->nullable();
+			$table->string('weihao', 50)->nullable();
+			$table->integer('shuliang')->unsigned()->nullable();
+			$table->string('jianchajileixing', 20)->nullable();
+			$table->string('jianchazhe', 20)->nullable();
             $table->timestamps();
 			$table->engine = 'InnoDB';
 		});

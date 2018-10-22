@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Smt\Smt_mpoint;
+use App\Models\Smt\Smt_pdreport;
 use App\Models\Smt\Smt_qcreport;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -76,7 +77,7 @@ class qcreportController extends Controller
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-				return $query->whereBetween('created_at', $qcdate_filter);
+				return $query->whereBetween('shengchanriqi', $qcdate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', '=', $xianti_filter);
@@ -158,20 +159,25 @@ class qcreportController extends Controller
 			$pinming = $saomiao_arr[2];
 			$lotshu = $saomiao_arr[3];
 
-			// $result = Smt_qcreport::where('jizhongming', $jizhongming)
-				// ->where('pinming', $pinming)
-				// ->where('spno', $spno)
-				// ->where('lotshu', $lotshu)
-				// ->first();
-			$result = Smt_mpoint::select('diantai', 'pinban')
+			$res = Smt_mpoint::select('diantai', 'pinban')
 				->where('jizhongming', $jizhongming)
 				->where('pinming', $pinming)
 				->where('gongxu', $gongxu)
-				// ->where('spno', $spno)
-				// ->where('lotshu', $lotshu)
 				->first();
 			
-			$result = $result['diantai'] * $result['pinban']; 
+			$dianmei = $res['diantai'] * $res['pinban']; 
+			
+			$res = Smt_pdreport::select('created_at')
+				->where('jizhongming', $jizhongming)
+				->where('spno', $spno)
+				->where('pinming', $pinming)
+				->where('gongxu', $gongxu)
+				->first();
+			
+			$shengchanriqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
+
+			$result = compact('dianmei', 'shengchanriqi');
+			
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
@@ -194,6 +200,7 @@ class qcreportController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
 		
 		$saomiao = $request->input('saomiao');
+		$shengchanriqi = $request->input('shengchanriqi');
 		$xianti = $request->input('xianti');
 		$banci = $request->input('banci');
 		$gongxu = $request->input('gongxu');
@@ -208,6 +215,7 @@ class qcreportController extends Controller
 		$s['pinming'] = $saomiao_arr[2];
 		$s['lotshu'] = $saomiao_arr[3];
 		
+		$s['shengchanriqi'] = $shengchanriqi;
 		$s['xianti'] = $xianti;
 		$s['banci'] = $banci;
 		$s['gongxu'] = $gongxu;
