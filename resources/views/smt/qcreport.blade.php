@@ -86,26 +86,17 @@ SMT - QC report
 				<Option-group label="****** 装着系 ******">
 					<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 装着系/人系 ******">
+				<Option-group label="****** 异物系 ******">
 					<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 设备系 ******">
+				<Option-group label="****** 人系 ******">
 					<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 异物系 ******">
+				<Option-group label="****** 部品系 ******">
 					<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 人系 ******">
-					<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</Option-group>
-				<Option-group label="****** 部品系/人系 ******">
-					<i-option v-for="item in option_buliangneirong7" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</Option-group>
-				<Option-group label="****** 部品系 ******">
-					<i-option v-for="item in option_buliangneirong8" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</Option-group>
 				<Option-group label="****** 其他 ******">
-					<i-option v-for="item in option_buliangneirong9" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
 			</i-select>
 		</i-col>
@@ -210,26 +201,17 @@ SMT - QC report
 				<Option-group label="****** 装着系 ******">
 					<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 装着系/人系 ******">
+				<Option-group label="****** 异物系 ******">
 					<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 设备系 ******">
+				<Option-group label="****** 人系 ******">
 					<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 异物系 ******">
+				<Option-group label="****** 部品系 ******">
 					<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
-				<Option-group label="****** 人系 ******">
-					<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</Option-group>
-				<Option-group label="****** 部品系/人系 ******">
-					<i-option v-for="item in option_buliangneirong7" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</Option-group>
-				<Option-group label="****** 部品系 ******">
-					<i-option v-for="item in option_buliangneirong8" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</Option-group>
 				<Option-group label="****** 其他 ******">
-					<i-option v-for="item in option_buliangneirong9" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
 			</i-select>
 		</i-col>
@@ -446,35 +428,29 @@ var vm_app = new Vue({
 		// 不良内容
 		// select_buliangneirong: '',
 		option_buliangneirong1: [
-			{value: '连焊', label: '连焊'}, {value: '引脚焊锡量少/无', label: '引脚焊锡量少/无'},
-			{value: 'chip部品焊锡少/无', label: 'chip部品焊锡少/无'}, {value: '焊锡球', label: '焊锡球'}
+			{value: '连焊', label: '连焊'}, {value: '引脚焊锡量少', label: '引脚焊锡量少'},
+			{value: 'CHIP部品焊锡少', label: 'CHIP部品焊锡少'}, {value: '焊锡球', label: '焊锡球'}
 		],
 		option_buliangneirong2: [
-			{value: '部品浮起竖立', label: '部品浮起竖立'}, {value: 'chip部品横立', label: 'chip部品横立'},
-			{value: '欠品', label: '欠品'}, {value: '焊锡未熔解', label: '焊锡未熔解'},
+			{value: '1005部品浮起.竖立', label: '1005部品浮起.竖立'}, {value: 'CHIP部品横立', label: 'CHIP部品横立'},
+			{value: '部品浮起.竖立', label: '部品浮起.竖立'}, {value: '欠品', label: '欠品'},
+			{value: '焊锡未熔解', label: '焊锡未熔解'}, {value: '位置偏移', label: '位置偏移'},
+			{value: '部品打反', label: '部品打反'}, {value: '部品错误', label: '部品错误'},
+			{value: '多余部品', label: '多余部品'}
 		],
 		option_buliangneirong3: [
-			{value: '部品错误', label: '部品错误'},
-		],
-		option_buliangneirong4: [
-			{value: '部品多余', label: '部品多余'},
-		],
-		option_buliangneirong5: [
 			{value: '异物', label: '异物'},
 		],
+		option_buliangneirong4: [
+			{value: '极性错误', label: '极性错误'},{value: '炉后部品破损', label: '炉后部品破损'},
+			{value: '引脚弯曲', label: '引脚弯曲'},{value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
+		],
+		option_buliangneirong5: [
+			{value: '引脚不上锡', label: '引脚不上锡'},{value: '基板不上锡', label: '基板不上锡'},
+			{value: 'CHIP部品不上锡', label: 'CHIP部品不上锡'},{value: '基板不良', label: '基板不良'},
+			{value: '部品不良', label: '部品不良'}
+		],
 		option_buliangneirong6: [
-			{value: '极性错误', label: '极性错误'},
-		],
-		option_buliangneirong7: [
-			{value: '炉后部品破损', label: '炉后部品破损'}, {value: '引脚弯曲', label: '引脚弯曲'},
-			{value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
-		],
-		option_buliangneirong8: [
-			{value: '引脚不上锡', label: '引脚不上锡'},
-			{value: '基板不上锡', label: '基板不上锡'}, {value: 'chip部品不上锡', label: 'chip部品不上锡'},
-			{value: '部品不良', label: '部品不良'},
-		],
-		option_buliangneirong9: [
 			{value: '其他', label: '其他'},
 		],
 
@@ -1018,8 +994,23 @@ var vm_app = new Vue({
 						else if (v.name == 'jianchajileixing') {
 							_this.option_jianchajileixing = _this.json2select(v.value);
 						}
-						else if (v.name == 'buliangneirong') {
-							_this.option_buliangneirong = _this.json2select(v.value);
+						else if (v.name == 'buliangneirong1') {
+							_this.option_buliangneirong1 = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong2') {
+							_this.option_buliangneirong2 = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong3') {
+							_this.option_buliangneirong3 = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong4') {
+							_this.option_buliangneirong4 = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong5') {
+							_this.option_buliangneirong5 = _this.json2select(v.value);
+						}
+						else if (v.name == 'buliangneirong6') {
+							_this.option_buliangneirong6 = _this.json2select(v.value);
 						}
 						else if (v.name == 'jianchazhe1') {
 							_this.option_jianchazhe1 = _this.json2select(v.value);

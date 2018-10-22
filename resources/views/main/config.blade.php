@@ -39,7 +39,7 @@ AOTA Management System Beta - Config
 					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
 					
 					
-					<i-input v-model.lazy="item.value" type="textarea" size="small" style="width: 120px"></i-input>
+					<i-input v-model.lazy="item.value" type="textarea" size="small" style="width: 160px"></i-input>
 		
 					&nbsp;&nbsp;&nbsp;&nbsp;
 
