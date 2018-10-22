@@ -20,7 +20,7 @@ AOTA Management System Beta - Config
 @endsection
 
 @section('my_project')
-<strong>AOTA Management System Beta - Portal</strong>
+<strong>AOTA Management System Beta - Config</strong>
 @endsection
 
 @section('my_body')
@@ -33,7 +33,7 @@ AOTA Management System Beta - Config
 
 			<Card>
 				<p slot="title">
-					SMT管理系统配置（Beta版）
+					SMT管理系统配置
 				</p>
 				<p v-for="item in CardListSmt">
 					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
@@ -71,7 +71,7 @@ AOTA Management System Beta - Config
 		
 			<Card>
 				<p slot="title">
-					部品加工管理系统（Beta版）
+					部品加工管理系统配置
 				</p>
 			</Card>
 		
@@ -234,28 +234,27 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.CardListSmt = response.data;
 					
-					_this.CardListSmt.map(function (v, i) {
-						
-						if (v.name == 'xianti') {
-							_this.option_xianti = _this.json2select(v.value);
-						}
-						else if (v.name == 'banci') {
-							_this.option_banci = _this.json2select(v.value);
-						}
-						else if (v.name == 'gongxu') {
-							_this.option_gongxu = _this.json2select(v.value);
-						}
-						else if (v.name == 'jianchajileixing') {
-							_this.option_jianchajileixing = _this.json2select(v.value);
-						}
-						else if (v.name == 'buliangneirong') {
-							_this.option_buliangneirong = _this.json2select(v.value);
-						}
-						else if (v.name == 'jianchazhe') {
-							_this.option_jianchazhe = _this.json2select(v.value);
-						}
-					
-					});
+					// 用于select形式显示
+					// _this.CardListSmt.map(function (v, i) {
+						// if (v.name == 'xianti') {
+							// _this.option_xianti = _this.json2select(v.value);
+						// }
+						// else if (v.name == 'banci') {
+							// _this.option_banci = _this.json2select(v.value);
+						// }
+						// else if (v.name == 'gongxu') {
+							// _this.option_gongxu = _this.json2select(v.value);
+						// }
+						// else if (v.name == 'jianchajileixing') {
+							// _this.option_jianchajileixing = _this.json2select(v.value);
+						// }
+						// else if (v.name == 'buliangneirong') {
+							// _this.option_buliangneirong = _this.json2select(v.value);
+						// }
+						// else if (v.name == 'jianchazhe') {
+							// _this.option_jianchazhe = _this.json2select(v.value);
+						// }
+					// });
 
 				}
 				
@@ -283,13 +282,13 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				if (response.data) {
-					_this.success(false, '成功', '记入成功！');
+					_this.success(false, '成功', '更新成功！');
 				} else {
-					_this.error(false, '失败', '记入失败！');
+					_this.error(false, '失败', '更新失败！');
 				}
 			})
 			.catch(function (error) {
-				_this.error(false, '错误', '记入失败！');
+				_this.error(false, '错误', '更新失败！');
 				// console.log(error);
 			})
 		},		

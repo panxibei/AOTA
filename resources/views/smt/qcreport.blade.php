@@ -1021,6 +1021,9 @@ var vm_app = new Vue({
 						else if (v.name == 'jianchazhe3') {
 							_this.option_jianchazhe3 = _this.json2select(v.value);
 						}
+						else if (v.name == 'pinming') {
+							_this.option_pinming = _this.json2select(v.value);
+						}
 					
 					});
 
