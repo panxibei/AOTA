@@ -61,6 +61,8 @@ class qcreportController extends Controller
 		$gongxu_filter = $request->input('gongxu_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
 		
+		$usecache = $request->input('usecache');
+		
 		//对查询参数按照键名排序
 		ksort($queryParams);
 
@@ -73,7 +75,7 @@ class qcreportController extends Controller
 		// dd($queryParams);
 		
 		//首先查寻cache如果找到
-		if (Cache::has($fullUrl)) {
+		if (Cache::has($fullUrl) && $usecache) {
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
@@ -100,7 +102,7 @@ class qcreportController extends Controller
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $dailyreport, 5);
+			Cache::put($fullUrl, $dailyreport, now()->addSeconds(30));
 		}
 		
 		return $dailyreport;
@@ -328,9 +330,9 @@ class qcreportController extends Controller
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
 
-		$qcreport = Smt_qcreport::select('id', 'created_at', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
-			'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe')
-			->whereBetween('created_at', [$queryfilter_datefrom, $queryfilter_dateto])
+		$qcreport = Smt_qcreport::select('id', 'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+			'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
+			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
 		// dd($qcreport);
 		
@@ -347,8 +349,8 @@ class qcreportController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', '日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
-			'不良内容', '位号', '数量', '检查机类型', '检查者'];
+		$title[] = ['id', '生产日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
+			'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $qcreport);

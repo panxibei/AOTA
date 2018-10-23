@@ -731,23 +731,27 @@ var vm_app = new Vue({
 				width: 120,
 				filters: [
 					{value: '连焊', label: '连焊'}, 
-					{value: '引脚焊锡量少/无', label: '引脚焊锡量少/无'},
-					{value: 'chip部品焊锡少/无', label: 'chip部品焊锡少/无'},
+					{value: '引脚焊锡量少', label: '引脚焊锡量少'},
+					{value: 'CHIP部品焊锡少', label: 'CHIP部品焊锡少'},
 					{value: '焊锡球', label: '焊锡球'},
-					{value: '部品浮起竖立', label: '部品浮起竖立'},
-					{value: 'chip部品横立', label: 'chip部品横立'},
+					{value: '1005部品浮起.竖立', label: '1005部品浮起.竖立'},
+					{value: 'CHIP部品横立', label: 'CHIP部品横立'},
+					{value: '部品浮起.竖立', label: '部品浮起.竖立'},
 					{value: '欠品', label: '欠品'},
 					{value: '焊锡未熔解', label: '焊锡未熔解'},
+					{value: '位置偏移', label: '位置偏移'},
+					{value: '部品打反', label: '部品打反'},
 					{value: '部品错误', label: '部品错误'},
-					{value: '部品多余', label: '部品多余'},
-					{value: '异物', label: '异物'},
+					{value: '多余部品', label: '多余部品'},
+					{value: '异物', label: '异物'}, 
 					{value: '极性错误', label: '极性错误'},
-					{value: '炉后部品破损', label: '炉后部品破损'}, 
+					{value: '炉后部品破损', label: '炉后部品破损'},
 					{value: '引脚弯曲', label: '引脚弯曲'},
 					{value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
 					{value: '引脚不上锡', label: '引脚不上锡'},
 					{value: '基板不上锡', label: '基板不上锡'},
-					{value: 'chip部品不上锡', label: 'chip部品不上锡'},
+					{value: 'CHIP部品不上锡', label: 'CHIP部品不上锡'},
+					{value: '基板不良', label: '基板不良'},
 					{value: '部品不良', label: '部品不良'},
 					{value: '其他', label: '其他'},
 				],
@@ -756,24 +760,30 @@ var vm_app = new Vue({
 					var result = '';
 					if (value === '连焊') {
 						result = row.buliangneirong === '连焊';
-					} else if (value === '引脚焊锡量少/无') {
-						result = row.buliangneirong === '引脚焊锡量少/无';
-					} else if (value === 'chip部品焊锡少/无') {
-						result = row.buliangneirong === 'chip部品焊锡少/无';
+					} else if (value === '引脚焊锡量少') {
+						result = row.buliangneirong === '引脚焊锡量少';
+					} else if (value === 'CHIP部品焊锡少') {
+						result = row.buliangneirong === 'CHIP部品焊锡少';
 					} else if (value === '焊锡球') {
 						result = row.buliangneirong === '焊锡球';
-					} else if (value === '部品浮起竖立') {
-						result = row.buliangneirong === '部品浮起竖立';
-					} else if (value === 'chip部品横立') {
-						result = row.buliangneirong === 'chip部品横立';
+					} else if (value === '1005部品浮起.竖立') {
+						result = row.buliangneirong === '1005部品浮起.竖立';
+					} else if (value === 'CHIP部品横立') {
+						result = row.buliangneirong === 'CHIP部品横立';
+					} else if (value === '部品浮起.竖立') {
+						result = row.buliangneirong === '部品浮起.竖立';
 					} else if (value === '欠品') {
 						result = row.buliangneirong === '欠品';
 					} else if (value === '焊锡未熔解') {
 						result = row.buliangneirong === '焊锡未熔解';
+					} else if (value === '位置偏移') {
+						result = row.buliangneirong === '位置偏移';
+					} else if (value === '部品打反') {
+						result = row.buliangneirong === '部品打反';
 					} else if (value === '部品错误') {
 						result = row.buliangneirong === '部品错误';
-					} else if (value === '部品多余') {
-						result = row.buliangneirong === '部品多余';
+					} else if (value === '多余部品') {
+						result = row.buliangneirong === '多余部品';
 					} else if (value === '异物') {
 						result = row.buliangneirong === '异物';
 					} else if (value === '极性错误') {
@@ -788,8 +798,10 @@ var vm_app = new Vue({
 						result = row.buliangneirong === '引脚不上锡';
 					} else if (value === '基板不上锡') {
 						result = row.buliangneirong === '基板不上锡';
-					} else if (value === 'chip部品不上锡') {
-						result = row.buliangneirong === 'chip部品不上锡';
+					} else if (value === 'CHIP部品不上锡') {
+						result = row.buliangneirong === 'CHIP部品不上锡';
+					} else if (value === '基板不良') {
+						result = row.buliangneirong === '基板不良';
 					} else if (value === '部品不良') {
 						result = row.buliangneirong === '部品不良';
 					} else if (value === '其他') {
@@ -919,7 +931,9 @@ var vm_app = new Vue({
 		pagelast: 1,
 		
 		file: null,
-		loadingStatus: false
+		loadingStatus: false,
+		
+		usecache: true,
 		
 		
 		
@@ -1073,6 +1087,8 @@ var vm_app = new Vue({
 			var pinming_filter = _this.pinming_filter;
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
+			
+			var usecache = _this.usecache;
 
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -1086,7 +1102,8 @@ var vm_app = new Vue({
 					jizhongming_filter: jizhongming_filter,
 					pinming_filter: pinming_filter,
 					gongxu_filter: gongxu_filter,
-					buliangneirong_filter: buliangneirong_filter
+					buliangneirong_filter: buliangneirong_filter,
+					usecache: usecache
 				}
 			})
 			.then(function (response) {
@@ -1096,6 +1113,7 @@ var vm_app = new Vue({
 					_this.pagelast = response.data.last_page
 					
 					_this.tabledata1 = response.data.data;
+					
 					// console.log(_this.tabledata1);
 					
 				} else {
@@ -1254,7 +1272,10 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '记入成功！');
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
+					_this.usecache = false;
 					_this.qcreportgets();
+					_this.usecache = true;
+					
 
 					// var t = [];
 					// for (var i in tableselect1) {
@@ -1287,8 +1308,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
+					_this.boo_delete = true;
 					_this.tableselect1 = [];
+					_this.usecache = false;
 					_this.qcreportgets();
+					_this.usecache = true;
 					
 					// var t = [];
 					// for (var i in tableselect1) {
@@ -1607,8 +1631,12 @@ var vm_app = new Vue({
 				}
 			}
 			
-			var jizhongming_filter = _this.jizhongming_filter;
+			
 			var xianti_filter = _this.xianti_filter;
+			var banci_filter = _this.banci_filter;
+			var jizhongming_filter = _this.jizhongming_filter;
+			var pinming_filter = _this.pinming_filter;
+			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
@@ -1796,10 +1824,13 @@ var vm_app = new Vue({
 				}
 			}
 			
-			var jizhongming_filter = _this.jizhongming_filter;
 			var xianti_filter = _this.xianti_filter;
+			var banci_filter = _this.banci_filter;
+			var jizhongming_filter = _this.jizhongming_filter;
+			var pinming_filter = _this.pinming_filter;
+			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
-
+			
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
