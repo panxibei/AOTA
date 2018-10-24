@@ -274,7 +274,7 @@ SMT - QC report
 	<br><br>
 	<i-row :gutter="16">
 		<i-col span="24">
-			<div id="chart2" style="height:400px"></div>
+			<div id="chart2" style="height:500px"></div>
 		</i-col>
 	</i-row>
 
@@ -908,20 +908,41 @@ var vm_app = new Vue({
 		],
 		
 		// chart2参数
-		chart2_option_title_text: 'LINE别不良占有率',
-		chart2_option_legend_data: ['SMT-1','SMT-2','SMT-3','SMT-4','SMT-5','SMT-6','SMT-7','SMT-8','SMT-9','SMT-10'],
+		chart2_option_title_text: '按不良内容统计不良占有率',
+		chart2_option_legend_data: [
+			'连焊','引脚焊锡量少','CHIP部品焊锡少','焊锡球',
+			'1005部品浮起.竖立','CHIP部品横立','部品浮起.竖立','欠品','焊锡未熔解','位置偏移','部品打反','部品错误','多余部品',
+			'异物',
+			'极性错误','炉后部品破损','引脚弯曲','基板/部品变形后引脚浮起',
+			'引脚不上锡','基板不上锡','CHIP部品不上锡','基板不良','部品不良',
+			'其他',
+		],
 		
 		chart2_option_series_data: [
-			{value:335, name:'SMT-1'},
-			{value:310, name:'SMT-2'},
-			{value:335, name:'SMT-3'},
-			{value:310, name:'SMT-4'},
-			{value:234, name:'SMT-5'},
-			{value:135, name:'SMT-6'},
-			{value:154, name:'SMT-7'},
-			{value:335, name:'SMT-8'},
-			{value:310, name:'SMT-9'},
-			{value:234, name:'SMT-10'}
+			{value:335, name:'连焊'},
+			{value:310, name:'引脚焊锡量少'},
+			{value:335, name:'CHIP部品焊锡少'},
+			{value:310, name:'焊锡球'},
+			{value:234, name:'1005部品浮起.竖立'},
+			{value:135, name:'CHIP部品横立'},
+			{value:154, name:'部品浮起.竖立'},
+			{value:335, name:'欠品'},
+			{value:310, name:'焊锡未熔解'},
+			{value:234, name:'位置偏移'},
+			{value:236, name:'部品打反'},
+			{value:274, name:'部品错误'},
+			{value:294, name:'多余部品'},
+			{value:334, name:'异物'},
+			{value:134, name:'极性错误'},
+			{value:214, name:'炉后部品破损'},
+			{value:24, name:'引脚弯曲'},
+			{value:68, name:'基板/部品变形后引脚浮起'},
+			{value:32, name:'引脚不上锡'},
+			{value:99, name:'基板不上锡'},
+			{value:165, name:'CHIP部品不上锡'},
+			{value:256, name:'基板不良'},
+			{value:290, name:'部品不良'},
+			{value:50, name:'其他'},
 		],
 		
 		//分页
@@ -1504,6 +1525,11 @@ var vm_app = new Vue({
 					var myChart = ec.init(document.getElementById('chart2')); 
 					
 					var option = {
+						title: {
+							text: vm_app.chart2_option_title_text,
+							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd'),
+							x:'center'
+						},
 						tooltip : {
 							trigger: 'item',
 							formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -1511,28 +1537,31 @@ var vm_app = new Vue({
 						legend: {
 							orient : 'vertical',
 							x : 'left',
-							data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
+							// data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
+							data: vm_app.chart2_option_legend_data
 						},
 						toolbox: {
 							show : true,
 							feature : {
 								mark : {show: true},
 								dataView : {show: true, readOnly: false},
-								magicType : {
-									show: true, 
-									type: ['pie', 'funnel']
-								},
+								// magicType : {
+									// show: true, 
+									// type: ['pie', 'funnel']
+								// },
 								restore : {show: true},
 								saveAsImage : {show: true}
 							}
 						},
-						calculable : false,
+						calculable : true,
 						series : [
 							{
 								name:'访问来源',
+								// name: vm_app.chart2_option_title_text,
 								type:'pie',
 								selectedMode: 'single',
 								radius : [0, 70],
+								center : ['50%', '70%'],
 								
 								// for funnel
 								x: '20%',
@@ -1557,26 +1586,44 @@ var vm_app = new Vue({
 								]
 							},
 							{
-								name:'访问来源',
+								// name:'访问来源',
+								name: vm_app.chart2_option_title_text,
 								type:'pie',
 								radius : [100, 140],
+								center : ['50%', '70%'],
+								selectedMode: 'multiple',
+								itemStyle: {
+									normal: {
+										label: {
+											// position : 'inner',
+											formatter: function (params) {
+												// console.log(params);
+												return params.name + ' : ' + params.value + ' (' + (params.percent - 0).toFixed(0) + '%)'
+											}
+										},
+										labelLine: {
+											show : true
+										}
+									},
+									emphasis: {
+										label: {
+											show: true,
+											formatter: "{b}\n{d}%"
+										}
+									}
+								},
 								
-								// for funnel
-								x: '60%',
-								width: '35%',
-								funnelAlign: 'left',
-								max: 1048,
-								
-								data:[
-									{value:335, name:'直达'},
-									{value:310, name:'邮件营销'},
-									{value:234, name:'联盟广告'},
-									{value:135, name:'视频广告'},
-									{value:1048, name:'百度'},
-									{value:251, name:'谷歌'},
-									{value:147, name:'必应'},
-									{value:102, name:'其他'}
-								]
+								data: vm_app.chart2_option_series_data,
+								// data:[
+									// {value:335, name:'直达'},
+									// {value:310, name:'邮件营销'},
+									// {value:234, name:'联盟广告'},
+									// {value:135, name:'视频广告'},
+									// {value:1048, name:'百度'},
+									// {value:251, name:'谷歌'},
+									// {value:147, name:'必应'},
+									// {value:102, name:'其他'}
+								// ]
 							}
 						]
 					};
@@ -1897,7 +1944,7 @@ var vm_app = new Vue({
 			
 			// var bushihejianshuheji = [];
 			var shuliang = [];
-			for (var i=0;i<10;i++) {
+			for (var i=0;i<24;i++) {
 				// bushihejianshuheji[i] = 0;
 				shuliang[i] = 0;
 			}
@@ -1943,37 +1990,81 @@ var vm_app = new Vue({
 					var chartdata2 = response.data.data;			
 			
 					chartdata2.map(function (v,j) {
-						switch(v.xianti)
+						switch(v.buliangneirong)
 						{
-							case 'SMT-1':
+							
+							
+							case '连焊':
 								i = 0;
 								break;
-							case 'SMT-2':
+							case '引脚焊锡量少':
 								i = 1;
 								break;
-							case 'SMT-3':
+							case 'CHIP部品焊锡少':
 								i = 2;
 								break;
-							case 'SMT-4':
+							case '焊锡球':
 								i = 3;
 								break;
-							case 'SMT-5':
+							case '1005部品浮起.竖立':
 								i = 4;
 								break;
-							case 'SMT-6':
+							case 'CHIP部品横立':
 								i = 5;
 								break;
-							case 'SMT-7':
+							case '部品浮起.竖立':
 								i = 6;
 								break;
-							case 'SMT-8':
+							case '欠品':
 								i = 7;
 								break;
-							case 'SMT-9':
+							case '焊锡未熔解':
 								i = 8;
 								break;
-							case 'SMT-10':
+							case '位置偏移':
 								i = 9;
+								break;
+							case '部品打反':
+								i = 10;
+								break;
+							case '部品错误':
+								i = 11;
+								break;
+							case '多余部品':
+								i = 12;
+								break;
+							case '异物':
+								i = 13;
+								break;
+							case '极性错误':
+								i = 14;
+								break;
+							case '炉后部品破损':
+								i = 15;
+								break;
+							case '引脚弯曲':
+								i = 16;
+								break;
+							case '基板/部品变形后引脚浮起':
+								i = 17;
+								break;
+							case '引脚不上锡':
+								i = 18;
+								break;
+							case '基板不上锡':
+								i = 19;
+								break;
+							case 'CHIP部品不上锡':
+								i = 20;
+								break;
+							case '基板不良':
+								i = 21;
+								break;
+							case '部品不良':
+								i = 22;
+								break;
+							case '其他':
+								i = 23;
 								break;
 							default:
 							  
@@ -1995,18 +2086,32 @@ var vm_app = new Vue({
 						// {value: bushihejianshuheji[7], name:'SMT-8'},
 						// {value: bushihejianshuheji[8], name:'SMT-9'},
 						// {value: bushihejianshuheji[9], name:'SMT-10'},
-						{value: shuliang[0], name:'SMT-1'},
-						{value: shuliang[1], name:'SMT-2'},
-						{value: shuliang[2], name:'SMT-3'},
-						{value: shuliang[3], name:'SMT-4'},
-						{value: shuliang[4], name:'SMT-5'},
-						{value: shuliang[5], name:'SMT-6'},
-						{value: shuliang[6], name:'SMT-7'},
-						{value: shuliang[7], name:'SMT-8'},
-						{value: shuliang[8], name:'SMT-9'},
-						{value: shuliang[9], name:'SMT-10'},
+						{value: shuliang[0], name:'连焊'},
+						{value: shuliang[1], name:'引脚焊锡量少'},
+						{value: shuliang[2], name:'CHIP部品焊锡少'},
+						{value: shuliang[3], name:'焊锡球'},
+						{value: shuliang[4], name:'1005部品浮起.竖立'},
+						{value: shuliang[5], name:'CHIP部品横立'},
+						{value: shuliang[6], name:'部品浮起.竖立'},
+						{value: shuliang[7], name:'欠品'},
+						{value: shuliang[8], name:'焊锡未熔解'},
+						{value: shuliang[9], name:'位置偏移'},
+						{value: shuliang[10], name:'部品打反'},
+						{value: shuliang[11], name:'部品错误'},
+						{value: shuliang[12], name:'多余部品'},
+						{value: shuliang[13], name:'异物'},
+						{value: shuliang[14], name:'极性错误'},
+						{value: shuliang[15], name:'炉后部品破损'},
+						{value: shuliang[16], name:'引脚弯曲'},
+						{value: shuliang[17], name:'基板/部品变形后引脚浮起'},
+						{value: shuliang[18], name:'引脚不上锡'},
+						{value: shuliang[19], name:'基板不上锡'},
+						{value: shuliang[20], name:'CHIP部品不上锡'},
+						{value: shuliang[21], name:'基板不良'},
+						{value: shuliang[22], name:'部品不良'},
+						{value: shuliang[23], name:'其他'},
 					];
-					
+					// console.log(data);
 					_this.chart2_option_series_data = data;
 					_this.chart2_function();
 			
