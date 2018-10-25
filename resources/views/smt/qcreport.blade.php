@@ -945,6 +945,18 @@ var vm_app = new Vue({
 			{value:50, name:'其他'},
 		],
 		
+		chart2_option_title_text_huizong: '按不良类别',
+		
+		chart2_option_series_data_huizong: [
+			{value:335, name:'印刷系'},
+			{value:679, name:'装着系'},
+			{value:679, name:'异物系'},
+			{value:679, name:'人系'},
+			{value:679, name:'部品系'},
+			{value:679, name:'其他系'},
+			// {value:1548, name:'搜索引擎', selected:true}
+		],
+		
 		//分页
 		pagecurrent: 1,
 		pagetotal: 1,
@@ -1556,18 +1568,12 @@ var vm_app = new Vue({
 						calculable : true,
 						series : [
 							{
-								name:'访问来源',
-								// name: vm_app.chart2_option_title_text,
+								// name:'访问来源',
+								name: vm_app.chart2_option_title_text_huizong,
 								type:'pie',
 								selectedMode: 'single',
 								radius : [0, 70],
 								center : ['50%', '70%'],
-								
-								// for funnel
-								x: '20%',
-								width: '40%',
-								funnelAlign: 'right',
-								max: 1548,
 								
 								itemStyle : {
 									normal : {
@@ -1579,11 +1585,12 @@ var vm_app = new Vue({
 										}
 									}
 								},
-								data:[
-									{value:335, name:'直达'},
-									{value:679, name:'营销广告'},
-									{value:1548, name:'搜索引擎', selected:true}
-								]
+								data: vm_app.chart2_option_series_data_huizong,
+								// data:[
+									// {value:335, name:'直达'},
+									// {value:679, name:'营销广告'},
+									// {value:1548, name:'搜索引擎', selected:true}
+								// ]
 							},
 							{
 								// name:'访问来源',
@@ -1628,103 +1635,6 @@ var vm_app = new Vue({
 						]
 					};
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					///////////////////////////////////
-					var option0 = {
-						title: {
-							text: vm_app.chart2_option_title_text,
-							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd'),
-							x:'center'
-						},
-						tooltip: {
-							trigger: 'item',
-							formatter: "{a} <br/>{b} : {c} ({d}%)"
-						},
-						legend: {
-							orient : 'vertical',
-							x: 'left',
-							data: vm_app.chart2_option_legend_data
-						},
-						toolbox: {
-							show: true,
-							feature: {
-								mark: {show: true},
-								dataView: {show: true, readOnly: false},
-								// magicType : {
-									// show: true, 
-									// type: ['pie', 'funnel'],
-									// option: {
-										// funnel: {
-										// x: '25%',
-										// width: '50%',
-										// funnelAlign: 'left',
-										// max: 1548
-										// }
-									// }
-								// },
-								restore: {show: true},
-								saveAsImage: {show: true}
-							}
-						},
-						calculable: true,
-						
-						// series : vm_app.chart2_option_series
-						series : [
-							{
-								name: vm_app.chart2_option_title_text,
-								type: 'pie',
-								radius: '55%',
-								center: ['50%', '60%'],
-								selectedMode: 'multiple',
-								itemStyle: {
-									normal: {
-										label: {
-											// position : 'inner',
-											formatter: function (params) {
-												// console.log(params);
-												return params.name + ' : ' + params.value + ' (' + (params.percent - 0).toFixed(0) + '%)'
-											}
-										},
-										labelLine: {
-											show : true
-										}
-									},
-									emphasis: {
-										label: {
-											show: true,
-											formatter: "{b}\n{d}%"
-										}
-									}
-								},
-								
-								data: vm_app.chart2_option_series_data,
-								// [
-									// {value:335, name:'SMT-1'},
-									// {value:310, name:'SMT-2'},
-									// {value:335, name:'SMT-3'},
-									// {value:310, name:'SMT-4'},
-									// {value:234, name:'SMT-5'},
-									// {value:135, name:'SMT-6'},
-									// {value:154, name:'SMT-7'},
-									// {value:335, name:'SMT-8'},
-									// {value:310, name:'SMT-9'},
-									// {value:234, name:'SMT-10'},
-								// ]
-							}
-						]						
-					};
-					/////////////////////////
 			
 					// 为echarts对象加载数据 
 					myChart.setOption(option, false); 
@@ -1942,11 +1852,14 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			// var bushihejianshuheji = [];
 			var shuliang = [];
 			for (var i=0;i<24;i++) {
-				// bushihejianshuheji[i] = 0;
 				shuliang[i] = 0;
+			}
+
+			var shuliang_huizong = [];
+			for (var i=0;i<6;i++) {
+				shuliang_huizong[i] = 0;
 			}
 			
 			// 图表按当前表格中最大记录数重新查询
@@ -1996,75 +1909,97 @@ var vm_app = new Vue({
 							
 							case '连焊':
 								i = 0;
+								j = 0;
 								break;
 							case '引脚焊锡量少':
 								i = 1;
+								j = 0;
 								break;
 							case 'CHIP部品焊锡少':
 								i = 2;
+								j = 0;
 								break;
 							case '焊锡球':
 								i = 3;
+								j = 0;
 								break;
 							case '1005部品浮起.竖立':
 								i = 4;
+								j = 1;
 								break;
 							case 'CHIP部品横立':
 								i = 5;
+								j = 1;
 								break;
 							case '部品浮起.竖立':
 								i = 6;
+								j = 1;
 								break;
 							case '欠品':
 								i = 7;
+								j = 1;
 								break;
 							case '焊锡未熔解':
 								i = 8;
+								j = 1;
 								break;
 							case '位置偏移':
 								i = 9;
+								j = 1;
 								break;
 							case '部品打反':
 								i = 10;
 								break;
 							case '部品错误':
 								i = 11;
+								j = 1;
 								break;
 							case '多余部品':
 								i = 12;
+								j = 1;
 								break;
 							case '异物':
 								i = 13;
+								j = 2;
 								break;
 							case '极性错误':
 								i = 14;
+								j = 3;
 								break;
 							case '炉后部品破损':
 								i = 15;
+								j = 3;
 								break;
 							case '引脚弯曲':
 								i = 16;
+								j = 3;
 								break;
 							case '基板/部品变形后引脚浮起':
 								i = 17;
+								j = 3;
 								break;
 							case '引脚不上锡':
 								i = 18;
+								j = 4;
 								break;
 							case '基板不上锡':
 								i = 19;
+								j = 4;
 								break;
 							case 'CHIP部品不上锡':
 								i = 20;
+								j = 4;
 								break;
 							case '基板不良':
 								i = 21;
 								break;
 							case '部品不良':
 								i = 22;
+								j = 4;
 								break;
 							case '其他':
 								i = 23;
+								j = 5;
 								break;
 							default:
 							  
@@ -2072,20 +2007,11 @@ var vm_app = new Vue({
 					
 						// bushihejianshuheji[i] += v.bushihejianshuheji;
 						shuliang[i] += v.shuliang;
+						shuliang_huizong[j] += v.shuliang;
 					});
 					
 					var data = 
 					[
-						// {value: bushihejianshuheji[0], name:'SMT-1'},
-						// {value: bushihejianshuheji[1], name:'SMT-2'},
-						// {value: bushihejianshuheji[2], name:'SMT-3'},
-						// {value: bushihejianshuheji[3], name:'SMT-4'},
-						// {value: bushihejianshuheji[4], name:'SMT-5'},
-						// {value: bushihejianshuheji[5], name:'SMT-6'},
-						// {value: bushihejianshuheji[6], name:'SMT-7'},
-						// {value: bushihejianshuheji[7], name:'SMT-8'},
-						// {value: bushihejianshuheji[8], name:'SMT-9'},
-						// {value: bushihejianshuheji[9], name:'SMT-10'},
 						{value: shuliang[0], name:'连焊'},
 						{value: shuliang[1], name:'引脚焊锡量少'},
 						{value: shuliang[2], name:'CHIP部品焊锡少'},
@@ -2111,8 +2037,20 @@ var vm_app = new Vue({
 						{value: shuliang[22], name:'部品不良'},
 						{value: shuliang[23], name:'其他'},
 					];
+
+					var data_huizong = 
+					[
+						{value: shuliang_huizong[0], name:'印刷系'},
+						{value: shuliang_huizong[1], name:'装着系'},
+						{value: shuliang_huizong[2], name:'异物系'},
+						{value: shuliang_huizong[3], name:'人系'},
+						{value: shuliang_huizong[4], name:'部品系'},
+						{value: shuliang_huizong[5], name:'其他系'},
+					];
+					
 					// console.log(data);
 					_this.chart2_option_series_data = data;
+					_this.chart2_option_series_data_huizong = data_huizong;
 					_this.chart2_function();
 			
 				}
