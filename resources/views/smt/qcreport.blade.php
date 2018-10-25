@@ -1571,17 +1571,26 @@ var vm_app = new Vue({
 								// name:'访问来源',
 								name: vm_app.chart2_option_title_text_huizong,
 								type:'pie',
-								selectedMode: 'single',
+								selectedMode: 'multiple',
 								radius : [0, 70],
-								center : ['50%', '70%'],
+								center : ['50%', '66%'],
 								
 								itemStyle : {
 									normal : {
 										label : {
-											position : 'inner'
+											position : 'inner',
+											formatter : function (params) {                         
+												return (params.percent - 0).toFixed(0) + '%'
+											}
 										},
 										labelLine : {
 											show : false
+										}
+									},
+									emphasis: {
+										label: {
+											show: true,
+											formatter: "{b}\n{d}%"
 										}
 									}
 								},
@@ -1597,7 +1606,7 @@ var vm_app = new Vue({
 								name: vm_app.chart2_option_title_text,
 								type:'pie',
 								radius : [100, 140],
-								center : ['50%', '70%'],
+								center : ['50%', '66%'],
 								selectedMode: 'multiple',
 								itemStyle: {
 									normal: {
