@@ -1892,6 +1892,32 @@ var vm_app = new Vue({
 								data:[60, 72, 71, 74, 190, 130, 110]
 							},
 							{
+								name:'汇总',
+								type:'line',
+								stack: '不良汇总',
+								
+								
+								itemStyle: {
+									normal: {
+										label: {
+											show: true,
+											position: 'top',
+											textStyle: {
+												fontSize: '20',
+												fontFamily: '微软雅黑',
+												fontWeight: 'bold'
+											}
+										},
+										lineStyle : {
+											type: 'dashed'
+										}
+									}
+								},
+								
+								
+								data:[60, 72, 71, 74, 190, 130, 110]
+							},
+							{
 								name: 'PPM',
 								type: 'line',
 								yAxisIndex: 1,
