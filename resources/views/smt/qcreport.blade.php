@@ -1902,20 +1902,31 @@ var vm_app = new Vue({
 										label: {
 											show: true,
 											position: 'top',
+											formatter: function (params) {
+												var d = 0;
+												for (var i = 0, l = option.xAxis[0].data.length; i < l; i++) {
+													if (option.xAxis[0].data[i] == params.name) {
+														// return option.series[0].data[i] + params.value;
+														d += option.series[0].data[i];
+													}
+												}
+												return d;
+											},
 											textStyle: {
-												fontSize: '20',
+												fontSize: '18',
 												fontFamily: '微软雅黑',
-												fontWeight: 'bold'
+												// fontWeight: 'bold'
 											}
 										},
 										lineStyle : {
-											type: 'dashed'
+											type: 'dashed',
+											width: 1
 										}
 									}
 								},
 								
 								
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data:[5060, 6672, 6671, 6674, 10190, 10130, 10110]
 							},
 							{
 								name: 'PPM',
