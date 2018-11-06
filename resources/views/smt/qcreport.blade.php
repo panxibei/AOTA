@@ -979,7 +979,26 @@ var vm_app = new Vue({
 			'引脚不上锡','基板不上锡','CHIP部品不上锡','基板不良','部品不良',
 			'其他',
 		],
-		chart3_option_series_data: [],
+		// 以下按不良内容设定数组，下标24
+		chart3_option_series_data: [
+			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0]
+		],
+
+		// chart3_option_series_data_2: [], chart3_option_series_data_3: [],
+		// chart3_option_series_data_4: [], chart3_option_series_data_5: [], chart3_option_series_data_6: [],
+		// chart3_option_series_data_7: [], chart3_option_series_data_8: [], chart3_option_series_data_9: [],
+		// chart3_option_series_data_10: [], chart3_option_series_data_11: [], chart3_option_series_data_12: [],
+		// chart3_option_series_data_13: [], chart3_option_series_data_14: [], chart3_option_series_data_15: [],
+		// chart3_option_series_data_16: [], chart3_option_series_data_17: [], chart3_option_series_data_18: [],
+		// chart3_option_series_data_19: [], chart3_option_series_data_20: [], chart3_option_series_data_21: [],
+		// chart3_option_series_data_22: [], chart3_option_series_data_23: [], chart3_option_series_data_24: [],
+		chart3_option_series_data_huizong: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+		chart3_option_series_data_ppm: [],
 		
 		
 		//分页
@@ -1751,167 +1770,167 @@ var vm_app = new Vue({
 								type:'bar',
 								// barWidth : 20,
 								stack: '不良汇总',
-								data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620, 732]
+								// data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620, 732]
+								data: vm_app.chart3_option_series_data[0]
 							},
 							{
 								name:'引脚焊锡量少',
 								type:'bar',
 								stack: '不良汇总',
-								data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 101, 134]
+								// data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 801, 134, 222]
+								data: vm_app.chart3_option_series_data[1]
 							},
 							{
 								name:'CHIP部品焊锡少',
 								type:'bar',
 								stack: '不良汇总',
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data: vm_app.chart3_option_series_data[2]
 							},
 							{
 								name:'焊锡球',
 								type:'bar',
 								stack: '不良汇总',
-								data:[62, 82, 91, 84, 109, 110, 120]
+								data: vm_app.chart3_option_series_data[3]
 							},
 							{
 								name:'1005部品浮起.竖立',
 								type:'bar',
 								stack: '不良汇总',
-								data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620]
+								data: vm_app.chart3_option_series_data[4]
 							},
 							{
 								name:'CHIP部品横立',
 								type:'bar',
 								stack: '不良汇总',
-								data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 101, 134]
+								data: vm_app.chart3_option_series_data[5]
 							},
 							{
 								name:'部品浮起.竖立',
 								type:'bar',
 								stack: '不良汇总',
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data: vm_app.chart3_option_series_data[6]
 							},
 							{
 								name:'欠品',
 								type:'bar',
 								stack: '不良汇总',
-								data:[62, 82, 91, 84, 109, 110, 120]
+								data: vm_app.chart3_option_series_data[7]
 							},
 							{
 								name:'焊锡未熔解',
 								type:'bar',
 								stack: '不良汇总',
-								data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620]
+								data: vm_app.chart3_option_series_data[8]
 							},
 							{
 								name:'位置偏移',
 								type:'bar',
 								stack: '不良汇总',
-								data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 101, 134]
+								data: vm_app.chart3_option_series_data[9]
 							},
 							{
 								name:'部品打反',
 								type:'bar',
 								stack: '不良汇总',
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data: vm_app.chart3_option_series_data[10]
 							},
 							{
 								name:'部品错误',
 								type:'bar',
 								stack: '不良汇总',
-								data:[62, 82, 91, 84, 109, 110, 120]
+								data: vm_app.chart3_option_series_data[11]
 							},
 							{
 								name:'多余部品',
 								type:'bar',
 								stack: '不良汇总',
-								data:[62, 82, 91, 84, 109, 110, 120]
+								data: vm_app.chart3_option_series_data[12]
 							},
 							{
 								name:'异物',
 								type:'bar',
 								stack: '不良汇总',
-								data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620]
+								data: vm_app.chart3_option_series_data[13]
 							},
 							{
 								name:'极性错误',
 								type:'bar',
 								stack: '不良汇总',
-								data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 101, 134]
+								data: vm_app.chart3_option_series_data[14]
 							},
 							{
 								name:'炉后部品破损',
 								type:'bar',
 								stack: '不良汇总',
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data: vm_app.chart3_option_series_data[15]
 							},
 							{
 								name:'引脚弯曲',
 								type:'bar',
 								stack: '不良汇总',
-								data:[62, 82, 91, 84, 109, 110, 120]
+								data: vm_app.chart3_option_series_data[16]
 							},
 							{
 								name:'基板/部品变形后引脚浮起',
 								type:'bar',
 								stack: '不良汇总',
-								data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620]
+								data: vm_app.chart3_option_series_data[17]
 							},
 							{
 								name:'引脚不上锡',
 								type:'bar',
 								stack: '不良汇总',
-								data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 101, 134]
+								data: vm_app.chart3_option_series_data[18]
 							},
 							{
 								name:'基板不上锡',
 								type:'bar',
 								stack: '不良汇总',
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data: vm_app.chart3_option_series_data[19]
 							},
 							{
 								name:'CHIP部品不上锡',
 								type:'bar',
 								stack: '不良汇总',
-								data:[62, 82, 91, 84, 109, 110, 120]
+								data: vm_app.chart3_option_series_data[20]
 							},
 							{
 								name:'基板不良',
 								type:'bar',
 								stack: '不良汇总',
-								data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620]
+								data: vm_app.chart3_option_series_data[21]
 							},
 							{
 								name:'部品不良',
 								type:'bar',
 								stack: '不良汇总',
-								data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 101, 134]
+								data: vm_app.chart3_option_series_data[22]
 							},
 							{
 								name:'其他',
 								type:'bar',
 								stack: '不良汇总',
-								data:[60, 72, 71, 74, 190, 130, 110]
+								data: vm_app.chart3_option_series_data[23]
 							},
 							{
 								name:'汇总',
 								type:'line',
 								stack: '不良汇总',
-								
-								
 								itemStyle: {
 									normal: {
 										label: {
 											show: true,
 											position: 'top',
-											formatter: function (params) {
-												var d = 0;
-												for (var i = 0, l = option.xAxis[0].data.length; i < l; i++) {
-													if (option.xAxis[0].data[i] == params.name) {
+											// formatter: function (params) {
+												// var d = 0;
+												// for (var i = 0, l = option.xAxis[0].data.length; i < l; i++) {
+													// if (option.xAxis[0].data[i] == params.name) {
 														// return option.series[0].data[i] + params.value;
-														d += option.series[0].data[i];
-													}
-												}
-												return d;
-											},
+														// d += option.series[0].data[i];
+													// }
+												// }
+												// return d;
+											// },
 											textStyle: {
 												fontSize: '18',
 												fontFamily: '微软雅黑',
@@ -1924,9 +1943,8 @@ var vm_app = new Vue({
 										}
 									}
 								},
-								
-								
-								data:[5060, 6672, 6671, 6674, 10190, 10130, 10110]
+								// data:[5060, 6672, 6671, 6674, 10190, 10130, 10110]
+								data: vm_app.chart3_option_series_data_huizong
 							},
 							{
 								name: 'PPM',
@@ -1945,7 +1963,8 @@ var vm_app = new Vue({
 										}
 									}
 								},
-								data: [10.5, 7.2, 7.1, 7.4, 5.9, 13.0, 11.0, 3.8, 7.7, 8.1, 19.0, 11.9, 4.9]
+								// data: [10.5, 7.2, 7.1, 7.4, 5.9, 13.0, 11.0, 3.8, 7.7, 8.1, 19.0, 11.9, 4.9]
+								data: vm_app.chart3_option_series_data_ppm
 							}
 						]
 					};
@@ -2219,8 +2238,6 @@ var vm_app = new Vue({
 					chartdata2.map(function (v,j) {
 						switch(v.buliangneirong)
 						{
-							
-							
 							case '连焊':
 								i = 0;
 								j = 0;
@@ -2263,6 +2280,7 @@ var vm_app = new Vue({
 								break;
 							case '部品打反':
 								i = 10;
+								j = 1;
 								break;
 							case '部品错误':
 								i = 11;
@@ -2306,6 +2324,7 @@ var vm_app = new Vue({
 								break;
 							case '基板不良':
 								i = 21;
+								j = 4;
 								break;
 							case '部品不良':
 								i = 22;
@@ -2379,8 +2398,8 @@ var vm_app = new Vue({
 		
 		
 		onchart3: function () {
-			this.chart3_function();
-			return false;
+			// this.chart3_function();
+			// return false;
 			var _this = this;
 			
 			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter[1] == '') {
@@ -2435,158 +2454,206 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				// console.log(response.data.data);
+				// return false;
+				
+				
 				if (response.data) {
-					var chartdata2 = response.data.data;			
+					var chartdata3 = response.data.data;			
 			
-					chartdata2.map(function (v,j) {
+					_this.chart3_option_series_data = [
+						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0]
+					];
+
+					_this.chart3_option_series_data_huizong = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+					_this.chart3_option_series_data_ppm = [];
+			
+					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
 						{
-							
-							
 							case '连焊':
 								i = 0;
-								j = 0;
 								break;
 							case '引脚焊锡量少':
 								i = 1;
-								j = 0;
 								break;
 							case 'CHIP部品焊锡少':
 								i = 2;
-								j = 0;
 								break;
 							case '焊锡球':
 								i = 3;
-								j = 0;
 								break;
 							case '1005部品浮起.竖立':
 								i = 4;
-								j = 1;
 								break;
 							case 'CHIP部品横立':
 								i = 5;
-								j = 1;
 								break;
 							case '部品浮起.竖立':
 								i = 6;
-								j = 1;
 								break;
 							case '欠品':
 								i = 7;
-								j = 1;
 								break;
 							case '焊锡未熔解':
 								i = 8;
-								j = 1;
 								break;
 							case '位置偏移':
 								i = 9;
-								j = 1;
 								break;
 							case '部品打反':
 								i = 10;
 								break;
 							case '部品错误':
 								i = 11;
-								j = 1;
 								break;
 							case '多余部品':
 								i = 12;
-								j = 1;
 								break;
 							case '异物':
 								i = 13;
-								j = 2;
 								break;
 							case '极性错误':
 								i = 14;
-								j = 3;
 								break;
 							case '炉后部品破损':
 								i = 15;
-								j = 3;
 								break;
 							case '引脚弯曲':
 								i = 16;
-								j = 3;
 								break;
 							case '基板/部品变形后引脚浮起':
 								i = 17;
-								j = 3;
 								break;
 							case '引脚不上锡':
 								i = 18;
-								j = 4;
 								break;
 							case '基板不上锡':
 								i = 19;
-								j = 4;
 								break;
 							case 'CHIP部品不上锡':
 								i = 20;
-								j = 4;
 								break;
 							case '基板不良':
 								i = 21;
 								break;
 							case '部品不良':
 								i = 22;
-								j = 4;
 								break;
 							case '其他':
 								i = 23;
-								j = 5;
 								break;
 							default:
+								i = 24;	
 							  
 						}
 					
 						// bushihejianshuheji[i] += v.bushihejianshuheji;
-						shuliang[i] += v.shuliang;
-						shuliang_huizong[j] += v.shuliang;
+						// shuliang[i] += v.shuliang;
+						// shuliang_huizong[j] += v.shuliang;
+						
+						// 按不良内容汇总数量，共24种
+						if (i > 0 && i < 24) {
+							var riqi = v.shengchanriqi.split('-');
+							
+							switch(riqi[1]) //月份
+							{
+								case '01':
+									j = 10;
+									break;
+								case '02':
+									j = 11;
+									break;
+								case '03':
+									j = 12;
+									break;
+								case '04':
+									j = 1;
+									break; // 注意0下标
+								case '05':
+									j = 2;
+									break;
+								case '06':
+									j = 3;
+									break;
+								case '07':
+									j = 4;
+									break;
+								case '08':
+									j = 5;
+									break;
+								case '09':
+									j = 6;
+									break;
+								case '10':
+									j = 7;
+									break;
+								case '11':
+									j = 8;
+									break;
+								case '12':
+									j = 9;
+									break;
+								default:
+								  
+							}
+							
+							// i为不良内容分类，j为月份
+							_this.chart3_option_series_data[i][j] += v.shuliang;
+							
+							_this.chart3_option_series_data_huizong[j] += v.shuliang;
+						}
 					});
 					
-					var data = 
-					[
-						{value: shuliang[0], name:'连焊'},
-						{value: shuliang[1], name:'引脚焊锡量少'},
-						{value: shuliang[2], name:'CHIP部品焊锡少'},
-						{value: shuliang[3], name:'焊锡球'},
-						{value: shuliang[4], name:'1005部品浮起.竖立'},
-						{value: shuliang[5], name:'CHIP部品横立'},
-						{value: shuliang[6], name:'部品浮起.竖立'},
-						{value: shuliang[7], name:'欠品'},
-						{value: shuliang[8], name:'焊锡未熔解'},
-						{value: shuliang[9], name:'位置偏移'},
-						{value: shuliang[10], name:'部品打反'},
-						{value: shuliang[11], name:'部品错误'},
-						{value: shuliang[12], name:'多余部品'},
-						{value: shuliang[13], name:'异物'},
-						{value: shuliang[14], name:'极性错误'},
-						{value: shuliang[15], name:'炉后部品破损'},
-						{value: shuliang[16], name:'引脚弯曲'},
-						{value: shuliang[17], name:'基板/部品变形后引脚浮起'},
-						{value: shuliang[18], name:'引脚不上锡'},
-						{value: shuliang[19], name:'基板不上锡'},
-						{value: shuliang[20], name:'CHIP部品不上锡'},
-						{value: shuliang[21], name:'基板不良'},
-						{value: shuliang[22], name:'部品不良'},
-						{value: shuliang[23], name:'其他'},
-					];
+					console.log(_this.chart3_option_series_data_huizong);
+					// return false;
+					
+					// var data = 
+					// [
+						// {value: shuliang[0], name:'连焊'},
+						// {value: shuliang[1], name:'引脚焊锡量少'},
+						// {value: shuliang[2], name:'CHIP部品焊锡少'},
+						// {value: shuliang[3], name:'焊锡球'},
+						// {value: shuliang[4], name:'1005部品浮起.竖立'},
+						// {value: shuliang[5], name:'CHIP部品横立'},
+						// {value: shuliang[6], name:'部品浮起.竖立'},
+						// {value: shuliang[7], name:'欠品'},
+						// {value: shuliang[8], name:'焊锡未熔解'},
+						// {value: shuliang[9], name:'位置偏移'},
+						// {value: shuliang[10], name:'部品打反'},
+						// {value: shuliang[11], name:'部品错误'},
+						// {value: shuliang[12], name:'多余部品'},
+						// {value: shuliang[13], name:'异物'},
+						// {value: shuliang[14], name:'极性错误'},
+						// {value: shuliang[15], name:'炉后部品破损'},
+						// {value: shuliang[16], name:'引脚弯曲'},
+						// {value: shuliang[17], name:'基板/部品变形后引脚浮起'},
+						// {value: shuliang[18], name:'引脚不上锡'},
+						// {value: shuliang[19], name:'基板不上锡'},
+						// {value: shuliang[20], name:'CHIP部品不上锡'},
+						// {value: shuliang[21], name:'基板不良'},
+						// {value: shuliang[22], name:'部品不良'},
+						// {value: shuliang[23], name:'其他'},
+					// ];
 
-					var data_huizong = 
-					[
-						{value: shuliang_huizong[0], name:'印刷系'},
-						{value: shuliang_huizong[1], name:'装着系'},
-						{value: shuliang_huizong[2], name:'异物系'},
-						{value: shuliang_huizong[3], name:'人系'},
-						{value: shuliang_huizong[4], name:'部品系'},
-						{value: shuliang_huizong[5], name:'其他系'},
-					];
+					// var data_huizong = 
+					// [
+						// {value: shuliang_huizong[0], name:'印刷系'},
+						// {value: shuliang_huizong[1], name:'装着系'},
+						// {value: shuliang_huizong[2], name:'异物系'},
+						// {value: shuliang_huizong[3], name:'人系'},
+						// {value: shuliang_huizong[4], name:'部品系'},
+						// {value: shuliang_huizong[5], name:'其他系'},
+					// ];
 					
 					// console.log(data);
-					_this.chart3_option_series_data = data;
-					_this.chart3_option_series_data_huizong = data_huizong;
+					// _this.chart3_option_series_data = data;
+					// _this.chart3_option_series_data_huizong = data_huizong;
 					_this.chart3_function();
 			
 				}
