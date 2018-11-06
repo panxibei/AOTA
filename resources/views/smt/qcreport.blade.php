@@ -2552,9 +2552,6 @@ var vm_app = new Vue({
 							  
 						}
 					
-						// bushihejianshuheji[i] += v.bushihejianshuheji;
-						// shuliang[i] += v.shuliang;
-						// shuliang_huizong[j] += v.shuliang;
 						
 						// 按不良内容汇总数量，共24种
 						if (i > 0 && i < 24) {
