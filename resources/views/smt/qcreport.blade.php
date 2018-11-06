@@ -989,15 +989,8 @@ var vm_app = new Vue({
 			[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0]
 		],
 
-		// chart3_option_series_data_2: [], chart3_option_series_data_3: [],
-		// chart3_option_series_data_4: [], chart3_option_series_data_5: [], chart3_option_series_data_6: [],
-		// chart3_option_series_data_7: [], chart3_option_series_data_8: [], chart3_option_series_data_9: [],
-		// chart3_option_series_data_10: [], chart3_option_series_data_11: [], chart3_option_series_data_12: [],
-		// chart3_option_series_data_13: [], chart3_option_series_data_14: [], chart3_option_series_data_15: [],
-		// chart3_option_series_data_16: [], chart3_option_series_data_17: [], chart3_option_series_data_18: [],
-		// chart3_option_series_data_19: [], chart3_option_series_data_20: [], chart3_option_series_data_21: [],
-		// chart3_option_series_data_22: [], chart3_option_series_data_23: [], chart3_option_series_data_24: [],
 		chart3_option_series_data_huizong: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+		chart3_option_series_data_hejidianshu: [0,0,0,0,0,0,0,0,0,0,0,0,0],
 		chart3_option_series_data_ppm: [],
 		
 		
@@ -1727,6 +1720,10 @@ var vm_app = new Vue({
 							// data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
 							data: vm_app.chart3_option_legend_data
 						},
+						grid: {
+							// y: '80%',
+							// width: '80%'
+						},
 						toolbox: {
 							show : true,
 							orient: 'vertical',
@@ -1735,7 +1732,7 @@ var vm_app = new Vue({
 							feature : {
 								mark : {show: true},
 								dataView : {show: true, readOnly: false},
-								magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+								// magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
 								restore : {show: true},
 								saveAsImage : {show: true}
 							}
@@ -1768,7 +1765,7 @@ var vm_app = new Vue({
 							{
 								name:'连焊',
 								type:'bar',
-								// barWidth : 20,
+								barWidth : 20,
 								stack: '不良汇总',
 								// data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620, 732]
 								data: vm_app.chart3_option_series_data[0]
@@ -2471,7 +2468,9 @@ var vm_app = new Vue({
 					];
 
 					_this.chart3_option_series_data_huizong = [0,0,0,0,0,0,0,0,0,0,0,0,0];
-					_this.chart3_option_series_data_ppm = [];
+					_this.chart3_option_series_data_hejidianshu = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+					
+					_this.chart3_option_series_data_ppm = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 			
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
@@ -2606,11 +2605,26 @@ var vm_app = new Vue({
 							// i为不良内容分类，j为月份
 							_this.chart3_option_series_data[i][j] += v.shuliang;
 							
+							// 每月份的汇总
 							_this.chart3_option_series_data_huizong[j] += v.shuliang;
+							_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
+							
+
+						}
+						
+					});
+					
+					// ppm计算
+					_this.chart3_option_series_data_huizong.map(function (v,i) {
+						if (_this.chart3_option_series_data_hejidianshu[i] == 0) {
+							_this.chart3_option_series_data_ppm[i] = 0;
+						} else {
+							_this.chart3_option_series_data_ppm[i] = (_this.chart3_option_series_data_huizong[i] / _this.chart3_option_series_data_hejidianshu[i] * 1000000).toFixed(2);
 						}
 					});
 					
-					console.log(_this.chart3_option_series_data_huizong);
+					
+					console.log(_this.chart3_option_series_data_ppm);
 					// return false;
 					
 					// var data = 
