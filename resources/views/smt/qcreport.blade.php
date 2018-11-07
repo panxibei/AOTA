@@ -1718,17 +1718,20 @@ var vm_app = new Vue({
 						},
 						legend: {
 							// data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
-							data: vm_app.chart3_option_legend_data
+							data: vm_app.chart3_option_legend_data,
+							x: 'left',
+							// padding: [5,20,50,5]
 						},
 						grid: {
-							// y: '80%',
-							// width: '80%'
+							y: 80,
 						},
 						toolbox: {
 							show: true,
-							orient: 'vertical',
+							// orient: 'vertical',
+							orient: 'horizontal',
 							x: 'right',
-							y: 'center',
+							y: 'top',
+							padding: [30, 5, 5, 5],
 							feature: {
 								mark: {show: true},
 								dataView: {show: true, readOnly: false},
