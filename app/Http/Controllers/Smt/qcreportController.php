@@ -73,6 +73,7 @@ class qcreportController extends Controller
 		
 		// dd($fullUrl);
 		// dd($queryParams);
+		// dd($qcdate_filter);
 		
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl) && $usecache) {

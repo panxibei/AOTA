@@ -927,8 +927,6 @@ var vm_app = new Vue({
 			'引脚不上锡','基板不上锡','CHIP部品不上锡','基板不良','部品不良',
 			'其他',
 		],
-		chart3_option_xAxis_data: ['FY17平均','4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月','3月',],
-
 		
 		chart2_option_series_data: [
 			{value:335, name:'连焊'},
@@ -970,6 +968,8 @@ var vm_app = new Vue({
 		],
 		
 		// chart3
+		chart3_option_xAxis_data: ['FY17平均','4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月','3月',],
+		
 		chart3_option_title_text: '按不良内容统计不良占有率',
 		chart3_option_legend_data: [
 			'连焊','引脚焊锡量少','CHIP部品焊锡少','焊锡球',
@@ -2022,7 +2022,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagetotal,
+					// perPage: _this.pagetotal,
 					page: 1,
 					qcdate_filter: qcdate_filter,
 					xianti_filter: xianti_filter,
@@ -2217,7 +2217,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagetotal,
+					// perPage: _this.pagetotal,
 					page: 1,
 					qcdate_filter: qcdate_filter,
 					xianti_filter: xianti_filter,
@@ -2395,14 +2395,7 @@ var vm_app = new Vue({
 		
 		
 		onchart3: function () {
-			// this.chart3_function();
-			// return false;
 			var _this = this;
-			
-			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter[1] == '') {
-				_this.warning(false, '警告', '请先选择查询条件！');
-				return false;
-			}
 			
 			var shuliang = [];
 			for (var i=0;i<24;i++) {
@@ -2416,17 +2409,19 @@ var vm_app = new Vue({
 			
 			// 图表按当前表格中最大记录数重新查询
 			
-			var qcdate_filter = [];
-
-			for (var i in _this.qcdate_filter) {
-				if (typeof(_this.qcdate_filter[i])!='string') {
-					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter[i] == '') {
-					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					qcdate_filter.push(_this.qcdate_filter[i]);
-				}
-			}
+			// 2018-12-31
+			var current_year = new Date();
+			var current_date = current_year.getFullYear() + '-12-31';
+			
+			// 2017-01-01
+			var last_year = current_year.getFullYear() - 1;
+			var last_date = last_year + '-01-01';
+			
+			// 查询去年到今年的日期范围
+			var qcdate_filter = [last_date, current_date];
+			
+			// 修正表X轴文字
+			_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '平均';
 			
 			var xianti_filter = _this.xianti_filter;
 			var banci_filter = _this.banci_filter;
@@ -2439,7 +2434,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagetotal,
+					// perPage: _this.pagetotal,
 					page: 1,
 					qcdate_filter: qcdate_filter,
 					xianti_filter: xianti_filter,
@@ -2472,6 +2467,20 @@ var vm_app = new Vue({
 					
 					_this.chart3_option_series_data_ppm = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 			
+			
+					// 去年范围
+					var dd = new Date();
+					var current_year = dd.getFullYear();
+					var last_year = dd.getFullYear() - 1;
+
+					var last_date_range = [new Date(last_year + '-01-01'), new Date(last_year + '-12-31')];
+					var current_date_range = [new Date(current_year + '-01-01'), new Date(current_year + '-12-31')];
+
+					console.log(last_date_range);
+					console.log(current_date_range);
+					// return false;
+					
+					
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
 						{
@@ -2555,50 +2564,56 @@ var vm_app = new Vue({
 						
 						// 按不良内容汇总数量，共24种
 						if (i > 0 && i < 24) {
-							var riqi = v.shengchanriqi.split('-');
-							
-							switch(riqi[1]) //月份
-							{
-								case '01':
-									j = 10;
-									break;
-								case '02':
-									j = 11;
-									break;
-								case '03':
-									j = 12;
-									break;
-								case '04':
-									j = 1;
-									break; // 注意0下标
-								case '05':
-									j = 2;
-									break;
-								case '06':
-									j = 3;
-									break;
-								case '07':
-									j = 4;
-									break;
-								case '08':
-									j = 5;
-									break;
-								case '09':
-									j = 6;
-									break;
-								case '10':
-									j = 7;
-									break;
-								case '11':
-									j = 8;
-									break;
-								case '12':
-									j = 9;
-									break;
-								default:
-								  
+							var riqi = new Date(v.shengchanriqi);
+							// var riqi = v.shengchanriqi.split('-');
+
+							if (riqi >= last_date_range[0] && riqi <= last_date_range[1]) {
+								j = 0;
+							} else if (riqi >= current_date_range[0] && riqi <= current_date_range[1]) {
+								// console.log(riqi.Format('MM'));
+								switch(riqi.Format('MM')) //月份
+								{
+									case '01':
+										j = 10;
+										break;
+									case '02':
+										j = 11;
+										break;
+									case '03':
+										j = 12;
+										break;
+									case '04':
+										j = 1;
+										break; // 注意0下标
+									case '05':
+										j = 2;
+										break;
+									case '06':
+										j = 3;
+										break;
+									case '07':
+										j = 4;
+										break;
+									case '08':
+										j = 5;
+										break;
+									case '09':
+										j = 6;
+										break;
+									case '10':
+										j = 7;
+										break;
+									case '11':
+										j = 8;
+										break;
+									case '12':
+										j = 9;
+										break;
+									default:
+									  
+								}
 							}
-							
+								
 							// i为不良内容分类，j为月份
 							_this.chart3_option_series_data[i][j] += v.shuliang;
 							
@@ -2621,50 +2636,6 @@ var vm_app = new Vue({
 					});
 					
 					
-					console.log(_this.chart3_option_series_data_ppm);
-					// return false;
-					
-					// var data = 
-					// [
-						// {value: shuliang[0], name:'连焊'},
-						// {value: shuliang[1], name:'引脚焊锡量少'},
-						// {value: shuliang[2], name:'CHIP部品焊锡少'},
-						// {value: shuliang[3], name:'焊锡球'},
-						// {value: shuliang[4], name:'1005部品浮起.竖立'},
-						// {value: shuliang[5], name:'CHIP部品横立'},
-						// {value: shuliang[6], name:'部品浮起.竖立'},
-						// {value: shuliang[7], name:'欠品'},
-						// {value: shuliang[8], name:'焊锡未熔解'},
-						// {value: shuliang[9], name:'位置偏移'},
-						// {value: shuliang[10], name:'部品打反'},
-						// {value: shuliang[11], name:'部品错误'},
-						// {value: shuliang[12], name:'多余部品'},
-						// {value: shuliang[13], name:'异物'},
-						// {value: shuliang[14], name:'极性错误'},
-						// {value: shuliang[15], name:'炉后部品破损'},
-						// {value: shuliang[16], name:'引脚弯曲'},
-						// {value: shuliang[17], name:'基板/部品变形后引脚浮起'},
-						// {value: shuliang[18], name:'引脚不上锡'},
-						// {value: shuliang[19], name:'基板不上锡'},
-						// {value: shuliang[20], name:'CHIP部品不上锡'},
-						// {value: shuliang[21], name:'基板不良'},
-						// {value: shuliang[22], name:'部品不良'},
-						// {value: shuliang[23], name:'其他'},
-					// ];
-
-					// var data_huizong = 
-					// [
-						// {value: shuliang_huizong[0], name:'印刷系'},
-						// {value: shuliang_huizong[1], name:'装着系'},
-						// {value: shuliang_huizong[2], name:'异物系'},
-						// {value: shuliang_huizong[3], name:'人系'},
-						// {value: shuliang_huizong[4], name:'部品系'},
-						// {value: shuliang_huizong[5], name:'其他系'},
-					// ];
-					
-					// console.log(data);
-					// _this.chart3_option_series_data = data;
-					// _this.chart3_option_series_data_huizong = data_huizong;
 					_this.chart3_function();
 			
 				}
