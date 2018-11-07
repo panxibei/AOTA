@@ -1493,7 +1493,7 @@ var vm_app = new Vue({
 				],
 				function (ec) {
 					// 基于准备好的dom，初始化echarts图表
-					var myChart = ec.init(document.getElementById('chart1')); 
+					var myChart = ec.init(document.getElementById('chart1'), 'macarons'); 
 					
 					var option = {
 						title : {
@@ -1572,7 +1572,7 @@ var vm_app = new Vue({
 				],
 				function (ec) {
 					// 基于准备好的dom，初始化echarts图表
-					var myChart = ec.init(document.getElementById('chart2')); 
+					var myChart = ec.init(document.getElementById('chart2'), 'macarons'); 
 					
 					var option = {
 						title: {
@@ -1707,10 +1707,10 @@ var vm_app = new Vue({
 				],
 				function (ec) {
 					// 基于准备好的dom，初始化echarts图表
-					var myChart = ec.init(document.getElementById('chart3')); 
+					var myChart = ec.init(document.getElementById('chart3'), 'macarons'); 
 					
 					var option = {
-						tooltip : {
+						tooltip: {
 							trigger: 'axis',
 							axisPointer : {            // 坐标轴指示器，坐标轴触发有效
 								type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
@@ -1725,48 +1725,49 @@ var vm_app = new Vue({
 							// width: '80%'
 						},
 						toolbox: {
-							show : true,
+							show: true,
 							orient: 'vertical',
 							x: 'right',
 							y: 'center',
-							feature : {
-								mark : {show: true},
-								dataView : {show: true, readOnly: false},
+							feature: {
+								mark: {show: true},
+								dataView: {show: true, readOnly: false},
 								// magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-								restore : {show: true},
-								saveAsImage : {show: true}
+								restore: {show: true},
+								saveAsImage: {show: true}
 							}
 						},
-						calculable : true,
-						xAxis : [
+						calculable: true,
+						xAxis: [
 							{
-								type : 'category',
-								// data : ['周一','周二','周三','周四','周五','周六','周日']
-								data : vm_app.chart3_option_xAxis_data
+								type: 'category',
+								// data: ['周一','周二','周三','周四','周五','周六','周日']
+								data: vm_app.chart3_option_xAxis_data
 							}
 						],
-						yAxis : [
+						yAxis: [
 							{
-								type : 'value',
-								name : '件数',
-								axisLabel : {
+								type: 'value',
+								name: '件数',
+								axisLabel: {
 									formatter: '{value} 件'
 								}
 							},
 							{
-								type : 'value',
-								name : 'PPM',
-								axisLabel : {
+								type: 'value',
+								name: 'PPM',
+								axisLabel: {
 									formatter: '{value} ppm'
 								}
 							}
 						],
-						series : [
+						series: [
 							{
 								name:'连焊',
 								type:'bar',
-								barWidth : 20,
+								// barWidth: 30,
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								// data:[620, 732, 701, 734, 1090, 1130, 1120, 620, 732, 701, 734, 620, 732]
 								data: vm_app.chart3_option_series_data[0]
 							},
@@ -1774,6 +1775,7 @@ var vm_app = new Vue({
 								name:'引脚焊锡量少',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								// data:[120, 132, 101, 134, 290, 230, 220, 210, 120, 132, 801, 134, 222]
 								data: vm_app.chart3_option_series_data[1]
 							},
@@ -1781,132 +1783,154 @@ var vm_app = new Vue({
 								name:'CHIP部品焊锡少',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[2]
 							},
 							{
 								name:'焊锡球',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[3]
 							},
 							{
 								name:'1005部品浮起.竖立',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[4]
 							},
 							{
 								name:'CHIP部品横立',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[5]
 							},
 							{
 								name:'部品浮起.竖立',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[6]
 							},
 							{
 								name:'欠品',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[7]
 							},
 							{
 								name:'焊锡未熔解',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[8]
 							},
 							{
 								name:'位置偏移',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[9]
 							},
 							{
 								name:'部品打反',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[10]
 							},
 							{
 								name:'部品错误',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[11]
 							},
 							{
 								name:'多余部品',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[12]
 							},
 							{
 								name:'异物',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[13]
 							},
 							{
 								name:'极性错误',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[14]
 							},
 							{
 								name:'炉后部品破损',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[15]
 							},
 							{
 								name:'引脚弯曲',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[16]
 							},
 							{
 								name:'基板/部品变形后引脚浮起',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[17]
 							},
 							{
 								name:'引脚不上锡',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[18]
 							},
 							{
 								name:'基板不上锡',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[19]
 							},
 							{
 								name:'CHIP部品不上锡',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[20]
 							},
 							{
 								name:'基板不良',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[21]
 							},
 							{
 								name:'部品不良',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[22]
 							},
 							{
 								name:'其他',
 								type:'bar',
 								stack: '不良汇总',
+								itemStyle: { normal: {label: {show: true, position: 'inside'}}},
 								data: vm_app.chart3_option_series_data[23]
 							},
 							{
@@ -1934,7 +1958,7 @@ var vm_app = new Vue({
 												// fontWeight: 'bold'
 											}
 										},
-										lineStyle : {
+										lineStyle: {
 											type: 'dashed',
 											width: 1
 										}
@@ -2041,35 +2065,25 @@ var vm_app = new Vue({
 						switch(v.xianti.trim())
 						{
 							case 'SMT-1':
-								i = 0;
-								break;
+								i = 0;break;
 							case 'SMT-2':
-								i = 1;
-								break;
+								i = 1;break;
 							case 'SMT-3':
-								i = 2;
-								break;
+								i = 2;break;
 							case 'SMT-4':
-								i = 3;
-								break;
+								i = 3;break;
 							case 'SMT-5':
-								i = 4;
-								break;
+								i = 4;break;
 							case 'SMT-6':
-								i = 5;
-								break;
+								i = 5;break;
 							case 'SMT-7':
-								i = 6;
-								break;
+								i = 6;break;
 							case 'SMT-8':
-								i = 7;
-								break;
+								i = 7;break;
 							case 'SMT-9':
-								i = 8;
-								break;
+								i = 8;break;
 							case 'SMT-10':
-								i = 9;
-								break;
+								i = 9;break;
 							default:
 							  
 						}
@@ -2236,101 +2250,53 @@ var vm_app = new Vue({
 						switch(v.buliangneirong)
 						{
 							case '连焊':
-								i = 0;
-								j = 0;
-								break;
+								i = 0;j = 0;break;
 							case '引脚焊锡量少':
-								i = 1;
-								j = 0;
-								break;
+								i = 1;j = 0;break;
 							case 'CHIP部品焊锡少':
-								i = 2;
-								j = 0;
-								break;
+								i = 2;j = 0;break;
 							case '焊锡球':
-								i = 3;
-								j = 0;
-								break;
+								i = 3;j = 0;break;
 							case '1005部品浮起.竖立':
-								i = 4;
-								j = 1;
-								break;
+								i = 4;j = 1;break;
 							case 'CHIP部品横立':
-								i = 5;
-								j = 1;
-								break;
+								i = 5;j = 1;break;
 							case '部品浮起.竖立':
-								i = 6;
-								j = 1;
-								break;
+								i = 6;j = 1;break;
 							case '欠品':
-								i = 7;
-								j = 1;
-								break;
+								i = 7;j = 1;break;
 							case '焊锡未熔解':
-								i = 8;
-								j = 1;
-								break;
+								i = 8;j = 1;break;
 							case '位置偏移':
-								i = 9;
-								j = 1;
-								break;
+								i = 9;j = 1;break;
 							case '部品打反':
-								i = 10;
-								j = 1;
-								break;
+								i = 10;j = 1;break;
 							case '部品错误':
-								i = 11;
-								j = 1;
-								break;
+								i = 11;j = 1;break;
 							case '多余部品':
-								i = 12;
-								j = 1;
-								break;
+								i = 12;j = 1;break;
 							case '异物':
-								i = 13;
-								j = 2;
-								break;
+								i = 13;j = 2;break;
 							case '极性错误':
-								i = 14;
-								j = 3;
-								break;
+								i = 14;j = 3;break;
 							case '炉后部品破损':
-								i = 15;
-								j = 3;
-								break;
+								i = 15;j = 3;break;
 							case '引脚弯曲':
-								i = 16;
-								j = 3;
-								break;
+								i = 16;j = 3;break;
 							case '基板/部品变形后引脚浮起':
-								i = 17;
-								j = 3;
-								break;
+								i = 17;j = 3;break;
 							case '引脚不上锡':
-								i = 18;
-								j = 4;
-								break;
+								i = 18;j = 4;break;
 							case '基板不上锡':
-								i = 19;
-								j = 4;
-								break;
+								i = 19;j = 4;break;
 							case 'CHIP部品不上锡':
-								i = 20;
-								j = 4;
-								break;
+								i = 20;j = 4;break;
 							case '基板不良':
-								i = 21;
-								j = 4;
-								break;
+								i = 21;j = 4;break;
 							case '部品不良':
-								i = 22;
-								j = 4;
-								break;
+								i = 22;j = 4;break;
 							case '其他':
-								i = 23;
-								j = 5;
-								break;
+								i = 23;j = 5;break;
 							default:
 							  
 						}
@@ -2396,19 +2362,7 @@ var vm_app = new Vue({
 		
 		onchart3: function () {
 			var _this = this;
-			
-			var shuliang = [];
-			for (var i=0;i<24;i++) {
-				shuliang[i] = 0;
-			}
 
-			var shuliang_huizong = [];
-			for (var i=0;i<6;i++) {
-				shuliang_huizong[i] = 0;
-			}
-			
-			// 图表按当前表格中最大记录数重新查询
-			
 			// 2018-12-31
 			var current_year = new Date();
 			var current_date = current_year.getFullYear() + '-12-31';
@@ -2420,7 +2374,7 @@ var vm_app = new Vue({
 			// 查询去年到今年的日期范围
 			var qcdate_filter = [last_date, current_date];
 			
-			// 修正表X轴文字
+			// 修正表X轴文字，去年“FY2017平均”字样。
 			_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '平均';
 			
 			var xianti_filter = _this.xianti_filter;
@@ -2446,10 +2400,6 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data.data);
-				// return false;
-				
-				
 				if (response.data) {
 					var chartdata3 = response.data.data;			
 			
@@ -2467,8 +2417,7 @@ var vm_app = new Vue({
 					
 					_this.chart3_option_series_data_ppm = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 			
-			
-					// 去年范围
+					// 去年和今年的日期范围
 					var dd = new Date();
 					var current_year = dd.getFullYear();
 					var last_year = dd.getFullYear() - 1;
@@ -2476,139 +2425,104 @@ var vm_app = new Vue({
 					var last_date_range = [new Date(last_year + '-01-01'), new Date(last_year + '-12-31')];
 					var current_date_range = [new Date(current_year + '-01-01'), new Date(current_year + '-12-31')];
 
-					console.log(last_date_range);
-					console.log(current_date_range);
+					// console.log(last_date_range);
+					// console.log(current_date_range);
 					// return false;
-					
 					
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
 						{
 							case '连焊':
-								i = 0;
-								break;
+								i = 0;break;
 							case '引脚焊锡量少':
-								i = 1;
-								break;
+								i = 1;break;
 							case 'CHIP部品焊锡少':
-								i = 2;
-								break;
+								i = 2;break;
 							case '焊锡球':
-								i = 3;
-								break;
+								i = 3;break;
 							case '1005部品浮起.竖立':
-								i = 4;
-								break;
+								i = 4;break;
 							case 'CHIP部品横立':
-								i = 5;
-								break;
+								i = 5;break;
 							case '部品浮起.竖立':
-								i = 6;
-								break;
+								i = 6;break;
 							case '欠品':
-								i = 7;
-								break;
+								i = 7;break;
 							case '焊锡未熔解':
-								i = 8;
-								break;
+								i = 8;break;
 							case '位置偏移':
-								i = 9;
-								break;
+								i = 9;break;
 							case '部品打反':
-								i = 10;
-								break;
+								i = 10;break;
 							case '部品错误':
-								i = 11;
-								break;
+								i = 11;break;
 							case '多余部品':
-								i = 12;
-								break;
+								i = 12;break;
 							case '异物':
-								i = 13;
-								break;
+								i = 13;break;
 							case '极性错误':
-								i = 14;
-								break;
+								i = 14;break;
 							case '炉后部品破损':
-								i = 15;
-								break;
+								i = 15;break;
 							case '引脚弯曲':
-								i = 16;
-								break;
+								i = 16;break;
 							case '基板/部品变形后引脚浮起':
-								i = 17;
-								break;
+								i = 17;break;
 							case '引脚不上锡':
-								i = 18;
-								break;
+								i = 18;break;
 							case '基板不上锡':
-								i = 19;
-								break;
+								i = 19;break;
 							case 'CHIP部品不上锡':
-								i = 20;
-								break;
+								i = 20;break;
 							case '基板不良':
-								i = 21;
-								break;
+								i = 21;break;
 							case '部品不良':
-								i = 22;
-								break;
+								i = 22;break;
 							case '其他':
-								i = 23;
-								break;
+								i = 23;break;
 							default:
 								i = 24;	
 							  
 						}
 					
-						
 						// 按不良内容汇总数量，共24种
 						if (i > 0 && i < 24) {
 							var riqi = new Date(v.shengchanriqi);
 							// var riqi = v.shengchanriqi.split('-');
 
+							// 日期在去年的，统一保存到下标为0的数组中
 							if (riqi >= last_date_range[0] && riqi <= last_date_range[1]) {
 								j = 0;
+							
+							// 日期在今年的，按月份保存
 							} else if (riqi >= current_date_range[0] && riqi <= current_date_range[1]) {
 								// console.log(riqi.Format('MM'));
 								switch(riqi.Format('MM')) //月份
 								{
 									case '01':
-										j = 10;
-										break;
+										j = 10;break;
 									case '02':
-										j = 11;
-										break;
+										j = 11;break;
 									case '03':
-										j = 12;
-										break;
+										j = 12;break;
 									case '04':
-										j = 1;
-										break; // 注意0下标
+										j = 1;break; // 注意0下标
 									case '05':
-										j = 2;
-										break;
+										j = 2;break;
 									case '06':
-										j = 3;
-										break;
+										j = 3;break;
 									case '07':
-										j = 4;
-										break;
+										j = 4;break;
 									case '08':
-										j = 5;
-										break;
+										j = 5;break;
 									case '09':
-										j = 6;
-										break;
+										j = 6;break;
 									case '10':
-										j = 7;
-										break;
+										j = 7;break;
 									case '11':
-										j = 8;
-										break;
+										j = 8;break;
 									case '12':
-										j = 9;
-										break;
+										j = 9;break;
 									default:
 									  
 								}
@@ -2619,9 +2533,10 @@ var vm_app = new Vue({
 							
 							// 每月份的汇总
 							_this.chart3_option_series_data_huizong[j] += v.shuliang;
+							
+							// 合计点数之和，用于计算总的PPM
 							_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
 							
-
 						}
 						
 					});
@@ -2635,11 +2550,9 @@ var vm_app = new Vue({
 						}
 					});
 					
-					
 					_this.chart3_function();
 			
 				}
-				
 			})
 			.catch(function (error) {
 				// _this.loadingbarerror();
@@ -2657,8 +2570,6 @@ var vm_app = new Vue({
 		},
 		upload () {
 			this.loadingStatus = true;
-			
-			
 			
 			let formData = new FormData()
 			// formData.append('file',e.target.files[0])
