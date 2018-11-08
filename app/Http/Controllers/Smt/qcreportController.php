@@ -274,6 +274,58 @@ class qcreportController extends Controller
 
 
     /**
+     * qcreportUpdate
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function qcreportUpdate(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+
+		$id = $request->input('id');
+		$jizhongming = $request->input('jizhongming');
+		$created_at = $request->input('created_at');
+		$jianchajileixing = $request->input('jianchajileixing');
+		$buliangneirong = $request->input('buliangneirong');
+		$weihao = $request->input('weihao');
+		$shuliang = $request->input('shuliang');
+		$jianchazhe = $request->input('jianchazhe');
+
+		dd($id);
+		
+		try	{
+			$result = Smt_qcreport::where('id', $id)
+				->update([
+					'jizhongming'		=> $jizhongming,
+					'jianchajileixing'	=> $jianchajileixing,
+					'buliangneirong'	=> $buliangneirong,
+					'weihao'			=> $weihao,
+					'shuliang'			=> $shuliang,
+					'jianchazhe'		=> $jianchazhe,
+				]);
+			$result = Smt_qcreport::where('created_at', $created_at)
+				->update([
+					'jizhongming'		=> $jizhongming,
+					'jianchajileixing'	=> $jianchajileixing,
+					'buliangneirong'	=> $buliangneirong,
+					'weihao'			=> $weihao,
+					'shuliang'			=> $shuliang,
+					'jianchazhe'		=> $jianchazhe,
+				]);
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		
+		return $result;
+
+	}
+
+
+    /**
      * qcreportDelete
      *
      * @param  int  $id
