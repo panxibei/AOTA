@@ -1131,6 +1131,7 @@ var vm_app = new Vue({
 		weihao_edit: '',
 		shuliang_edit: '',
 		jianchazhe_edit: '',
+		dianmei_edit: '',
 		meishu_edit: '',
 		hejidianshu_edit: '',
 		buliangjianshuheji_edit: '',
@@ -2779,10 +2780,11 @@ var vm_app = new Vue({
 			_this.weihao_edit = row.weihao;
 			_this.shuliang_edit = row.shuliang;
 			_this.jianchazhe_edit = row.jianchazhe;
-			_this.meishu_edit = row.meishu_edit;
-			_this.hejidianshu_edit = row.hejidianshu_edit;
-			_this.buliangjianshuheji_edit = row.buliangjianshuheji_edit;
-			_this.ppm_edit = row.ppm_edit;
+			_this.dianmei_edit = row.dianmei;
+			_this.meishu_edit = row.meishu;
+			_this.hejidianshu_edit = row.hejidianshu;
+			_this.buliangjianshuheji_edit = row.buliangjianshuheji;
+			_this.ppm_edit = row.ppm;
 			
 			_this.modal_qcreport_edit = true;
 		},
@@ -2800,16 +2802,23 @@ var vm_app = new Vue({
 			var weihao = _this.weihao_edit;
 			var shuliang = _this.shuliang_edit;
 			var jianchazhe = _this.jianchazhe_edit;
+			var dianmei = dianmei_edit;
 			var meishu = meishu_edit;
 			var hejidianshu = hejidianshu_edit;
 			var buliangjianshuheji = buliangjianshuheji_edit;
 			var ppm = ppm_edit;
 			
+			// 数量为0时，清空不良内容、位号和数量
 			if (shuliang == 0) {
 				buliangneirong = '';
 				weihao = '';
 				shuliang = '';
 			}
+			
+			// 重新计算枚数、合计点数、不良件数合计和PPM
+			hejidianshu = dianmei * meishu;
+			buliangjianshuheji = buliangjianshuheji - shuliang;
+			ppm = buliangjianshuheji / hejidianshu * 1000000;
 			
 			var url = "{{ route('smt.qcreport.qcreportupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
@@ -2822,6 +2831,10 @@ var vm_app = new Vue({
 				weihao: weihao,
 				shuliang: shuliang,
 				jianchazhe: jianchazhe,
+				meishu: meishu,
+				hejidianshu: hejidianshu,
+				buliangjianshuheji: buliangjianshuheji,
+				ppm: ppm
 			})
 			.then(function (response) {
 				console.log(response.data);

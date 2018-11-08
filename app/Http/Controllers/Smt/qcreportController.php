@@ -291,10 +291,15 @@ class qcreportController extends Controller
 		$weihao = $request->input('weihao');
 		$shuliang = $request->input('shuliang');
 		$jianchazhe = $request->input('jianchazhe');
+		$meishu = $request->input('meishu');
+		$hejidianshu = $request->input('hejidianshu');
+		$buliangjianshuheji = $request->input('buliangjianshuheji');
+		$ppm = $request->input('ppm');
 
-		dd($id);
+		dd($ppm);
 		
 		try	{
+			DB::beginTransaction();
 			$result = Smt_qcreport::where('id', $id)
 				->update([
 					'jizhongming'		=> $jizhongming,
@@ -306,20 +311,19 @@ class qcreportController extends Controller
 				]);
 			$result = Smt_qcreport::where('created_at', $created_at)
 				->update([
-					'jizhongming'		=> $jizhongming,
-					'jianchajileixing'	=> $jianchajileixing,
-					'buliangneirong'	=> $buliangneirong,
-					'weihao'			=> $weihao,
-					'shuliang'			=> $shuliang,
-					'jianchazhe'		=> $jianchazhe,
+					'meishu'				=> $meishu,
+					'hejidianshu'			=> $hejidianshu,
+					'buliangjianshuheji'	=> $buliangjianshuheji,
+					'ppm'					=> $ppm,
 				]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
+			DB::rollBack();
 			// echo 'Message: ' .$e->getMessage();
 			$result = 0;
 		}
-		
+		DB::commit();
 		return $result;
 
 	}
