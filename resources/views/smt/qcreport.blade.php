@@ -245,6 +245,82 @@ SMT - QC report
 		</i-col>
 	</i-row>
 	
+	<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" title="工程内不良记录编辑" width="540">
+		<div style="text-align:left">
+			<p>
+				机种名：@{{ jizhongming_edit }}
+			
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				首次录入时间：@{{ created_at_edit }}
+			
+			</p>
+			<br>
+			
+			<span v-for="(item, index) in piliangluru">
+				<p>
+					检查机类型&nbsp;&nbsp;
+					<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
+						<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					不良内容&nbsp;&nbsp;
+					<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
+						<Option-group label="****** 印刷系 ******">
+							<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 装着系 ******">
+							<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 异物系 ******">
+							<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 人系 ******">
+							<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 部品系 ******">
+							<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 其他 ******">
+							<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+					</i-select>
+				</p>
+				<br>
+
+				<p>
+					位号&nbsp;&nbsp;
+					<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					数量&nbsp;&nbsp;
+					<Input-number v-model.lazy="shuliang_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					检查者&nbsp;&nbsp;
+					<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:140px" placeholder="">
+						<Option-group label="****** 一组 ******">
+							<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 二组 ******">
+							<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+						<Option-group label="****** 三组 ******">
+							<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</Option-group>
+					</i-select>
+				</p>
+			</span>
+			
+		<br>&nbsp;
+		</div>	
+	</Modal>
+
+	
 	<br>
 	<Divider orientation="left">品质管理图表</Divider>
 	
@@ -518,11 +594,35 @@ var vm_app = new Vue({
 				width: 50,
 				align: 'center'
 			},
+			// {
+				// type: 'index',
+				// width: 60,
+				// align: 'center'
+			// },
 			{
-				type: 'index',
-				width: 60,
-				align: 'center'
-			},
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.qcreport_edit(params.row)
+								}
+							}
+						}, 'Edit')
+					]);
+				}
+			},			
 			{
 				title: '生产日期',
 				key: 'shengchanriqi',
@@ -534,134 +634,134 @@ var vm_app = new Vue({
 				key: 'xianti',
 				align: 'center',
 				width: 80,
-				filters: [
-					{
-						label: 'SMT-1',
-						value: 'SMT-1'
-					},
-					{
-						label: 'SMT-2',
-						value: 'SMT-2'
-					},
-					{
-						label: 'SMT-3',
-						value: 'SMT-3'
-					},
-					{
-						label: 'SMT-4',
-						value: 'SMT-4'
-					},
-					{
-						label: 'SMT-5',
-						value: 'SMT-5'
-					},
-					{
-						label: 'SMT-6',
-						value: 'SMT-6'
-					},
-					{
-						label: 'SMT-7',
-						value: 'SMT-7'
-					},
-					{
-						label: 'SMT-8',
-						value: 'SMT-8'
-					},
-					{
-						label: 'SMT-9',
-						value: 'SMT-9'
-					},
-					{
-						label: 'SMT-10',
-						value: 'SMT-10'
-					},
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					if (value === 'SMT-1') {
-						return row.xianti === 'SMT-1';
-					} else if (value === 'SMT-2') {
-						return row.xianti === 'SMT-2';
-					} else if (value === 'SMT-3') {
-						return row.xianti === 'SMT-3';
-					} else if (value === 'SMT-4') {
-						return row.xianti === 'SMT-4';
-					} else if (value === 'SMT-5') {
-						return row.xianti === 'SMT-5';
-					} else if (value === 'SMT-6') {
-						return row.xianti === 'SMT-6';
-					} else if (value === 'SMT-7') {
-						return row.xianti === 'SMT-7';
-					} else if (value === 'SMT-8') {
-						return row.xianti === 'SMT-8';
-					} else if (value === 'SMT-9') {
-						return row.xianti === 'SMT-9';
-					} else if (value === 'SMT-10') {
-						return row.xianti === 'SMT-10';
-					}
-				}
+				// filters: [
+					// {
+						// label: 'SMT-1',
+						// value: 'SMT-1'
+					// },
+					// {
+						// label: 'SMT-2',
+						// value: 'SMT-2'
+					// },
+					// {
+						// label: 'SMT-3',
+						// value: 'SMT-3'
+					// },
+					// {
+						// label: 'SMT-4',
+						// value: 'SMT-4'
+					// },
+					// {
+						// label: 'SMT-5',
+						// value: 'SMT-5'
+					// },
+					// {
+						// label: 'SMT-6',
+						// value: 'SMT-6'
+					// },
+					// {
+						// label: 'SMT-7',
+						// value: 'SMT-7'
+					// },
+					// {
+						// label: 'SMT-8',
+						// value: 'SMT-8'
+					// },
+					// {
+						// label: 'SMT-9',
+						// value: 'SMT-9'
+					// },
+					// {
+						// label: 'SMT-10',
+						// value: 'SMT-10'
+					// },
+				// ],
+				// filterMultiple: false,
+				// filterMethod: function (value, row) {
+					// if (value === 'SMT-1') {
+						// return row.xianti === 'SMT-1';
+					// } else if (value === 'SMT-2') {
+						// return row.xianti === 'SMT-2';
+					// } else if (value === 'SMT-3') {
+						// return row.xianti === 'SMT-3';
+					// } else if (value === 'SMT-4') {
+						// return row.xianti === 'SMT-4';
+					// } else if (value === 'SMT-5') {
+						// return row.xianti === 'SMT-5';
+					// } else if (value === 'SMT-6') {
+						// return row.xianti === 'SMT-6';
+					// } else if (value === 'SMT-7') {
+						// return row.xianti === 'SMT-7';
+					// } else if (value === 'SMT-8') {
+						// return row.xianti === 'SMT-8';
+					// } else if (value === 'SMT-9') {
+						// return row.xianti === 'SMT-9';
+					// } else if (value === 'SMT-10') {
+						// return row.xianti === 'SMT-10';
+					// }
+				// }
 			},
 			{
 				title: '班次',
 				key: 'banci',
 				align: 'center',
 				width: 80,
-				filters: [
-					{
-						label: 'A-1',
-						value: 'A-1'
-					},
-					{
-						label: 'A-2',
-						value: 'A-2'
-					},
-					{
-						label: 'A-3',
-						value: 'A-3'
-					},
-					{
-						label: 'B-1',
-						value: 'B-1'
-					},
-					{
-						label: 'B-2',
-						value: 'B-2'
-					},
-					{
-						label: 'B-3',
-						value: 'B-3'
-					}
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					if (value === 'A-1') {
-						return row.banci === 'A-1';
-					} else if (value === 'A-2') {
-						return row.banci === 'A-2';
-					} else if (value === 'A-3') {
-						return row.banci === 'A-3';
-					} else if (value === 'B-1') {
-						return row.banci === 'B-1';
-					} else if (value === 'B-2') {
-						return row.banci === 'B-2';
-					} else if (value === 'B-3') {
-						return row.banci === 'B-3';
-					}
-				}
+				// filters: [
+					// {
+						// label: 'A-1',
+						// value: 'A-1'
+					// },
+					// {
+						// label: 'A-2',
+						// value: 'A-2'
+					// },
+					// {
+						// label: 'A-3',
+						// value: 'A-3'
+					// },
+					// {
+						// label: 'B-1',
+						// value: 'B-1'
+					// },
+					// {
+						// label: 'B-2',
+						// value: 'B-2'
+					// },
+					// {
+						// label: 'B-3',
+						// value: 'B-3'
+					// }
+				// ],
+				// filterMultiple: false,
+				// filterMethod: function (value, row) {
+					// if (value === 'A-1') {
+						// return row.banci === 'A-1';
+					// } else if (value === 'A-2') {
+						// return row.banci === 'A-2';
+					// } else if (value === 'A-3') {
+						// return row.banci === 'A-3';
+					// } else if (value === 'B-1') {
+						// return row.banci === 'B-1';
+					// } else if (value === 'B-2') {
+						// return row.banci === 'B-2';
+					// } else if (value === 'B-3') {
+						// return row.banci === 'B-3';
+					// }
+				// }
 			},
 			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
 				width: 120,
-				sortable: true
+				// sortable: true
 			},
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
 				width: 100,
-				sortable: true
+				// sortable: true
 			},
 			{
 				title: '工序',
@@ -674,14 +774,14 @@ var vm_app = new Vue({
 				key: 'spno',
 				align: 'center',
 				width: 140,
-				sortable: true
+				// sortable: true
 			},
 			{
 				title: 'LOT数',
 				key: 'lotshu',
 				align: 'center',
 				width: 100,
-				sortable: true,
+				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
 						params.row.lotshu.toLocaleString()
@@ -739,88 +839,86 @@ var vm_app = new Vue({
 				key: 'buliangneirong',
 				align: 'center',
 				width: 120,
-				filters: [
-					{value: '连焊', label: '连焊'}, 
-					{value: '引脚焊锡量少', label: '引脚焊锡量少'},
-					{value: 'CHIP部品焊锡少', label: 'CHIP部品焊锡少'},
-					{value: '焊锡球', label: '焊锡球'},
-					{value: '1005部品浮起.竖立', label: '1005部品浮起.竖立'},
-					{value: 'CHIP部品横立', label: 'CHIP部品横立'},
-					{value: '部品浮起.竖立', label: '部品浮起.竖立'},
-					{value: '欠品', label: '欠品'},
-					{value: '焊锡未熔解', label: '焊锡未熔解'},
-					{value: '位置偏移', label: '位置偏移'},
-					{value: '部品打反', label: '部品打反'},
-					{value: '部品错误', label: '部品错误'},
-					{value: '多余部品', label: '多余部品'},
-					{value: '异物', label: '异物'}, 
-					{value: '极性错误', label: '极性错误'},
-					{value: '炉后部品破损', label: '炉后部品破损'},
-					{value: '引脚弯曲', label: '引脚弯曲'},
-					{value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
-					{value: '引脚不上锡', label: '引脚不上锡'},
-					{value: '基板不上锡', label: '基板不上锡'},
-					{value: 'CHIP部品不上锡', label: 'CHIP部品不上锡'},
-					{value: '基板不良', label: '基板不良'},
-					{value: '部品不良', label: '部品不良'},
-					{value: '其他', label: '其他'},
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					var result = '';
-					if (value === '连焊') {
-						result = row.buliangneirong === '连焊';
-					} else if (value === '引脚焊锡量少') {
-						result = row.buliangneirong === '引脚焊锡量少';
-					} else if (value === 'CHIP部品焊锡少') {
-						result = row.buliangneirong === 'CHIP部品焊锡少';
-					} else if (value === '焊锡球') {
-						result = row.buliangneirong === '焊锡球';
-					} else if (value === '1005部品浮起.竖立') {
-						result = row.buliangneirong === '1005部品浮起.竖立';
-					} else if (value === 'CHIP部品横立') {
-						result = row.buliangneirong === 'CHIP部品横立';
-					} else if (value === '部品浮起.竖立') {
-						result = row.buliangneirong === '部品浮起.竖立';
-					} else if (value === '欠品') {
-						result = row.buliangneirong === '欠品';
-					} else if (value === '焊锡未熔解') {
-						result = row.buliangneirong === '焊锡未熔解';
-					} else if (value === '位置偏移') {
-						result = row.buliangneirong === '位置偏移';
-					} else if (value === '部品打反') {
-						result = row.buliangneirong === '部品打反';
-					} else if (value === '部品错误') {
-						result = row.buliangneirong === '部品错误';
-					} else if (value === '多余部品') {
-						result = row.buliangneirong === '多余部品';
-					} else if (value === '异物') {
-						result = row.buliangneirong === '异物';
-					} else if (value === '极性错误') {
-						result = row.buliangneirong === '极性错误';
-					} else if (value === '炉后部品破损') {
-						result = row.buliangneirong === '炉后部品破损';
-					} else if (value === '引脚弯曲') {
-						result = row.buliangneirong === '引脚弯曲';
-					} else if (value === '基板/部品变形后引脚浮起') {
-						result = row.buliangneirong === '基板/部品变形后引脚浮起';
-					} else if (value === '引脚不上锡') {
-						result = row.buliangneirong === '引脚不上锡';
-					} else if (value === '基板不上锡') {
-						result = row.buliangneirong === '基板不上锡';
-					} else if (value === 'CHIP部品不上锡') {
-						result = row.buliangneirong === 'CHIP部品不上锡';
-					} else if (value === '基板不良') {
-						result = row.buliangneirong === '基板不良';
-					} else if (value === '部品不良') {
-						result = row.buliangneirong === '部品不良';
-					} else if (value === '其他') {
-						result = row.buliangneirong === '其他';
-					}
-					
-					return result;
-					
-				}				
+				// filters: [
+					// {value: '连焊', label: '连焊'}, 
+					// {value: '引脚焊锡量少', label: '引脚焊锡量少'},
+					// {value: 'CHIP部品焊锡少', label: 'CHIP部品焊锡少'},
+					// {value: '焊锡球', label: '焊锡球'},
+					// {value: '1005部品浮起.竖立', label: '1005部品浮起.竖立'},
+					// {value: 'CHIP部品横立', label: 'CHIP部品横立'},
+					// {value: '部品浮起.竖立', label: '部品浮起.竖立'},
+					// {value: '欠品', label: '欠品'},
+					// {value: '焊锡未熔解', label: '焊锡未熔解'},
+					// {value: '位置偏移', label: '位置偏移'},
+					// {value: '部品打反', label: '部品打反'},
+					// {value: '部品错误', label: '部品错误'},
+					// {value: '多余部品', label: '多余部品'},
+					// {value: '异物', label: '异物'}, 
+					// {value: '极性错误', label: '极性错误'},
+					// {value: '炉后部品破损', label: '炉后部品破损'},
+					// {value: '引脚弯曲', label: '引脚弯曲'},
+					// {value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
+					// {value: '引脚不上锡', label: '引脚不上锡'},
+					// {value: '基板不上锡', label: '基板不上锡'},
+					// {value: 'CHIP部品不上锡', label: 'CHIP部品不上锡'},
+					// {value: '基板不良', label: '基板不良'},
+					// {value: '部品不良', label: '部品不良'},
+					// {value: '其他', label: '其他'},
+				// ],
+				// filterMultiple: false,
+				// filterMethod: function (value, row) {
+					// var result = '';
+					// if (value === '连焊') {
+						// result = row.buliangneirong === '连焊';
+					// } else if (value === '引脚焊锡量少') {
+						// result = row.buliangneirong === '引脚焊锡量少';
+					// } else if (value === 'CHIP部品焊锡少') {
+						// result = row.buliangneirong === 'CHIP部品焊锡少';
+					// } else if (value === '焊锡球') {
+						// result = row.buliangneirong === '焊锡球';
+					// } else if (value === '1005部品浮起.竖立') {
+						// result = row.buliangneirong === '1005部品浮起.竖立';
+					// } else if (value === 'CHIP部品横立') {
+						// result = row.buliangneirong === 'CHIP部品横立';
+					// } else if (value === '部品浮起.竖立') {
+						// result = row.buliangneirong === '部品浮起.竖立';
+					// } else if (value === '欠品') {
+						// result = row.buliangneirong === '欠品';
+					// } else if (value === '焊锡未熔解') {
+						// result = row.buliangneirong === '焊锡未熔解';
+					// } else if (value === '位置偏移') {
+						// result = row.buliangneirong === '位置偏移';
+					// } else if (value === '部品打反') {
+						// result = row.buliangneirong === '部品打反';
+					// } else if (value === '部品错误') {
+						// result = row.buliangneirong === '部品错误';
+					// } else if (value === '多余部品') {
+						// result = row.buliangneirong === '多余部品';
+					// } else if (value === '异物') {
+						// result = row.buliangneirong === '异物';
+					// } else if (value === '极性错误') {
+						// result = row.buliangneirong === '极性错误';
+					// } else if (value === '炉后部品破损') {
+						// result = row.buliangneirong === '炉后部品破损';
+					// } else if (value === '引脚弯曲') {
+						// result = row.buliangneirong === '引脚弯曲';
+					// } else if (value === '基板/部品变形后引脚浮起') {
+						// result = row.buliangneirong === '基板/部品变形后引脚浮起';
+					// } else if (value === '引脚不上锡') {
+						// result = row.buliangneirong === '引脚不上锡';
+					// } else if (value === '基板不上锡') {
+						// result = row.buliangneirong === '基板不上锡';
+					// } else if (value === 'CHIP部品不上锡') {
+						// result = row.buliangneirong === 'CHIP部品不上锡';
+					// } else if (value === '基板不良') {
+						// result = row.buliangneirong === '基板不良';
+					// } else if (value === '部品不良') {
+						// result = row.buliangneirong === '部品不良';
+					// } else if (value === '其他') {
+						// result = row.buliangneirong === '其他';
+					// }
+					// return result;
+				// }
 			},
 			{
 				title: '位号',
@@ -1005,9 +1103,15 @@ var vm_app = new Vue({
 		
 		usecache: true,
 		
-		
-		
-			
+		// 编辑
+		modal_qcreport_edit: false,
+		jizhongming_edit: '',
+		created_at_edit: '',
+		jianchajileixing_edit: '',
+		buliangneirong_edit: '',
+		weihao_edit: '',
+		shuliang_edit: '',
+		jianchazhe_edit: '',
 			
 	},
 	methods: {
@@ -2637,6 +2741,31 @@ var vm_app = new Vue({
 				this.error(false, 'Error', error);
 			})
 		},
+		
+		
+		// 编辑前查看
+		qcreport_edit: function (row) {
+			var _this = this;
+			
+			_this.jizhongming_edit = row.jizhongming;
+			_this.created_at_edit = row.created_at;
+			_this.jianchajileixing_edit = row.jianchajileixing;
+			_this.buliangneirong_edit = row.buliangneirong;
+			_this.weihao_edit = row.weihao;
+			_this.shuliang_edit = row.shuliang;
+			_this.jianchazhe_edit = row.jianchazhe;
+			
+			_this.modal_qcreport_edit = true;
+		},
+		
+		
+		// 编辑后确定
+		qcreport_edit_ok: function () {
+			var _this = this;
+			alert();
+			
+		},
+
 		
 		
 		
