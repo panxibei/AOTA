@@ -263,6 +263,11 @@ SMT - QC report
 			
 			<span v-for="(item, index) in piliangluru">
 			<p>
+				枚数&nbsp;&nbsp;
+				<Input-number v-model.lazy="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			
 				检查机类型&nbsp;&nbsp;
 				<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
 					<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
@@ -270,6 +275,22 @@ SMT - QC report
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				
+				检查者&nbsp;&nbsp;
+				<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
+					<Option-group label="*** 一组 ***">
+						<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</Option-group>
+					<Option-group label="*** 二组 ***">
+						<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</Option-group>
+					<Option-group label="*** 三组 ***">
+						<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</Option-group>
+				</i-select>
+			</p>
+			<br>
+			
+			<p>
 				不良内容&nbsp;&nbsp;
 				<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
 					<Option-group label="****** 印刷系 ******">
@@ -301,22 +322,11 @@ SMT - QC report
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				
 				数量&nbsp;&nbsp;
-				<Input-number v-model.lazy="shuliang_edit" :min="0" size="small" style="width: 80px"></Input-number>
+				<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				
-				检查者&nbsp;&nbsp;
-				<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:140px" placeholder="">
-					<Option-group label="****** 一组 ******">
-						<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 二组 ******">
-						<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 三组 ******">
-						<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-				</i-select>
+
 			</p>
 			</span>
 			
@@ -1129,12 +1139,12 @@ var vm_app = new Vue({
 		jianchajileixing_edit: '',
 		buliangneirong_edit: '',
 		weihao_edit: '',
-		shuliang_edit: '',
+		shuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
 		jianchazhe_edit: '',
 		dianmei_edit: '',
 		meishu_edit: '',
 		hejidianshu_edit: '',
-		buliangjianshuheji_edit: '',
+		bushihejianshuheji_edit: '',
 		ppm_edit: '',
 			
 	},
@@ -1471,7 +1481,7 @@ var vm_app = new Vue({
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
 					_this.usecache = false;
-					_this.qcreportgets();
+					_this.qcreportgets(_this.pagecurrent, _this.pagelast);
 					_this.usecache = true;
 					
 
@@ -2778,14 +2788,15 @@ var vm_app = new Vue({
 			_this.jianchajileixing_edit = row.jianchajileixing;
 			_this.buliangneirong_edit = row.buliangneirong;
 			_this.weihao_edit = row.weihao;
-			_this.shuliang_edit = row.shuliang;
+			_this.shuliang_edit[0] = row.shuliang;
+			_this.shuliang_edit[1] = row.shuliang;
 			_this.jianchazhe_edit = row.jianchazhe;
 			_this.dianmei_edit = row.dianmei;
 			_this.meishu_edit = row.meishu;
 			_this.hejidianshu_edit = row.hejidianshu;
-			_this.buliangjianshuheji_edit = row.buliangjianshuheji;
+			_this.bushihejianshuheji_edit = row.bushihejianshuheji;
 			_this.ppm_edit = row.ppm;
-			
+
 			_this.modal_qcreport_edit = true;
 		},
 		
@@ -2802,23 +2813,26 @@ var vm_app = new Vue({
 			var weihao = _this.weihao_edit;
 			var shuliang = _this.shuliang_edit;
 			var jianchazhe = _this.jianchazhe_edit;
-			var dianmei = dianmei_edit;
-			var meishu = meishu_edit;
-			var hejidianshu = hejidianshu_edit;
-			var buliangjianshuheji = buliangjianshuheji_edit;
-			var ppm = ppm_edit;
-			
-			// 数量为0时，清空不良内容、位号和数量
-			if (shuliang == 0) {
-				buliangneirong = '';
-				weihao = '';
-				shuliang = '';
-			}
-			
+			var dianmei = _this.dianmei_edit;
+			var meishu = _this.meishu_edit;
+			var hejidianshu = _this.hejidianshu_edit;
+			var bushihejianshuheji = _this.bushihejianshuheji_edit;
+			var ppm = _this.ppm_edit;
+
 			// 重新计算枚数、合计点数、不良件数合计和PPM
 			hejidianshu = dianmei * meishu;
-			buliangjianshuheji = buliangjianshuheji - shuliang;
-			ppm = buliangjianshuheji / hejidianshu * 1000000;
+			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
+			ppm = bushihejianshuheji / hejidianshu * 1000000;
+			
+			// console.log(hejidianshu);
+			// return false;
+			
+			// 数量为0时，清空不良内容、位号和数量
+			if (shuliang[1] == 0) {
+				buliangneirong = '';
+				weihao = '';
+				shuliang[1] = '';
+			}
 			
 			var url = "{{ route('smt.qcreport.qcreportupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
@@ -2829,19 +2843,23 @@ var vm_app = new Vue({
 				jianchajileixing: jianchajileixing,
 				buliangneirong: buliangneirong,
 				weihao: weihao,
-				shuliang: shuliang,
+				shuliang: shuliang[1],
 				jianchazhe: jianchazhe,
 				meishu: meishu,
 				hejidianshu: hejidianshu,
-				buliangjianshuheji: buliangjianshuheji,
+				bushihejianshuheji: bushihejianshuheji,
 				ppm: ppm
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 				
 				
 				if (response.data) {
+					_this.usecache = false;
+					_this.qcreportgets();
+					_this.usecache = true;
+					
 					_this.success(false, '成功', '更新成功！');
 					_this.id_edit = '';
 					_this.jizhongming_edit = '';
@@ -2850,7 +2868,7 @@ var vm_app = new Vue({
 					_this.jianchajileixing_edit = '';
 					_this.buliangneirong_edit = '';
 					_this.weihao_edit = '';
-					_this.shuliang_edit = '';
+					_this.shuliang_edit = [0, 0];
 					_this.jianchazhe_edit = '';
 				} else {
 					_this.error(false, '失败', '更新失败！');

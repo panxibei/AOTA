@@ -76,7 +76,8 @@ class qcreportController extends Controller
 		// dd($qcdate_filter);
 		
 		//首先查寻cache如果找到
-		if (Cache::has($fullUrl) && $usecache) {
+		// 注意$usecache变量的类型
+		if ($usecache == "true" && Cache::has($fullUrl)) {
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
@@ -103,11 +104,10 @@ class qcreportController extends Controller
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $dailyreport, now()->addSeconds(30));
+			Cache::put($fullUrl, $dailyreport, now()->addSeconds(300));
 		}
 		
 		return $dailyreport;
-			
     }	
 
 	
@@ -293,10 +293,10 @@ class qcreportController extends Controller
 		$jianchazhe = $request->input('jianchazhe');
 		$meishu = $request->input('meishu');
 		$hejidianshu = $request->input('hejidianshu');
-		$buliangjianshuheji = $request->input('buliangjianshuheji');
+		$bushihejianshuheji = $request->input('bushihejianshuheji');
 		$ppm = $request->input('ppm');
 
-		dd($ppm);
+		// dd($ppm);
 		
 		try	{
 			DB::beginTransaction();
@@ -313,7 +313,7 @@ class qcreportController extends Controller
 				->update([
 					'meishu'				=> $meishu,
 					'hejidianshu'			=> $hejidianshu,
-					'buliangjianshuheji'	=> $buliangjianshuheji,
+					'bushihejianshuheji'	=> $bushihejianshuheji,
 					'ppm'					=> $ppm,
 				]);
 			$result = 1;
@@ -324,6 +324,7 @@ class qcreportController extends Controller
 			$result = 0;
 		}
 		DB::commit();
+		// dd($result);
 		return $result;
 
 	}
