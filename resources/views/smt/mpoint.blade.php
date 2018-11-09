@@ -87,15 +87,15 @@ SMT - MPoint
 			<i-col span="3">
 				<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
 			</i-col>
-			<i-col span="5">
-				日期&nbsp;&nbsp;
-				<Date-picker v-model.lazy="dailydate_filter" @on-change="dailydate_filter=datepickerchange(dailydate_filter);mpointgets(1,1);" type="date" size="small" placement="top" style="width:160px"></Date-picker>
+			<i-col span="6">
+				日期范围&nbsp;&nbsp;
+				<Date-picker v-model.lazy="dailydate_filter" @on-change="mpointgets(pagecurrent, pagelast);" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 			</i-col>
 			<i-col span="5">
 				机种名&nbsp;&nbsp;
-				<i-input v-model.lazy="jizhongming_filter" @on-change="mpointgets(1,1)" size="small" clearable style="width: 160px"></i-input>
+				<i-input v-model.lazy="jizhongming_filter" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 160px"></i-input>
 			</i-col>
-			<i-col span="11">
+			<i-col span="10">
 			</i-col>
 		</i-row>
 	
@@ -257,7 +257,7 @@ var vm_app = new Vue({
 		boo_update: true,
 
 		// 日期过滤
-		dailydate_filter: '',
+		dailydate_filter: [],
 		
 		// 机种名过滤
 		jizhongming_filter: '',
@@ -302,13 +302,13 @@ var vm_app = new Vue({
 			});
 		},
 		
-		datepickerchange: function (date) {
-			if (typeof(date)=='string') {
-				return date;
-			} else {
-				return date.Format("yyyy-MM-dd");
-			}
-		},
+		// datepickerchange: function (date) {
+			// if (typeof(date)=='string') {
+				// return date;
+			// } else {
+				// return date.Format("yyyy-MM-dd");
+			// }
+		// },
 		
 		// 切换当前页
 		oncurrentpagechange: function (currentpage) {
@@ -318,7 +318,6 @@ var vm_app = new Vue({
 		// mpoint列表
 		mpointgets: function(page, last_page){
 			var _this = this;
-			var url = "{{ route('smt.pdreport.mpointgets') }}";
 			
 			if (page > last_page) {
 				page = last_page;
@@ -326,13 +325,26 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
+			var dailydate_filter = [];
+			
+			for (var i in _this.dailydate_filter) {
+				if (typeof(_this.dailydate_filter[i])!='string') {
+					dailydate_filter.push(_this.dailydate_filter[i].Format("yyyy-MM-dd"));
+				} else if (_this.dailydate_filter[i] == '') {
+					dailydate_filter.push(new Date().Format("yyyy-MM-dd"));
+				} else {
+					dailydate_filter.push(_this.dailydate_filter[i]);
+				}
+			}
+			
+			var url = "{{ route('smt.pdreport.mpointgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
 					perPage: _this.pagepagesize,
 					page: page,
-					dailydate_filter : _this.dailydate_filter,
-					jizhongming_filter : _this.jizhongming_filter
+					dailydate_filter: dailydate_filter,
+					jizhongming_filter: _this.jizhongming_filter
 				}
 			})
 			.then(function (response) {

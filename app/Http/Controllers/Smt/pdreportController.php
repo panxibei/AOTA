@@ -62,7 +62,7 @@ class pdreportController extends Controller
 		
 		// $mpoint = DB::table('mpoints')
 		$mpoint = Smt_mpoint::when($dailydate_filter, function ($query) use ($dailydate_filter) {
-				return $query->where('created_at', 'like', '%'.$dailydate_filter.'%');
+				return $query->whereBetween('created_at', $dailydate_filter);
 			})
 			->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 				return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');

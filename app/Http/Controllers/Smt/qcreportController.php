@@ -86,7 +86,7 @@ class qcreportController extends Controller
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-				return $query->whereBetween('shengchanriqi', $qcdate_filter);
+					return $query->whereBetween('shengchanriqi', $qcdate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', '=', $xianti_filter);
