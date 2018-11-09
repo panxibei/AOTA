@@ -379,7 +379,7 @@ SMT - QC report
 	<br><br>
 	<i-row :gutter="16">
 		<i-col span="24">
-			<div id="chart3" style="height:500px"></div>
+			<div id="chart3" style="height:600px"></div>
 		</i-col>
 	</i-row>
 
@@ -1839,20 +1839,24 @@ var vm_app = new Vue({
 					var myChart = ec.init(document.getElementById('chart3'), 'macarons'); 
 					
 					var option = {
+						title: {
+							text: '按月份对比不良率和PPM',
+							x:'center'
+						},
 						tooltip: {
 							trigger: 'axis',
-							axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-								type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+							axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+								type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
 							}
 						},
 						legend: {
 							// data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
 							data: vm_app.chart3_option_legend_data,
 							x: 'left',
-							// padding: [5,20,50,5]
+							padding: [40,5,5,5]
 						},
 						grid: {
-							y: 80,
+							y: 120,
 						},
 						toolbox: {
 							show: true,
@@ -1860,7 +1864,7 @@ var vm_app = new Vue({
 							orient: 'horizontal',
 							x: 'right',
 							y: 'top',
-							padding: [30, 5, 5, 5],
+							padding: [65, 5, 5, 5],
 							feature: {
 								mark: {show: true},
 								dataView: {show: true, readOnly: false},
