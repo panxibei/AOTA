@@ -151,17 +151,17 @@ SMT - QC report
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets();onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
 			线体&nbsp;&nbsp;
-			<i-select v-model.lazy="xianti_filter" @on-change="qcreportgets();onselectchange1();" clearable size="small" style="width:80px" placeholder="">
+			<i-select v-model.lazy="xianti_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
 				<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
 		<i-col span="3">
 			班次&nbsp;&nbsp;
-			<i-select v-model.lazy="banci_filter" @on-change="qcreportgets();onselectchange1();" clearable size="small" style="width:80px" placeholder="">
+			<i-select v-model.lazy="banci_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
 				<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -177,17 +177,17 @@ SMT - QC report
 		</i-col>
 		<i-col span="4">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets()" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="4">
 			品名&nbsp;&nbsp;
-			<i-select v-model.lazy="pinming_filter" @on-change="qcreportgets()" clearable style="width:120px" size="small" placeholder="">
+			<i-select v-model.lazy="pinming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:120px" size="small" placeholder="">
 				<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
 		<i-col span="3">
 			工序&nbsp;&nbsp;
-			<i-select v-model.lazy="gongxu_filter" @on-change="qcreportgets()" clearable style="width:80px" size="small" placeholder="">
+			<i-select v-model.lazy="gongxu_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:80px" size="small" placeholder="">
 				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -195,7 +195,7 @@ SMT - QC report
 			不良内容
 		</i-col>
 		<i-col span="9">
-			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets();onselectchange1();" multiple size="small" clearable style="width:400px" placeholder="例：部品不良">
+			<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" multiple size="small" clearable style="width:400px" placeholder="例：部品不良">
 				<Option-group label="****** 印刷系 ******">
 					<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</Option-group>
@@ -1128,8 +1128,6 @@ var vm_app = new Vue({
 		file: null,
 		loadingStatus: false,
 		
-		usecache: true,
-		
 		// 编辑
 		modal_qcreport_edit: false,
 		id_edit: '',
@@ -1296,8 +1294,6 @@ var vm_app = new Vue({
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 			
-			var usecache = _this.usecache;
-
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -1311,7 +1307,6 @@ var vm_app = new Vue({
 					pinming_filter: pinming_filter,
 					gongxu_filter: gongxu_filter,
 					buliangneirong_filter: buliangneirong_filter,
-					usecache: usecache
 				}
 			})
 			.then(function (response) {
@@ -1480,9 +1475,7 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '记入成功！');
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
-					_this.usecache = false;
 					_this.qcreportgets(_this.pagecurrent, _this.pagelast);
-					_this.usecache = true;
 					
 
 					// var t = [];
@@ -1518,9 +1511,7 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '删除成功！');
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
-					_this.usecache = false;
-					_this.qcreportgets();
-					_this.usecache = true;
+					_this.qcreportgets(_this.pagecurrent, _this.pagelast);
 					
 					// var t = [];
 					// for (var i in tableselect1) {
@@ -2801,13 +2792,14 @@ var vm_app = new Vue({
 		},
 		
 		
-		// 编辑后确定
+		// 编辑后保存
 		qcreport_edit_ok: function () {
 			var _this = this;
 			
 			var id = _this.id_edit;
 			var jizhongming = _this.jizhongming_edit;
 			var created_at = _this.created_at_edit;
+			var updated_at = _this.updated_at_edit;
 			var jianchajileixing = _this.jianchajileixing_edit;
 			var buliangneirong = _this.buliangneirong_edit;
 			var weihao = _this.weihao_edit;
@@ -2844,6 +2836,7 @@ var vm_app = new Vue({
 				id: id,
 				jizhongming: jizhongming,
 				created_at: created_at,
+				updated_at: updated_at,
 				jianchajileixing: jianchajileixing,
 				buliangneirong: buliangneirong,
 				weihao: weihao,
@@ -2858,13 +2851,11 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 				
+				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
 				
 				if (response.data) {
-					_this.usecache = false;
-					_this.qcreportgets();
-					_this.usecache = true;
-					
 					_this.success(false, '成功', '更新成功！');
+					
 					_this.id_edit = '';
 					_this.jizhongming_edit = '';
 					_this.created_at_edit = '';
@@ -2875,7 +2866,7 @@ var vm_app = new Vue({
 					_this.shuliang_edit = [0, 0];
 					_this.jianchazhe_edit = '';
 				} else {
-					_this.error(false, '失败', '更新失败！');
+					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
 				}
 			})
 			.catch(function (error) {

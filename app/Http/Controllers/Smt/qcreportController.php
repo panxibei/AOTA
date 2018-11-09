@@ -61,7 +61,7 @@ class qcreportController extends Controller
 		$gongxu_filter = $request->input('gongxu_filter');
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
 		
-		$usecache = $request->input('usecache');
+		// $usecache = $request->input('usecache');
 		
 		//对查询参数按照键名排序
 		ksort($queryParams);
@@ -76,9 +76,10 @@ class qcreportController extends Controller
 		// dd($qcdate_filter);
 		
 		// 注意$usecache变量的类型
-		if ($usecache == "false") {
-			Cache::forget($fullUrl);
-		}
+		// if ($usecache == "false") {
+			// Cache::forget($fullUrl);
+			// Cache::flush();
+		// }
 		
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl)) {
@@ -108,7 +109,7 @@ class qcreportController extends Controller
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $dailyreport, now()->addSeconds(300));
+			Cache::put($fullUrl, $dailyreport, now()->addSeconds(30));
 		}
 		
 		return $dailyreport;
@@ -273,6 +274,7 @@ class qcreportController extends Controller
 		}
 
 		DB::commit();
+		Cache::flush();
 		return $result;		
     }
 
@@ -290,6 +292,7 @@ class qcreportController extends Controller
 		$id = $request->input('id');
 		$jizhongming = $request->input('jizhongming');
 		$created_at = $request->input('created_at');
+		$updated_at = $request->input('updated_at');
 		$jianchajileixing = $request->input('jianchajileixing');
 		$buliangneirong = $request->input('buliangneirong');
 		$weihao = $request->input('weihao');
@@ -300,8 +303,24 @@ class qcreportController extends Controller
 		$bushihejianshuheji = $request->input('bushihejianshuheji');
 		$ppm = $request->input('ppm');
 
-		// dd($ppm);
+		// dd($id);
+		// dd($updated_at);
 		
+		// 判断如果不是最新的记录，不可被编辑
+		$res = Smt_qcreport::select('updated_at')
+			->where('id', $id)
+			->first();
+		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
+
+		// dd($updated_at . ' | ' . $res_updated_at);
+		// dd(gettype($updated_at) . ' | ' . gettype($res_updated_at));
+		// dd($updated_at != $res_updated_at);
+		
+		if ($updated_at != $res_updated_at) {
+			return 0;
+		}
+		
+		// 尝试更新
 		try	{
 			DB::beginTransaction();
 			$result = Smt_qcreport::where('id', $id)
@@ -328,6 +347,7 @@ class qcreportController extends Controller
 			$result = 0;
 		}
 		DB::commit();
+		Cache::flush();
 		// dd($result);
 		return $result;
 
@@ -354,6 +374,7 @@ class qcreportController extends Controller
 			$result = 0;
 		}
 		
+		Cache::flush();
 		return $result;
 
 	}
