@@ -75,9 +75,13 @@ class qcreportController extends Controller
 		// dd($queryParams);
 		// dd($qcdate_filter);
 		
-		//首先查寻cache如果找到
 		// 注意$usecache变量的类型
-		if ($usecache == "true" && Cache::has($fullUrl)) {
+		if ($usecache == "false") {
+			Cache::forget($fullUrl);
+		}
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {

@@ -2824,7 +2824,7 @@ var vm_app = new Vue({
 			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
 			ppm = bushihejianshuheji / hejidianshu * 1000000;
 			
-			// console.log(hejidianshu);
+			// console.log(buliangneirong);
 			// return false;
 			
 			// 数量为0时，清空不良内容、位号和数量
@@ -2832,6 +2832,10 @@ var vm_app = new Vue({
 				buliangneirong = '';
 				weihao = '';
 				shuliang[1] = '';
+			} else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
+				|| weihao == '' || weihao == null || weihao == undefined) {
+				_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
+				return false;
 			}
 			
 			var url = "{{ route('smt.qcreport.qcreportupdate') }}";
