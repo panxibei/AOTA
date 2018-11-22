@@ -261,7 +261,7 @@ SMT - QC report
 			</p>
 			<br>
 			
-			<span v-for="(item, index) in piliangluru">
+			<!--<span v-for="(item, index) in piliangbianji">-->
 			<p>
 				枚数&nbsp;&nbsp;
 				<Input-number v-model.lazy="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
@@ -328,7 +328,8 @@ SMT - QC report
 				
 
 			</p>
-			</span>
+			<br>
+			<!--</span>-->
 			
 			&nbsp;
 		
@@ -402,12 +403,9 @@ var vm_app = new Vue({
 				jianchazhe: ''
 			},
 		],
-
 		
 		// 扫描
 		saomiao: 'MRAP808A/5283600121-51/MAIN/900',
-		
-		
 		
 		// 批量录入项
 		piliangluruxiang: 1,
