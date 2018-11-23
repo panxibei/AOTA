@@ -112,7 +112,7 @@ var vm_app = new Vue({
 		CardListBupinjiagong: [
 			{
 				name: '中日程分析',
-				url: '#',
+				url: "{{ route('bpjg.zrcfx.index') }}",
 				hits: '???'
 			},
 		],
