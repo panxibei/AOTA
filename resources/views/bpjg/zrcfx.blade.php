@@ -109,13 +109,11 @@
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter" @on-change="maingets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
 			线体&nbsp;&nbsp;
-			<i-select v-model.lazy="xianti_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
-				<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
+			<i-input v-model.lazy="xianti_filter" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 80px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
@@ -129,19 +127,15 @@
 		</i-col>
 		<i-col span="4">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="4">
 			品名&nbsp;&nbsp;
-			<i-select v-model.lazy="pinming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:120px" size="small" placeholder="">
-				<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
+			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="3">
-			工序&nbsp;&nbsp;
-			<i-select v-model.lazy="gongxu_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:80px" size="small" placeholder="">
-				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
+			品番&nbsp;&nbsp;
+			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 
 	</i-row>
@@ -154,15 +148,13 @@
 		</i-col>
 		<i-col span="8">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_table()"><Icon type="ios-download-outline"></Icon> 导出当前显示数据</i-button>
-			&nbsp;&nbsp;
 			<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出全部后台数据</i-button>
 		</i-col>
 		<i-col span="10">
 			&nbsp;
 		</i-col>
 		<i-col span="4">
-			&nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp;
+			&nbsp;
 		</i-col>
 	</i-row>
 
@@ -173,10 +165,14 @@
 		</i-col>
 	</i-row>
 	
-	<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
+	<Modal v-model="modal_main_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
 		<div style="text-align:left">
 			<p>
-				机种名：@{{ jizhongming_edit }}
+				线体：@{{ xianti_edit }}
+			
+				&nbsp;&nbsp;
+
+				区分：@{{ qufen_edit }}
 			
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				
@@ -191,66 +187,23 @@
 			
 			<!--<span v-for="(item, index) in piliangbianji">-->
 			<p>
-				枚数&nbsp;&nbsp;
-				<Input-number v-model.lazy="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
+				机种名&nbsp;&nbsp;
+				<i-input v-model.lazy="jizhongming_edit" @on-keyup="jizhongming_edit=jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+
+				品番&nbsp;&nbsp;
+				<i-input v-model.lazy="pinfan_edit" @on-keyup="pinfan_edit=pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+
+				品名&nbsp;&nbsp;
+				<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			
-				检查机类型&nbsp;&nbsp;
-				<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
-					<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				检查者&nbsp;&nbsp;
-				<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
-					<Option-group label="*** 一组 ***">
-						<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="*** 二组 ***">
-						<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="*** 三组 ***">
-						<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-				</i-select>
-			</p>
-			<br>
-			
-			<p>
-				不良内容&nbsp;&nbsp;
-				<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
-					<Option-group label="****** 印刷系 ******">
-						<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 装着系 ******">
-						<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 异物系 ******">
-						<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 人系 ******">
-						<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 部品系 ******">
-						<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-					<Option-group label="****** 其他 ******">
-						<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</Option-group>
-				</i-select>
-			</p>
-			<br>
-
-			<p>
-				位号&nbsp;&nbsp;
-				<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
-
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				数量&nbsp;&nbsp;
-				<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
+				需求数量&nbsp;&nbsp;
+				<Input-number v-model.lazy="xuqiushuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</p>
@@ -272,18 +225,6 @@
 	<Divider orientation="left">品质管理图表</Divider>
 	
 	<br>
-	&nbsp;&nbsp;&nbsp;<i-button @click="onchart1()" type="info" size="small">刷新图表一</i-button>&nbsp;&nbsp;
-	&nbsp;&nbsp;&nbsp;<i-button @click="onchart2()" type="info" size="small">刷新图表二</i-button>&nbsp;&nbsp;
-	&nbsp;&nbsp;&nbsp;<i-button @click="onimport()" type="info" size="small">导入数据</i-button>&nbsp;&nbsp;
-	&nbsp;&nbsp;&nbsp;
-	<br><br>
-	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-	<Upload
-		:before-upload="handleUpload"
-		action="{{ route('smt.qcreport.qcreportimport') }}">
-        <i-button icon="ios-cloud-upload-outline">Upload files</i-button>
-    </Upload>
-	<div v-if="file !== null">Upload file: @{{ file.name }} <i-button @click="upload" :loading="loadingStatus" size="small">@{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</i-button></div>
 
 	<br><br>
 	<i-row :gutter="16">
@@ -305,9 +246,17 @@
 @section('my_js_others')
 @parent	
 <script>
+// var current_date = new Date();
+var current_date = new Date("January 12,2006 22:19:35");
 var vm_app = new Vue({
 	el: '#app',
 	data: {
+		//分页
+		pagecurrent: 1,
+		pagetotal: 1,
+		pagepagesize: 10,
+		pagelast: 1,
+		
 		// 批量录入
 		piliangluru: [
 			{
@@ -345,7 +294,474 @@ var vm_app = new Vue({
 		// 品名过滤
 		pinming_filter: '',
 
+		// 编辑
+		modal_main_edit: false,
+		// id_edit: '',
+		xianti_edit: '',
+		qufen_edit: '',
+		created_at_edit: '',
+		updated_at_edit: '',
+		jizhongming_edit: '',
+		pinfan_edit: '',
+		pinming_edit: '',
+		xuqiushuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
+
 		
+		// 表头1
+		tablecolumns1: [
+			{
+				type: 'selection',
+				width: 50,
+				align: 'center',
+				fixed: 'left'
+			},
+			{
+				type: 'index',
+				width: 60,
+				align: 'center'
+			},
+
+			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 80,
+			},
+			{
+				title: '区分',
+				key: 'qufen',
+				align: 'center',
+				width: 80,
+			},
+			{
+				title: '机种名',
+				key: 'jizhongming',
+				align: 'center',
+				width: 120,
+				// sortable: true
+			},
+			{
+				title: '品番',
+				key: 'pinfan',
+				align: 'center',
+				width: 100,
+				// sortable: true
+			},
+			{
+				title: '品名',
+				key: 'pinming',
+				align: 'center',
+				width: 100
+			},
+			{
+				title: '需求数量',
+				key: 'xuqiushuliang',
+				align: 'center',
+				width: 100,
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.xuqiushuliang.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '当前月日期',
+				align: 'center',
+				renderHeader: (h, index) => {
+					return h('div', {
+						domProps: {
+							title: '当前月份日期',
+							// innerHTML: new Date().Format("yyyy年MM月")
+							innerHTML: current_date.Format("yyyy年MM月")
+						}
+					});
+				},
+				children: [
+					{
+						title: '1',
+						key: 'd1',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d1.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '2',
+						key: 'd2',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d2.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '3',
+						key: 'd3',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d3.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '4',
+						key: 'd4',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d4.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '5',
+						key: 'd5',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d5.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '6',
+						key: 'd6',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d6.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '7',
+						key: 'd7',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d7.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '8',
+						key: 'd8',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d8.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '9',
+						key: 'd9',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d9.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '10',
+						key: 'd10',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d10.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '11',
+						key: 'd11',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d11.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '12',
+						key: 'd12',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d12.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '13',
+						key: 'd13',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d13.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '14',
+						key: 'd14',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d14.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '15',
+						key: 'd15',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d15.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '16',
+						key: 'd16',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d16.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '17',
+						key: 'd17',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d17.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '18',
+						key: 'd18',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d18.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '19',
+						key: 'd19',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d19.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '20',
+						key: 'd20',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d20.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '21',
+						key: 'd21',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d21.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '22',
+						key: 'd22',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d22.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '23',
+						key: 'd23',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d23.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '24',
+						key: 'd24',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d24.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '25',
+						key: 'd25',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d25.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '26',
+						key: 'd26',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d26.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '27',
+						key: 'd27',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d27.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '28',
+						key: 'd28',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d28.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '29',
+						key: 'd29',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d29.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '30',
+						key: 'd30',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d30.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '31',
+						key: 'd31',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.d31.toLocaleString()
+							]);
+						}
+					},
+				]
+			},			
+			{
+				title: '创建日期',
+				key: 'created_at',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '更新日期',
+				key: 'updated_at',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.main_edit(params.row)
+								}
+							}
+						}, 'Edit')
+					]);
+				},
+				fixed: 'right'
+			},			
+		],
+		tabledata1: [],
+		tableselect1: [],
+
 		
 		
 		
@@ -549,343 +965,9 @@ var vm_app = new Vue({
 			{value: '曾加英', label: '曾加英'},
 		],
 		
-		// 表头1
-		tablecolumns1: [
-			{
-				type: 'selection',
-				width: 50,
-				align: 'center'
-			},
-			{
-				type: 'index',
-				width: 40,
-				align: 'center'
-			},
-			{
-				title: '日期',
-				key: 'created_at',
-				align: 'center',
-				width: 160,
-			},
-			{
-				title: '线体',
-				key: 'xianti',
-				align: 'center',
-				width: 80,
-				filters: [
-					{
-						label: 'SMT-1',
-						value: 'SMT-1'
-					},
-					{
-						label: 'SMT-2',
-						value: 'SMT-2'
-					},
-					{
-						label: 'SMT-3',
-						value: 'SMT-3'
-					},
-					{
-						label: 'SMT-4',
-						value: 'SMT-4'
-					},
-					{
-						label: 'SMT-5',
-						value: 'SMT-5'
-					},
-					{
-						label: 'SMT-6',
-						value: 'SMT-6'
-					},
-					{
-						label: 'SMT-7',
-						value: 'SMT-7'
-					},
-					{
-						label: 'SMT-8',
-						value: 'SMT-8'
-					},
-					{
-						label: 'SMT-9',
-						value: 'SMT-9'
-					},
-					{
-						label: 'SMT-10',
-						value: 'SMT-10'
-					},
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					if (value === 'SMT-1') {
-						return row.xianti === 'SMT-1';
-					} else if (value === 'SMT-2') {
-						return row.xianti === 'SMT-2';
-					} else if (value === 'SMT-3') {
-						return row.xianti === 'SMT-3';
-					} else if (value === 'SMT-4') {
-						return row.xianti === 'SMT-4';
-					} else if (value === 'SMT-5') {
-						return row.xianti === 'SMT-5';
-					} else if (value === 'SMT-6') {
-						return row.xianti === 'SMT-6';
-					} else if (value === 'SMT-7') {
-						return row.xianti === 'SMT-7';
-					} else if (value === 'SMT-8') {
-						return row.xianti === 'SMT-8';
-					} else if (value === 'SMT-9') {
-						return row.xianti === 'SMT-9';
-					} else if (value === 'SMT-10') {
-						return row.xianti === 'SMT-10';
-					}
-				}
-			},
-			{
-				title: '班次',
-				key: 'qufen',
-				align: 'center',
-				width: 80,
-				filters: [
-					{
-						label: 'A-1',
-						value: 'A-1'
-					},
-					{
-						label: 'A-2',
-						value: 'A-2'
-					},
-					{
-						label: 'A-3',
-						value: 'A-3'
-					},
-					{
-						label: 'B-1',
-						value: 'B-1'
-					},
-					{
-						label: 'B-2',
-						value: 'B-2'
-					},
-					{
-						label: 'B-3',
-						value: 'B-3'
-					}
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					if (value === 'A-1') {
-						return row.qufen === 'A-1';
-					} else if (value === 'A-2') {
-						return row.qufen === 'A-2';
-					} else if (value === 'A-3') {
-						return row.qufen === 'A-3';
-					} else if (value === 'B-1') {
-						return row.qufen === 'B-1';
-					} else if (value === 'B-2') {
-						return row.qufen === 'B-2';
-					} else if (value === 'B-3') {
-						return row.qufen === 'B-3';
-					}
-				}
-			},
-			{
-				title: '机种名',
-				key: 'jizhongming',
-				align: 'center',
-				width: 120,
-				sortable: true
-			},
-			{
-				title: '品名',
-				key: 'pinming',
-				align: 'center',
-				width: 100,
-				sortable: true
-			},
-			{
-				title: '工序',
-				key: 'jizhongming',
-				align: 'center',
-				width: 80
-			},
-			{
-				title: 'SP NO.',
-				key: 'spno',
-				align: 'center',
-				width: 140,
-				sortable: true
-			},
-			{
-				title: 'LOT数',
-				key: 'lotshu',
-				align: 'center',
-				width: 100,
-				sortable: true,
-				render: (h, params) => {
-					return h('div', [
-						params.row.lotshu.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '点/枚',
-				key: 'dianmei',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.dianmei.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '枚数',
-				key: 'meishu',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.meishu.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '合计点数',
-				key: 'hejidianshu',
-				align: 'center',
-				width: 100,
-				render: (h, params) => {
-					return h('div', [
-						// parseFloat(params.row.hejidianshu * 100) + '%'
-						params.row.hejidianshu.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '不适合件数合计',
-				key: 'bushihejianshuheji',
-				align: 'center',
-				width: 100
-			},
-			{
-				title: 'PPM',
-				key: 'ppm',
-				align: 'center',
-				width: 80
-			},
-			{
-				title: '不良内容',
-				key: 'buliangneirong',
-				align: 'center',
-				width: 120,
-				filters: [
-					{value: '连焊', label: '连焊'}, 
-					{value: '引脚焊锡量少/无', label: '引脚焊锡量少/无'},
-					{value: 'chip部品焊锡少/无', label: 'chip部品焊锡少/无'},
-					{value: '焊锡球', label: '焊锡球'},
-					{value: '部品浮起竖立', label: '部品浮起竖立'},
-					{value: 'chip部品横立', label: 'chip部品横立'},
-					{value: '欠品', label: '欠品'},
-					{value: '焊锡未熔解', label: '焊锡未熔解'},
-					{value: '部品错误', label: '部品错误'},
-					{value: '部品多余', label: '部品多余'},
-					{value: '异物', label: '异物'},
-					{value: '极性错误', label: '极性错误'},
-					{value: '炉后部品破损', label: '炉后部品破损'}, 
-					{value: '引脚弯曲', label: '引脚弯曲'},
-					{value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
-					{value: '引脚不上锡', label: '引脚不上锡'},
-					{value: '基板不上锡', label: '基板不上锡'},
-					{value: 'chip部品不上锡', label: 'chip部品不上锡'},
-					{value: '部品不良', label: '部品不良'},
-					{value: '其他', label: '其他'},
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					var result = '';
-					if (value === '连焊') {
-						result = row.buliangneirong === '连焊';
-					} else if (value === '引脚焊锡量少/无') {
-						result = row.buliangneirong === '引脚焊锡量少/无';
-					} else if (value === 'chip部品焊锡少/无') {
-						result = row.buliangneirong === 'chip部品焊锡少/无';
-					} else if (value === '焊锡球') {
-						result = row.buliangneirong === '焊锡球';
-					} else if (value === '部品浮起竖立') {
-						result = row.buliangneirong === '部品浮起竖立';
-					} else if (value === 'chip部品横立') {
-						result = row.buliangneirong === 'chip部品横立';
-					} else if (value === '欠品') {
-						result = row.buliangneirong === '欠品';
-					} else if (value === '焊锡未熔解') {
-						result = row.buliangneirong === '焊锡未熔解';
-					} else if (value === '部品错误') {
-						result = row.buliangneirong === '部品错误';
-					} else if (value === '部品多余') {
-						result = row.buliangneirong === '部品多余';
-					} else if (value === '异物') {
-						result = row.buliangneirong === '异物';
-					} else if (value === '极性错误') {
-						result = row.buliangneirong === '极性错误';
-					} else if (value === '炉后部品破损') {
-						result = row.buliangneirong === '炉后部品破损';
-					} else if (value === '引脚弯曲') {
-						result = row.buliangneirong === '引脚弯曲';
-					} else if (value === '基板/部品变形后引脚浮起') {
-						result = row.buliangneirong === '基板/部品变形后引脚浮起';
-					} else if (value === '引脚不上锡') {
-						result = row.buliangneirong === '引脚不上锡';
-					} else if (value === '基板不上锡') {
-						result = row.buliangneirong === '基板不上锡';
-					} else if (value === 'chip部品不上锡') {
-						result = row.buliangneirong === 'chip部品不上锡';
-					} else if (value === '部品不良') {
-						result = row.buliangneirong === '部品不良';
-					} else if (value === '其他') {
-						result = row.buliangneirong === '其他';
-					}
-					
-					return result;
-					
-				}				
-			},
-			{
-				title: '位号',
-				key: 'weihao',
-				align: 'center',
-				width: 120
-			},
-			{
-				title: '数量',
-				key: 'shuliang',
-				align: 'center',
-				width: 80
-			},
-			{
-				title: '检查机类型',
-				key: 'jianchajileixing',
-				align: 'center',
-				width: 120
-			},
-			{
-				title: '检查者',
-				key: 'jianchazhe',
-				align: 'center',
-				width: 120
-			}
-		],
-		tabledata1: [],
-		tableselect1: [],
-		
+
 
 		
-		// 日期范围过滤
-		qcdate_filter: [], //new Date(),
-		
-		// 线体过滤
-		xianti_filter: '',
-		
-		// 不良内容过滤
-		buliangneirong_filter: '',
 		
 		// 删除disabled
 		boo_delete: true,
@@ -985,7 +1067,7 @@ var vm_app = new Vue({
 		},
 		
 		// qcreport列表
-		qcreportgets: function(){
+		maingets: function(){
 			var _this = this;
 			var qcdate_filter = [];
 
@@ -1002,7 +1084,7 @@ var vm_app = new Vue({
 			var xianti_filter = _this.xianti_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 
-			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			var url = "{{ route('bpjg.zrcfx.maingets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -1029,54 +1111,8 @@ var vm_app = new Vue({
 				_this.loadingbarerror();
 				_this.error(false, 'Error', error);
 			})
-		},		
-		
-		// 表1选择
-		onselectchange1: function (selection) {
-			var _this = this;
-			_this.tableselect1 = [];
-
-			for (var i in selection) {
-				_this.tableselect1.push(selection[i].id);
-			}
-			
-			_this.boo_delete = _this.tableselect1[0] == undefined ? true : false;
-			
 		},
 		
-
-		// 加载扫描相应信息（暂未用到）
-		load_saomiao: function () {
-			var _this = this;
-			if (_this.saomiao.trim() == '') {
-				_this.saomiao = '';
-				return false;
-			}
-			
-			var saomiao = _this.saomiao;
-			
-			var url = "{{ route('smt.qcreport.getsaomiao') }}";
-			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
-			axios.get(url,{
-				params: {
-					saomiao: _this.saomiao
-				}
-			})
-			.then(function (response) {
-				// console.log(response.data);
-				// return false;
-				if (response.data) {
-					_this.saomiao_data = response.data;
-				} else {
-					_this.saomiao_data = '';
-					_this.warning(false, '警告', '输入内容不正确！未找到相应记录！');
-					_this.$refs.saomiao.focus();
-				}
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', error);
-			})				
-		},
 		
 		// onclear
 		onclear: function () {
@@ -1096,46 +1132,33 @@ var vm_app = new Vue({
 		// oncreate
 		oncreate: function () {
 			var _this = this;
-			var saomiao = _this.saomiao;
 			var xianti = _this.xianti;
 			var qufen = _this.qufen;
-			var jizhongming = _this.jizhongming;
-			var dianmei = _this.dianmei;
-			var meishu = _this.meishu;
 			
-			if (saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
-				|| qufen == '' || qufen == undefined || jizhongming == '' || jizhongming == undefined) {
+			if (xianti == '' || xianti == undefined || qufen == '' || qufen == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
 			
 			_this.piliangluru.map(function (v,i) {
-				// console.log(v.jianchajileixing);
-				// console.log(v.buliangneirong);
-				// console.log(v.weihao);
-				// console.log(v.shuliang);
-				// console.log(v.jianchazhe);
+				// jizhongming: '',
+				// pinfan: '',
+				// pinming: '',
+				// xuqiushuliang: 0
 				
-				if (v.jianchajileixing == '' || v.buliangneirong == '' || v.weihao == ''  || v.shuliang == '' || v.jianchazhe == ''
-					|| v.jianchajileixing == undefined || v.buliangneirong == undefined || v.weihao == undefined || v.shuliang == undefined || v.jianchazhe == undefined) {
+				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == ''
+					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined) {
 					_this.warning(false, '警告', '输入内容为空或不正确！');
 					return false;
 				}
 			});
-			
 			var piliangluru = _this.piliangluru;
 			
-			var tableselect1 = _this.tableselect1;
-
-			var url = "{{ route('smt.qcreport.qcreportcreate') }}";
+			var url = "{{ route('bpjg.zrcfx.maincreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				saomiao : saomiao,
 				xianti: xianti,
 				qufen: qufen,
-				jizhongming: jizhongming,
-				dianmei: dianmei,
-				meishu: meishu,
 				piliangluru: piliangluru
 			})
 			.then(function (response) {
@@ -1147,13 +1170,8 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '记入成功！');
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
-					_this.qcreportgets();
+					_this.maingets();
 
-					// var t = [];
-					// for (var i in tableselect1) {
-						// t.push({id: tableselect1[i]});
-					// }
-					// _this.onselectchange1(t);
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
@@ -1162,7 +1180,91 @@ var vm_app = new Vue({
 				_this.error(false, '错误', '记入失败！');
 				// console.log(error);
 			})
-		},		
+		},
+		
+		
+		// 编辑后保存
+		qcreport_edit_ok: function () {
+			var _this = this;
+			
+			var id = _this.id_edit;
+			var jizhongming = _this.jizhongming_edit;
+			var created_at = _this.created_at_edit;
+			var updated_at = _this.updated_at_edit;
+			var jianchajileixing = _this.jianchajileixing_edit;
+			var buliangneirong = _this.buliangneirong_edit;
+			var weihao = _this.weihao_edit;
+			var shuliang = _this.shuliang_edit;
+			var jianchazhe = _this.jianchazhe_edit;
+			var dianmei = _this.dianmei_edit;
+			var meishu = _this.meishu_edit;
+			var hejidianshu = _this.hejidianshu_edit;
+			var bushihejianshuheji = _this.bushihejianshuheji_edit;
+			var ppm = _this.ppm_edit;
+
+			// 重新计算枚数、合计点数、不良件数合计和PPM
+			hejidianshu = dianmei * meishu;
+			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
+			ppm = bushihejianshuheji / hejidianshu * 1000000;
+			
+			// console.log(buliangneirong);
+			// return false;
+			
+			// 数量为0时，清空不良内容、位号和数量
+			if (shuliang[1] == 0) {
+				buliangneirong = '';
+				weihao = '';
+				shuliang[1] = '';
+			} else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
+				|| weihao == '' || weihao == null || weihao == undefined) {
+				_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
+				return false;
+			}
+			
+			var url = "{{ route('bpjg.zrcfx.mainupdate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				id: id,
+				jizhongming: jizhongming,
+				created_at: created_at,
+				updated_at: updated_at,
+				jianchajileixing: jianchajileixing,
+				buliangneirong: buliangneirong,
+				weihao: weihao,
+				shuliang: shuliang[1],
+				jianchazhe: jianchazhe,
+				meishu: meishu,
+				hejidianshu: hejidianshu,
+				bushihejianshuheji: bushihejianshuheji,
+				ppm: ppm
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				_this.maingets(_this.pagecurrent, _this.pagelast);
+				
+				if (response.data) {
+					_this.success(false, '成功', '更新成功！');
+					
+					_this.id_edit = '';
+					_this.jizhongming_edit = '';
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
+					_this.jianchajileixing_edit = '';
+					_this.buliangneirong_edit = '';
+					_this.weihao_edit = '';
+					_this.shuliang_edit = [0, 0];
+					_this.jianchazhe_edit = '';
+				} else {
+					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '更新失败！');
+			})			
+		},
+		
 		
 		// ondelete
 		ondelete: function () {
@@ -1172,7 +1274,7 @@ var vm_app = new Vue({
 			
 			if (tableselect1[0] == undefined) return false;
 
-			var url = "{{ route('smt.qcreport.qcreportdelete') }}";
+			var url = "{{ route('bpjg.zrcfx.maindelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				tableselect1: tableselect1
@@ -1181,13 +1283,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
 					_this.tableselect1 = [];
-					_this.qcreportgets();
-					
-					// var t = [];
-					// for (var i in tableselect1) {
-						// t.push({id: tableselect1[i]});
-					// }
-					// _this.onselectchange1(t);
+					_this.maingets();
 				} else {
 					_this.error(false, '失败', '删除失败！');
 				}
@@ -1195,23 +1291,35 @@ var vm_app = new Vue({
 			.catch(function (error) {
 				_this.error(false, '错误', '删除失败！');
 			})
-		},
+		},		
 		
 		
-		// exportData_table 当前表数据导出
-		exportData_table: function () {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// 表1选择
+		onselectchange1: function (selection) {
 			var _this = this;
-			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter == undefined) {
-				_this.warning(false, '警告', '请选择日期范围！');
-				return false;
+			_this.tableselect1 = [];
+
+			for (var i in selection) {
+				_this.tableselect1.push(selection[i].id);
 			}
 			
-			_this.$refs.table1.exportCsv({
-				filename: 'smt_qc_report_currentdata',
-				original: false
-			});
+			_this.boo_delete = _this.tableselect1[0] == undefined ? true : false;
+			
 		},
-
+		
 
 		// exportData_db 当前表数据导出
 		exportData_db: function () {
@@ -1225,7 +1333,7 @@ var vm_app = new Vue({
 			var queryfilter_datefrom = _this.qcdate_filter[0].Format("yyyy-MM-dd");
 			var queryfilter_dateto = _this.qcdate_filter[1].Format("yyyy-MM-dd");
 			
-			var url = "{{ route('smt.qcreport.qcreportexport') }}"
+			var url = "{{ route('bpjg.zrcfx.mainexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom
 				+ "&queryfilter_dateto=" + queryfilter_dateto;
 				
@@ -1269,6 +1377,25 @@ var vm_app = new Vue({
 			}			
 
 		},
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		// echarts public function 显示用的公共函数
 		chart1_function: function () {
@@ -1666,51 +1793,7 @@ var vm_app = new Vue({
 		},
 		
 		
-		// upload
-		handleUpload (file) {
-			this.file = file;
-			return false;
-		},
-		upload () {
-			this.loadingStatus = true;
-			
-			
-			
-			let formData = new FormData()
-			// formData.append('file',e.target.files[0])
-			formData.append('myfile',this.file)
-			// console.log(formData.get('file'));
-			
-			// return false;
-			
-			var url = "{{ route('smt.qcreport.qcreportimport') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-			axios({
-				url: url,
-				method: 'post',
-				data: formData,
-				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
-				contentType: false, // 告诉axios不要去设置Content-Type请求头
-			})
-			.then(function (response) {
-				console.log(response.data);
-				alert(response.data);
-			})
-			.catch(function (error) {
-				this.error(false, 'Error', error);
-			})
-			
-			
-			
-			
-			
-			setTimeout(() => {
-				this.file = null;
-				this.loadingStatus = false;
-				this.$Message.success('Success')
-			}, 1500);
-		},
+
 		
 		
 		
@@ -1722,7 +1805,7 @@ var vm_app = new Vue({
 	mounted: function () {
 		// var _this = this;
 		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
-		// _this.qcreportgets(1, 1); // page: 1, last_page: 1
+		// _this.maingets(1, 1); // page: 1, last_page: 1
 	}
 })
 </script>
