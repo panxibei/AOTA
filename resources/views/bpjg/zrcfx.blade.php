@@ -113,7 +113,7 @@
 		</i-col>
 		<i-col span="3">
 			线体&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 80px"></i-input>
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
@@ -125,19 +125,24 @@
 		<i-col span="3">
 			&nbsp;
 		</i-col>
-		<i-col span="4">
+		<i-col span="3">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="4">
-			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
-
+		<i-col span="3">
+			品名&nbsp;&nbsp;
+			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+		</i-col>
+		<i-col span="3">
+			类别&nbsp;&nbsp;
+			<i-select v-model.lazy="leibie_filter" @on-change="maingets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:100px" placeholder="">
+				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
 	</i-row>
 	<br><br>
 
@@ -257,6 +262,7 @@ var vm_app = new Vue({
 		pagepagesize: 10,
 		pagelast: 1,
 		
+		// ##########基本变量########
 		// 批量录入
 		piliangluru: [
 			{
@@ -276,14 +282,20 @@ var vm_app = new Vue({
 		// 区分
 		qufen: '',
 		
+		//类别
+		leibie: '',
+		option_leibie: [
+			{value: '冲压', label: '冲压'},
+			{value: '成型', label: '成型'}
+		],
+		
+		
+		// ##########查询过滤########
 		// 日期范围过滤
 		qcdate_filter: [], //new Date(),
 		
 		// 线体过滤
 		xianti_filter: '',
-
-		// 区分过滤
-		qufen_filter: '',
 
 		// 机种名
 		jizhongming_filter: '',
@@ -293,8 +305,13 @@ var vm_app = new Vue({
 
 		// 品名过滤
 		pinming_filter: '',
+		
+		// 类别过滤
+		leibie_filter: '',
 
-		// 编辑
+		
+
+		// ##########编辑变量########
 		modal_main_edit: false,
 		// id_edit: '',
 		xianti_edit: '',
@@ -320,7 +337,12 @@ var vm_app = new Vue({
 				width: 60,
 				align: 'center'
 			},
-
+			{
+				title: '日期',
+				key: 'riqi',
+				align: 'center',
+				width: 160,
+			},
 			{
 				title: '线体',
 				key: 'xianti',
@@ -354,6 +376,12 @@ var vm_app = new Vue({
 				width: 100
 			},
 			{
+				title: '类别',
+				key: 'leibie',
+				align: 'center',
+				width: 100
+			},
+			{
 				title: '需求数量',
 				key: 'xuqiushuliang',
 				align: 'center',
@@ -366,361 +394,29 @@ var vm_app = new Vue({
 				}
 			},
 			{
-				title: '当前月日期',
+				title: '总数',
+				key: 'zongshu',
 				align: 'center',
-				renderHeader: (h, index) => {
-					return h('div', {
-						domProps: {
-							title: '当前月份日期',
-							// innerHTML: new Date().Format("yyyy年MM月")
-							innerHTML: current_date.Format("yyyy年MM月")
-						}
-					});
-				},
-				children: [
-					{
-						title: '1',
-						key: 'd1',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d1.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '2',
-						key: 'd2',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d2.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '3',
-						key: 'd3',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d3.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '4',
-						key: 'd4',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d4.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '5',
-						key: 'd5',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d5.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '6',
-						key: 'd6',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d6.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '7',
-						key: 'd7',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d7.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '8',
-						key: 'd8',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d8.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '9',
-						key: 'd9',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d9.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '10',
-						key: 'd10',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d10.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '11',
-						key: 'd11',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d11.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '12',
-						key: 'd12',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d12.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '13',
-						key: 'd13',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d13.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '14',
-						key: 'd14',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d14.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '15',
-						key: 'd15',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d15.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '16',
-						key: 'd16',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d16.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '17',
-						key: 'd17',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d17.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '18',
-						key: 'd18',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d18.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '19',
-						key: 'd19',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d19.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '20',
-						key: 'd20',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d20.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '21',
-						key: 'd21',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d21.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '22',
-						key: 'd22',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d22.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '23',
-						key: 'd23',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d23.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '24',
-						key: 'd24',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d24.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '25',
-						key: 'd25',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d25.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '26',
-						key: 'd26',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d26.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '27',
-						key: 'd27',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d27.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '28',
-						key: 'd28',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d28.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '29',
-						key: 'd29',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d29.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '30',
-						key: 'd30',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d30.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '31',
-						key: 'd31',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.d31.toLocaleString()
-							]);
-						}
-					},
-				]
-			},			
+				width: 100,
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.zongshu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '数量',
+				key: 'shuliang',
+				align: 'center',
+				width: 100,
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shuliang.toLocaleString()
+					]);
+				}
+			},
 			{
 				title: '创建日期',
 				key: 'created_at',
@@ -775,12 +471,6 @@ var vm_app = new Vue({
 		
 		
 		
-		//工序
-		jizhongming: '',
-		option_jizhongming: [
-			{value: 'A', label: 'A'},
-			{value: 'B', label: 'B'}
-		],
 		
 		// 点/枚
 		dianmei: '',
@@ -891,83 +581,6 @@ var vm_app = new Vue({
 			}
 		],
 		
-		// 不良内容
-		// select_buliangneirong: '',
-		option_buliangneirong1: [
-			{value: '连焊', label: '连焊'}, {value: '引脚焊锡量少/无', label: '引脚焊锡量少/无'},
-			{value: 'chip部品焊锡少/无', label: 'chip部品焊锡少/无'}, {value: '焊锡球', label: '焊锡球'}
-		],
-		option_buliangneirong2: [
-			{value: '部品浮起竖立', label: '部品浮起竖立'}, {value: 'chip部品横立', label: 'chip部品横立'},
-			{value: '欠品', label: '欠品'}, {value: '焊锡未熔解', label: '焊锡未熔解'},
-		],
-		option_buliangneirong3: [
-			{value: '部品错误', label: '部品错误'},
-		],
-		option_buliangneirong4: [
-			{value: '部品多余', label: '部品多余'},
-		],
-		option_buliangneirong5: [
-			{value: '异物', label: '异物'},
-		],
-		option_buliangneirong6: [
-			{value: '极性错误', label: '极性错误'},
-		],
-		option_buliangneirong7: [
-			{value: '炉后部品破损', label: '炉后部品破损'}, {value: '引脚弯曲', label: '引脚弯曲'},
-			{value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
-		],
-		option_buliangneirong8: [
-			{value: '引脚不上锡', label: '引脚不上锡'},
-			{value: '基板不上锡', label: '基板不上锡'}, {value: 'chip部品不上锡', label: 'chip部品不上锡'},
-			{value: '部品不良', label: '部品不良'},
-		],
-		option_buliangneirong9: [
-			{value: '其他', label: '其他'},
-		],
-
-		
-		// 位号
-		// weihao: '',
-		
-		// 数量
-		// shuliang: '',
-		
-		// 检查者
-		// select_jianchazhe: '',
-		option_jianchazhe1: [
-			{value: '许瑞萍', label: '许瑞萍'},
-			{value: '李世英', label: '李世英'},
-			{value: '张向果', label: '张向果'},
-			{value: '第小霞', label: '第小霞'},
-			{value: '蔡素英', label: '蔡素英'},
-			{value: '孙吻茹', label: '孙吻茹'},
-			{value: '葛敏', label: '葛敏'},
-			{value: '陈小枝', label: '陈小枝'},
-			{value: '李阳', label: '李阳'},
-		],
-		option_jianchazhe2: [
-			{value: '贾东梅', label: '贾东梅'},
-			{value: '蔡小红', label: '蔡小红'},
-			{value: '黄俊英', label: '黄俊英'},
-			{value: '黎小娟', label: '黎小娟'},
-			{value: '张艳敏', label: '张艳敏'},
-			{value: '杨晓娟', label: '杨晓娟'},
-			{value: '朱风婷', label: '朱风婷'},
-		],
-		option_jianchazhe3: [
-			{value: '王凤娇', label: '王凤娇'},
-			{value: '肖厚春', label: '肖厚春'},
-			{value: '朱建珊', label: '朱建珊'},
-			{value: '李燕', label: '李燕'},
-			{value: '张艳红', label: '张艳红'},
-			{value: '贺转云', label: '贺转云'},
-			{value: '曾加英', label: '曾加英'},
-		],
-		
-
-
-		
 		
 		// 删除disabled
 		boo_delete: true,
@@ -1066,9 +679,16 @@ var vm_app = new Vue({
 			];
 		},
 		
-		// qcreport列表
-		maingets: function(){
+		// main列表
+		maingets: function (page, last_page) {
 			var _this = this;
+			
+			if (page > last_page) {
+				page = last_page;
+			} else if (page < 1) {
+				page = 1;
+			}
+			
 			var qcdate_filter = [];
 
 			for (var i in _this.qcdate_filter) {
@@ -1082,18 +702,29 @@ var vm_app = new Vue({
 			}
 			
 			var xianti_filter = _this.xianti_filter;
-			var buliangneirong_filter = _this.buliangneirong_filter;
+			var jizhongming_filter = _this.jizhongming_filter;
+			var pinfan_filter = _this.pinfan_filter;
+			var pinming_filter = _this.pinming_filter;
+			var leibie_filter = _this.leibie_filter;
 
 			var url = "{{ route('bpjg.zrcfx.maingets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
+					perPage: _this.pagepagesize,
+					page: page,
 					qcdate_filter: qcdate_filter,
 					xianti_filter: xianti_filter,
-					buliangneirong_filter: buliangneirong_filter
+					jizhongming_filter: jizhongming_filter,
+					pinfan_filter: pinfan_filter,
+					pinming_filter: pinming_filter,
+					leibie_filter: leibie_filter
 				}
 			})
 			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
 				if (response.data) {
 					_this.tabledata1 = response.data.data;
 				} else {
@@ -1101,10 +732,10 @@ var vm_app = new Vue({
 				}
 				
 				// 合计
-				_this.buliangjianshuxiaoji = 0;
-				for (var i in _this.tabledata1) {
-					_this.buliangjianshuxiaoji += _this.tabledata1[i].shuliang;
-				}
+				// _this.buliangjianshuxiaoji = 0;
+				// for (var i in _this.tabledata1) {
+					// _this.buliangjianshuxiaoji += _this.tabledata1[i].shuliang;
+				// }
 				
 			})
 			.catch(function (error) {
@@ -1294,19 +925,6 @@ var vm_app = new Vue({
 		},		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		// 表1选择
 		onselectchange1: function (selection) {
 			var _this = this;
@@ -1319,6 +937,18 @@ var vm_app = new Vue({
 			_this.boo_delete = _this.tableselect1[0] == undefined ? true : false;
 			
 		},
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 
 		// exportData_db 当前表数据导出
