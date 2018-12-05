@@ -205,7 +205,7 @@ class qcreportController extends Controller
      */
     public function qcreportCreate(Request $request)
     {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
 		$saomiao = $request->input('saomiao');
 		$shengchanriqi = $request->input('shengchanriqi');
@@ -287,7 +287,7 @@ class qcreportController extends Controller
      */
     public function qcreportUpdate(Request $request)
     {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('id');
 		$jizhongming = $request->input('jizhongming');

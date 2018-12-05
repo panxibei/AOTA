@@ -15,7 +15,7 @@ class CreateBpjgZhongrichengMainsTable extends Migration
     {
         Schema::create('bpjg_zhongricheng_mains', function (Blueprint $table) {
             $table->increments('id');
-			$table->timestamp('riqi');
+			$table->timestamp('riqi')->nullable();
 			$table->string('xianti', 50)->comment('线体');
 			$table->string('qufen', 50)->comment('区分');
 			$table->string('jizhongming', 50)->comment('机种名');

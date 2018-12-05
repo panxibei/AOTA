@@ -87,11 +87,11 @@
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter_zrc" @on-change="zrcgets(pagecurrent2, pagelast2);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter_main" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter_zrc" @on-change="zrcgets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_zrc=jizhongming_filter_zrc.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
@@ -235,23 +235,29 @@
 		<i-col span="1">
 			&nbsp;No.@{{index+1}}
 		</i-col>
-		<i-col span="5">
+		<i-col span="4">
 			* 机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 160px"></i-input>
+			<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 120px"></i-input>
 		</i-col>
-		<i-col span="5">
+		<i-col span="4">
 			* 品番&nbsp;&nbsp;
-			<i-input v-model.lazy="item.pinfan" @on-keyup="item.pinfan=item.pinfan.toUpperCase()" size="small" placeholder="例：07-37361Z02-A" clearable style="width: 160px"></i-input>
+			<i-input v-model.lazy="item.pinfan" @on-keyup="item.pinfan=item.pinfan.toUpperCase()" size="small" placeholder="例：07-37361Z02-A" clearable style="width: 120px"></i-input>
 		</i-col>
-		<i-col span="5">
+		<i-col span="4">
 			* 品名&nbsp;&nbsp;
-			<i-input v-model.lazy="item.pinming" @on-keyup="item.pinming=item.pinming.toUpperCase()" size="small" placeholder="例：SPRING,GND 7L" clearable style="width: 160px"></i-input>
+			<i-input v-model.lazy="item.pinming" @on-keyup="item.pinming=item.pinming.toUpperCase()" size="small" placeholder="例：SPRING,GND 7L" clearable style="width: 120px"></i-input>
 		</i-col>
-		<i-col span="3">
-			需求数量&nbsp;&nbsp;
+		<i-col span="4">
+			* 需求数量&nbsp;&nbsp;
 			<Input-number v-model.lazy="item.xuqiushuliang" :min="0" size="small" style="width: 80px"></Input-number>
 		</i-col>
-		<i-col span="5">
+		<i-col span="3">
+			* 类别&nbsp;&nbsp;
+			<i-select v-model.lazy="item.leibie" clearable size="small" style="width:80px" placeholder="">
+				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="4">
 		&nbsp;
 		</i-col>
 		
@@ -461,7 +467,8 @@ var vm_app = new Vue({
 				jizhongming: '',
 				pinfan: '',
 				pinming: '',
-				xuqiushuliang: 0
+				xuqiushuliang: 0,
+				leibie: ''
 			},
 		],
 
@@ -475,7 +482,6 @@ var vm_app = new Vue({
 		qufen: '',
 		
 		//类别
-		leibie: '',
 		option_leibie: [
 			{value: '冲压', label: '冲压'},
 			{value: '成型', label: '成型'}
@@ -980,7 +986,7 @@ var vm_app = new Vue({
 			
 			var jizhongming_filter_zrc = _this.jizhongming_filter_zrc;
 
-			var url = "{{ route('bpjg.zrcfx.maingets') }}";
+			var url = "{{ route('bpjg.zrcfx.zrcgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -1092,6 +1098,7 @@ var vm_app = new Vue({
 				v.pinfan = '';
 				v.pinming = '';
 				v.xuqiushuliang = 0;
+				v.leibie = '';
 			});
 			
 			_this.$refs.xianti.focus();
@@ -1099,49 +1106,41 @@ var vm_app = new Vue({
 		
 		// oncreate_zrc
 		oncreate_zrc: function () {
-			alert('oncreate_zrc');
-			return false;
-			
 			var _this = this;
-			var xianti = _this.xianti;
-			var qufen = _this.qufen;
 			
-			if (xianti == '' || xianti == undefined || qufen == '' || qufen == undefined) {
-				_this.warning(false, '警告', '输入内容为空或不正确！');
-				return false;
-			}
-			
-			_this.piliangluru_main.map(function (v,i) {
+			_this.piliangluru_zrc.map(function (v,i) {
 				// jizhongming: '',
-				// pinfan: '',
-				// pinming: '',
-				// xuqiushuliang: 0
+				// riqi: '',
+				// shuliang: 1
 				
-				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == ''
-					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined) {
+				if (v.jizhongming == '' || v.riqi == '' || v.shuliang == ''
+					|| v.jizhongming == undefined || v.riqi == undefined || v.shuliang == undefined) {
 					_this.warning(false, '警告', '输入内容为空或不正确！');
 					return false;
 				}
+				
+				if (typeof(v.riqi)!='string') {
+					v.riqi = v.riqi.Format("yyyy-MM-dd");
+				}
 			});
-			var piliangluru_main = _this.piliangluru_main;
 			
-			var url = "{{ route('bpjg.zrcfx.maincreate') }}";
+			var piliangluru_zrc = _this.piliangluru_zrc;
+			
+			var url = "{{ route('bpjg.zrcfx.zrccreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				xianti: xianti,
-				qufen: qufen,
-				piliangluru_main: piliangluru_main
+				piliangluru: piliangluru_zrc
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 				
 				if (response.data) {
 					_this.onclear_main();
 					_this.success(false, '成功', '记入成功！');
 					_this.boo_delete_main = true;
 					_this.tableselect2 = [];
-					_this.maingets();
+					_this.zrcgets();
 
 				} else {
 					_this.error(false, '失败', '记入失败！');
@@ -1160,7 +1159,7 @@ var vm_app = new Vue({
 			var qufen = _this.qufen;
 			
 			if (xianti == '' || xianti == undefined || qufen == '' || qufen == undefined) {
-				_this.warning(false, '警告', '输入内容为空或不正确！');
+				_this.warning(false, '警告', '输入内容为空或不正确1！');
 				return false;
 			}
 			
@@ -1168,11 +1167,12 @@ var vm_app = new Vue({
 				// jizhongming: '',
 				// pinfan: '',
 				// pinming: '',
-				// xuqiushuliang: 0
+				// xuqiushuliang: 0,
+				// leibie: ''
 				
-				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == ''
-					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined) {
-					_this.warning(false, '警告', '输入内容为空或不正确！');
+				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == '' || v.leibie == ''
+					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined || v.leibie == undefined) {
+					_this.warning(false, '警告', '输入内容为空或不正确2！');
 					return false;
 				}
 			});
@@ -1183,11 +1183,11 @@ var vm_app = new Vue({
 			axios.post(url, {
 				xianti: xianti,
 				qufen: qufen,
-				piliangluru_main: piliangluru_main
+				piliangluru: piliangluru_main
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 				
 				if (response.data) {
 					_this.onclear_main();
@@ -1453,7 +1453,8 @@ var vm_app = new Vue({
 							jizhongming: '',
 							pinfan: '',
 							pinming: '',
-							xuqiushuliang: 0
+							xuqiushuliang: 0,
+							leibie: ''
 						}
 					);
 				}
