@@ -28,7 +28,181 @@
 
 <div id="app" v-cloak>
 
-	<Divider orientation="left">线体/机种/部品 对应信息录入</Divider>
+	<Divider orientation="left">1. 机芯/完成品中日程 信息录入</Divider>
+	
+	<i-row :gutter="16">
+		<i-col span="24">
+			↓ 批量录入&nbsp;&nbsp;
+			<Input-number v-model.lazy="piliangluruxiang_zrc" @on-change="value=>piliangluru_zrc_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
+			&nbsp;项
+		</i-col>
+	</i-row>
+
+	<span v-for="(item, index) in piliangluru_zrc">
+	<br>
+	<i-row :gutter="16">
+		<i-col span="1">
+			&nbsp;No.@{{index+1}}
+		</i-col>
+		<i-col span="5">
+			* 日期&nbsp;&nbsp;
+			<Date-picker v-model.lazy="item.riqi" type="date" size="small" placement="top" style="width:160px"></Date-picker>
+		</i-col>
+		<i-col span="5">
+			* 机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 160px"></i-input>
+		</i-col>
+		<i-col span="3">
+			* 数量&nbsp;&nbsp;
+			<Input-number v-model.lazy="item.shuliang" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="10">
+		&nbsp;
+		</i-col>
+		
+	</i-row>
+	<br>
+	</span>
+
+	<br>
+
+	<i-row :gutter="16">
+		<i-col span="24">
+			&nbsp;&nbsp;<i-button @click="oncreate_zrc()" type="primary">记入</i-button>
+			&nbsp;&nbsp;<i-button @click="onclear_zrc()">清除</i-button>
+			&nbsp;&nbsp;&nbsp;&nbsp;<i-button @click="onimport_zrc()">批量导入</i-button>
+		</i-col>
+	</i-row>
+
+	<br><br><br>	
+
+	<Divider orientation="left">2. 机芯/完成品中日程 信息查询</Divider>
+
+	<i-row :gutter="16">
+		<i-col span="2">
+			&nbsp;
+		</i-col>
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="6">
+			* 日期范围&nbsp;&nbsp;
+			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+		</i-col>
+		<i-col span="3">
+			机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming_filter_main" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+		</i-col>
+		<i-col span="9">
+		&nbsp;
+		</i-col>
+	</i-row>
+	<br><br>
+
+	<i-row :gutter="16">
+		<br>
+		<i-col span="2">
+			<i-button @click="ondelete_zrc()" :disabled="boo_delete_zrc" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+		</i-col>
+		<i-col span="8">
+			导出：&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出全部后台数据</i-button>
+		</i-col>
+		<i-col span="10">
+			&nbsp;
+		</i-col>
+		<i-col span="4">
+			&nbsp;
+		</i-col>
+	</i-row>
+
+	<i-row :gutter="16">
+		<i-col span="24">
+			<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+			<br><Page :current="pagecurrent1" :total="pagetotal1" :page-size="pagepagesize1" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+		</i-col>
+	</i-row>
+	
+	<Modal v-model="modal_main_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
+		<div style="text-align:left">
+			<p>
+				线体：@{{ xianti_edit }}
+			
+				&nbsp;&nbsp;
+
+				区分：@{{ qufen_edit }}
+			
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				创建时间：@{{ created_at_edit }}
+				
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				更新时间：@{{ updated_at_edit }}
+			
+			</p>
+			<br>
+			
+			<!--<span v-for="(item, index) in piliangbianji">-->
+			<p>
+				机种名&nbsp;&nbsp;
+				<i-input v-model.lazy="jizhongming_edit" @on-keyup="jizhongming_edit=jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+
+				品番&nbsp;&nbsp;
+				<i-input v-model.lazy="pinfan_edit" @on-keyup="pinfan_edit=pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+
+				品名&nbsp;&nbsp;
+				<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			
+				需求数量&nbsp;&nbsp;
+				<Input-number v-model.lazy="xuqiushuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</p>
+			<br>
+			<!--</span>-->
+			
+			&nbsp;
+		
+			<p>
+			※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 的内容。
+			</p>
+		
+		</div>	
+	</Modal>
+	
+	<br>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	<Divider orientation="left">3. 线体/机种/部品 信息录入</Divider>
 
 	<i-row :gutter="16">
 		<i-col span="5">
@@ -49,13 +223,13 @@
 	<i-row :gutter="16">
 		<i-col span="24">
 			↓ 批量录入&nbsp;&nbsp;
-			<Input-number v-model.lazy="piliangluruxiang" @on-change="value=>piliangluru_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
+			<Input-number v-model.lazy="piliangluruxiang_main" @on-change="value=>piliangluru_main_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
 			&nbsp;项
 		</i-col>
 	</i-row>
 	
 
-	<span v-for="(item, index) in piliangluru">
+	<span v-for="(item, index) in piliangluru_main">
 	<br>
 	<i-row :gutter="16">
 		<i-col span="1">
@@ -89,16 +263,16 @@
 
 	<i-row :gutter="16">
 		<i-col span="24">
-			&nbsp;&nbsp;<i-button @click="oncreate()" type="primary">记入</i-button>
-			&nbsp;&nbsp;<i-button @click="onclear()">清除</i-button>
-			&nbsp;&nbsp;&nbsp;&nbsp;<i-button @click="onimport()">批量导入</i-button>
+			&nbsp;&nbsp;<i-button @click="oncreate_main()" type="primary">记入</i-button>
+			&nbsp;&nbsp;<i-button @click="onclear_main()">清除</i-button>
+			&nbsp;&nbsp;&nbsp;&nbsp;<i-button @click="onimport_main()">批量导入</i-button>
 		</i-col>
 	</i-row>
 
-	
-	
 	<br><br><br>
-	<Divider orientation="left">线体/机种/部品 对应信息查询</Divider>
+	
+	
+	<Divider orientation="left">4. 线体/机种/部品 信息查询</Divider>
 
 	<i-row :gutter="16">
 		<i-col span="2">
@@ -109,11 +283,11 @@
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter" @on-change="maingets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
 			线体&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
@@ -127,19 +301,19 @@
 		</i-col>
 		<i-col span="3">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter_main" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent, pagelast)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			类别&nbsp;&nbsp;
-			<i-select v-model.lazy="leibie_filter" @on-change="maingets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:100px" placeholder="">
+			<i-select v-model.lazy="leibie_filter" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" clearable size="small" style="width:100px" placeholder="">
 				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -149,7 +323,7 @@
 	<i-row :gutter="16">
 		<br>
 		<i-col span="2">
-			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>
 		<i-col span="8">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -165,8 +339,8 @@
 
 	<i-row :gutter="16">
 		<i-col span="24">
-			<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
-			<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+			<i-table ref="table2" height="400" size="small" border :columns="tablecolumns2" :data="tabledata2" @on-selection-change="selection => onselectchange2(selection)"></i-table>
+			<br><Page :current="pagecurrent2" :total="pagetotal2" :page-size="pagepagesize2" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
 		</i-col>
 	</i-row>
 	
@@ -256,15 +430,33 @@ var current_date = new Date("January 12,2006 22:19:35");
 var vm_app = new Vue({
 	el: '#app',
 	data: {
-		//分页
-		pagecurrent: 1,
-		pagetotal: 1,
-		pagepagesize: 10,
-		pagelast: 1,
+		//表1分页
+		pagecurrent1: 1,
+		pagetotal1: 1,
+		pagepagesize1: 10,
+		pagelast1: 1,
+
+		//表2分页
+		pagecurrent2: 1,
+		pagetotal2: 1,
+		pagepagesize2: 10,
+		pagelast2: 1,
 		
 		// ##########基本变量########
-		// 批量录入
-		piliangluru: [
+		// 批量录入中日程
+		piliangluru_zrc: [
+			{
+				riqi: '',
+				jizhongming: '',
+				shuliang: 1
+			},
+		],
+
+		// 批量录入项
+		piliangluruxiang_zrc: 1,
+
+		// 批量录入主表
+		piliangluru_main: [
 			{
 				jizhongming: '',
 				pinfan: '',
@@ -274,7 +466,7 @@ var vm_app = new Vue({
 		],
 
 		// 批量录入项
-		piliangluruxiang: 1,
+		piliangluruxiang_main: 1,
 
 		// 线体
 		xianti: '',
@@ -292,13 +484,15 @@ var vm_app = new Vue({
 		
 		// ##########查询过滤########
 		// 日期范围过滤
-		qcdate_filter: [], //new Date(),
+		qcdate_filter_zrc: [], //new Date(),
+		qcdate_filter_main: [], //new Date(),
 		
 		// 线体过滤
 		xianti_filter: '',
 
 		// 机种名
-		jizhongming_filter: '',
+		jizhongming_filter_zrc: '',
+		jizhongming_filter_main: '',
 
 		// 品番过滤
 		pinfan_filter: '',
@@ -326,6 +520,85 @@ var vm_app = new Vue({
 		
 		// 表头1
 		tablecolumns1: [
+			{
+				type: 'selection',
+				width: 50,
+				align: 'center',
+				fixed: 'left'
+			},
+			{
+				type: 'index',
+				width: 60,
+				align: 'center'
+			},
+			{
+				title: '日期',
+				key: 'riqi',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '机种名',
+				key: 'jizhongming',
+				align: 'center',
+				width: 120,
+				// sortable: true
+			},
+			{
+				title: '数量',
+				key: 'shuliang',
+				align: 'center',
+				width: 100,
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shuliang.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '创建日期',
+				key: 'created_at',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '更新日期',
+				key: 'updated_at',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.main_edit(params.row)
+								}
+							}
+						}, 'Edit')
+					]);
+				},
+				fixed: 'right'
+			},			
+		],
+		tabledata1: [],
+		tableselect1: [],
+		
+		// 表头2
+		tablecolumns2: [
 			{
 				type: 'selection',
 				width: 50,
@@ -455,10 +728,16 @@ var vm_app = new Vue({
 				fixed: 'right'
 			},			
 		],
-		tabledata1: [],
-		tableselect1: [],
-
+		tabledata2: [],
+		tableselect2: [],
 		
+
+
+		// 删除disabled
+		boo_delete_zrc: true,
+
+		// 删除disabled
+		boo_delete_main: true,
 		
 		
 		
@@ -582,8 +861,6 @@ var vm_app = new Vue({
 		],
 		
 		
-		// 删除disabled
-		boo_delete: true,
 		
 		// dailyproductionreport 暂未用到
 		saomiao_data: '',
@@ -679,8 +956,8 @@ var vm_app = new Vue({
 			];
 		},
 		
-		// main列表
-		maingets: function (page, last_page) {
+		// zrc列表
+		zrcgets: function (page, last_page) {
 			var _this = this;
 			
 			if (page > last_page) {
@@ -689,36 +966,28 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			var qcdate_filter = [];
+			var qcdate_filter_zrc = [];
 
-			for (var i in _this.qcdate_filter) {
-				if (typeof(_this.qcdate_filter[i])!='string') {
-					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter[i] == '') {
-					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
+			for (var i in _this.qcdate_filter_zrc) {
+				if (typeof(_this.qcdate_filter_zrc[i])!='string') {
+					qcdate_filter_zrc.push(_this.qcdate_filter_zrc[i].Format("yyyy-MM-dd"));
+				} else if (_this.qcdate_filter_zrc[i] == '') {
+					qcdate_filter_zrc.push(new Date().Format("yyyy-MM-dd"));
 				} else {
-					qcdate_filter.push(_this.qcdate_filter[i]);
+					qcdate_filter_zrc.push(_this.qcdate_filter_zrc[i]);
 				}
 			}
 			
-			var xianti_filter = _this.xianti_filter;
-			var jizhongming_filter = _this.jizhongming_filter;
-			var pinfan_filter = _this.pinfan_filter;
-			var pinming_filter = _this.pinming_filter;
-			var leibie_filter = _this.leibie_filter;
+			var jizhongming_filter_zrc = _this.jizhongming_filter_zrc;
 
 			var url = "{{ route('bpjg.zrcfx.maingets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagepagesize,
+					perPage: _this.pagepagesize2,
 					page: page,
-					qcdate_filter: qcdate_filter,
-					xianti_filter: xianti_filter,
-					jizhongming_filter: jizhongming_filter,
-					pinfan_filter: pinfan_filter,
-					pinming_filter: pinming_filter,
-					leibie_filter: leibie_filter
+					qcdate_filter: qcdate_filter_zrc,
+					jizhongming_filter: jizhongming_filter_zrc
 				}
 			})
 			.then(function (response) {
@@ -729,6 +998,64 @@ var vm_app = new Vue({
 					_this.tabledata1 = response.data.data;
 				} else {
 					_this.tabledata1 = [];
+				}
+			})
+			.catch(function (error) {
+				_this.loadingbarerror();
+				_this.error(false, 'Error', error);
+			})
+		},
+	
+		// main列表
+		maingets: function (page, last_page) {
+			var _this = this;
+			
+			if (page > last_page) {
+				page = last_page;
+			} else if (page < 1) {
+				page = 1;
+			}
+			
+			var qcdate_filter_main = [];
+
+			for (var i in _this.qcdate_filter_main) {
+				if (typeof(_this.qcdate_filter_main[i])!='string') {
+					qcdate_filter_main.push(_this.qcdate_filter_main[i].Format("yyyy-MM-dd"));
+				} else if (_this.qcdate_filter_main[i] == '') {
+					qcdate_filter_main.push(new Date().Format("yyyy-MM-dd"));
+				} else {
+					qcdate_filter_main.push(_this.qcdate_filter_main[i]);
+				}
+			}
+			
+			var xianti_filter = _this.xianti_filter;
+			var jizhongming_filter_main = _this.jizhongming_filter_main;
+			var pinfan_filter = _this.pinfan_filter;
+			var pinming_filter = _this.pinming_filter;
+			var leibie_filter = _this.leibie_filter;
+
+			var url = "{{ route('bpjg.zrcfx.maingets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					perPage: _this.pagepagesize2,
+					page: page,
+					qcdate_filter: qcdate_filter_main,
+					xianti_filter: xianti_filter,
+					jizhongming_filter: jizhongming_filter_main,
+					pinfan_filter: pinfan_filter,
+					pinming_filter: pinming_filter,
+					leibie_filter: leibie_filter
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				if (response.data) {
+					_this.tabledata2 = response.data.data;
+				} else {
+					_this.tabledata2 = [];
 				}
 				
 				// 合计
@@ -745,12 +1072,22 @@ var vm_app = new Vue({
 		},
 		
 		
-		// onclear
-		onclear: function () {
+		// onclear_zrc
+		onclear_zrc: function () {
+			var _this = this;
+			_this.piliangluru_zrc.map(function (v,i) {
+				v.riqi = '';
+				v.jizhongming = '';
+				v.shuliang = 1;
+			});
+		},
+		
+		// onclear_main
+		onclear_main: function () {
 			var _this = this;
 			_this.xianti = '';
 			_this.qufen = '';
-			_this.piliangluru.map(function (v,i) {
+			_this.piliangluru_main.map(function (v,i) {
 				v.jizhongming = '';
 				v.pinfan = '';
 				v.pinming = '';
@@ -760,8 +1097,11 @@ var vm_app = new Vue({
 			_this.$refs.xianti.focus();
 		},
 		
-		// oncreate
-		oncreate: function () {
+		// oncreate_zrc
+		oncreate_zrc: function () {
+			alert('oncreate_zrc');
+			return false;
+			
 			var _this = this;
 			var xianti = _this.xianti;
 			var qufen = _this.qufen;
@@ -771,7 +1111,7 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			_this.piliangluru.map(function (v,i) {
+			_this.piliangluru_main.map(function (v,i) {
 				// jizhongming: '',
 				// pinfan: '',
 				// pinming: '',
@@ -783,24 +1123,77 @@ var vm_app = new Vue({
 					return false;
 				}
 			});
-			var piliangluru = _this.piliangluru;
+			var piliangluru_main = _this.piliangluru_main;
 			
 			var url = "{{ route('bpjg.zrcfx.maincreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				xianti: xianti,
 				qufen: qufen,
-				piliangluru: piliangluru
+				piliangluru_main: piliangluru_main
 			})
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
 				
 				if (response.data) {
-					_this.onclear();
+					_this.onclear_main();
 					_this.success(false, '成功', '记入成功！');
-					_this.boo_delete = true;
-					_this.tableselect1 = [];
+					_this.boo_delete_main = true;
+					_this.tableselect2 = [];
+					_this.maingets();
+
+				} else {
+					_this.error(false, '失败', '记入失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '记入失败！');
+				// console.log(error);
+			})
+		},
+		
+		// oncreate_main
+		oncreate_main: function () {
+			var _this = this;
+			var xianti = _this.xianti;
+			var qufen = _this.qufen;
+			
+			if (xianti == '' || xianti == undefined || qufen == '' || qufen == undefined) {
+				_this.warning(false, '警告', '输入内容为空或不正确！');
+				return false;
+			}
+			
+			_this.piliangluru_main.map(function (v,i) {
+				// jizhongming: '',
+				// pinfan: '',
+				// pinming: '',
+				// xuqiushuliang: 0
+				
+				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == ''
+					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined) {
+					_this.warning(false, '警告', '输入内容为空或不正确！');
+					return false;
+				}
+			});
+			var piliangluru_main = _this.piliangluru_main;
+			
+			var url = "{{ route('bpjg.zrcfx.maincreate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				xianti: xianti,
+				qufen: qufen,
+				piliangluru_main: piliangluru_main
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				if (response.data) {
+					_this.onclear_main();
+					_this.success(false, '成功', '记入成功！');
+					_this.boo_delete_main = true;
+					_this.tableselect2 = [];
 					_this.maingets();
 
 				} else {
@@ -873,7 +1266,7 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 				
-				_this.maingets(_this.pagecurrent, _this.pagelast);
+				_this.maingets(_this.pagecurrent2, _this.pagelast2);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
@@ -897,8 +1290,8 @@ var vm_app = new Vue({
 		},
 		
 		
-		// ondelete
-		ondelete: function () {
+		// ondelete_zrc
+		ondelete_zrc: function () {
 			var _this = this;
 			
 			var tableselect1 = _this.tableselect1;
@@ -923,6 +1316,34 @@ var vm_app = new Vue({
 				_this.error(false, '错误', '删除失败！');
 			})
 		},		
+
+		
+		// ondelete_main
+		ondelete_main: function () {
+			var _this = this;
+			
+			var tableselect2 = _this.tableselect2;
+			
+			if (tableselect2[0] == undefined) return false;
+
+			var url = "{{ route('bpjg.zrcfx.maindelete') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				tableselect2: tableselect2
+			})
+			.then(function (response) {
+				if (response.data) {
+					_this.success(false, '成功', '删除成功！');
+					_this.tableselect2 = [];
+					_this.maingets();
+				} else {
+					_this.error(false, '失败', '删除失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '删除失败！');
+			})
+		},		
 		
 		
 		// 表1选择
@@ -934,7 +1355,20 @@ var vm_app = new Vue({
 				_this.tableselect1.push(selection[i].id);
 			}
 			
-			_this.boo_delete = _this.tableselect1[0] == undefined ? true : false;
+			_this.boo_delete_zrc = _this.tableselect1[0] == undefined ? true : false;
+			
+		},
+
+		// 表2选择
+		onselectchange2: function (selection) {
+			var _this = this;
+			_this.tableselect2 = [];
+
+			for (var i in selection) {
+				_this.tableselect2.push(selection[i].id);
+			}
+			
+			_this.boo_delete_main = _this.tableselect2[0] == undefined ? true : false;
 			
 		},
 		
@@ -955,13 +1389,13 @@ var vm_app = new Vue({
 		exportData_db: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter == undefined) {
+			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var queryfilter_datefrom = _this.qcdate_filter[0].Format("yyyy-MM-dd");
-			var queryfilter_dateto = _this.qcdate_filter[1].Format("yyyy-MM-dd");
+			var queryfilter_datefrom = _this.qcdate_filter_main[0].Format("yyyy-MM-dd");
+			var queryfilter_dateto = _this.qcdate_filter_main[1].Format("yyyy-MM-dd");
 			
 			var url = "{{ route('bpjg.zrcfx.mainexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom
@@ -976,13 +1410,45 @@ var vm_app = new Vue({
 		
 		//
 		// 生成piliangluru
-		piliangluru_generate: function (counts) {
-			var len = this.piliangluru.length;
+		piliangluru_zrc_generate: function (counts) {
+			var len = this.piliangluru_zrc.length;
 			
 			if (counts > len) {
 				for (var i=0;i<counts-len;i++) {
-					// this.piliangluru.push({value: 'piliangluru'+parseInt(len+i+1)});
-					this.piliangluru.push(
+					// this.piliangluru_zrc.push({value: 'piliangluru_zrc'+parseInt(len+i+1)});
+					this.piliangluru_zrc.push(
+						{
+							riqi: '',
+							jizhongming: '',
+							shuliang: 1
+						}
+					);
+				}
+			} else if (counts < len) {
+				if (this.piliangluruxiang_zrc != '') {
+					for (var i=counts;i<len;i++) {
+						if (this.piliangluruxiang_zrc == this.piliangluru_zrc[i].value) {
+							this.piliangluruxiang_zrc = '';
+							break;
+						}
+					}
+				}
+				
+				for (var i=0;i<len-counts;i++) {
+					this.piliangluru_zrc.pop();
+				}
+			}			
+
+		},
+
+		// 生成piliangluru_main
+		piliangluru_main_generate: function (counts) {
+			var len = this.piliangluru_main.length;
+			
+			if (counts > len) {
+				for (var i=0;i<counts-len;i++) {
+					// this.piliangluru_main.push({value: 'piliangluru_main'+parseInt(len+i+1)});
+					this.piliangluru_main.push(
 						{
 							jizhongming: '',
 							pinfan: '',
@@ -992,23 +1458,33 @@ var vm_app = new Vue({
 					);
 				}
 			} else if (counts < len) {
-				if (this.piliangluruxiang != '') {
+				if (this.piliangluruxiang_main != '') {
 					for (var i=counts;i<len;i++) {
-						if (this.piliangluruxiang == this.piliangluru[i].value) {
-							this.piliangluruxiang = '';
+						if (this.piliangluruxiang_main == this.piliangluru_main[i].value) {
+							this.piliangluruxiang_main = '';
 							break;
 						}
 					}
 				}
 				
 				for (var i=0;i<len-counts;i++) {
-					this.piliangluru.pop();
+					this.piliangluru_main.pop();
 				}
 			}			
 
 		},
 		
-		
+		// onimport_zrc
+		onimport_zrc: function () {
+			alert('zrc');
+			
+		},
+
+		// onimport_main
+		onimport_main: function () {
+			alert('main');
+			
+		},
 		
 		
 		
@@ -1052,7 +1528,7 @@ var vm_app = new Vue({
 					var option = {
 						title : {
 							text: '工程内不良记录（PPM）',
-							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd') //'2018.06-2018-07'
+							subtext: vm_app.qcdate_filter_main[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter_main[1].Format('yyyy-MM-dd') //'2018.06-2018-07'
 						},
 						tooltip: {
 							show: vm_app.chart1_option_tooltip_show,
@@ -1125,7 +1601,7 @@ var vm_app = new Vue({
 					var option = {
 						title: {
 							text: vm_app.chart2_option_title_text,
-							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd'),
+							subtext: vm_app.qcdate_filter_main[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter_main[1].Format('yyyy-MM-dd'),
 							x:'center'
 						},
 						tooltip: {
@@ -1218,7 +1694,7 @@ var vm_app = new Vue({
 		onchart1: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter[1] == '') {
+			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main[1] == '') {
 				_this.warning(false, '警告', '请先选择查询条件！');
 				return false;
 			}
@@ -1346,7 +1822,7 @@ var vm_app = new Vue({
 		onchart2: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter[1] == '') {
+			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main[1] == '') {
 				_this.warning(false, '警告', '请先选择查询条件！');
 				return false;
 			}
@@ -1416,11 +1892,6 @@ var vm_app = new Vue({
 		},
 		
 		
-		//
-		onimport: function () {
-			alert('aa');
-			
-		},
 		
 		
 
@@ -1434,7 +1905,7 @@ var vm_app = new Vue({
 	},
 	mounted: function () {
 		// var _this = this;
-		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
+		// _this.qcdate_filter_main = new Date().Format("yyyy-MM-dd");
 		// _this.maingets(1, 1); // page: 1, last_page: 1
 	}
 })
