@@ -467,7 +467,7 @@ var vm_app = new Vue({
 				jizhongming: '',
 				pinfan: '',
 				pinming: '',
-				xuqiushuliang: 0,
+				xuqiushuliang: 1,
 				leibie: ''
 			},
 		],
@@ -542,6 +542,11 @@ var vm_app = new Vue({
 				key: 'riqi',
 				align: 'center',
 				width: 160,
+				render: (h, params) => {
+					return h('div', [
+						params.row.riqi.substring(0, 10)
+					]);
+				}
 			},
 			{
 				title: '机种名',
@@ -978,7 +983,7 @@ var vm_app = new Vue({
 				if (typeof(_this.qcdate_filter_zrc[i])!='string') {
 					qcdate_filter_zrc.push(_this.qcdate_filter_zrc[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_zrc[i] == '') {
-					qcdate_filter_zrc.push(new Date().Format("yyyy-MM-dd"));
+					// qcdate_filter_zrc.push(new Date().Format("yyyy-MM-dd"));
 				} else {
 					qcdate_filter_zrc.push(_this.qcdate_filter_zrc[i]);
 				}
@@ -1028,7 +1033,7 @@ var vm_app = new Vue({
 				if (typeof(_this.qcdate_filter_main[i])!='string') {
 					qcdate_filter_main.push(_this.qcdate_filter_main[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_main[i] == '') {
-					qcdate_filter_main.push(new Date().Format("yyyy-MM-dd"));
+					// qcdate_filter_main.push(new Date().Format("yyyy-MM-dd"));
 				} else {
 					qcdate_filter_main.push(_this.qcdate_filter_main[i]);
 				}
@@ -1097,7 +1102,7 @@ var vm_app = new Vue({
 				v.jizhongming = '';
 				v.pinfan = '';
 				v.pinming = '';
-				v.xuqiushuliang = 0;
+				v.xuqiushuliang = 1;
 				v.leibie = '';
 			});
 			
@@ -1132,14 +1137,14 @@ var vm_app = new Vue({
 				piliangluru: piliangluru_zrc
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 				
 				if (response.data) {
-					_this.onclear_main();
+					_this.onclear_zrc();
 					_this.success(false, '成功', '记入成功！');
-					_this.boo_delete_main = true;
-					_this.tableselect2 = [];
+					_this.boo_delete_zrc = true;
+					_this.tableselect1 = [];
 					_this.zrcgets();
 
 				} else {
@@ -1186,8 +1191,8 @@ var vm_app = new Vue({
 				piliangluru: piliangluru_main
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 				
 				if (response.data) {
 					_this.onclear_main();
@@ -1453,7 +1458,7 @@ var vm_app = new Vue({
 							jizhongming: '',
 							pinfan: '',
 							pinming: '',
-							xuqiushuliang: 0,
+							xuqiushuliang: 1,
 							leibie: ''
 						}
 					);

@@ -154,10 +154,10 @@ class zrcfxController extends Controller
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				})
 				->when($pinfan_filter, function ($query) use ($pinfan_filter) {
-					return $query->where('pinfan', '=', $pinfan_filter);
+					return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
 				})
 				->when($pinming_filter, function ($query) use ($pinming_filter) {
-					return $query->where('pinming', '=', $pinming_filter);
+					return $query->where('pinming', 'like', '%'.$pinming_filter.'%');
 				})
 				->when($leibie_filter, function ($query) use ($leibie_filter) {
 					return $query->where('leibie', '=', $leibie_filter);
