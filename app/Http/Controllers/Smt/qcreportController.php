@@ -307,6 +307,7 @@ class qcreportController extends Controller
 		// dd($updated_at);
 		
 		// 判断如果不是最新的记录，不可被编辑
+		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
 		$res = Smt_qcreport::select('updated_at')
 			->where('id', $id)
 			->first();
