@@ -228,7 +228,7 @@
 		</i-col>
 		<i-col span="3">
 			* 类别&nbsp;&nbsp;
-			<i-select v-model.lazy="item.leibie" clearable size="small" style="width:80px" placeholder="">
+			<i-select v-model.lazy="item.leibie" size="small" style="width:80px" placeholder="">
 				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -325,17 +325,9 @@
 		</i-col>
 	</i-row>
 	
-	<Modal v-model="modal_main_edit" @on-ok="main_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
+	<Modal v-model="modal_main_edit" @on-ok="main_edit_ok" ok-text="保存" title="编辑 - 线体/机种/部品" width="540">
 		<div style="text-align:left">
 			<p>
-				线体：@{{ main_xianti_edit }}
-			
-				&nbsp;&nbsp;
-
-				区分：@{{ main_qufen_edit }}
-			
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				
 				创建时间：@{{ main_created_at_edit }}
 				
 				&nbsp;&nbsp;&nbsp;&nbsp;
@@ -345,7 +337,19 @@
 			</p>
 			<br>
 			
-			<!--<span v-for="(item, index) in piliangbianji">-->
+			<p>
+				线体&nbsp;&nbsp;
+				<i-input v-model.lazy="main_xianti_edit" @on-keyup="main_xianti_edit=main_xianti_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+
+				区分&nbsp;&nbsp;
+				<i-input v-model.lazy="main_qufen_edit" @on-keyup="main_qufen_edit=main_qufen_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</p>
+			<br>
+			
 			<p>
 				机种名&nbsp;&nbsp;
 				<i-input v-model.lazy="main_jizhongming_edit" @on-keyup="main_jizhongming_edit=main_jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
@@ -360,21 +364,24 @@
 				品名&nbsp;&nbsp;
 				<i-input v-model.lazy="main_pinming_edit" @on-keyup="main_pinming_edit=main_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
 
-				&nbsp;&nbsp;&nbsp;&nbsp;
-			
-				需求数量&nbsp;&nbsp;
-				<Input-number v-model.lazy="main_xuqiushuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
-
-				&nbsp;&nbsp;&nbsp;&nbsp;
 			</p>
 			<br>
-			<!--</span>-->
+			
+			<p>
+				需求数量&nbsp;&nbsp;
+				<Input-number v-model.lazy="main_xuqiushuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				类别&nbsp;&nbsp;
+				<i-select v-model.lazy="main_leibie_edit" size="small" style="width:100px" placeholder="">
+					<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+				</i-select>
+				
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</p>
 			
 			&nbsp;
-		
-			<p>
-			※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 的内容。
-			</p>
 		
 		</div>	
 	</Modal>
@@ -505,7 +512,7 @@ var vm_app = new Vue({
 		main_pinfan_edit: '',
 		main_pinming_edit: '',
 		main_xuqiushuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
-		main_leibie: '',
+		main_leibie_edit: '',
 
 		
 		// 表头1
@@ -1214,23 +1221,19 @@ var vm_app = new Vue({
 		main_edit: function (row) {
 			var _this = this;
 			
-			_this.id_edit = row.id;
-			_this.jizhongming_edit = row.jizhongming;
-			_this.created_at_edit = row.created_at;
-			_this.updated_at_edit = row.updated_at;
-			_this.jianchajileixing_edit = row.jianchajileixing;
-			_this.buliangneirong_edit = row.buliangneirong;
-			_this.weihao_edit = row.weihao;
-			_this.shuliang_edit[0] = row.shuliang;
-			_this.shuliang_edit[1] = row.shuliang;
-			_this.jianchazhe_edit = row.jianchazhe;
-			_this.dianmei_edit = row.dianmei;
-			_this.meishu_edit = row.meishu;
-			_this.hejidianshu_edit = row.hejidianshu;
-			_this.bushihejianshuheji_edit = row.bushihejianshuheji;
-			_this.ppm_edit = row.ppm;
+			_this.main_id_edit = row.id;
+			_this.main_xianti_edit = row.xianti;
+			_this.main_qufen_edit = row.qufen;
+			_this.main_jizhongming_edit = row.jizhongming;
+			_this.main_pinfan_edit = row.pinfan;
+			_this.main_pinming_edit = row.pinming;
+			_this.main_xuqiushuliang_edit[0] = row.xuqiushuliang;
+			_this.main_xuqiushuliang_edit[1] = row.xuqiushuliang;
+			_this.main_leibie_edit = row.leibie;
+			_this.main_created_at_edit = row.created_at;
+			_this.main_updated_at_edit = row.updated_at;
 
-			_this.modal_qcreport_edit = true;
+			_this.modal_main_edit = true;
 		},		
 		
 		// zrc编辑后保存
@@ -1292,37 +1295,25 @@ var vm_app = new Vue({
 		main_edit_ok: function () {
 			var _this = this;
 			
-			var id = _this.id_edit;
+			var id = _this.main_id_edit;
+			var xianti = _this.main_xianti_edit;
+			var qufen = _this.main_qufen_edit;
 			var jizhongming = _this.main_jizhongming_edit;
+			var pinfan = _this.main_pinfan_edit;
+			var pinming = _this.main_pinming_edit;
+			var xuqiushuliang = _this.main_xuqiushuliang_edit;
+			var leibie = _this.main_leibie_edit;
 			var created_at = _this.main_created_at_edit;
 			var updated_at = _this.main_updated_at_edit;
-			var jianchajileixing = _this.jianchajileixing_edit;
-			var buliangneirong = _this.buliangneirong_edit;
-			var weihao = _this.weihao_edit;
-			var shuliang = _this.shuliang_edit;
-			var jianchazhe = _this.jianchazhe_edit;
-			var dianmei = _this.dianmei_edit;
-			var meishu = _this.meishu_edit;
-			var hejidianshu = _this.hejidianshu_edit;
-			var bushihejianshuheji = _this.bushihejianshuheji_edit;
-			var ppm = _this.ppm_edit;
-
-			// 重新计算枚数、合计点数、不良件数合计和PPM
-			hejidianshu = dianmei * meishu;
-			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
-			ppm = bushihejianshuheji / hejidianshu * 1000000;
 			
-			// console.log(buliangneirong);
-			// return false;
-			
-			// 数量为0时，清空不良内容、位号和数量
-			if (shuliang[1] == 0) {
-				buliangneirong = '';
-				weihao = '';
-				shuliang[1] = '';
-			} else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
-				|| weihao == '' || weihao == null || weihao == undefined) {
-				_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
+			if (xianti == '' || xianti == null || xianti == undefined
+				|| qufen == '' || qufen == null || qufen == undefined
+				|| jizhongming == '' || jizhongming == null || jizhongming == undefined
+				|| pinfan == '' || pinfan == null || pinfan == undefined
+				|| pinming == '' || pinming == null || pinming == undefined
+				|| xuqiushuliang == '' || xuqiushuliang == null || xuqiushuliang == undefined
+				|| leibie == '' || leibie == null || leibie == undefined) {
+				_this.warning(false, '警告', '内容不能为空！');
 				return false;
 			}
 			
@@ -1330,18 +1321,15 @@ var vm_app = new Vue({
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: id,
+				xianti: xianti,
+				qufen: qufen,
 				jizhongming: jizhongming,
+				pinfan: pinfan,
+				pinming: pinming,
+				xuqiushuliang: xuqiushuliang[1],
+				leibie: leibie,
 				created_at: created_at,
-				updated_at: updated_at,
-				jianchajileixing: jianchajileixing,
-				buliangneirong: buliangneirong,
-				weihao: weihao,
-				shuliang: shuliang[1],
-				jianchazhe: jianchazhe,
-				meishu: meishu,
-				hejidianshu: hejidianshu,
-				bushihejianshuheji: bushihejianshuheji,
-				ppm: ppm
+				updated_at: updated_at
 			})
 			.then(function (response) {
 				// console.log(response.data);
@@ -1352,15 +1340,16 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
 					
-					_this.id_edit = '';
+					_this.main_id_edit = '';
+					_this.main_xianti_edit = '';
+					_this.main_qufen_edit = '';
 					_this.main_jizhongming_edit = '';
+					_this.main_pinfan_edit = '';
+					_this.main_pinming_edit = '';
+					_this.main_xuqiushuliang_edit = [0, 0];
+					_this.main_leibie_edit = '';
 					_this.main_created_at_edit = '';
 					_this.main_updated_at_edit = '';
-					_this.jianchajileixing_edit = '';
-					_this.buliangneirong_edit = '';
-					_this.weihao_edit = '';
-					_this.shuliang_edit = [0, 0];
-					_this.jianchazhe_edit = '';
 				} else {
 					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
 				}

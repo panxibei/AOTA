@@ -316,6 +316,72 @@ class zrcfxController extends Controller
 		// dd($result);
 		return $result;
 
+	}
+
+
+    /**
+     * mainUpdate
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mainUpdate(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$id = $request->input('id');
+		$xianti = $request->input('xianti');
+		$qufen = $request->input('qufen');
+		$jizhongming = $request->input('jizhongming');
+		$pinfan = $request->input('pinfan');
+		$pinming = $request->input('pinming');
+		$xuqiushuliang = $request->input('xuqiushuliang');
+		$leibie = $request->input('leibie');
+		$created_at = $request->input('created_at');
+		$updated_at = $request->input('updated_at');
+		
+		// dd($updated_at);
+		
+		// 判断如果不是最新的记录，不可被编辑
+		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
+		$res = Bpjg_zhongricheng_main::select('updated_at')
+			->where('id', $id)
+			->first();
+		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
+
+		// dd($updated_at . ' | ' . $res_updated_at);
+		// dd(gettype($updated_at) . ' | ' . gettype($res_updated_at));
+		// dd($updated_at != $res_updated_at);
+		
+		if ($updated_at != $res_updated_at) {
+			return 0;
+		}
+		
+		// 尝试更新
+		try	{
+			DB::beginTransaction();
+			$result = Bpjg_zhongricheng_main::where('id', $id)
+				->update([
+					'xianti'			=> $xianti,
+					'qufen'				=> $qufen,
+					'jizhongming'		=> $jizhongming,
+					'pinfan' 			=> $pinfan,
+					'pinming'			=> $pinming,
+					'xuqiushuliang'		=> $xuqiushuliang,
+					'leibie'			=> $leibie,
+				]);
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			DB::rollBack();
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		DB::commit();
+		Cache::flush();
+		// dd($result);
+		return $result;
+
 	}	
 	
 	
