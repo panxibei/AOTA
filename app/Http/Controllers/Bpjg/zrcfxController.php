@@ -162,6 +162,7 @@ class zrcfxController extends Controller
 				->when($leibie_filter, function ($query) use ($leibie_filter) {
 					return $query->where('leibie', '=', $leibie_filter);
 				})
+				->limit(5000)
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
@@ -349,10 +350,6 @@ class zrcfxController extends Controller
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
 
-		// dd($updated_at . ' | ' . $res_updated_at);
-		// dd(gettype($updated_at) . ' | ' . gettype($res_updated_at));
-		// dd($updated_at != $res_updated_at);
-		
 		if ($updated_at != $res_updated_at) {
 			return 0;
 		}

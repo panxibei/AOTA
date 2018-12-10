@@ -997,6 +997,10 @@ var vm_app = new Vue({
 				// return false;
 				
 				if (response.data) {
+					_this.pagecurrent1 = response.data.current_page;
+					_this.pagetotal1 = response.data.total;
+					_this.pagelast1 = response.data.last_page
+					
 					_this.tabledata1 = response.data.data;
 				} else {
 					_this.tabledata1 = [];
@@ -1055,16 +1059,14 @@ var vm_app = new Vue({
 				// return false;
 				
 				if (response.data) {
+					_this.pagecurrent2 = response.data.current_page;
+					_this.pagetotal2 = response.data.total;
+					_this.pagelast2 = response.data.last_page
+					
 					_this.tabledata2 = response.data.data;
 				} else {
 					_this.tabledata2 = [];
 				}
-				
-				// 合计
-				// _this.buliangjianshuxiaoji = 0;
-				// for (var i in _this.tabledata1) {
-					// _this.buliangjianshuxiaoji += _this.tabledata1[i].shuliang;
-				// }
 				
 			})
 			.catch(function (error) {
