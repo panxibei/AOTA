@@ -1029,6 +1029,8 @@ var vm_app = new Vue({
 					qcdate_filter_main.push(_this.qcdate_filter_main[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_main[i] == '') {
 					// qcdate_filter_main.push(new Date().Format("yyyy-MM-dd"));
+					_this.tabledata2 = [];
+					return false;
 				} else {
 					qcdate_filter_main.push(_this.qcdate_filter_main[i]);
 				}
@@ -1370,7 +1372,7 @@ var vm_app = new Vue({
 			
 			if (tableselect1[0] == undefined) return false;
 
-			var url = "{{ route('bpjg.zrcfx.maindelete') }}";
+			var url = "{{ route('bpjg.zrcfx.zrcdelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				tableselect1: tableselect1
@@ -1378,8 +1380,9 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
+					_this.boo_delete_zrc = true;
 					_this.tableselect1 = [];
-					_this.maingets();
+					_this.zrcgets(_this.pagecurrent1, _this.pagelast1);
 				} else {
 					_this.error(false, '失败', '删除失败！');
 				}
@@ -1406,8 +1409,9 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
+					_this.boo_delete_main = true;
 					_this.tableselect2 = [];
-					_this.maingets();
+					_this.maingets(_this.pagecurrent2, _this.pagelast2);
 				} else {
 					_this.error(false, '失败', '删除失败！');
 				}

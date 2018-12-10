@@ -78,6 +78,7 @@ class zrcfxController extends Controller
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				})
+				->limit(5000)
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
@@ -380,9 +381,56 @@ class zrcfxController extends Controller
 		return $result;
 
 	}	
-	
-	
-	
+
+
+    /**
+     * zrcDelete
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function zrcDelete(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$id = $request->input('tableselect1');
+
+		try	{
+			$result = Bpjg_zhongricheng_zrc::whereIn('id', $id)->delete();
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		
+		Cache::flush();
+		return $result;
+	}
+
+
+    /**
+     * mainDelete
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mainDelete(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$id = $request->input('tableselect2');
+
+		try	{
+			$result = Bpjg_zhongricheng_main::whereIn('id', $id)->delete();
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		
+		Cache::flush();
+		return $result;
+	}	
 	
 	
 	

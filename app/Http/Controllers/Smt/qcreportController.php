@@ -363,7 +363,7 @@ class qcreportController extends Controller
      */
     public function qcreportDelete(Request $request)
     {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('tableselect1');
 
