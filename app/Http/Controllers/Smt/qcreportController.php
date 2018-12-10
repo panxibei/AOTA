@@ -454,7 +454,7 @@ class qcreportController extends Controller
      */
     public function qcreportImport(Request $request)
     {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		// 接收文件
 		$fileCharater = $request->file('myfile');

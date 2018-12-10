@@ -67,10 +67,21 @@
 	<br>
 
 	<i-row :gutter="16">
-		<i-col span="24">
+		<i-col span="3">
 			&nbsp;&nbsp;<i-button @click="oncreate_zrc()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_zrc()">清除</i-button>
-			&nbsp;&nbsp;&nbsp;&nbsp;<i-button @click="onimport_zrc()">批量导入</i-button>
+		</i-col>
+		<i-col span="21">
+			<!--<i-button @click="onimport_zrc()">批量导入</i-button>-->
+			<Upload
+				:before-upload="uploadstart_zrc"
+				:show-upload-list="false"
+				:format="['xls','xlsx']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
+			</Upload>
 		</i-col>
 	</i-row>
 
@@ -243,10 +254,20 @@
 	<br>
 
 	<i-row :gutter="16">
-		<i-col span="24">
+		<i-col span="3">
 			&nbsp;&nbsp;<i-button @click="oncreate_main()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_main()">清除</i-button>
-			&nbsp;&nbsp;&nbsp;&nbsp;<i-button @click="onimport_main()">批量导入</i-button>
+		</i-col>
+		<i-col span="21">
+			<Upload
+				:before-upload="uploadstart_main"
+				:show-upload-list="false"
+				:format="['xls','xlsx']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
+			</Upload>
 		</i-col>
 	</i-row>
 
@@ -387,25 +408,6 @@
 	</Modal>
 	
 	<br>
-	
-	
-	<Divider orientation="left">品质管理图表</Divider>
-	
-	<br>
-
-	<br><br>
-	<i-row :gutter="16">
-		<i-col span="24">
-			<div id="chart1" style="height:400px"></div>
-		</i-col>
-	</i-row>
-
-	<br><br>
-	<i-row :gutter="16">
-		<i-col span="24">
-			<div id="chart2" style="height:400px"></div>
-		</i-col>
-	</i-row>
 
 </div>
 @endsection
@@ -753,170 +755,10 @@ var vm_app = new Vue({
 		
 		
 		
-		// 点/枚
-		dianmei: '',
-		
-		// 枚数
-		meishu: '',
-		
-		// 检查机类型
-		select_jianchajileixing: '',
-		option_jianchajileixing: [
-			{
-				value: 'AOI-1',
-				label: 'AOI-1'
-			},
-			{
-				value: 'AOI-2',
-				label: 'AOI-2'
-			},
-			{
-				value: 'AOI-3',
-				label: 'AOI-3'
-			},
-			{
-				value: 'AOI-4',
-				label: 'AOI-4'
-			},
-			{
-				value: 'VQZ',
-				label: 'VQZ'
-			},
-			{
-				value: 'MD',
-				label: 'MD'
-			}
-		],
-		
-		// 线体
-		select_xianti: '',
-		option_xianti: [
-			{
-				value: 'SMT-1',
-				label: 'SMT-1'
-			},
-			{
-				value: 'SMT-2',
-				label: 'SMT-2'
-			},
-			{
-				value: 'SMT-3',
-				label: 'SMT-3'
-			},
-			{
-				value: 'SMT-4',
-				label: 'SMT-4'
-			},
-			{
-				value: 'SMT-5',
-				label: 'SMT-5'
-			},
-			{
-				value: 'SMT-6',
-				label: 'SMT-6'
-			},
-			{
-				value: 'SMT-7',
-				label: 'SMT-7'
-			},
-			{
-				value: 'SMT-8',
-				label: 'SMT-8'
-			},
-			{
-				value: 'SMT-9',
-				label: 'SMT-9'
-			},
-			{
-				value: 'SMT-10',
-				label: 'SMT-10'
-			}
-		],
-		
-		// 班次
-		select_banci: '',
-		option_qufen: [
-			{
-				value: 'A-1',
-				label: 'A-1'
-			},
-			{
-				value: 'A-2',
-				label: 'A-2'
-			},
-			{
-				value: 'A-3',
-				label: 'A-3'
-			},
-			{
-				value: 'B-1',
-				label: 'B-1'
-			},
-			{
-				value: 'B-2',
-				label: 'B-2'
-			},
-			{
-				value: 'B-3',
-				label: 'B-3'
-			}
-		],
-		
-		
-		
-		// dailyproductionreport 暂未用到
-		saomiao_data: '',
-		
-		// 不良件数小计
-		buliangjianshuxiaoji: 0,
-		
-		
-		// echarts ajax使用 这个才是实际使用的
-		chart1_type: 'bar',
-		
-		chart1_option_tooltip_show: true,
-		
-		chart1_option_legend_data: ['不适合件数合计', '合计点数', 'PPM'],
-		
-		chart1_option_xAxis_data: ['SMT-1','SMT-2','SMT-3','SMT-4','SMT-5','SMT-6','SMT-7','SMT-8','SMT-9','SMT-10'],
-		
-		chart1_option_series: [
-			// {
-				// name: '销量1',
-				// type: 'line',
-				// data: [5, 20, 40, 10, 10, 20],
-				// markLine: {
-					// data: [
-						// {type: 'average', name: '平均值'}
-					// ]
-				// }
-			// },
-			// {
-				// 'name': '销量2',
-				// 'type': 'line',
-				// 'data': [15, 120, 140,110, 110, 123]
-			// }
-		],
-		
-		// chart2参数
-		chart2_option_title_text: 'LINE别不良占有率',
-		chart2_option_legend_data: ['SMT-1','SMT-2','SMT-3','SMT-4','SMT-5','SMT-6','SMT-7','SMT-8','SMT-9','SMT-10'],
-		
-		chart2_option_series_data: [
-			{value:335, name:'SMT-1'},
-			{value:310, name:'SMT-2'},
-			{value:335, name:'SMT-3'},
-			{value:310, name:'SMT-4'},
-			{value:234, name:'SMT-5'},
-			{value:135, name:'SMT-6'},
-			{value:154, name:'SMT-7'},
-			{value:335, name:'SMT-8'},
-			{value:310, name:'SMT-9'},
-			{value:234, name:'SMT-10'}
-		],
-		
+		// 上传，批量导入
 		file: null,
-		loadingStatus: false
+		loadingStatus: false,
+		uploaddisabled: false,
 		
 		
 		
@@ -1448,43 +1290,6 @@ var vm_app = new Vue({
 			
 		},
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		// exportData_db 当前表数据导出
-		exportData_db: function () {
-			var _this = this;
-			
-			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main == undefined) {
-				_this.warning(false, '警告', '请选择日期范围！');
-				return false;
-			}
-			
-			var queryfilter_datefrom = _this.qcdate_filter_main[0].Format("yyyy-MM-dd");
-			var queryfilter_dateto = _this.qcdate_filter_main[1].Format("yyyy-MM-dd");
-			
-			var url = "{{ route('bpjg.zrcfx.mainexport') }}"
-				+ "?queryfilter_datefrom=" + queryfilter_datefrom
-				+ "&queryfilter_dateto=" + queryfilter_dateto;
-				
-			// console.log(url);
-			window.setTimeout(function () {
-				window.location.href = url;
-			}, 1000);
-
-		},
-		
-		//
 		// 生成piliangluru
 		piliangluru_zrc_generate: function (counts) {
 			var len = this.piliangluru_zrc.length;
@@ -1515,7 +1320,7 @@ var vm_app = new Vue({
 				}
 			}			
 
-		},
+		},		
 
 		// 生成piliangluru_main
 		piliangluru_main_generate: function (counts) {
@@ -1547,437 +1352,175 @@ var vm_app = new Vue({
 				for (var i=0;i<len-counts;i++) {
 					this.piliangluru_main.pop();
 				}
-			}			
-
-		},
-		
-		// onimport_zrc
-		onimport_zrc: function () {
-			alert('zrc');
-			
-		},
-
-		// onimport_main
-		onimport_main: function () {
-			alert('main');
-			
+			}
 		},
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		// echarts public function 显示用的公共函数
-		chart1_function: function () {
-			// 路径配置
-			require.config({
-				paths: {
-					// echarts: 'http://echarts.baidu.com/build/dist'
-					echarts: "{{ asset('statics/echarts') }}"
-				}
+		// upload zrc
+		handleFormatError (file) {
+			this.$Notice.warning({
+				title: 'The file format is incorrect',
+				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
 			});
-			
-			// 使用
-			require(
-				[
-					'echarts',
-					'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-					'echarts/chart/line'
-					// 'echarts/chart/' + vm_app.chart1_type
-				],
-				function (ec) {
-					// 基于准备好的dom，初始化echarts图表
-					var myChart = ec.init(document.getElementById('chart1')); 
-					
-					var option = {
-						title : {
-							text: '工程内不良记录（PPM）',
-							subtext: vm_app.qcdate_filter_main[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter_main[1].Format('yyyy-MM-dd') //'2018.06-2018-07'
-						},
-						tooltip: {
-							show: vm_app.chart1_option_tooltip_show,
-							trigger: 'axis'
-						},
-						legend: {
-							data: vm_app.chart1_option_legend_data
-						},
-						xAxis : [
-							{
-								type : 'category',
-								data : vm_app.chart1_option_xAxis_data
-							}
-						],
-						yAxis : [
-							{
-								type : 'value',
-								name : '件数',
-								axisLabel : {
-									formatter: '{value} 件'
-								}
-							},
-							{
-								type : 'value',
-								name : 'PPM',
-								axisLabel : {
-									formatter: '{value} ppm'
-								}
-							}
-						],
-						calculable : true,
-						toolbox: {
-							show: true,
-							feature: {
-								mark: {show: true},
-								dataView: {show: true, readOnly: false},
-								restore: {show: true},
-								saveAsImage: {show: true}
-							}
-						},
-						series : vm_app.chart1_option_series
-					};
-			
-					// 为echarts对象加载数据 
-					myChart.setOption(option, false); 
-				}
-			);
 		},
-
-		chart2_function: function () {
-			// 路径配置
-			require.config({
-				paths: {
-					// echarts: 'http://echarts.baidu.com/build/dist'
-					echarts: "{{ asset('statics/echarts') }}"
-				}
+		handleMaxSize (file) {
+			this.$Notice.warning({
+				title: 'Exceeding file size limit',
+				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
 			});
-			
-			// 使用
-			require(
-				[
-					'echarts',
-					'echarts/chart/pie', // 使用柱状图就加载bar模块，按需加载
-					// 'echarts/chart/' + vm_app.chart1_type
-				],
-				function (ec) {
-					// 基于准备好的dom，初始化echarts图表
-					var myChart = ec.init(document.getElementById('chart2')); 
-					
-					var option = {
-						title: {
-							text: vm_app.chart2_option_title_text,
-							subtext: vm_app.qcdate_filter_main[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter_main[1].Format('yyyy-MM-dd'),
-							x:'center'
-						},
-						tooltip: {
-							trigger: 'item',
-							formatter: "{a} <br/>{b} : {c} ({d}%)"
-						},
-						legend: {
-							orient : 'vertical',
-							x: 'left',
-							data: vm_app.chart2_option_legend_data
-						},
-						toolbox: {
-							show: true,
-							feature: {
-								mark: {show: true},
-								dataView: {show: true, readOnly: false},
-								// magicType : {
-									// show: true, 
-									// type: ['pie', 'funnel'],
-									// option: {
-										// funnel: {
-										// x: '25%',
-										// width: '50%',
-										// funnelAlign: 'left',
-										// max: 1548
-										// }
-									// }
-								// },
-								restore: {show: true},
-								saveAsImage: {show: true}
-							}
-						},
-						calculable: true,
-						
-						// series : vm_app.chart2_option_series
-						series : [
-							{
-								name: vm_app.chart2_option_title_text,
-								type: 'pie',
-								radius: '55%',
-								center: ['50%', '60%'],
-								selectedMode: 'multiple',
-								itemStyle: {
-									normal: {
-										label: {
-											// position : 'inner',
-											formatter: function (params) {
-												// console.log(params);
-												return params.name + ' : ' + params.value + ' (' + (params.percent - 0).toFixed(0) + '%)'
-											}
-										},
-										labelLine: {
-											show : true
-										}
-									},
-									emphasis: {
-										label: {
-											show: true,
-											formatter: "{b}\n{d}%"
-										}
-									}
-								},
-								
-								data: vm_app.chart2_option_series_data,
-								// [
-									// {value:335, name:'SMT-1'},
-									// {value:310, name:'SMT-2'},
-									// {value:335, name:'SMT-3'},
-									// {value:310, name:'SMT-4'},
-									// {value:234, name:'SMT-5'},
-									// {value:135, name:'SMT-6'},
-									// {value:154, name:'SMT-7'},
-									// {value:335, name:'SMT-8'},
-									// {value:310, name:'SMT-9'},
-									// {value:234, name:'SMT-10'},
-								// ]
-							}
-						]						
-					};
-			
-					// 为echarts对象加载数据 
-					myChart.setOption(option, false); 
-				}
-			);
 		},
-		
-		
-		
-		// ajax返回后显示图表
-		onchart1: function () {
+		handleUpload: function (file) {
+			this.file = file;
+			return false;
+		},
+		uploadstart_zrc: function (file) {
 			var _this = this;
-			
-			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main[1] == '') {
-				_this.warning(false, '警告', '请先选择查询条件！');
-				return false;
-			}
-			
-			var hejidianshu = [];
-			var bushihejianshuheji = [];
-			var ppm = [];
-			
-			var i = 0;
-			for (i=0;i<10;i++) {
-				hejidianshu[i] = 0;
-				bushihejianshuheji[i] = 0;
-				ppm[i] = 0;
-			}
-			
-			_this.tabledata1.map(function (v,j) {
-				switch(v.xianti)
-				{
-					case 'SMT-1':
-						i = 0;
-						break;
-					case 'SMT-2':
-						i = 1;
-						break;
-					case 'SMT-3':
-						i = 2;
-						break;
-					case 'SMT-4':
-						i = 3;
-						break;
-					case 'SMT-5':
-						i = 4;
-						break;
-					case 'SMT-6':
-						i = 5;
-						break;
-					case 'SMT-7':
-						i = 6;
-						break;
-					case 'SMT-8':
-						i = 7;
-						break;
-					case 'SMT-9':
-						i = 8;
-						break;
-					case 'SMT-10':
-						i = 9;
-						break;
-					default:
-					  
-				}
-			
-				hejidianshu[i] += v.hejidianshu;
-				bushihejianshuheji[i] += v.bushihejianshuheji;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
 
-				// if (hejidianshu[i] == 0) {
-					// ppm[i] = 0;
-				// } else {
-					// ppm[i] = bushihejianshuheji[i] / hejidianshu[i] * 1000000;
-				// }
-				ppm[i] += v.ppm;
-
-			});
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
 			
-			// console.log(bushihejianshuheji);
-			// console.log(hejidianshu);
-			// console.log(ppm);
 			// return false;
 			
-			// bushihejianshuheji
-			var a1 = [{
-				name: '不适合件数合计',
-				type: 'bar',
-				barWidth: 30,
-				itemStyle: {
-					normal: {
-						label: {
-							show: true,
-							position: 'top'
-						}
-					}
-				},
-				data: bushihejianshuheji
-			},
-			{
-				name: '合计点数',
-				type: 'bar',
-				barWidth: 30,
-				itemStyle: {
-					normal: {
-						label: {
-							show: true,
-							position: 'top'
-						}
-					}
-				},
-				data: hejidianshu
-			},
-			{
-				name: 'PPM',
-				type: 'line',
-				yAxisIndex: 1,
-				itemStyle: {
-					normal: {
-						label: {
-							show: true,
-							// 'position' => 'outer'
-							textStyle: {
-								fontSize: '20',
-								fontFamily: '微软雅黑',
-								fontWeight: 'bold'
-							}
-						}
-					}
-				},
-				data: ppm
-			}];
+			var url = "{{ route('bpjg.zrcfx.zrcimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				if (response.data == 1) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+		},
+		uploadstart_main: function (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
 
-			_this.chart1_option_series = a1;
-			_this.chart1_function();
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
 			
+			// return false;
+			
+			var url = "{{ route('bpjg.zrcfx.mainimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				if (response.data == 1) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+		},
+		uploadcancel: function () {
+			this.file = null;
+			// this.loadingStatus = false;
 		},
 		
 		
-		onchart2: function () {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// exportData_db 当前表数据导出
+		exportData_db: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main[1] == '') {
-				_this.warning(false, '警告', '请先选择查询条件！');
+			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main == undefined) {
+				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var bushihejianshuheji = [];
-			for (var i=0;i<10;i++) {
-				bushihejianshuheji[i] = 0;
-			}
+			var queryfilter_datefrom = _this.qcdate_filter_main[0].Format("yyyy-MM-dd");
+			var queryfilter_dateto = _this.qcdate_filter_main[1].Format("yyyy-MM-dd");
 			
-			_this.tabledata1.map(function (v,j) {
-				switch(v.xianti)
-				{
-					case 'SMT-1':
-						i = 0;
-						break;
-					case 'SMT-2':
-						i = 1;
-						break;
-					case 'SMT-3':
-						i = 2;
-						break;
-					case 'SMT-4':
-						i = 3;
-						break;
-					case 'SMT-5':
-						i = 4;
-						break;
-					case 'SMT-6':
-						i = 5;
-						break;
-					case 'SMT-7':
-						i = 6;
-						break;
-					case 'SMT-8':
-						i = 7;
-						break;
-					case 'SMT-9':
-						i = 8;
-						break;
-					case 'SMT-10':
-						i = 9;
-						break;
-					default:
-					  
-				}
-			
-				bushihejianshuheji[i] += v.bushihejianshuheji;
-			});
-			
-			var data = 
-			[
-				{value: bushihejianshuheji[0], name:'SMT-1'},
-				{value: bushihejianshuheji[1], name:'SMT-2'},
-				{value: bushihejianshuheji[2], name:'SMT-3'},
-				{value: bushihejianshuheji[3], name:'SMT-4'},
-				{value: bushihejianshuheji[4], name:'SMT-5'},
-				{value: bushihejianshuheji[5], name:'SMT-6'},
-				{value: bushihejianshuheji[6], name:'SMT-7'},
-				{value: bushihejianshuheji[7], name:'SMT-8'},
-				{value: bushihejianshuheji[8], name:'SMT-9'},
-				{value: bushihejianshuheji[9], name:'SMT-10'},
-			];
-			
-			_this.chart2_option_series_data = data;
-			_this.chart2_function();
+			var url = "{{ route('bpjg.zrcfx.mainexport') }}"
+				+ "?queryfilter_datefrom=" + queryfilter_datefrom
+				+ "&queryfilter_dateto=" + queryfilter_dateto;
+				
+			// console.log(url);
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
 
 		},
 		
 		
 		
-		
 
-		
-		
-		
-		
-		
-			
 			
 	},
 	mounted: function () {
