@@ -537,12 +537,14 @@ class zrcfxController extends Controller
 		
 		// 导入excel文件内容
 		try {
+			// $ret = Excel::import(new zrcfx_mainImport, 'excel/'.$filename);
 			$ret = Excel::import(new zrcfx_mainImport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
-			$result = 0;
+			$result = 'Message: ' .$e->getMessage();
+			// $result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
@@ -551,11 +553,28 @@ class zrcfxController extends Controller
 	}
 	
 	
+    /**
+     * zrcDownload
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function zrcDownload(Request $request)
+    {
+		return Storage::download('download/zrcfx_zrcimport.xlsx');
+	}
+	
 
-	
-	
-	
-	
+    /**
+     * mainDownload
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mainDownload(Request $request)
+    {
+		return Storage::download('download/zrcfx_mainimport.xlsx');
+	}
 	
 	
 	

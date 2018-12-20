@@ -71,7 +71,7 @@
 			&nbsp;&nbsp;<i-button @click="oncreate_zrc()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_zrc()">清除</i-button>
 		</i-col>
-		<i-col span="21">
+		<i-col span="2">
 			<!--<i-button @click="onimport_zrc()">批量导入</i-button>-->
 			<Upload
 				:before-upload="uploadstart_zrc"
@@ -82,6 +82,12 @@
 				action="/">
 				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
 			</Upload>
+		</i-col>
+		<i-col span="2">
+			<i-button @click="download_zrc()" type="text">[下载模板]</i-button>
+		</i-col>
+		<i-col span="17">
+			&nbsp;
 		</i-col>
 	</i-row>
 
@@ -258,7 +264,7 @@
 			&nbsp;&nbsp;<i-button @click="oncreate_main()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_main()">清除</i-button>
 		</i-col>
-		<i-col span="21">
+		<i-col span="2">
 			<Upload
 				:before-upload="uploadstart_main"
 				:show-upload-list="false"
@@ -268,6 +274,12 @@
 				action="/">
 				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
 			</Upload>
+		</i-col>
+		<i-col span="2">
+			<i-button @click="download_main()" type="text">[下载模板]</i-button>
+		</i-col>
+		<i-col span="17">
+			&nbsp;
 		</i-col>
 	</i-row>
 
@@ -1476,9 +1488,22 @@ var vm_app = new Vue({
 		},
 		
 		
-		
-		
-		
+		// zrc模板下载
+		download_zrc: function () {
+			var url = "{{ route('bpjg.zrcfx.zrcdownload') }}";
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},
+
+
+		// main模板下载
+		download_main: function () {
+			var url = "{{ route('bpjg.zrcfx.maindownload') }}";
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},
 		
 		
 		

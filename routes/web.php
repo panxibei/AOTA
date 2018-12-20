@@ -25,12 +25,14 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function
 	Route::post('zrcdelete', 'zrcfxController@zrcDelete')->name('bpjg.zrcfx.zrcdelete');
 	Route::get('zrcexport', 'zrcfxController@zrcExport')->name('bpjg.zrcfx.zrcexport');
 	Route::post('zrcimport', 'zrcfxController@zrcImport')->name('bpjg.zrcfx.zrcimport');
+	Route::get('zrcdownload', 'zrcfxController@zrcDownload')->name('bpjg.zrcfx.zrcdownload');
 	Route::get('maingets', 'zrcfxController@mainGets')->name('bpjg.zrcfx.maingets');
 	Route::post('mainupdate', 'zrcfxController@mainUpdate')->name('bpjg.zrcfx.mainupdate');
 	Route::post('maincreate', 'zrcfxController@mainCreate')->name('bpjg.zrcfx.maincreate');
 	Route::post('maindelete', 'zrcfxController@mainDelete')->name('bpjg.zrcfx.maindelete');
 	Route::get('mainexport', 'zrcfxController@mainExport')->name('bpjg.zrcfx.mainexport');
 	Route::post('mainimport', 'zrcfxController@mainImport')->name('bpjg.zrcfx.mainimport');
+	Route::get('maindownload', 'zrcfxController@mainDownload')->name('bpjg.zrcfx.maindownload');
 	// Route::get('chart1', 'qcreportController@chart1')->name('smt.qcreport.chart1');
 	// Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
 });
