@@ -1398,10 +1398,11 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				// console.log(response.data);
+				
 				if (response.data == 1) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！');
+					_this.error(false, 'Error', '导入失败！注意内容一般应为文本格式！');
 				}
 				
 				setTimeout( function () {
@@ -1449,7 +1450,7 @@ var vm_app = new Vue({
 				if (response.data == 1) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！');
+					_this.error(false, 'Error', '导入失败！注意内容一般应为文本格式！');
 				}
 				
 				setTimeout( function () {
