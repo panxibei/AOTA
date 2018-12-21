@@ -1414,7 +1414,7 @@ var vm_app = new Vue({
 				if (response.data == 1) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！注意内容一般应为文本格式！');
+					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
 				}
 				
 				setTimeout( function () {
@@ -1462,7 +1462,7 @@ var vm_app = new Vue({
 				if (response.data == 1) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！注意内容一般应为文本格式！');
+					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
 				}
 				
 				setTimeout( function () {
