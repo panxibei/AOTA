@@ -28,7 +28,7 @@ class zrcfx_mainImport implements ToModel, WithHeadingRow
 			// 'xuqiushuliang' => $row[7],
 			// 'zongshu' => $row[8],
 			// 'shuliang' => $row[9],
-			
+
 			'riqi' => $row['riqi'],
 			'xianti' => $row['线体'],
 			'qufen' => $row['区分'],
