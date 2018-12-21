@@ -561,7 +561,7 @@ class zrcfxController extends Controller
      */
     public function zrcDownload(Request $request)
     {
-		return Storage::download('download/zrcfx_zrcimport.xlsx');
+		return Storage::download('download/zrcfx_zrcimport.xlsx', 'MoBan_ZhongRiCheng.xlsx');
 	}
 	
 
@@ -573,7 +573,7 @@ class zrcfxController extends Controller
      */
     public function mainDownload(Request $request)
     {
-		return Storage::download('download/zrcfx_mainimport.xlsx');
+		return Storage::download('download/zrcfx_mainimport.xlsx', 'MoBan_BuPin.xlsx');
 	}
 	
 	
