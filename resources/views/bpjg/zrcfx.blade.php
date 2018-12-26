@@ -71,7 +71,7 @@
 			&nbsp;&nbsp;<i-button @click="oncreate_zrc()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_zrc()">清除</i-button>
 		</i-col>
-		<i-col span="2">
+		<i-col span="3">
 			<!--<i-button @click="onimport_zrc()">批量导入</i-button>-->
 			<Upload
 				:before-upload="uploadstart_zrc"
@@ -80,13 +80,13 @@
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表' }}</i-button>
 			</Upload>
 		</i-col>
 		<i-col span="2">
 			<i-button @click="download_zrc()" type="text">[下载模板]</i-button>
 		</i-col>
-		<i-col span="17">
+		<i-col span="16">
 			&nbsp;
 		</i-col>
 	</i-row>
@@ -264,7 +264,7 @@
 			&nbsp;&nbsp;<i-button @click="oncreate_main()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_main()">清除</i-button>
 		</i-col>
-		<i-col span="2">
+		<i-col span="3">
 			<Upload
 				:before-upload="uploadstart_main"
 				:show-upload-list="false"
@@ -272,13 +272,13 @@
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 部品主表' }}</i-button>
 			</Upload>
 		</i-col>
 		<i-col span="2">
 			<i-button @click="download_main()" type="text">[下载模板]</i-button>
 		</i-col>
-		<i-col span="17">
+		<i-col span="16">
 			&nbsp;
 		</i-col>
 	</i-row>
@@ -341,7 +341,7 @@
 		</i-col>
 		<i-col span="8">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出全部后台数据</i-button>
+			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出全部后台数据</i-button>
 		</i-col>
 		<i-col span="10">
 			&nbsp;
@@ -1506,23 +1506,8 @@ var vm_app = new Vue({
 		},
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// exportData_db 当前表数据导出
-		exportData_db: function () {
+		// exportData_main 主表数据导出
+		exportData_main: function () {
 			var _this = this;
 			
 			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main == undefined) {
@@ -1541,9 +1526,7 @@ var vm_app = new Vue({
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
-
-		},
-		
+		},		
 		
 		
 

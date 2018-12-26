@@ -554,7 +554,7 @@ class zrcfxController extends Controller
 	
 	
     /**
-     * zrcDownload
+     * zrcDownload 导入模板下载
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -566,7 +566,7 @@ class zrcfxController extends Controller
 	
 
     /**
-     * mainDownload
+     * mainDownload 导入模板下载
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -577,8 +577,65 @@ class zrcfxController extends Controller
 	}
 	
 	
-	
-	
+    /**
+     * qcreportExport
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mainExport(Request $request)
+    {
+		// if (! $request->ajax()) { return null; }
+		
+		$queryfilter_datefrom = $request->input('queryfilter_datefrom');
+		$queryfilter_dateto = $request->input('queryfilter_dateto');
+		// dd($queryfilter_datefrom);
+		
+		// 获取扩展名配置值
+		// $config = Config::select('cfg_name', 'cfg_value')
+			// ->pluck('cfg_value', 'cfg_name')->toArray();
+
+		$EXPORTS_EXTENSION_TYPE = 'xlsx'; // $config['EXPORTS_EXTENSION_TYPE'];
+		// $FILTERS_USER_NAME = $config['FILTERS_USER_NAME'];
+		// $FILTERS_USER_EMAIL = $config['FILTERS_USER_EMAIL'];
+		// $FILTERS_DATEFROM = ''; // $config['FILTERS_USER_LOGINTIME_DATEFROM'];
+		// $FILTERS_DATETO = ''; // $config['FILTERS_USER_LOGINTIME_DATETO'];
+
+        // 获取用户信息
+		// Excel数据，最好转换成数组，以便传递过去
+		// $queryfilter_name = $FILTERS_USER_NAME || '';
+		// $queryfilter_email = $FILTERS_USER_EMAIL || '';
+
+		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
+		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
+
+		$Bpjg_zhongricheng_main = Bpjg_zhongricheng_main::select('id', 'riqi', 'xianti', 'qufen', 'jizhongming', 'pinfan', 'pinming', 'leibie', 'xuqiushuliang', 'zongshu', 'shuliang', 'created_at')
+			->whereBetween('riqi', [$queryfilter_datefrom, $queryfilter_dateto])
+			->get()->toArray();
+		// dd($Bpjg_zhongricheng_main);
+
+        // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
+		// $cellData = [
+            // ['学号','姓名','成绩'],
+            // ['10001','AAAAA','199'],
+            // ['10002','BBBBB','192'],
+            // ['10003','CCCCC','195'],
+            // ['10004','DDDDD','189'],
+            // ['10005','EEEEE','196'],
+        // ];
+
+		// Excel标题第一行，可修改为任意名字，包括中文
+		$title[] = ['id', '生产日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
+			'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
+
+		// 合并Excel的标题和数据为一个整体
+		$data = array_merge($title, $Bpjg_zhongricheng_main);
+
+		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
+		// dd(Excel::download($user, '学生成绩.xlsx'));
+		return Excel::download(new qcreportExport($data), 'smt_qc_report_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		
+	}	
 	
 	
 	
