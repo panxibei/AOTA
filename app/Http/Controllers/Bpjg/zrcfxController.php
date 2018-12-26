@@ -9,9 +9,9 @@ use App\Models\Bpjg\Bpjg_zhongricheng_zrc;
 use App\Models\Bpjg\Bpjg_zhongricheng_main;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
-// use App\Exports\Smt\qcreportExport;
 use App\Imports\Bpjg\zrcfx_zrcImport;
 use App\Imports\Bpjg\zrcfx_mainImport;
+use App\Exports\Bpjg\zrcfx_mainExport;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -625,15 +625,14 @@ class zrcfxController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', '生产日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
-			'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
+		$title[] = ['id', '日期', '线体', '区分', '机种名', '品番', '品名', '类别', '需求数量', '总数', '数量', '创建日期'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $Bpjg_zhongricheng_main);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
-		return Excel::download(new qcreportExport($data), 'smt_qc_report_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		return Excel::download(new zrcfx_mainExport($data), 'bpjg_zrcfx_main_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}	
 	
