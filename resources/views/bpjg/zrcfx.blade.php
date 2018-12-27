@@ -123,7 +123,7 @@
 		</i-col>
 		<i-col span="8">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出全部后台数据</i-button>
+			<i-button type="default" size="small" @click="exportData_zrc()" disabled><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 		</i-col>
 		<i-col span="10">
 			&nbsp;
@@ -339,14 +339,14 @@
 		<i-col span="2">
 			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>
-		<i-col span="8">
+		<i-col span="4">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
 			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 		</i-col>
-		<i-col span="10">
-			&nbsp;
+		<i-col span="8">
+			<i-button type="primary" size="small" @click="analytics_main()"><Icon type="ios-analytics-outline"></Icon> 分析数据</i-button>
 		</i-col>
-		<i-col span="4">
+		<i-col span="10">
 			&nbsp;
 		</i-col>
 	</i-row>
@@ -1528,7 +1528,19 @@ var vm_app = new Vue({
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
-		},		
+		},
+		
+		
+		// exportData_zrc 中日程表数据导出
+		exportData_zrc: function () {
+			alert('Unfinished function!');
+		},
+		
+		
+		// 分析数据
+		analytics_main: function () {
+			alert('未完成功能！');
+		},
 		
 		
 
