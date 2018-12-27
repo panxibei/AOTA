@@ -7,7 +7,7 @@
 
 @section('my_style')
 <style>
-.ivu-table td.tableclass1{
+.ivu-table td.table-info-column{
 	background-color: #2db7f5;
 	color: #fff;
 }
@@ -341,7 +341,7 @@
 		</i-col>
 		<i-col span="8">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出全部后台数据</i-button>
+			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 		</i-col>
 		<i-col span="10">
 			&nbsp;
@@ -687,6 +687,7 @@ var vm_app = new Vue({
 				key: 'zongshu',
 				align: 'center',
 				width: 100,
+				className: 'table-info-column',
 				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
@@ -699,6 +700,7 @@ var vm_app = new Vue({
 				key: 'shuliang',
 				align: 'center',
 				width: 100,
+				className: 'table-info-column',
 				// sortable: true,
 				render: (h, params) => {
 					return h('div', [

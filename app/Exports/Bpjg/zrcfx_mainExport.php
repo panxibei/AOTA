@@ -3,10 +3,10 @@
 namespace App\Exports\Bpjg;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Illuminate\Support\Collection;
 
-class zrcfx_mainExport implements FromCollection
+class zrcfx_mainExport implements FromCollection, WithStrictNullComparison
 {
 	
 	public function __construct($data){
