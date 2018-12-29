@@ -82,6 +82,15 @@
 				action="/">
 				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表' }}</i-button>
 			</Upload>
+			<Upload
+				:before-upload="uploadstart_zrcfx"
+				:show-upload-list="false"
+				:format="['xls','xlsx']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表' }}</i-button>
+			</Upload>
 		</i-col>
 		<i-col span="2">
 			<i-button @click="download_zrc()" type="text">[下载模板]</i-button>
@@ -1401,6 +1410,55 @@ var vm_app = new Vue({
 			// return false;
 			
 			var url = "{{ route('bpjg.zrcfx.zrcimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				
+				if (response.data == 1) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+		},
+		uploadstart_zrcfx: function (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('bpjg.zrcfx.zrcfximport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({

@@ -25,6 +25,7 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function
 	Route::post('zrcdelete', 'zrcfxController@zrcDelete')->name('bpjg.zrcfx.zrcdelete');
 	Route::get('zrcexport', 'zrcfxController@zrcExport')->name('bpjg.zrcfx.zrcexport');
 	Route::post('zrcimport', 'zrcfxController@zrcImport')->name('bpjg.zrcfx.zrcimport');
+	Route::post('zrcfximport', 'zrcfxController@zrcfxImport')->name('bpjg.zrcfx.zrcfximport');
 	Route::get('zrcdownload', 'zrcfxController@zrcDownload')->name('bpjg.zrcfx.zrcdownload');
 	Route::get('maingets', 'zrcfxController@mainGets')->name('bpjg.zrcfx.maingets');
 	Route::post('mainupdate', 'zrcfxController@mainUpdate')->name('bpjg.zrcfx.mainupdate');
