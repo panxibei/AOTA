@@ -17,6 +17,7 @@ class CreateBpjgZhongrichengResultsTable extends Migration
             $table->increments('id');
 			$table->string('pinfan', 50)->comment('品番');
 			$table->string('pinming', 50)->comment('品名');
+			$table->integer('zongshu')->nullable()->default(0)->unsigned()->comment('总数');
 			$table->integer('d1')->nullable()->default(0)->unsigned()->comment('1号数量');
 			$table->integer('d2')->nullable()->default(0)->unsigned()->comment('2号数量');
 			$table->integer('d3')->nullable()->default(0)->unsigned()->comment('3号数量');

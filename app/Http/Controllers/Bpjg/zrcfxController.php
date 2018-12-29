@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bpjg\Bpjg_zhongricheng_zrc;
 use App\Models\Bpjg\Bpjg_zhongricheng_zrcfx;
 use App\Models\Bpjg\Bpjg_zhongricheng_relation;
+use App\Models\Bpjg\Bpjg_zhongricheng_result;
 use App\Models\Bpjg\Bpjg_zhongricheng_main;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -718,46 +719,144 @@ class zrcfxController extends Controller
 		$res_relation = Bpjg_zhongricheng_relation::select('jizhongming', 'pinfan', 'pinming', 'xuqiushuliang')
 			->get();
 		
-		
+		// 3.计算每天的数量，相同部品计算“每天合计”及同时计算“一个月内的总数”。
 		$res = [];
 		
 		foreach ($res_zrcfx as $key1 => $value1) {
-			// $res[] = $value1['jizhongming'];
+			if (is_null($value1['d1'])) $value1['d1'] = 0;
+			if (is_null($value1['d2'])) $value1['d2'] = 0;
+			if (is_null($value1['d3'])) $value1['d3'] = 0;
+			if (is_null($value1['d4'])) $value1['d4'] = 0;
+			if (is_null($value1['d5'])) $value1['d5'] = 0;
+			if (is_null($value1['d6'])) $value1['d6'] = 0;
+			if (is_null($value1['d7'])) $value1['d7'] = 0;
+			if (is_null($value1['d8'])) $value1['d8'] = 0;
+			if (is_null($value1['d9'])) $value1['d9'] = 0;
+			if (is_null($value1['d10'])) $value1['d10'] = 0;
+			if (is_null($value1['d11'])) $value1['d11'] = 0;
+			if (is_null($value1['d12'])) $value1['d12'] = 0;
+			if (is_null($value1['d13'])) $value1['d13'] = 0;
+			if (is_null($value1['d14'])) $value1['d14'] = 0;
+			if (is_null($value1['d15'])) $value1['d15'] = 0;
+			if (is_null($value1['d16'])) $value1['d16'] = 0;
+			if (is_null($value1['d17'])) $value1['d17'] = 0;
+			if (is_null($value1['d18'])) $value1['d18'] = 0;
+			if (is_null($value1['d19'])) $value1['d19'] = 0;
+			if (is_null($value1['d20'])) $value1['d20'] = 0;
+			if (is_null($value1['d21'])) $value1['d21'] = 0;
+			if (is_null($value1['d22'])) $value1['d22'] = 0;
+			if (is_null($value1['d23'])) $value1['d23'] = 0;
+			if (is_null($value1['d24'])) $value1['d24'] = 0;
+			if (is_null($value1['d25'])) $value1['d25'] = 0;
+			if (is_null($value1['d26'])) $value1['d26'] = 0;
+			if (is_null($value1['d27'])) $value1['d27'] = 0;
+			if (is_null($value1['d28'])) $value1['d28'] = 0;
+			if (is_null($value1['d29'])) $value1['d29'] = 0;
+			if (is_null($value1['d30'])) $value1['d30'] = 0;
 			
 			foreach ($res_relation as $key2 => $value2) {
 				if ($value2['jizhongming'] == $value1['jizhongming']) {
+					$zhongshu = 0;
 					
 					$res[$key2]['pinfan'] = $value2['pinfan'];
 					$res[$key2]['pinming'] = $value2['pinming'];
 
-					if (is_null($value1['d1'])) $value1['d1'] = 0;
-					if (!isset($res[$key2]['d1'])) {
-						$res[$key2]['d1'] = $value1['d1'] * $value2['xuqiushuliang'];
-					} else {
-						$res[$key2]['d1'] += $value1['d1'] * $value2['xuqiushuliang'];
-					}
 
-					if (is_null($value1['d2'])) $value1['d2'] = 0;
-					if (!isset($res[$key2]['d2'])) {
-						$res[$key2]['d2'] = $value1['d2'] * $value2['xuqiushuliang'];
-					} else {
-						$res[$key2]['d2'] += $value1['d2'] * $value2['xuqiushuliang'];
-					}
-					
+					!isset($res[$key2]['d1']) ? $res[$key2]['d1'] = $value1['d1'] * $value2['xuqiushuliang'] : $res[$key2]['d1'] += $value1['d1'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d1'];
+					!isset($res[$key2]['d2']) ? $res[$key2]['d2'] = $value1['d2'] * $value2['xuqiushuliang'] : $res[$key2]['d2'] += $value1['d2'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d2'];
+					!isset($res[$key2]['d3']) ? $res[$key2]['d3'] = $value1['d3'] * $value2['xuqiushuliang'] : $res[$key2]['d3'] += $value1['d3'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d3'];
+					!isset($res[$key2]['d4']) ? $res[$key2]['d4'] = $value1['d4'] * $value2['xuqiushuliang'] : $res[$key2]['d4'] += $value1['d4'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d4'];
+					!isset($res[$key2]['d5']) ? $res[$key2]['d5'] = $value1['d5'] * $value2['xuqiushuliang'] : $res[$key2]['d5'] += $value1['d5'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d5'];
+					!isset($res[$key2]['d6']) ? $res[$key2]['d6'] = $value1['d6'] * $value2['xuqiushuliang'] : $res[$key2]['d6'] += $value1['d6'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d6'];
+					!isset($res[$key2]['d7']) ? $res[$key2]['d7'] = $value1['d7'] * $value2['xuqiushuliang'] : $res[$key2]['d7'] += $value1['d7'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d7'];
+					!isset($res[$key2]['d8']) ? $res[$key2]['d8'] = $value1['d8'] * $value2['xuqiushuliang'] : $res[$key2]['d8'] += $value1['d8'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d8'];
+					!isset($res[$key2]['d9']) ? $res[$key2]['d9'] = $value1['d9'] * $value2['xuqiushuliang'] : $res[$key2]['d9'] += $value1['d9'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d9'];
+					!isset($res[$key2]['d10']) ? $res[$key2]['d10'] = $value1['d10'] * $value2['xuqiushuliang'] : $res[$key2]['d10'] += $value1['d10'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d10'];
+
+					!isset($res[$key2]['d11']) ? $res[$key2]['d11'] = $value1['d11'] * $value2['xuqiushuliang'] : $res[$key2]['d11'] += $value1['d11'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d11'];
+					!isset($res[$key2]['d12']) ? $res[$key2]['d12'] = $value1['d12'] * $value2['xuqiushuliang'] : $res[$key2]['d12'] += $value1['d12'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d12'];
+					!isset($res[$key2]['d13']) ? $res[$key2]['d13'] = $value1['d13'] * $value2['xuqiushuliang'] : $res[$key2]['d13'] += $value1['d13'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d13'];
+					!isset($res[$key2]['d14']) ? $res[$key2]['d14'] = $value1['d14'] * $value2['xuqiushuliang'] : $res[$key2]['d14'] += $value1['d14'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d14'];
+					!isset($res[$key2]['d15']) ? $res[$key2]['d15'] = $value1['d15'] * $value2['xuqiushuliang'] : $res[$key2]['d15'] += $value1['d15'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d15'];
+					!isset($res[$key2]['d16']) ? $res[$key2]['d16'] = $value1['d16'] * $value2['xuqiushuliang'] : $res[$key2]['d16'] += $value1['d16'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d16'];
+					!isset($res[$key2]['d17']) ? $res[$key2]['d17'] = $value1['d17'] * $value2['xuqiushuliang'] : $res[$key2]['d17'] += $value1['d17'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d17'];
+					!isset($res[$key2]['d18']) ? $res[$key2]['d18'] = $value1['d18'] * $value2['xuqiushuliang'] : $res[$key2]['d18'] += $value1['d18'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d18'];
+					!isset($res[$key2]['d19']) ? $res[$key2]['d19'] = $value1['d19'] * $value2['xuqiushuliang'] : $res[$key2]['d19'] += $value1['d19'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d19'];
+					!isset($res[$key2]['d20']) ? $res[$key2]['d20'] = $value1['d20'] * $value2['xuqiushuliang'] : $res[$key2]['d20'] += $value1['d20'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d20'];
+
+					!isset($res[$key2]['d21']) ? $res[$key2]['d21'] = $value1['d21'] * $value2['xuqiushuliang'] : $res[$key2]['d21'] += $value1['d21'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d21'];
+					!isset($res[$key2]['d22']) ? $res[$key2]['d22'] = $value1['d22'] * $value2['xuqiushuliang'] : $res[$key2]['d22'] += $value1['d22'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d22'];
+					!isset($res[$key2]['d23']) ? $res[$key2]['d23'] = $value1['d23'] * $value2['xuqiushuliang'] : $res[$key2]['d23'] += $value1['d23'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d23'];
+					!isset($res[$key2]['d24']) ? $res[$key2]['d24'] = $value1['d24'] * $value2['xuqiushuliang'] : $res[$key2]['d24'] += $value1['d24'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d24'];
+					!isset($res[$key2]['d25']) ? $res[$key2]['d25'] = $value1['d25'] * $value2['xuqiushuliang'] : $res[$key2]['d25'] += $value1['d25'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d25'];
+					!isset($res[$key2]['d26']) ? $res[$key2]['d26'] = $value1['d26'] * $value2['xuqiushuliang'] : $res[$key2]['d26'] += $value1['d26'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d26'];
+					!isset($res[$key2]['d27']) ? $res[$key2]['d27'] = $value1['d27'] * $value2['xuqiushuliang'] : $res[$key2]['d27'] += $value1['d27'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d27'];
+					!isset($res[$key2]['d28']) ? $res[$key2]['d28'] = $value1['d28'] * $value2['xuqiushuliang'] : $res[$key2]['d28'] += $value1['d28'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d28'];
+					!isset($res[$key2]['d29']) ? $res[$key2]['d29'] = $value1['d29'] * $value2['xuqiushuliang'] : $res[$key2]['d29'] += $value1['d29'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d29'];
+					!isset($res[$key2]['d30']) ? $res[$key2]['d30'] = $value1['d30'] * $value2['xuqiushuliang'] : $res[$key2]['d30'] += $value1['d30'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d30'];
+					!isset($res[$key2]['d31']) ? $res[$key2]['d31'] = $value1['d31'] * $value2['xuqiushuliang'] : $res[$key2]['d31'] += $value1['d31'] * $value2['xuqiushuliang'];
+					$zhongshu += $res[$key2]['d31'];
 
 					
-					
-					
+					$res[$key2]['zongshu'] = $zhongshu;
 					
 				}
 				
-				
-				
 			}
 			
-			
-			
 		}
+		// dd($res);
+		
+		// 4.导入结果表 bpjg_zhongricheng_results
+		// 写入数据库
+		try	{
+			DB::beginTransaction();
+			
+			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
+			foreach ($piliangluru as $value) {
+				Bpjg_zhongricheng_zrc::create($value);
+			}
+
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			DB::rollBack();
+			// return 'Message: ' .$e->getMessage();
+			return 0;
+		}
+
+		DB::commit();		
 		
 		
 		
