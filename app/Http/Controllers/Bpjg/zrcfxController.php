@@ -835,6 +835,7 @@ class zrcfxController extends Controller
 			}
 			
 		}
+		return $res;
 		// dd($res);
 		
 		// 4.导入结果表 bpjg_zhongricheng_results
@@ -843,8 +844,8 @@ class zrcfxController extends Controller
 			DB::beginTransaction();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
-			foreach ($piliangluru as $value) {
-				Bpjg_zhongricheng_zrc::create($value);
+			foreach ($res as $value) {
+				Bpjg_zhongricheng_result::create($value);
 			}
 
 			$result = 1;
@@ -852,7 +853,7 @@ class zrcfxController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			// return 'Message: ' .$e->getMessage();
+			return 'Message: ' .$e->getMessage();
 			return 0;
 		}
 
@@ -860,7 +861,7 @@ class zrcfxController extends Controller
 		
 		
 		
-		return $res;
+		// return $res;
 		return $result;
 	
 	}	
