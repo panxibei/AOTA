@@ -89,7 +89,7 @@
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表测试' }}</i-button>
 			</Upload>
 		</i-col>
 		<i-col span="2">
@@ -1597,7 +1597,30 @@ var vm_app = new Vue({
 		
 		// 分析数据
 		analytics_main: function () {
-			alert('未完成功能！');
+			var _this = this;
+			
+			var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {}
+			})
+			.then(function (response) {
+				console.log(response.data);
+				return false;
+				
+				if (response.data) {
+					_this.success(false, '成功', '分析数据成功！');
+					_this.boo_delete_main = true;
+					_this.tableselect2 = [];
+					_this.maingets(_this.pagecurrent2, _this.pagelast2);
+				} else {
+					_this.error(false, '失败', '分析数据失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '分析数据失败！');
+			})
+			
 		},
 		
 		

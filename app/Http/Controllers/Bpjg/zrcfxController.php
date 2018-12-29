@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Bpjg\Bpjg_zhongricheng_zrc;
+use App\Models\Bpjg\Bpjg_zhongricheng_zrcfx;
+use App\Models\Bpjg\Bpjg_zhongricheng_relation;
 use App\Models\Bpjg\Bpjg_zhongricheng_main;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\Bpjg\zrcfx_zrcImport;
+use App\Imports\Bpjg\zrcfx_zrcImport; //暂留
+use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Imports\Bpjg\zrcfx_mainImport;
 use App\Exports\Bpjg\zrcfx_mainExport;
 
@@ -542,7 +545,8 @@ class zrcfxController extends Controller
 			$result = 1;
 		} catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
-			$result = 0;
+			$result = 'Message: ' .$e->getMessage();
+			// $result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
@@ -692,6 +696,75 @@ class zrcfxController extends Controller
 		
 	}	
 	
+	
+    /**
+     * zrcfxFunction
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function zrcfxFunction(Request $request)
+    {
+		if (! $request->ajax()) return null;
+		
+		// 1.读取 bpjg_zhongricheng_zrcfxs 表
+		$res_zrcfx = Bpjg_zhongricheng_zrcfx::select('jizhongming',
+			'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10',
+			'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20',
+			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31')
+			->get();
+		
+		// 2.读取 bpjg_zhongricheng_relations 表
+		$res_relation = Bpjg_zhongricheng_relation::select('jizhongming', 'pinfan', 'pinming', 'xuqiushuliang')
+			->get();
+		
+		
+		$res = [];
+		
+		foreach ($res_zrcfx as $key1 => $value1) {
+			// $res[] = $value1['jizhongming'];
+			
+			foreach ($res_relation as $key2 => $value2) {
+				if ($value2['jizhongming'] == $value1['jizhongming']) {
+					
+					$res[$key2]['pinfan'] = $value2['pinfan'];
+					$res[$key2]['pinming'] = $value2['pinming'];
+
+					if (is_null($value1['d1'])) $value1['d1'] = 0;
+					if (!isset($res[$key2]['d1'])) {
+						$res[$key2]['d1'] = $value1['d1'] * $value2['xuqiushuliang'];
+					} else {
+						$res[$key2]['d1'] += $value1['d1'] * $value2['xuqiushuliang'];
+					}
+
+					if (is_null($value1['d2'])) $value1['d2'] = 0;
+					if (!isset($res[$key2]['d2'])) {
+						$res[$key2]['d2'] = $value1['d2'] * $value2['xuqiushuliang'];
+					} else {
+						$res[$key2]['d2'] += $value1['d2'] * $value2['xuqiushuliang'];
+					}
+					
+
+					
+					
+					
+					
+				}
+				
+				
+				
+			}
+			
+			
+			
+		}
+		
+		
+		
+		return $res;
+		return $result;
+	
+	}	
 	
 	
 	
