@@ -352,10 +352,7 @@
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
 			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 		</i-col>
-		<i-col span="8">
-			<i-button type="primary" size="small" @click="analytics_main()"><Icon type="ios-analytics-outline"></Icon> 分析数据</i-button>
-		</i-col>
-		<i-col span="10">
+		<i-col span="18">
 			&nbsp;
 		</i-col>
 	</i-row>
@@ -443,55 +440,11 @@
 			&nbsp;
 		</i-col>
 		<i-col span="1">
-			查询：
+			分析：
 		</i-col>
-		<i-col span="6">
+		<i-col span="3">
 			* 选择月份&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
-		</i-col>
-		<i-col span="3">
-			线体&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="9">
-		&nbsp;
-		</i-col>
-	</i-row>
-	<br><br>
-
-	<i-row :gutter="16">
-		<i-col span="3">
-			&nbsp;
-		</i-col>
-		<i-col span="3">
-			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter_main" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-		</i-col>
-		<i-col span="3">
-			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-		</i-col>
-		<i-col span="3">
-			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-		</i-col>
-		<i-col span="3">
-			类别&nbsp;&nbsp;
-			<i-select v-model.lazy="leibie_filter" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" clearable size="small" style="width:100px" placeholder="">
-				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-	</i-row>
-	<br><br>
-
-	<i-row :gutter="16">
-		<br>
-		<i-col span="2">
-			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
-		</i-col>
-		<i-col span="4">
-			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+			<Date-picker v-model.lazy="qcdate_filter_fenxi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
 		</i-col>
 		<i-col span="8">
 			<i-button type="primary" size="small" @click="analytics_main()"><Icon type="ios-analytics-outline"></Icon> 分析数据</i-button>
@@ -500,6 +453,35 @@
 			&nbsp;
 		</i-col>
 	</i-row>
+	<br><br>
+	
+	<i-row :gutter="16">
+		<br>
+		<i-col span="2">
+			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+		</i-col>
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="3">
+			* 选择月份&nbsp;&nbsp;
+			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+		</i-col>
+		<i-col span="3">
+			品番&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="3">
+			品名&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="12">
+		&nbsp;
+		</i-col>
+	</i-row>
+	<br>
+
+
 
 	<i-row :gutter="16">
 		<i-col span="24">
@@ -589,6 +571,7 @@ var vm_app = new Vue({
 		qcdate_filter_zrc: [], //new Date(),
 		qcdate_filter_main: [], //new Date(),
 		qcdate_filter_result: '', //new Date(),
+		qcdate_filter_fenxi: '', //new Date(),
 		
 		// 线体过滤
 		xianti_filter: '',
@@ -2169,23 +2152,23 @@ var vm_app = new Vue({
 		analytics_main: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+			if (_this.qcdate_filter_fenxi == '' || _this.qcdate_filter_fenxi == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
+			var datex = _this.qcdate_filter_fenxi.Format("yyyy-MM");
 			var days =	getDays(datex); //例：getDays(2018-12)
 			
-			var qcdate_filter_result = [];
-			qcdate_filter_result[0] = datex + '-01 00:00:00';
-			qcdate_filter_result[1] = datex + '-' + days + ' 23:59:59';
+			var qcdate_filter_fenxi = [];
+			qcdate_filter_fenxi[0] = datex + '-01 00:00:00';
+			qcdate_filter_fenxi[1] = datex + '-' + days + ' 23:59:59';
 
 			var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					qcdate_filter: qcdate_filter_result,
+					qcdate_filter: qcdate_filter_fenxi,
 				}
 			})
 			.then(function (response) {
