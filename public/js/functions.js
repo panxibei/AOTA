@@ -58,3 +58,12 @@ function checkBrowser () {
 		document.execCommand("stop");
 	};	
 }
+
+// 201812301547
+// 获取某个月份的天数 例：getDays(2018-12)
+function getDays (yearmonth) {
+	var arr = yearmonth.split('-');
+    // var d = new Date(year, month, 0);
+    var d = new Date(arr[0], arr[1], 0); //初始化月份的第0天，由于JS中day的范围为1~31中的值，所以当设为0时，会向前一天，也即表示上个月的最后一天。
+    return d.getDate();
+}

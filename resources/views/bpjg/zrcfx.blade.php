@@ -429,6 +429,91 @@
 	</Modal>
 	
 	<br>
+	
+	
+	
+	
+	
+	
+	
+	<Divider orientation="left">555555555555. 线体/机种/部品 信息查询</Divider>
+
+	<i-row :gutter="16">
+		<i-col span="2">
+			&nbsp;
+		</i-col>
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="6">
+			* 选择月份&nbsp;&nbsp;
+			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+		</i-col>
+		<i-col span="3">
+			线体&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="9">
+		&nbsp;
+		</i-col>
+	</i-row>
+	<br><br>
+
+	<i-row :gutter="16">
+		<i-col span="3">
+			&nbsp;
+		</i-col>
+		<i-col span="3">
+			机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming_filter_main" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+		</i-col>
+		<i-col span="3">
+			品番&nbsp;&nbsp;
+			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+		</i-col>
+		<i-col span="3">
+			品名&nbsp;&nbsp;
+			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+		</i-col>
+		<i-col span="3">
+			类别&nbsp;&nbsp;
+			<i-select v-model.lazy="leibie_filter" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" clearable size="small" style="width:100px" placeholder="">
+				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+	</i-row>
+	<br><br>
+
+	<i-row :gutter="16">
+		<br>
+		<i-col span="2">
+			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+		</i-col>
+		<i-col span="4">
+			导出：&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+		</i-col>
+		<i-col span="8">
+			<i-button type="primary" size="small" @click="analytics_main()"><Icon type="ios-analytics-outline"></Icon> 分析数据</i-button>
+		</i-col>
+		<i-col span="10">
+			&nbsp;
+		</i-col>
+	</i-row>
+
+	<i-row :gutter="16">
+		<i-col span="24">
+			<i-table ref="table_result" height="400" size="small" border :columns="tablecolumns_result" :data="tabledata_result"></i-table>
+			<br><Page :current="pagecurrent_result" :total="pagetotal_result" :page-size="pagepagesize_result" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+		</i-col>
+	</i-row>
+	
+
+	
+	<br>	
+	
+	
+	
 
 </div>
 @endsection
@@ -452,6 +537,12 @@ var vm_app = new Vue({
 		pagetotal2: 1,
 		pagepagesize2: 10,
 		pagelast2: 1,
+
+		//表result分页
+		pagecurrent_result: 1,
+		pagetotal_result: 1,
+		pagepagesize_result: 10,
+		pagelast_result: 1,
 		
 		// ##########基本变量########
 		// 批量录入中日程
@@ -497,6 +588,7 @@ var vm_app = new Vue({
 		// 日期范围过滤
 		qcdate_filter_zrc: [], //new Date(),
 		qcdate_filter_main: [], //new Date(),
+		qcdate_filter_result: '', //new Date(),
 		
 		// 线体过滤
 		xianti_filter: '',
@@ -758,6 +850,400 @@ var vm_app = new Vue({
 		tabledata2: [],
 		tableselect2: [],
 		
+		
+		// 表头 result
+		tablecolumns_result: [
+			{
+				type: 'index',
+				width: 60,
+				align: 'center'
+			},
+			{
+				title: '品番',
+				key: 'pinfan',
+				align: 'center',
+				width: 100,
+				// sortable: true
+			},
+			{
+				title: '品名',
+				key: 'pinming',
+				align: 'center',
+				width: 100
+			},
+			{
+				title: '总数',
+				key: 'zongshu',
+				align: 'center',
+				width: 100,
+				className: 'table-info-column',
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.zongshu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '1',
+				key: 'd1',
+				align: 'center',
+				width: 80,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d1.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '2',
+				key: 'd2',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d2.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '3',
+				key: 'd3',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d3.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '4',
+				key: 'd4',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d4.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '5',
+				key: 'd5',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '6',
+				key: 'd6',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '7',
+				key: 'd7',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '8',
+				key: 'd8',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '9',
+				key: 'd9',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '10',
+				key: 'd10',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '11',
+				key: 'd11',
+				align: 'center',
+				width: 80,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d11.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '12',
+				key: 'd12',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d12.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '13',
+				key: 'd13',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d13.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '14',
+				key: 'd14',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d14.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '15',
+				key: 'd15',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d15.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '16',
+				key: 'd16',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d16.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '17',
+				key: 'd17',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d17.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '18',
+				key: 'd18',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d18.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '19',
+				key: 'd19',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d19.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '20',
+				key: 'd20',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d20.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '21',
+				key: 'd21',
+				align: 'center',
+				width: 80,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d21.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '22',
+				key: 'd22',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d22.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '23',
+				key: 'd23',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d23.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '24',
+				key: 'd24',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d24.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '25',
+				key: 'd25',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d25.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '26',
+				key: 'd26',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d26.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '27',
+				key: 'd27',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d27.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '28',
+				key: 'd28',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d28.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '29',
+				key: 'd29',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d29.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '30',
+				key: 'd30',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d30.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '31',
+				key: 'd31',
+				align: 'center',
+				width: 80,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d31.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '创建日期',
+				key: 'created_at',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '更新日期',
+				key: 'updated_at',
+				align: 'center',
+				width: 160,
+			},
+		],
+		tabledata_result: [],
+		tableselect_result: [],
+		
 
 
 		// 删除disabled
@@ -933,6 +1419,73 @@ var vm_app = new Vue({
 					_this.tabledata2 = response.data.data;
 				} else {
 					_this.tabledata2 = [];
+				}
+				
+			})
+			.catch(function (error) {
+				_this.loadingbarerror();
+				_this.error(false, 'Error', error);
+			})
+		},
+		
+		
+		// result列表
+		resultgets: function (page, last_page) {
+			var _this = this;
+			
+			if (page > last_page) {
+				page = last_page;
+			} else if (page < 1) {
+				page = 1;
+			}
+			
+			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+				_this.tabledata_result = [];
+				return false;
+			}
+			
+			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
+			var days =	getDays(datex); //例：getDays(2018-12)
+			
+			var qcdate_filter_result = [];
+			qcdate_filter_result[0] = datex + '-01 00:00:00';
+			qcdate_filter_result[1] = datex + '-' + days + ' 23:59:59';
+			
+			// console.log(qcdate_filter_result);
+			// return false;
+			
+			// var xianti_filter = _this.xianti_filter;
+			// var jizhongming_filter_main = _this.jizhongming_filter_main;
+			// var pinfan_filter = _this.pinfan_filter;
+			// var pinming_filter = _this.pinming_filter;
+			// var leibie_filter = _this.leibie_filter;
+
+			var url = "{{ route('bpjg.zrcfx.resultgets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					perPage: _this.pagepagesize_result,
+					page: page,
+					qcdate_filter: qcdate_filter_result,
+					// xianti_filter: xianti_filter,
+					// jizhongming_filter: jizhongming_filter_main,
+					// pinfan_filter: pinfan_filter,
+					// pinming_filter: pinming_filter,
+					// leibie_filter: leibie_filter
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				if (response.data) {
+					_this.pagecurrent_result = response.data.current_page;
+					_this.pagetotal_result = response.data.total;
+					_this.pagelast_result = response.data.last_page
+					
+					_this.tabledata_result = response.data.data;
+				} else {
+					_this.tabledata_result = [];
 				}
 				
 			})
@@ -1312,6 +1865,23 @@ var vm_app = new Vue({
 			_this.boo_delete_main = _this.tableselect2[0] == undefined ? true : false;
 			
 		},
+
+		// 表result选择 暂未用
+		onselectchange_result: function (selection) {
+			
+			console.log(this.qcdate_filter_result);
+			return false;
+			
+			var _this = this;
+			_this.tableselect2 = [];
+
+			for (var i in selection) {
+				_this.tableselect2.push(selection[i].id);
+			}
+			
+			_this.boo_delete_main = _this.tableselect2[0] == undefined ? true : false;
+			
+		},
 		
 		// 生成piliangluru
 		piliangluru_zrc_generate: function (counts) {
@@ -1599,20 +2169,34 @@ var vm_app = new Vue({
 		analytics_main: function () {
 			var _this = this;
 			
+			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+				_this.warning(false, '警告', '请选择日期范围！');
+				return false;
+			}
+			
+			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
+			var days =	getDays(datex); //例：getDays(2018-12)
+			
+			var qcdate_filter_result = [];
+			qcdate_filter_result[0] = datex + '-01 00:00:00';
+			qcdate_filter_result[1] = datex + '-' + days + ' 23:59:59';
+
 			var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
-				params: {}
+				params: {
+					qcdate_filter: qcdate_filter_result,
+				}
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 				
 				if (response.data) {
 					_this.success(false, '成功', '分析数据成功！');
-					_this.boo_delete_main = true;
-					_this.tableselect2 = [];
-					_this.maingets(_this.pagecurrent2, _this.pagelast2);
+					// _this.boo_delete_main = true;
+					_this.tableselect_result = [];
+					_this.resultgets(_this.pagecurrent_result, _this.pagelast_result);
 				} else {
 					_this.error(false, '失败', '分析数据失败！');
 				}

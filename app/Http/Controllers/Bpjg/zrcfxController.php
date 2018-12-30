@@ -1,5 +1,5 @@
 <?php
-// 中日程分解
+// 中日程分析
 namespace App\Http\Controllers\Bpjg;
 
 use Illuminate\Http\Request;
@@ -180,6 +180,92 @@ class zrcfxController extends Controller
 		
 		return $result;
     }	
+	
+	
+    /**
+     * resultGets
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resultGets(Request $request)
+    {
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+		
+		if (isset($queryParams['perPage'])) {
+			$perPage = $queryParams['perPage'] ?: 10000;
+		} else {
+			$perPage = 10000;
+		}
+		
+		if (isset($queryParams['page'])) {
+			$page = $queryParams['page'] ?: 1;
+		} else {
+			$page = 1;
+		}
+		// dd($queryParams);
+		$qcdate_filter = $request->input('qcdate_filter');
+		// $xianti_filter = $request->input('xianti_filter');
+		// $jizhongming_filter = $request->input('jizhongming_filter');
+		// $pinfan_filter = $request->input('pinfan_filter');
+		// $pinming_filter = $request->input('pinming_filter');
+		// $leibie_filter = $request->input('leibie_filter');
+		
+		// $usecache = $request->input('usecache');
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		// dd($fullUrl);
+		// dd($queryParams);
+		// dd($qcdate_filter);
+		
+		// 注意$usecache变量的类型
+		// if ($usecache == "false") {
+			// Cache::forget($fullUrl);
+			// Cache::flush();
+		// }
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$result = Cache::get($fullUrl);    //直接读取cache
+		} else {                              //如果cache里面没有        
+			$result = Bpjg_zhongricheng_result::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+					return $query->whereBetween('updated_at', $qcdate_filter);
+				})
+				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
+					// return $query->where('xianti', '=', $xianti_filter);
+				// })
+				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					// return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				// })
+				// ->when($pinfan_filter, function ($query) use ($pinfan_filter) {
+					// return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
+				// })
+				// ->when($pinming_filter, function ($query) use ($pinming_filter) {
+					// return $query->where('pinming', 'like', '%'.$pinming_filter.'%');
+				// })
+				// ->when($leibie_filter, function ($query) use ($leibie_filter) {
+					// return $query->where('leibie', '=', $leibie_filter);
+				// })
+				->limit(5000)
+				->orderBy('updated_at', 'asc')
+				->paginate($perPage, ['*'], 'page', $page);
+			
+			Cache::put($fullUrl, $result, now()->addSeconds(30));
+		}
+		
+		return $result;
+    }
+
 	
     /**
      * zrcCreate
@@ -699,7 +785,7 @@ class zrcfxController extends Controller
 	
 	
     /**
-     * zrcfxFunction
+     * zrcfxFunction 中日程分析程序
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -707,6 +793,9 @@ class zrcfxController extends Controller
     public function zrcfxFunction(Request $request)
     {
 		if (! $request->ajax()) return null;
+		
+		$qcdate_filter = $request->input('qcdate_filter');
+
 		
 		// 1.读取 bpjg_zhongricheng_zrcfxs 表
 		$res_zrcfx = Bpjg_zhongricheng_zrcfx::select('jizhongming',
@@ -835,13 +924,47 @@ class zrcfxController extends Controller
 			}
 			
 		}
-		return $res;
-		// dd($res);
+		// dump($res);
 		
-		// 4.导入结果表 bpjg_zhongricheng_results
+		// 4.合并数组中相同部品项
+		$tmp_arr_in = [];
+		$tmp_arr_out = [];
+
+		foreach ($res as $k => $v) {
+			if (in_array($v['pinfan'], $tmp_arr_in)) { //搜索$v[$key]是否在$tmp_arr数组中存在，若存在返回true
+				$tmp_arr_out[] = $res[$k];
+				unset($res[$k]);
+			} else {
+				$tmp_arr_in[] = $v['pinfan'];
+			}
+		}
+		// dump($tmp_arr_out);
+		
+		foreach ($res as $key => $value) {
+			foreach ($tmp_arr_out as $v) {
+				if ($v['pinfan'] == $value['pinfan']) {
+					$res[$key]['d1'] += $v['d1'];$res[$key]['d2'] += $v['d2'];$res[$key]['d3'] += $v['d3'];
+					$res[$key]['d4'] += $v['d4'];$res[$key]['d5'] += $v['d5'];$res[$key]['d6'] += $v['d6'];
+					$res[$key]['d7'] += $v['d7'];$res[$key]['d8'] += $v['d8'];$res[$key]['d9'] += $v['d9'];
+					$res[$key]['d10'] += $v['d10'];$res[$key]['d11'] += $v['d11'];$res[$key]['d12'] += $v['d12'];
+					$res[$key]['d13'] += $v['d13'];$res[$key]['d14'] += $v['d14'];$res[$key]['d15'] += $v['d15'];
+					$res[$key]['d16'] += $v['d16'];$res[$key]['d17'] += $v['d17'];$res[$key]['d18'] += $v['d18'];
+					$res[$key]['d19'] += $v['d19'];$res[$key]['d20'] += $v['d20'];$res[$key]['d21'] += $v['d21'];
+					$res[$key]['d22'] += $v['d22'];$res[$key]['d23'] += $v['d23'];$res[$key]['d24'] += $v['d24'];
+					$res[$key]['d25'] += $v['d25'];$res[$key]['d26'] += $v['d26'];$res[$key]['d27'] += $v['d27'];
+					$res[$key]['d28'] += $v['d28'];$res[$key]['d29'] += $v['d29'];$res[$key]['d30'] += $v['d30'];
+					$res[$key]['d31'] += $v['d31'];
+				}
+			}
+		}
+		// return $res;
+		
+		// 5.导入结果表 bpjg_zhongricheng_results
 		// 写入数据库
 		try	{
 			DB::beginTransaction();
+			
+			$result = Bpjg_zhongricheng_result::whereBetween('updated_at', $qcdate_filter)->delete();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
 			foreach ($res as $value) {
@@ -853,15 +976,14 @@ class zrcfxController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			return 'Message: ' .$e->getMessage();
+			// return 'Message: ' .$e->getMessage();
 			return 0;
 		}
 
 		DB::commit();		
 		
-		
-		
 		// return $res;
+		Cache::flush();
 		return $result;
 	
 	}	
