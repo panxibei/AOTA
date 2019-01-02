@@ -15,6 +15,7 @@ class CreateBpjgZhongrichengResultsTable extends Migration
     {
         Schema::create('bpjg_zhongricheng_results', function (Blueprint $table) {
             $table->increments('id');
+			$table->string('suoshuriqi', 50)->comment('所属日期');
 			$table->string('pinfan', 50)->comment('品番');
 			$table->string('pinming', 50)->comment('品名');
 			$table->integer('zongshu')->nullable()->default(0)->unsigned()->comment('总数');

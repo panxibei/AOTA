@@ -442,15 +442,47 @@
 		<i-col span="1">
 			分析：
 		</i-col>
-		<i-col span="3">
+		<i-col span="4">
 			* 选择月份&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_fenxi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+			<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
 		</i-col>
 		<i-col span="8">
 			<i-button type="primary" size="small" @click="analytics_main()"><Icon type="ios-analytics-outline"></Icon> 分析数据</i-button>
 		</i-col>
-		<i-col span="10">
+		<i-col span="9">
 			&nbsp;
+		</i-col>
+	</i-row>
+	
+	<Modal	v-model="modal_fenxi"	title="分析数据" ok-text="开始分析" @on-ok="fenxi_ok" @on-cancel="fenxi_cancel" width="400">
+		<p>所属日期：<strong>@{{ fenxi_suoshuriqi }}</strong></p>
+		<br>
+		<p>注意：务必确认“所属日期”，否则原有数据将被覆盖！！</p>
+    </Modal>	
+	<br><br>
+	
+	<i-row :gutter="16">
+		<br>
+		<i-col span="2">
+			&nbsp;
+		</i-col>
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="4">
+			* 选择月份&nbsp;&nbsp;
+			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+		</i-col>
+		<i-col span="4">
+			品番&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="4">
+			品名&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="9">
+		&nbsp;
 		</i-col>
 	</i-row>
 	<br><br>
@@ -460,27 +492,15 @@
 		<i-col span="2">
 			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>
-		<i-col span="1">
-			查询：
+		<i-col span="4">
+			导出：&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 		</i-col>
-		<i-col span="3">
-			* 选择月份&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
-		</i-col>
-		<i-col span="3">
-			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="3">
-			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="12">
-		&nbsp;
+		<i-col span="18">
+			&nbsp;
 		</i-col>
 	</i-row>
 	<br>
-
 
 
 	<i-row :gutter="16">
@@ -571,7 +591,7 @@ var vm_app = new Vue({
 		qcdate_filter_zrc: [], //new Date(),
 		qcdate_filter_main: [], //new Date(),
 		qcdate_filter_result: '', //new Date(),
-		qcdate_filter_fenxi: '', //new Date(),
+		date_fenxi_suoshuriqi: '', //new Date(),
 		
 		// 线体过滤
 		xianti_filter: '',
@@ -612,6 +632,8 @@ var vm_app = new Vue({
 		main_xuqiushuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
 		main_leibie_edit: '',
 
+		modal_fenxi: false,
+		fenxi_suoshuriqi: '',
 		
 		// 表头1
 		tablecolumns1: [
@@ -845,14 +867,14 @@ var vm_app = new Vue({
 				title: '品番',
 				key: 'pinfan',
 				align: 'center',
-				width: 100,
+				width: 140,
 				// sortable: true
 			},
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
-				width: 100
+				width: 140
 			},
 			{
 				title: '总数',
@@ -1428,11 +1450,11 @@ var vm_app = new Vue({
 			}
 			
 			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
-			var days =	getDays(datex); //例：getDays(2018-12)
+			// var days =	getDays(datex); //例：getDays(2018-12)
 			
-			var qcdate_filter_result = [];
-			qcdate_filter_result[0] = datex + '-01 00:00:00';
-			qcdate_filter_result[1] = datex + '-' + days + ' 23:59:59';
+			// var qcdate_filter_result = [];
+			// qcdate_filter_result[0] = datex + '-01 00:00:00';
+			// qcdate_filter_result[1] = datex + '-' + days + ' 23:59:59';
 			
 			// console.log(qcdate_filter_result);
 			// return false;
@@ -1449,7 +1471,7 @@ var vm_app = new Vue({
 				params: {
 					perPage: _this.pagepagesize_result,
 					page: page,
-					qcdate_filter: qcdate_filter_result,
+					qcdate_filter: datex,
 					// xianti_filter: xianti_filter,
 					// jizhongming_filter: jizhongming_filter_main,
 					// pinfan_filter: pinfan_filter,
@@ -2152,23 +2174,71 @@ var vm_app = new Vue({
 		analytics_main: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter_fenxi == '' || _this.qcdate_filter_fenxi == undefined) {
+			if (_this.date_fenxi_suoshuriqi == '' || _this.date_fenxi_suoshuriqi == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var datex = _this.qcdate_filter_fenxi.Format("yyyy-MM");
-			var days =	getDays(datex); //例：getDays(2018-12)
+			_this.fenxi_suoshuriqi = _this.date_fenxi_suoshuriqi.Format("yyyy-MM");
 			
-			var qcdate_filter_fenxi = [];
-			qcdate_filter_fenxi[0] = datex + '-01 00:00:00';
-			qcdate_filter_fenxi[1] = datex + '-' + days + ' 23:59:59';
+			_this.modal_fenxi = true;
+			return false;
+			
+			// var datex = _this.date_fenxi_suoshuriqi.Format("yyyy-MM");
+			// var days =	getDays(datex); //例：getDays(2018-12)
+			
+			// var date_fenxi_suoshuriqi = [];
+			// date_fenxi_suoshuriqi[0] = datex + '-01 00:00:00';
+			// date_fenxi_suoshuriqi[1] = datex + '-' + days + ' 23:59:59';
+
+			// var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
+			// axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			// axios.get(url,{
+				// params: {
+					// suoshuriqi_filter: datex,
+					// suoshuriqi_range: date_fenxi_suoshuriqi,
+				// }
+			// })
+			// .then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				// if (response.data) {
+					// _this.success(false, '成功', '分析数据成功！');
+					// _this.tableselect_result = [];
+					// _this.resultgets(_this.pagecurrent_result, _this.pagelast_result);
+				// } else {
+					// _this.error(false, '失败', '分析数据失败！');
+				// }
+			// })
+			// .catch(function (error) {
+				// _this.error(false, '错误', '分析数据失败！');
+			// })
+			
+		},
+		
+		// 分析确定
+		fenxi_ok: function () {
+			var _this = this;
+			
+			if (_this.date_fenxi_suoshuriqi == '' || _this.date_fenxi_suoshuriqi == undefined) {
+				_this.warning(false, '警告', '请选择日期范围！');
+				return false;
+			}
+			
+			var datex = _this.date_fenxi_suoshuriqi.Format("yyyy-MM");
+			// var days =	getDays(datex); //例：getDays(2018-12)
+			
+			// var date_fenxi_suoshuriqi = [];
+			// date_fenxi_suoshuriqi[0] = datex + '-01 00:00:00';
+			// date_fenxi_suoshuriqi[1] = datex + '-' + days + ' 23:59:59';
 
 			var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					qcdate_filter: qcdate_filter_fenxi,
+					suoshuriqi_filter: datex,
+					// suoshuriqi_range: date_fenxi_suoshuriqi,
 				}
 			})
 			.then(function (response) {
@@ -2187,9 +2257,12 @@ var vm_app = new Vue({
 			.catch(function (error) {
 				_this.error(false, '错误', '分析数据失败！');
 			})
-			
 		},
+
 		
+		fenxi_cancel: function () {
+			// this.modal_fenxi = false;
+		},
 		
 
 			

@@ -239,7 +239,8 @@ class zrcfxController extends Controller
 			$result = Cache::get($fullUrl);    //直接读取cache
 		} else {                              //如果cache里面没有        
 			$result = Bpjg_zhongricheng_result::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-					return $query->whereBetween('updated_at', $qcdate_filter);
+					// return $query->whereBetween('updated_at', $qcdate_filter);
+					return $query->where('suoshuriqi', $qcdate_filter);
 				})
 				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
 					// return $query->where('xianti', '=', $xianti_filter);
@@ -794,7 +795,7 @@ class zrcfxController extends Controller
     {
 		if (! $request->ajax()) return null;
 		
-		$qcdate_filter = $request->input('qcdate_filter');
+		$suoshuriqi = $request->input('suoshuriqi_filter');
 
 		
 		// 1.读取 bpjg_zhongricheng_zrcfxs 表
@@ -849,8 +850,9 @@ class zrcfxController extends Controller
 					
 					$res[$key2]['pinfan'] = $value2['pinfan'];
 					$res[$key2]['pinming'] = $value2['pinming'];
+					$res[$key2]['suoshuriqi'] = $suoshuriqi;
 
-
+					
 					!isset($res[$key2]['d1']) ? $res[$key2]['d1'] = $value1['d1'] * $value2['xuqiushuliang'] : $res[$key2]['d1'] += $value1['d1'] * $value2['xuqiushuliang'];
 					$zhongshu += $res[$key2]['d1'];
 					!isset($res[$key2]['d2']) ? $res[$key2]['d2'] = $value1['d2'] * $value2['xuqiushuliang'] : $res[$key2]['d2'] += $value1['d2'] * $value2['xuqiushuliang'];
@@ -964,7 +966,8 @@ class zrcfxController extends Controller
 		try	{
 			DB::beginTransaction();
 			
-			$result = Bpjg_zhongricheng_result::whereBetween('updated_at', $qcdate_filter)->delete();
+			// $result = Bpjg_zhongricheng_result::whereBetween('suoshuriqi', $suoshuriqi)->delete();
+			$result = Bpjg_zhongricheng_result::where('suoshuriqi', $suoshuriqi)->delete();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
 			foreach ($res as $value) {
