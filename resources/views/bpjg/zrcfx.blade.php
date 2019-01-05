@@ -2242,8 +2242,8 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 				
 				if (response.data) {
 					_this.success(false, '成功', '分析数据成功！');
