@@ -849,7 +849,6 @@ class zrcfxController extends Controller
 		// return $res_2_array;
 		// return gettype($res_2_array[0]);
 
-		
 		// 导入结果表 bpjg_zhongricheng_results
 		// 写入数据库
 		try	{
