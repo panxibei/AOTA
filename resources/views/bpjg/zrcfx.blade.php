@@ -447,7 +447,7 @@
 			<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
 		</i-col>
 		<i-col span="8">
-			<i-button type="primary" size="small" @click="analytics_main()"><Icon type="ios-analytics-outline"></Icon> 分析数据</i-button>
+			<i-button type="primary" size="small" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
 		</i-col>
 		<i-col span="9">
 			&nbsp;
@@ -634,6 +634,8 @@ var vm_app = new Vue({
 
 		modal_fenxi: false,
 		fenxi_suoshuriqi: '',
+		analytics_disabled: false,
+		analytics_loading: false,
 		
 		// 表头1
 		tablecolumns1: [
@@ -2180,7 +2182,8 @@ var vm_app = new Vue({
 			}
 			
 			_this.fenxi_suoshuriqi = _this.date_fenxi_suoshuriqi.Format("yyyy-MM");
-			
+			_this.analytics_disabled = true;
+			_this.analytics_loading = true;
 			_this.modal_fenxi = true;
 			return false;
 			
@@ -2223,6 +2226,8 @@ var vm_app = new Vue({
 			
 			if (_this.date_fenxi_suoshuriqi == '' || _this.date_fenxi_suoshuriqi == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
+				_this.analytics_loading = false;
+				_this.analytics_disabled = false;
 				return false;
 			}
 			
@@ -2242,8 +2247,8 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 				
 				if (response.data) {
 					_this.success(false, '成功', '分析数据成功！');
@@ -2253,15 +2258,21 @@ var vm_app = new Vue({
 				} else {
 					_this.error(false, '失败', '分析数据失败！');
 				}
+				_this.analytics_loading = false;
+				_this.analytics_disabled = false;
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '分析数据失败！');
+				_this.analytics_loading = false;
+				_this.analytics_disabled = false;
 			})
 		},
 
 		
 		fenxi_cancel: function () {
 			// this.modal_fenxi = false;
+			this.analytics_disabled = false;
+			this.analytics_loading = false;
 		},
 		
 

@@ -797,39 +797,57 @@ class zrcfxController extends Controller
 		
 		$suoshuriqi = $request->input('suoshuriqi_filter');
 
-		$res = DB::table('bpjg_zhongricheng_zrcfxs AS A')
-            ->join('bpjg_zhongricheng_relations AS B', 'A.jizhongming', '=', 'B.jizhongming')
-            ->select('B.pinfan', 'B.pinming', DB::raw('"' . $suoshuriqi . '" AS suoshuriqi,
-				SUM(A.d1 * B.xuqiushuliang) AS d1, SUM(A.d2 * B.xuqiushuliang) AS d2, SUM(A.d3 * B.xuqiushuliang) AS d3,
-				SUM(A.d4 * B.xuqiushuliang) AS d4, SUM(A.d5 * B.xuqiushuliang) AS d5, SUM(A.d6 * B.xuqiushuliang) AS d6,
-				SUM(A.d7 * B.xuqiushuliang) AS d7, SUM(A.d8 * B.xuqiushuliang) AS d8, SUM(A.d9 * B.xuqiushuliang) AS d9, SUM(A.d10 * B.xuqiushuliang) AS d10,
-				SUM(A.d11 * B.xuqiushuliang) AS d11, SUM(A.d12 * B.xuqiushuliang) AS d12, SUM(A.d13 * B.xuqiushuliang) AS d13,
-				SUM(A.d14 * B.xuqiushuliang) AS d14, SUM(A.d15 * B.xuqiushuliang) AS d15, SUM(A.d16 * B.xuqiushuliang) AS d16,
-				SUM(A.d17 * B.xuqiushuliang) AS d17, SUM(A.d18 * B.xuqiushuliang) AS d18, SUM(A.d19 * B.xuqiushuliang) AS d19, SUM(A.d20 * B.xuqiushuliang) AS d20,
-				SUM(A.d21 * B.xuqiushuliang) AS d21, SUM(A.d22 * B.xuqiushuliang) AS d22, SUM(A.d23 * B.xuqiushuliang) AS d23,
-				SUM(A.d24 * B.xuqiushuliang) AS d24, SUM(A.d25 * B.xuqiushuliang) AS d25, SUM(A.d26 * B.xuqiushuliang) AS d26,
-				SUM(A.d27 * B.xuqiushuliang) AS d27, SUM(A.d28 * B.xuqiushuliang) AS d28, SUM(A.d29 * B.xuqiushuliang) AS d29, SUM(A.d30 * B.xuqiushuliang) AS d30,
-				SUM(A.d31 * B.xuqiushuliang) AS d31,
-				(A.d1 + A.d2 + A.d3 + A.d4 + A.d5 + A.d6 + A.d7 + A.d8 + A.d9 + A.d10 +
-					A.d11 + A.d12 + A.d13 + A.d14 + A.d15 + A.d16 + A.d17 + A.d18 + A.d19 + A.d20 +
-					A.d21 + A.d22 + A.d23 + A.d24 + A.d25 + A.d26 + A.d27 + A.d28 + A.d29 + A.d30 + A.d31)
-					* B.xuqiushuliang AS zhongshu
-				'))
-            ->groupBy('B.pinfan')
-			->get()->toArray();
+		// $res = DB::table('bpjg_zhongricheng_zrcfxs AS A')
+            // ->join('bpjg_zhongricheng_relations AS B', 'A.jizhongming', '=', 'B.jizhongming')
+            // ->select('B.pinfan', 'B.pinming', DB::raw('"' . $suoshuriqi . '" AS suoshuriqi,
+				// SUM(A.d1 * B.xuqiushuliang) AS d1, SUM(A.d2 * B.xuqiushuliang) AS d2, SUM(A.d3 * B.xuqiushuliang) AS d3,
+				// SUM(A.d4 * B.xuqiushuliang) AS d4, SUM(A.d5 * B.xuqiushuliang) AS d5, SUM(A.d6 * B.xuqiushuliang) AS d6,
+				// SUM(A.d7 * B.xuqiushuliang) AS d7, SUM(A.d8 * B.xuqiushuliang) AS d8, SUM(A.d9 * B.xuqiushuliang) AS d9, SUM(A.d10 * B.xuqiushuliang) AS d10,
+				// SUM(A.d11 * B.xuqiushuliang) AS d11, SUM(A.d12 * B.xuqiushuliang) AS d12, SUM(A.d13 * B.xuqiushuliang) AS d13,
+				// SUM(A.d14 * B.xuqiushuliang) AS d14, SUM(A.d15 * B.xuqiushuliang) AS d15, SUM(A.d16 * B.xuqiushuliang) AS d16,
+				// SUM(A.d17 * B.xuqiushuliang) AS d17, SUM(A.d18 * B.xuqiushuliang) AS d18, SUM(A.d19 * B.xuqiushuliang) AS d19, SUM(A.d20 * B.xuqiushuliang) AS d20,
+				// SUM(A.d21 * B.xuqiushuliang) AS d21, SUM(A.d22 * B.xuqiushuliang) AS d22, SUM(A.d23 * B.xuqiushuliang) AS d23,
+				// SUM(A.d24 * B.xuqiushuliang) AS d24, SUM(A.d25 * B.xuqiushuliang) AS d25, SUM(A.d26 * B.xuqiushuliang) AS d26,
+				// SUM(A.d27 * B.xuqiushuliang) AS d27, SUM(A.d28 * B.xuqiushuliang) AS d28, SUM(A.d29 * B.xuqiushuliang) AS d29, SUM(A.d30 * B.xuqiushuliang) AS d30,
+				// SUM(A.d31 * B.xuqiushuliang) AS d31,
+				// (A.d1 + A.d2 + A.d3 + A.d4 + A.d5 + A.d6 + A.d7 + A.d8 + A.d9 + A.d10 +
+					// A.d11 + A.d12 + A.d13 + A.d14 + A.d15 + A.d16 + A.d17 + A.d18 + A.d19 + A.d20 +
+					// A.d21 + A.d22 + A.d23 + A.d24 + A.d25 + A.d26 + A.d27 + A.d28 + A.d29 + A.d30 + A.d31)
+					// * B.xuqiushuliang AS zhongshu
+				// '))
+            // ->groupBy('B.pinfan')
+			// ->get()->toArray();
 		// return gettype($res);
-		// $res = DB::select('
-			// SELECT "' . $suoshuriqi . '" AS suoshuriqi, B.pinfan, B.pinming,
-			// SUM(A.d1 * B.xuqiushuliang) AS D1
-			// FROM bpjg_zhongricheng_zrcfxs AS A INNER JOIN bpjg_zhongricheng_relations AS B
-			// ON A.jizhongming = B.jizhongming
-			// GROUP BY B.pinfan
-		// ');
+
+		$res = DB::select('
+			SELECT "' . $suoshuriqi . '" AS suoshuriqi, pinfan, pinming,
+				d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14+d15+d16+d17+d18+d19+d20+d21+d22+d23+d24+d25+d26+d27+d28+d29+d30+d31 AS zongshu,
+				d1, d2, d3, d4, d5, d6, d7, d8, d9, d10,
+				d11, d12, d13, d14, d15, d16, d17, d18, d19, d20,
+				d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31
+			FROM (
+				SELECT B.pinfan AS pinfan, B.pinming AS pinming,
+					SUM(A.d1 * B.xuqiushuliang) AS d1, SUM(A.d2 * B.xuqiushuliang) AS d2, SUM(A.d3 * B.xuqiushuliang) AS d3,
+					SUM(A.d4 * B.xuqiushuliang) AS d4, SUM(A.d5 * B.xuqiushuliang) AS d5, SUM(A.d6 * B.xuqiushuliang) AS d6,
+					SUM(A.d7 * B.xuqiushuliang) AS d7, SUM(A.d8 * B.xuqiushuliang) AS d8, SUM(A.d9 * B.xuqiushuliang) AS d9, SUM(A.d10 * B.xuqiushuliang) AS d10,
+					SUM(A.d11 * B.xuqiushuliang) AS d11, SUM(A.d12 * B.xuqiushuliang) AS d12, SUM(A.d13 * B.xuqiushuliang) AS d13,
+					SUM(A.d14 * B.xuqiushuliang) AS d14, SUM(A.d15 * B.xuqiushuliang) AS d15, SUM(A.d16 * B.xuqiushuliang) AS d16,
+					SUM(A.d17 * B.xuqiushuliang) AS d17, SUM(A.d18 * B.xuqiushuliang) AS d18, SUM(A.d19 * B.xuqiushuliang) AS d19, SUM(A.d20 * B.xuqiushuliang) AS d20,
+					SUM(A.d21 * B.xuqiushuliang) AS d21, SUM(A.d22 * B.xuqiushuliang) AS d22, SUM(A.d23 * B.xuqiushuliang) AS d23,
+					SUM(A.d24 * B.xuqiushuliang) AS d24, SUM(A.d25 * B.xuqiushuliang) AS d25, SUM(A.d26 * B.xuqiushuliang) AS d26,
+					SUM(A.d27 * B.xuqiushuliang) AS d27, SUM(A.d28 * B.xuqiushuliang) AS d28, SUM(A.d29 * B.xuqiushuliang) AS d29, SUM(A.d30 * B.xuqiushuliang) AS d30,
+					SUM(A.d31 * B.xuqiushuliang) AS d31
+				FROM bpjg_zhongricheng_zrcfxs AS A INNER JOIN bpjg_zhongricheng_relations AS B
+				ON A.jizhongming=B.jizhongming
+				GROUP BY B.pinfan
+			)
+			AS RESULT
+		');
 		// return $res;
 		
-		$res0 = object_to_array($res);
-		// return $res0;
-		// return $res0[0];
+		$res_2_array = object_to_array($res);
+		// return $res_2_array;
+		// return gettype($res_2_array[0]);
 
 		
 		// 导入结果表 bpjg_zhongricheng_results
@@ -841,7 +859,7 @@ class zrcfxController extends Controller
 			$result = Bpjg_zhongricheng_result::where('suoshuriqi', $suoshuriqi)->delete();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
-			foreach ($res0 as $value) {
+			foreach ($res_2_array as $value) {
 				dump($value);
 				Bpjg_zhongricheng_result::create($value);
 			}
@@ -851,7 +869,7 @@ class zrcfxController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			return 'Message: ' .$e->getMessage();
+			// return 'Message: ' .$e->getMessage();
 			return 0;
 		}
 
