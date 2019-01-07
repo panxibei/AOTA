@@ -796,6 +796,9 @@ class zrcfxController extends Controller
 		if (! $request->ajax()) return null;
 		
 		$suoshuriqi = $request->input('suoshuriqi_filter');
+		
+		$created_at = date('Y-m-d H:i:s');
+		$updated_at = date('Y-m-d H:i:s');
 
 		// $res = DB::table('bpjg_zhongricheng_zrcfxs AS A')
             // ->join('bpjg_zhongricheng_relations AS B', 'A.jizhongming', '=', 'B.jizhongming')
@@ -824,7 +827,8 @@ class zrcfxController extends Controller
 				d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14+d15+d16+d17+d18+d19+d20+d21+d22+d23+d24+d25+d26+d27+d28+d29+d30+d31 AS zongshu,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9, d10,
 				d11, d12, d13, d14, d15, d16, d17, d18, d19, d20,
-				d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31
+				d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31,
+				"' . $created_at . '" AS created_at, "' . $updated_at . '" AS updated_at 
 			FROM (
 				SELECT B.pinfan AS pinfan, B.pinming AS pinming,
 					SUM(A.d1 * B.xuqiushuliang) AS d1, SUM(A.d2 * B.xuqiushuliang) AS d2, SUM(A.d3 * B.xuqiushuliang) AS d3,
@@ -855,13 +859,14 @@ class zrcfxController extends Controller
 			DB::beginTransaction();
 			
 			// $result = Bpjg_zhongricheng_result::whereBetween('suoshuriqi', $suoshuriqi)->delete();
-			$result = Bpjg_zhongricheng_result::where('suoshuriqi', $suoshuriqi)->delete();
+			Bpjg_zhongricheng_result::where('suoshuriqi', $suoshuriqi)->delete();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
-			foreach ($res_2_array as $value) {
-				dump($value);
-				Bpjg_zhongricheng_result::create($value);
-			}
+			// foreach ($res_2_array as $value) {
+				// dump($value);
+				// Bpjg_zhongricheng_result::create($value);
+			// }
+			Bpjg_zhongricheng_result::insert($res_2_array);
 
 			$result = 1;
 		}
