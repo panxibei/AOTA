@@ -49,7 +49,7 @@
 			</Upload>
 		</i-col>
 		<i-col span="2">
-			<i-button @click="download_zrc()" type="text" size="small">[下载模板]</i-button>
+			<i-button @click="download_zrc()" type="text" size="small"><font color="#2db7f5">[下载模板]</font></i-button>
 		</i-col>
 		<i-col span="1">
 			&nbsp;
@@ -189,7 +189,7 @@
 			&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">记入</i-button>
 			&nbsp;&nbsp;<i-button @click="onclear_relation()">清除</i-button>
 		</i-col>
-		<i-col span="3">
+		<i-col span="4">
 			<Upload
 				:before-upload="uploadstart_relation"
 				:show-upload-list="false"
@@ -197,18 +197,29 @@
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 部品主表' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 机种/部品关系表' }}</i-button>
 			</Upload>
 		</i-col>
 		<i-col span="2">
-			<i-button @click="download_relation()" type="text">[下载模板]</i-button>
+			<i-button @click="download_relation()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 		</i-col>
-		<i-col span="16">
+		<i-col span="15">
 			&nbsp;
 		</i-col>
 	</i-row>
 
-	<br><br><br>
+	<br><br>
+
+	<i-row :gutter="16">
+		<i-col span="3">
+			&nbsp;
+		</i-col>
+		<i-col span="21">
+			<font color="#ff9900">* 注意：批量导入会将原有 [机种/部品关系表] 数据覆盖！！</font>
+		</i-col>
+	</i-row>
+	
+	<br><br>
 	
 
 	
@@ -484,6 +495,7 @@ var vm_app = new Vue({
 		fenxi_suoshuriqi: '',
 		analytics_disabled: false,
 		analytics_loading: false,
+		modal_relationimport: false,
 		
 		// 表头1
 		tablecolumns1: [
@@ -1833,7 +1845,7 @@ var vm_app = new Vue({
 			
 			// return false;
 			
-			var url = "{{ route('bpjg.zrcfx.mainimport') }}";
+			var url = "{{ route('bpjg.zrcfx.relationimport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
@@ -1845,7 +1857,7 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				// console.log(response.data);
-				if (response.data == 1) {
+				if (response.data) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
 					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
@@ -1865,7 +1877,6 @@ var vm_app = new Vue({
 					_this.loadingStatus = false;
 					_this.uploaddisabled = false;
 				}, 1000);
-				
 			})
 		},
 		uploadcancel: function () {
@@ -1883,9 +1894,9 @@ var vm_app = new Vue({
 		},
 
 
-		// main模板下载
+		// relation模板下载
 		download_relation: function () {
-			var url = "{{ route('bpjg.zrcfx.maindownload') }}";
+			var url = "{{ route('bpjg.zrcfx.relationdownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
@@ -1918,7 +1929,7 @@ var vm_app = new Vue({
 		},
 		
 		
-		// 分析数据
+		// 分析数据提示
 		analytics_main: function () {
 			var _this = this;
 			
@@ -1932,38 +1943,6 @@ var vm_app = new Vue({
 			_this.analytics_loading = true;
 			_this.modal_fenxi = true;
 			return false;
-			
-			// var datex = _this.date_fenxi_suoshuriqi.Format("yyyy-MM");
-			// var days =	getDays(datex); //例：getDays(2018-12)
-			
-			// var date_fenxi_suoshuriqi = [];
-			// date_fenxi_suoshuriqi[0] = datex + '-01 00:00:00';
-			// date_fenxi_suoshuriqi[1] = datex + '-' + days + ' 23:59:59';
-
-			// var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
-			// axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
-			// axios.get(url,{
-				// params: {
-					// suoshuriqi_filter: datex,
-					// suoshuriqi_range: date_fenxi_suoshuriqi,
-				// }
-			// })
-			// .then(function (response) {
-				// console.log(response.data);
-				// return false;
-				
-				// if (response.data) {
-					// _this.success(false, '成功', '分析数据成功！');
-					// _this.tableselect_result = [];
-					// _this.resultgets(_this.pagecurrent_result, _this.pagelast_result);
-				// } else {
-					// _this.error(false, '失败', '分析数据失败！');
-				// }
-			// })
-			// .catch(function (error) {
-				// _this.error(false, '错误', '分析数据失败！');
-			// })
-			
 		},
 		
 		// 分析确定

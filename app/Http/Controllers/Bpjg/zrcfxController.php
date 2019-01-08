@@ -14,8 +14,7 @@ use DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 // use App\Imports\Bpjg\zrcfx_zrcImport; //暂留
-// use App\Imports\Bpjg\zrcfx_mainImport;
-
+use App\Imports\Bpjg\zrcfx_relationImport;
 use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Exports\Bpjg\zrcfx_resultExport;
 
@@ -593,12 +592,12 @@ class zrcfxController extends Controller
 	}	
 	
     /**
-     * mainImport
+     * relationImport
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainImport(Request $request)
+    public function relationImport(Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
@@ -622,7 +621,7 @@ class zrcfxController extends Controller
 
 			//定义文件名
 			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
-			$filename = 'zrcfx_mainimport.'.$ext;
+			$filename = 'zrcfx_relationimport.'.$ext;
 			// dd($filename);
 
 			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
@@ -635,14 +634,14 @@ class zrcfxController extends Controller
 		
 		// 导入excel文件内容
 		try {
-			// $ret = Excel::import(new zrcfx_mainImport, 'excel/'.$filename);
-			$ret = Excel::import(new zrcfx_mainImport, 'excel/'.$filename);
+			// $ret = Excel::import(new zrcfx_relationimport, 'excel/'.$filename);
+			$ret = Excel::import(new zrcfx_relationimport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
-			// $result = 'Message: ' .$e->getMessage();
-			$result = 0;
+			$result = 'Message: ' .$e->getMessage();
+			// $result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
@@ -664,14 +663,14 @@ class zrcfxController extends Controller
 	
 
     /**
-     * mainDownload 导入模板下载
+     * relationDownload 导入模板下载
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainDownload(Request $request)
+    public function relationDownload(Request $request)
     {
-		return Storage::download('download/zrcfx_mainimport.xlsx', 'MoBan_BuPin.xlsx');
+		return Storage::download('download/zrcfx_relationimport.xlsx', 'MoBan_Relation.xlsx');
 	}
 	
 	
