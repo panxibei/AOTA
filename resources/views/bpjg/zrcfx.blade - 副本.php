@@ -28,16 +28,60 @@
 
 <div id="app" v-cloak>
 
-	<Divider orientation="left">11111111111111. 部品信息导入、分析及查询导出</Divider>
-
+	<Divider orientation="left">1. 机芯/完成品中日程 信息录入</Divider>
+	
 	<i-row :gutter="16">
-		<i-col span="2">
-			&nbsp;
+		<i-col span="24">
+			↓ 批量录入&nbsp;&nbsp;
+			<Input-number v-model.lazy="piliangluruxiang_zrc" @on-change="value=>piliangluru_zrc_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
+			&nbsp;项
 		</i-col>
+	</i-row>
+
+	<span v-for="(item, index) in piliangluru_zrc">
+	<br>
+	<i-row :gutter="16">
 		<i-col span="1">
-			导入：
+			&nbsp;No.@{{index+1}}
+		</i-col>
+		<i-col span="5">
+			* 日期&nbsp;&nbsp;
+			<Date-picker v-model.lazy="item.riqi" type="date" size="small" placement="top" style="width:160px"></Date-picker>
+		</i-col>
+		<i-col span="5">
+			* 机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 160px"></i-input>
 		</i-col>
 		<i-col span="3">
+			* 数量&nbsp;&nbsp;
+			<Input-number v-model.lazy="item.shuliang" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="10">
+		&nbsp;
+		</i-col>
+		
+	</i-row>
+	<br>
+	</span>
+
+	<br>
+
+	<i-row :gutter="16">
+		<i-col span="3">
+			&nbsp;&nbsp;<i-button @click="oncreate_zrc()" type="primary">记入</i-button>
+			&nbsp;&nbsp;<i-button @click="onclear_zrc()">清除</i-button>
+		</i-col>
+		<i-col span="3">
+			<!--<i-button @click="onimport_zrc()">批量导入</i-button>-->
+			<Upload
+				:before-upload="uploadstart_zrc"
+				:show-upload-list="false"
+				:format="['xls','xlsx']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表' }}</i-button>
+			</Upload>
 			<Upload
 				:before-upload="uploadstart_zrcfx"
 				:show-upload-list="false"
@@ -45,89 +89,113 @@
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入 中日程表' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 中日程表测试' }}</i-button>
 			</Upload>
 		</i-col>
 		<i-col span="2">
-			<i-button @click="download_zrc()" type="text" size="small">[下载模板]</i-button>
+			<i-button @click="download_zrc()" type="text">[下载模板]</i-button>
 		</i-col>
-		<i-col span="1">
-			&nbsp;
-		</i-col>
-		<i-col span="1">
-			分析：
-		</i-col>
-		<i-col span="4">
-			* 选择月份&nbsp;&nbsp;
-			<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
-		</i-col>
-		<i-col span="8">
-			<i-button type="primary" size="small" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
-		</i-col>
-		<i-col span="2">
+		<i-col span="16">
 			&nbsp;
 		</i-col>
 	</i-row>
-	
-	<Modal	v-model="modal_fenxi"	title="分析数据" ok-text="开始分析" @on-ok="fenxi_ok" @on-cancel="fenxi_cancel" width="400">
-		<p>所属日期：<strong>@{{ fenxi_suoshuriqi }}</strong></p>
-		<br>
-		<p>注意：务必确认“所属日期”，否则原有数据将被覆盖！！</p>
-    </Modal>	
-	<br><br>
-	
+
+	<br><br><br>	
+
+	<Divider orientation="left">2. 机芯/完成品中日程 信息查询</Divider>
+
 	<i-row :gutter="16">
-		<br>
 		<i-col span="2">
 			&nbsp;
 		</i-col>
 		<i-col span="1">
 			查询：
 		</i-col>
-		<i-col span="4">
-			* 选择月份&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+		<i-col span="6">
+			* 日期范围&nbsp;&nbsp;
+			<Date-picker v-model.lazy="qcdate_filter_zrc" @on-change="zrcgets(pagecurrent2, pagelast2);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
-		<i-col span="4">
-			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="4">
-			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		<i-col span="3">
+			机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming_filter_zrc" @on-change="zrcgets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_zrc=jizhongming_filter_zrc.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
 		</i-col>
 	</i-row>
 	<br><br>
-	
+
 	<i-row :gutter="16">
 		<br>
 		<i-col span="2">
-			&nbsp;<br>&nbsp;
-			<!--<i-button @click="ondelete_main()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->
+			<i-button @click="ondelete_zrc()" :disabled="boo_delete_zrc" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+		</i-col>
+		<i-col span="8">
+			导出：&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button type="default" size="small" @click="exportData_zrc()" disabled><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+		</i-col>
+		<i-col span="10">
+			&nbsp;
 		</i-col>
 		<i-col span="4">
-			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_result()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
-		</i-col>
-		<i-col span="18">
 			&nbsp;
 		</i-col>
 	</i-row>
-	<br>
-
 
 	<i-row :gutter="16">
 		<i-col span="24">
-			<i-table ref="table_result" height="400" size="small" border :columns="tablecolumns_result" :data="tabledata_result"></i-table>
-			<br><Page :current="pagecurrent_result" :total="pagetotal_result" :page-size="pagepagesize_result" @on-change="currentpage => oncurrentpagechange_result(currentpage)" show-total show-elevator></Page><br><br>
+			<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+			<br><Page :current="pagecurrent1" :total="pagetotal1" :page-size="pagepagesize1" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
 		</i-col>
 	</i-row>
-	<br>
+	
+	<Modal v-model="modal_zrc_edit" @on-ok="zrc_edit_ok" ok-text="保存" title="编辑 - 机芯/完成品中日程" width="540">
+		<div style="text-align:left">
+			<p>
+				创建时间：@{{ zrc_created_at_edit }}
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				更新时间：@{{ zrc_updated_at_edit }}
+			</p>
+			<br>
+			
+			<p>
+				日期&nbsp;&nbsp;
+				<Date-picker v-model.lazy="zrc_riqi_edit" type="date" size="small" placement="top" style="width:160px"></Date-picker>
+				&nbsp;&nbsp;&nbsp;&nbsp;
 
+				机种名&nbsp;&nbsp;
+				<i-input v-model.lazy="zrc_jizhongming_edit" @on-keyup="zrc_jizhongming_edit=zrc_jizhongming_edit.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+				&nbsp;&nbsp;&nbsp;&nbsp;
 
+				数量&nbsp;&nbsp;
+				<Input-number v-model.lazy="zrc_shuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</p>
+
+			&nbsp;
+		
+		</div>	
+	</Modal>
+	
+	<br>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -135,18 +203,34 @@
 	
 	
 
-	<Divider orientation="left">2222222222222. 机种/部品关系表 信息录入</Divider>
+	<Divider orientation="left">3. 线体/机种/部品 信息录入</Divider>
 
+	<i-row :gutter="16">
+		<i-col span="5">
+			* <strong>线体</strong>&nbsp;&nbsp;
+			<i-input ref="xianti" v-model.lazy="xianti" @on-keyup="xianti=xianti.toUpperCase()" placeholder="例：HN06" size="large" clearable autofocus style="width: 200px"></i-input>
+		</i-col>
+		<i-col span="5">
+			* <strong>区分</strong>&nbsp;&nbsp;
+			<i-input v-model.lazy="qufen" @on-keyup="qufen=qufen.toUpperCase()" size="large" placeholder="例：18ACCORD" clearable style="width: 200px"></i-input>
+		</i-col>
+		<i-col span="14">
+		&nbsp;
+		</i-col>
+	</i-row>
+
+	<br><br><br>
+	
 	<i-row :gutter="16">
 		<i-col span="24">
 			↓ 批量录入&nbsp;&nbsp;
-			<Input-number v-model.lazy="piliangluruxiang_relation" @on-change="value=>piliangluru_relation_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
+			<Input-number v-model.lazy="piliangluruxiang_main" @on-change="value=>piliangluru_main_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
 			&nbsp;项
 		</i-col>
 	</i-row>
 	
 
-	<span v-for="(item, index) in piliangluru_relation">
+	<span v-for="(item, index) in piliangluru_main">
 	<br>
 	<i-row :gutter="16">
 		<i-col span="1">
@@ -186,22 +270,22 @@
 
 	<i-row :gutter="16">
 		<i-col span="3">
-			&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">记入</i-button>
-			&nbsp;&nbsp;<i-button @click="onclear_relation()">清除</i-button>
+			&nbsp;&nbsp;<i-button @click="oncreate_main()" type="primary">记入</i-button>
+			&nbsp;&nbsp;<i-button @click="onclear_main()">清除</i-button>
 		</i-col>
 		<i-col span="3">
 			<Upload
-				:before-upload="uploadstart_relation"
+				:before-upload="uploadstart_main"
 				:show-upload-list="false"
 				:format="['xls','xlsx']"
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 部品主表' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入 部品主表' }}</i-button>
 			</Upload>
 		</i-col>
 		<i-col span="2">
-			<i-button @click="download_relation()" type="text">[下载模板]</i-button>
+			<i-button @click="download_main()" type="text">[下载模板]</i-button>
 		</i-col>
 		<i-col span="16">
 			&nbsp;
@@ -210,15 +294,8 @@
 
 	<br><br><br>
 	
-
 	
-	
-	
-	
-	
-	
-	
-	<Divider orientation="left">333333333333. 机种/部品关系表 信息查询</Divider>
+	<Divider orientation="left">4. 线体/机种/部品 信息查询</Divider>
 
 	<i-row :gutter="16">
 		<i-col span="2">
@@ -229,11 +306,11 @@
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
 			线体&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
@@ -247,19 +324,19 @@
 		</i-col>
 		<i-col span="3">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter_main" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter_main" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="pinfan_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="pinfan_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="pinming_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			类别&nbsp;&nbsp;
-			<i-select v-model.lazy="leibie_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange2();" clearable size="small" style="width:100px" placeholder="">
+			<i-select v-model.lazy="leibie_filter" @on-change="maingets(pagecurrent2, pagelast2);onselectchange2();" clearable size="small" style="width:100px" placeholder="">
 				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -269,7 +346,7 @@
 	<i-row :gutter="16">
 		<br>
 		<i-col span="2">
-			<i-button @click="ondelete_main()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>
 		<i-col span="4">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -282,8 +359,8 @@
 
 	<i-row :gutter="16">
 		<i-col span="24">
-			<i-table ref="table2" height="400" size="small" border :columns="tablecolumns_relation" :data="tabledata_relation" @on-selection-change="selection => onselectchange2(selection)"></i-table>
-			<br><Page :current="pagecurrent_relation" :total="pagetotal_relation" :page-size="pagepagesize_relation" @on-change="currentpage => oncurrentpagechange_relation(currentpage)" show-total show-elevator></Page><br><br>
+			<i-table ref="table2" height="400" size="small" border :columns="tablecolumns2" :data="tabledata2" @on-selection-change="selection => onselectchange2(selection)"></i-table>
+			<br><Page :current="pagecurrent2" :total="pagetotal2" :page-size="pagepagesize2" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
 		</i-col>
 	</i-row>
 	
@@ -356,7 +433,82 @@
 	
 	
 	
+	<Divider orientation="left">555555555555. 线体/机种/部品 信息查询</Divider>
 
+	<i-row :gutter="16">
+		<i-col span="2">
+			&nbsp;
+		</i-col>
+		<i-col span="1">
+			分析：
+		</i-col>
+		<i-col span="4">
+			* 选择月份&nbsp;&nbsp;
+			<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+		</i-col>
+		<i-col span="8">
+			<i-button type="primary" size="small" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
+		</i-col>
+		<i-col span="9">
+			&nbsp;
+		</i-col>
+	</i-row>
+	
+	<Modal	v-model="modal_fenxi"	title="分析数据" ok-text="开始分析" @on-ok="fenxi_ok" @on-cancel="fenxi_cancel" width="400">
+		<p>所属日期：<strong>@{{ fenxi_suoshuriqi }}</strong></p>
+		<br>
+		<p>注意：务必确认“所属日期”，否则原有数据将被覆盖！！</p>
+    </Modal>	
+	<br><br>
+	
+	<i-row :gutter="16">
+		<br>
+		<i-col span="2">
+			&nbsp;
+		</i-col>
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="4">
+			* 选择月份&nbsp;&nbsp;
+			<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+		</i-col>
+		<i-col span="4">
+			品番&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="4">
+			品名&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="maingets(pagecurrent2, pagelast2)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="9">
+		&nbsp;
+		</i-col>
+	</i-row>
+	<br><br>
+	
+	<i-row :gutter="16">
+		<br>
+		<i-col span="2">
+			<i-button @click="ondelete_main()" :disabled="boo_delete_main" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+		</i-col>
+		<i-col span="4">
+			导出：&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+		</i-col>
+		<i-col span="18">
+			&nbsp;
+		</i-col>
+	</i-row>
+	<br>
+
+
+	<i-row :gutter="16">
+		<i-col span="24">
+			<i-table ref="table_result" height="400" size="small" border :columns="tablecolumns_result" :data="tabledata_result"></i-table>
+			<br><Page :current="pagecurrent_result" :total="pagetotal_result" :page-size="pagepagesize_result" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+		</i-col>
+	</i-row>
 	
 
 	
@@ -382,11 +534,11 @@ var vm_app = new Vue({
 		pagepagesize1: 10,
 		pagelast1: 1,
 
-		//表relation分页
-		pagecurrent_relation: 1,
-		pagetotal_relation: 1,
-		pagepagesize_relation: 10,
-		pagelast_relation: 1,
+		//表2分页
+		pagecurrent2: 1,
+		pagetotal2: 1,
+		pagepagesize2: 10,
+		pagelast2: 1,
 
 		//表result分页
 		pagecurrent_result: 1,
@@ -408,7 +560,7 @@ var vm_app = new Vue({
 		piliangluruxiang_zrc: 1,
 
 		// 批量录入主表
-		piliangluru_relation: [
+		piliangluru_main: [
 			{
 				jizhongming: '',
 				pinfan: '',
@@ -419,7 +571,7 @@ var vm_app = new Vue({
 		],
 
 		// 批量录入项
-		piliangluruxiang_relation: 1,
+		piliangluruxiang_main: 1,
 
 		// 线体
 		xianti: '',
@@ -570,7 +722,7 @@ var vm_app = new Vue({
 		tableselect1: [],
 		
 		// 表头2
-		tablecolumns_relation: [
+		tablecolumns2: [
 			{
 				type: 'selection',
 				width: 50,
@@ -583,6 +735,24 @@ var vm_app = new Vue({
 				align: 'center'
 			},
 			{
+				title: '日期',
+				key: 'riqi',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 80,
+			},
+			{
+				title: '区分',
+				key: 'qufen',
+				align: 'center',
+				width: 80,
+			},
+			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
@@ -593,14 +763,14 @@ var vm_app = new Vue({
 				title: '品番',
 				key: 'pinfan',
 				align: 'center',
-				width: 140,
+				width: 100,
 				// sortable: true
 			},
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
-				width: 140
+				width: 100
 			},
 			{
 				title: '类别',
@@ -617,6 +787,32 @@ var vm_app = new Vue({
 				render: (h, params) => {
 					return h('div', [
 						params.row.xuqiushuliang.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '总数',
+				key: 'zongshu',
+				align: 'center',
+				width: 100,
+				className: 'table-info-column',
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.zongshu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '数量',
+				key: 'shuliang',
+				align: 'center',
+				width: 100,
+				className: 'table-info-column',
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shuliang.toLocaleString()
 					]);
 				}
 			},
@@ -658,8 +854,8 @@ var vm_app = new Vue({
 				fixed: 'right'
 			},			
 		],
-		tabledata_relation: [],
-		tableselect_relation: [],
+		tabledata2: [],
+		tableselect2: [],
 		
 		
 		// 表头 result
@@ -1061,7 +1257,7 @@ var vm_app = new Vue({
 		boo_delete_zrc: true,
 
 		// 删除disabled
-		boo_delete_relation: true,
+		boo_delete_main: true,
 		
 		
 		
@@ -1148,7 +1344,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagepagesize_relation,
+					perPage: _this.pagepagesize2,
 					page: page,
 					qcdate_filter: qcdate_filter_zrc,
 					jizhongming_filter: jizhongming_filter_zrc
@@ -1175,7 +1371,7 @@ var vm_app = new Vue({
 		},
 	
 		// main列表
-		relationgets: function (page, last_page) {
+		maingets: function (page, last_page) {
 			var _this = this;
 			
 			if (page > last_page) {
@@ -1191,7 +1387,7 @@ var vm_app = new Vue({
 					qcdate_filter_main.push(_this.qcdate_filter_main[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_main[i] == '') {
 					// qcdate_filter_main.push(new Date().Format("yyyy-MM-dd"));
-					_this.tabledata_relation = [];
+					_this.tabledata2 = [];
 					return false;
 				} else {
 					qcdate_filter_main.push(_this.qcdate_filter_main[i]);
@@ -1204,11 +1400,11 @@ var vm_app = new Vue({
 			var pinming_filter = _this.pinming_filter;
 			var leibie_filter = _this.leibie_filter;
 
-			var url = "{{ route('bpjg.zrcfx.relationgets') }}";
+			var url = "{{ route('bpjg.zrcfx.maingets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagepagesize_relation,
+					perPage: _this.pagepagesize2,
 					page: page,
 					qcdate_filter: qcdate_filter_main,
 					xianti_filter: xianti_filter,
@@ -1223,13 +1419,13 @@ var vm_app = new Vue({
 				// return false;
 				
 				if (response.data) {
-					_this.pagecurrent_relation = response.data.current_page;
-					_this.pagetotal_relation = response.data.total;
-					_this.pagelast_relation = response.data.last_page
+					_this.pagecurrent2 = response.data.current_page;
+					_this.pagetotal2 = response.data.total;
+					_this.pagelast2 = response.data.last_page
 					
-					_this.tabledata_relation = response.data.data;
+					_this.tabledata2 = response.data.data;
 				} else {
-					_this.tabledata_relation = [];
+					_this.tabledata2 = [];
 				}
 				
 			})
@@ -1317,10 +1513,12 @@ var vm_app = new Vue({
 			});
 		},
 		
-		// onclear_relation
-		onclear_relation: function () {
+		// onclear_main
+		onclear_main: function () {
 			var _this = this;
-			_this.piliangluru_relation.map(function (v,i) {
+			_this.xianti = '';
+			_this.qufen = '';
+			_this.piliangluru_main.map(function (v,i) {
 				v.jizhongming = '';
 				v.pinfan = '';
 				v.pinming = '';
@@ -1328,7 +1526,7 @@ var vm_app = new Vue({
 				v.leibie = '';
 			});
 			
-			// _this.$refs.xianti.focus();
+			_this.$refs.xianti.focus();
 		},
 		
 		// oncreate_zrc
@@ -1379,12 +1577,18 @@ var vm_app = new Vue({
 			})
 		},
 		
-		// oncreate_relation
-		oncreate_relation: function () {
+		// oncreate_main
+		oncreate_main: function () {
 			var _this = this;
-
-			var booFlagOk = true;
-			_this.piliangluru_relation.map(function (v,i) {
+			var xianti = _this.xianti;
+			var qufen = _this.qufen;
+			
+			if (xianti == '' || xianti == undefined || qufen == '' || qufen == undefined) {
+				_this.warning(false, '警告', '输入内容为空或不正确1！');
+				return false;
+			}
+			
+			_this.piliangluru_main.map(function (v,i) {
 				// jizhongming: '',
 				// pinfan: '',
 				// pinming: '',
@@ -1393,32 +1597,30 @@ var vm_app = new Vue({
 				
 				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == '' || v.leibie == ''
 					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined || v.leibie == undefined) {
-					booFlagOk = false;
+					_this.warning(false, '警告', '输入内容为空或不正确2！');
+					return false;
 				}
 			});
+			var piliangluru_main = _this.piliangluru_main;
 			
-			if (booFlagOk == false) {
-				_this.warning(false, '警告', '输入内容为空或不正确2！');
-				return false;
-			}
-			
-			var piliangluru_relation = _this.piliangluru_relation;
-			
-			var url = "{{ route('bpjg.zrcfx.relationcreate') }}";
+			var url = "{{ route('bpjg.zrcfx.maincreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				piliangluru: piliangluru_relation
+				xianti: xianti,
+				qufen: qufen,
+				piliangluru: piliangluru_main
 			})
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
 				
 				if (response.data) {
-					_this.onclear_relation();
+					_this.onclear_main();
 					_this.success(false, '成功', '记入成功！');
-					_this.boo_delete_relation = true;
-					_this.tableselect_relation = [];
-					_this.relationgets();
+					_this.boo_delete_main = true;
+					_this.tableselect2 = [];
+					_this.maingets();
+
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
@@ -1562,7 +1764,7 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 				
-				_this.relationgets(_this.pagecurrent_relation, _this.pagelast_relation);
+				_this.maingets(_this.pagecurrent2, _this.pagelast2);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
@@ -1620,21 +1822,21 @@ var vm_app = new Vue({
 		ondelete_main: function () {
 			var _this = this;
 			
-			var tableselect_relation = _this.tableselect_relation;
+			var tableselect2 = _this.tableselect2;
 			
-			if (tableselect_relation[0] == undefined) return false;
+			if (tableselect2[0] == undefined) return false;
 
 			var url = "{{ route('bpjg.zrcfx.maindelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				tableselect_relation: tableselect_relation
+				tableselect2: tableselect2
 			})
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
-					_this.boo_delete_relation = true;
-					_this.tableselect_relation = [];
-					_this.relationgets(_this.pagecurrent_relation, _this.pagelast_relation);
+					_this.boo_delete_main = true;
+					_this.tableselect2 = [];
+					_this.maingets(_this.pagecurrent2, _this.pagelast2);
 				} else {
 					_this.error(false, '失败', '删除失败！');
 				}
@@ -1661,13 +1863,13 @@ var vm_app = new Vue({
 		// 表2选择
 		onselectchange2: function (selection) {
 			var _this = this;
-			_this.tableselect_relation = [];
+			_this.tableselect2 = [];
 
 			for (var i in selection) {
-				_this.tableselect_relation.push(selection[i].id);
+				_this.tableselect2.push(selection[i].id);
 			}
 			
-			_this.boo_delete_relation = _this.tableselect_relation[0] == undefined ? true : false;
+			_this.boo_delete_main = _this.tableselect2[0] == undefined ? true : false;
 			
 		},
 
@@ -1678,13 +1880,13 @@ var vm_app = new Vue({
 			return false;
 			
 			var _this = this;
-			_this.tableselect_relation = [];
+			_this.tableselect2 = [];
 
 			for (var i in selection) {
-				_this.tableselect_relation.push(selection[i].id);
+				_this.tableselect2.push(selection[i].id);
 			}
 			
-			_this.boo_delete_relation = _this.tableselect_relation[0] == undefined ? true : false;
+			_this.boo_delete_main = _this.tableselect2[0] == undefined ? true : false;
 			
 		},
 		
@@ -1721,13 +1923,13 @@ var vm_app = new Vue({
 		},		
 
 		// 生成piliangluru_main
-		piliangluru_relation_generate: function (counts) {
-			var len = this.piliangluru_relation.length;
+		piliangluru_main_generate: function (counts) {
+			var len = this.piliangluru_main.length;
 			
 			if (counts > len) {
 				for (var i=0;i<counts-len;i++) {
-					// this.piliangluru_relation.push({value: 'piliangluru_relation'+parseInt(len+i+1)});
-					this.piliangluru_relation.push(
+					// this.piliangluru_main.push({value: 'piliangluru_main'+parseInt(len+i+1)});
+					this.piliangluru_main.push(
 						{
 							jizhongming: '',
 							pinfan: '',
@@ -1738,17 +1940,17 @@ var vm_app = new Vue({
 					);
 				}
 			} else if (counts < len) {
-				if (this.piliangluruxiang_relation != '') {
+				if (this.piliangluruxiang_main != '') {
 					for (var i=counts;i<len;i++) {
-						if (this.piliangluruxiang_relation == this.piliangluru_relation[i].value) {
-							this.piliangluruxiang_relation = '';
+						if (this.piliangluruxiang_main == this.piliangluru_main[i].value) {
+							this.piliangluruxiang_main = '';
 							break;
 						}
 					}
 				}
 				
 				for (var i=0;i<len-counts;i++) {
-					this.piliangluru_relation.pop();
+					this.piliangluru_main.pop();
 				}
 			}
 		},
@@ -1770,6 +1972,55 @@ var vm_app = new Vue({
 		handleUpload: function (file) {
 			this.file = file;
 			return false;
+		},
+		uploadstart_zrc: function (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('bpjg.zrcfx.zrcimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				
+				if (response.data == 1) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
 		},
 		uploadstart_zrcfx: function (file) {
 			var _this = this;
@@ -1820,7 +2071,7 @@ var vm_app = new Vue({
 				
 			})
 		},
-		uploadstart_relation: function (file) {
+		uploadstart_main: function (file) {
 			var _this = this;
 			_this.file = file;
 			_this.uploaddisabled = true;
@@ -1884,7 +2135,7 @@ var vm_app = new Vue({
 
 
 		// main模板下载
-		download_relation: function () {
+		download_main: function () {
 			var url = "{{ route('bpjg.zrcfx.maindownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
@@ -1894,27 +2145,30 @@ var vm_app = new Vue({
 		
 		// exportData_main 主表数据导出
 		exportData_main: function () {
-		},
-		
-		
-		// exportData_result 结果表数据导出
-		exportData_result: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+			if (_this.qcdate_filter_main[0] == '' || _this.qcdate_filter_main == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
+			var queryfilter_datefrom = _this.qcdate_filter_main[0].Format("yyyy-MM-dd");
+			var queryfilter_dateto = _this.qcdate_filter_main[1].Format("yyyy-MM-dd");
 			
-			var url = "{{ route('bpjg.zrcfx.resultexport') }}"
-				+ "?queryfilter=" + datex;
+			var url = "{{ route('bpjg.zrcfx.mainexport') }}"
+				+ "?queryfilter_datefrom=" + queryfilter_datefrom
+				+ "&queryfilter_dateto=" + queryfilter_dateto;
 				
 			// console.log(url);
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
+		},
+		
+		
+		// exportData_zrc 中日程表数据导出
+		exportData_zrc: function () {
+			alert('Unfinished function!');
 		},
 		
 		
@@ -1998,7 +2252,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					_this.success(false, '成功', '分析数据成功！');
-					// _this.boo_delete_relation = true;
+					// _this.boo_delete_main = true;
 					_this.tableselect_result = [];
 					_this.resultgets(_this.pagecurrent_result, _this.pagelast_result);
 				} else {
@@ -2021,24 +2275,13 @@ var vm_app = new Vue({
 			this.analytics_loading = false;
 		},
 		
-		
-		// 切换当前页 result
-		oncurrentpagechange_result: function (currentpage) {
-			this.resultgets(currentpage, this.pagelast_result);
-		},
-		
-		
-		// 切换当前页 relation
-		oncurrentpagechange_relation: function (currentpage) {
-			this.relationgets(currentpage, this.pagelast_relation);
-		},
 
 			
 	},
 	mounted: function () {
 		// var _this = this;
 		// _this.qcdate_filter_main = new Date().Format("yyyy-MM-dd");
-		// _this.relationgets(1, 1); // page: 1, last_page: 1
+		// _this.maingets(1, 1); // page: 1, last_page: 1
 	}
 })
 </script>

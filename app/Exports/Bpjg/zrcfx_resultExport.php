@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Illuminate\Support\Collection;
 
-class zrcfx_mainExport implements FromCollection, WithStrictNullComparison
+class zrcfx_resultExport implements FromCollection, WithStrictNullComparison
 {
 	
 	public function __construct($data){

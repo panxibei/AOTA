@@ -12,10 +12,12 @@ use App\Models\Bpjg\Bpjg_zhongricheng_result;
 use App\Models\Bpjg\Bpjg_zhongricheng_main;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\Bpjg\zrcfx_zrcImport; //暂留
+
+// use App\Imports\Bpjg\zrcfx_zrcImport; //暂留
+// use App\Imports\Bpjg\zrcfx_mainImport;
+
 use App\Imports\Bpjg\zrcfx_zrcfxImport;
-use App\Imports\Bpjg\zrcfx_mainImport;
-use App\Exports\Bpjg\zrcfx_mainExport;
+use App\Exports\Bpjg\zrcfx_resultExport;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -98,12 +100,12 @@ class zrcfxController extends Controller
 	
 	
     /**
-     * mainGets
+     * relationGets
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainGets(Request $request)
+    public function relationGets(Request $request)
     {
 		if (! $request->ajax()) return null;
 
@@ -153,11 +155,8 @@ class zrcfxController extends Controller
 		if (Cache::has($fullUrl)) {
 			$result = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			$result = Bpjg_zhongricheng_main::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-					return $query->whereBetween('riqi', $qcdate_filter);
-				})
-				->when($xianti_filter, function ($query) use ($xianti_filter) {
-					return $query->where('xianti', '=', $xianti_filter);
+			$result = Bpjg_zhongricheng_relation::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+					return $query->whereBetween('updated_at', $qcdate_filter);
 				})
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
@@ -172,7 +171,7 @@ class zrcfxController extends Controller
 					return $query->where('leibie', '=', $leibie_filter);
 				})
 				->limit(5000)
-				->orderBy('created_at', 'asc')
+				->orderBy('updated_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
 			Cache::put($fullUrl, $result, now()->addSeconds(30));
@@ -307,22 +306,26 @@ class zrcfxController extends Controller
 	
 	
     /**
-     * mainCreate
+     * relationCreate
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainCreate(Request $request)
+    public function relationCreate(Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
-		$xianti = $request->input('xianti');
-		$qufen = $request->input('qufen');
+		// $xianti = $request->input('xianti');
+		// $qufen = $request->input('qufen');
 		$piliangluru = $request->input('piliangluru');
+		$created_at = date('Y-m-d H:i:s');
+		$updated_at = date('Y-m-d H:i:s');
 
 		foreach ($piliangluru as $key => $value) {
-			$s[$key]['xianti'] = $xianti;
-			$s[$key]['qufen'] = $qufen;
+			// $s[$key]['xianti'] = $xianti;
+			// $s[$key]['qufen'] = $qufen;
+			$s[$key]['created_at'] = $created_at;
+			$s[$key]['updated_at'] = $updated_at;
 
 			$s[$key]['jizhongming'] = $value['jizhongming'];
 			$s[$key]['pinfan'] = $value['pinfan'];
@@ -330,7 +333,6 @@ class zrcfxController extends Controller
 			$s[$key]['xuqiushuliang'] = $value['xuqiushuliang'];
 			$s[$key]['leibie'] = $value['leibie'];
 		}
-
 		// dd($s);
 		
 		// 写入数据库
@@ -338,16 +340,17 @@ class zrcfxController extends Controller
 			DB::beginTransaction();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
-			foreach ($s as $value) {
-				Bpjg_zhongricheng_main::create($value);
-			}
+			// foreach ($s as $value) {
+				// Bpjg_zhongricheng_main::create($value);
+			// }
+			Bpjg_zhongricheng_relation::insert($s);
 
 			$result = 1;
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			// return 'Message: ' .$e->getMessage();
+			return 'Message: ' .$e->getMessage();
 			return 0;
 		}
 
@@ -528,65 +531,9 @@ class zrcfxController extends Controller
 	}	
 	
 	
-    /**
-     * zrcImport
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function zrcImport(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-
-		// 接收文件
-		$fileCharater = $request->file('myfile');
-		// dd($fileCharater);
- 
-		if ($fileCharater->isValid()) { //括号里面的是必须加的哦
-			//如果括号里面的不加上的话，下面的方法也无法调用的
-
-			//获取文件的扩展名 
-			$ext = $fileCharater->extension();
-			// dd($ext);
-			if ($ext != 'xls' && $ext != 'xlsx') {
-				return 0;
-			}
-
-			//获取文件的绝对路径
-			// $path = $fileCharater->path();
-			// dd($path);
-
-			//定义文件名
-			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
-			$filename = 'zrcfx_zrcimport.'.$ext;
-			// dd($filename);
-
-			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
-			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
-			$fileCharater->storeAs('excel', $filename);
-			// dd($filename);
-		} else {
-			return 0;
-		}
-		
-		// 导入excel文件内容
-		try {
-			$ret = Excel::import(new zrcfx_zrcImport, 'excel/'.$filename);
-			// dd($ret);
-			$result = 1;
-		} catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
-			$result = 0;
-		} finally {
-			Storage::delete('excel/'.$filename);
-		}
-		
-		return $result;
-	}
-	
 	
     /**
-     * zrcImport
+     * zrcfxImport
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -628,6 +575,9 @@ class zrcfxController extends Controller
 		
 		// 导入excel文件内容
 		try {
+			// 先清空表
+			Bpjg_zhongricheng_zrcfx::truncate();
+			
 			$ret = Excel::import(new zrcfx_zrcfxImport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
@@ -731,7 +681,7 @@ class zrcfxController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainExport(Request $request)
+    public function mainExport0(Request $request)
     {
 		// if (! $request->ajax()) { return null; }
 		
@@ -781,6 +731,71 @@ class zrcfxController extends Controller
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
 		return Excel::download(new zrcfx_mainExport($data), 'bpjg_zrcfx_main_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		
+	}
+
+
+    /**
+     * qcreportExport
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resultExport(Request $request)
+    {
+		// if (! $request->ajax()) { return null; }
+		
+		$queryfilter = $request->input('queryfilter');
+		// dd($queryfilter);
+		
+		// 获取扩展名配置值
+		// $config = Config::select('cfg_name', 'cfg_value')
+			// ->pluck('cfg_value', 'cfg_name')->toArray();
+
+		$EXPORTS_EXTENSION_TYPE = 'xlsx'; // $config['EXPORTS_EXTENSION_TYPE'];
+		// $FILTERS_USER_NAME = $config['FILTERS_USER_NAME'];
+		// $FILTERS_USER_EMAIL = $config['FILTERS_USER_EMAIL'];
+		// $FILTERS_DATEFROM = ''; // $config['FILTERS_USER_LOGINTIME_DATEFROM'];
+		// $FILTERS_DATETO = ''; // $config['FILTERS_USER_LOGINTIME_DATETO'];
+
+        // 获取用户信息
+		// Excel数据，最好转换成数组，以便传递过去
+		// $queryfilter_name = $FILTERS_USER_NAME || '';
+		// $queryfilter_email = $FILTERS_USER_EMAIL || '';
+
+		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
+		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
+
+		$Bpjg_zhongricheng_result = Bpjg_zhongricheng_result::select('id', 'suoshuriqi', 'pinfan', 'pinming', 'zongshu',
+			'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10',
+			'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20',
+			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31')
+			->where('suoshuriqi', $queryfilter)
+			->get()->toArray();
+		// dd($Bpjg_zhongricheng_result);
+
+        // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
+		// $cellData = [
+            // ['学号','姓名','成绩'],
+            // ['10001','AAAAA','199'],
+            // ['10002','BBBBB','192'],
+            // ['10003','CCCCC','195'],
+            // ['10004','DDDDD','189'],
+            // ['10005','EEEEE','196'],
+        // ];
+
+		// Excel标题第一行，可修改为任意名字，包括中文
+		$title[] = ['id', '所属日期', '品番', '品名', '总数',
+			'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10',
+			'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20',
+			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31'];
+
+		// 合并Excel的标题和数据为一个整体
+		$data = array_merge($title, $Bpjg_zhongricheng_result);
+
+		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
+		// dd(Excel::download($user, '学生成绩.xlsx'));
+		return Excel::download(new zrcfx_resultExport($data), 'bpjg_zrcfx_result_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}	
 	
