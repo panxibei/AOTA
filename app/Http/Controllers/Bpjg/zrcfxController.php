@@ -170,7 +170,7 @@ class zrcfxController extends Controller
 					return $query->where('leibie', '=', $leibie_filter);
 				})
 				->limit(5000)
-				->orderBy('updated_at', 'asc')
+				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
 			Cache::put($fullUrl, $result, now()->addSeconds(30));
@@ -256,7 +256,7 @@ class zrcfxController extends Controller
 					// return $query->where('leibie', '=', $leibie_filter);
 				// })
 				->limit(5000)
-				->orderBy('updated_at', 'asc')
+				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
 			Cache::put($fullUrl, $result, now()->addSeconds(30));
@@ -419,18 +419,16 @@ class zrcfxController extends Controller
 
 
     /**
-     * mainUpdate
+     * relationUpdate
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainUpdate(Request $request)
+    public function relationUpdate(Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('id');
-		$xianti = $request->input('xianti');
-		$qufen = $request->input('qufen');
 		$jizhongming = $request->input('jizhongming');
 		$pinfan = $request->input('pinfan');
 		$pinming = $request->input('pinming');
@@ -443,7 +441,7 @@ class zrcfxController extends Controller
 		
 		// 判断如果不是最新的记录，不可被编辑
 		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Bpjg_zhongricheng_main::select('updated_at')
+		$res = Bpjg_zhongricheng_relation::select('updated_at')
 			->where('id', $id)
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
@@ -455,10 +453,8 @@ class zrcfxController extends Controller
 		// 尝试更新
 		try	{
 			DB::beginTransaction();
-			$result = Bpjg_zhongricheng_main::where('id', $id)
+			$result = Bpjg_zhongricheng_relation::where('id', $id)
 				->update([
-					'xianti'			=> $xianti,
-					'qufen'				=> $qufen,
 					'jizhongming'		=> $jizhongming,
 					'pinfan' 			=> $pinfan,
 					'pinming'			=> $pinming,
@@ -476,7 +472,6 @@ class zrcfxController extends Controller
 		Cache::flush();
 		// dd($result);
 		return $result;
-
 	}	
 
 

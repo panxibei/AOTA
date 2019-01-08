@@ -240,7 +240,7 @@
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange2();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="3">
 			线体&nbsp;&nbsp;
@@ -270,7 +270,7 @@
 		</i-col>
 		<i-col span="3">
 			类别&nbsp;&nbsp;
-			<i-select v-model.lazy="leibie_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange2();" clearable size="small" style="width:100px" placeholder="">
+			<i-select v-model.lazy="leibie_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" clearable size="small" style="width:100px" placeholder="">
 				<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
 		</i-col>
@@ -293,61 +293,48 @@
 
 	<i-row :gutter="16">
 		<i-col span="24">
-			<i-table ref="table2" height="400" size="small" border :columns="tablecolumns_relation" :data="tabledata_relation" @on-selection-change="selection => onselectchange2(selection)"></i-table>
+			<i-table ref="table2" height="400" size="small" border :columns="tablecolumns_relation" :data="tabledata_relation" @on-selection-change="selection => onselectchange_relation(selection)"></i-table>
 			<br><Page :current="pagecurrent_relation" :total="pagetotal_relation" :page-size="pagepagesize_relation" @on-change="currentpage => oncurrentpagechange_relation(currentpage)" show-total show-elevator></Page><br><br>
 		</i-col>
 	</i-row>
 	
-	<Modal v-model="modal_main_edit" @on-ok="main_edit_ok" ok-text="保存" title="编辑 - 线体/机种/部品" width="540">
+	<Modal v-model="modal_relation_edit" @on-ok="relation_edit_ok" ok-text="保存" title="编辑 - 机种/部品关系表" width="540">
 		<div style="text-align:left">
 			<p>
-				创建时间：@{{ main_created_at_edit }}
+				创建时间：@{{ relation_created_at_edit }}
 				
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				
-				更新时间：@{{ main_updated_at_edit }}
+				更新时间：@{{ relation_updated_at_edit }}
 			
-			</p>
-			<br>
-			
-			<p>
-				线体&nbsp;&nbsp;
-				<i-input v-model.lazy="main_xianti_edit" @on-keyup="main_xianti_edit=main_xianti_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
-
-				&nbsp;&nbsp;&nbsp;&nbsp;
-
-				区分&nbsp;&nbsp;
-				<i-input v-model.lazy="main_qufen_edit" @on-keyup="main_qufen_edit=main_qufen_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
-
-				&nbsp;&nbsp;&nbsp;&nbsp;
 			</p>
 			<br>
 			
 			<p>
 				机种名&nbsp;&nbsp;
-				<i-input v-model.lazy="main_jizhongming_edit" @on-keyup="main_jizhongming_edit=main_jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+				<i-input v-model.lazy="relation_jizhongming_edit" @on-keyup="relation_jizhongming_edit=relation_jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 
 				品番&nbsp;&nbsp;
-				<i-input v-model.lazy="main_pinfan_edit" @on-keyup="main_pinfan_edit=main_pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+				<i-input v-model.lazy="relation_pinfan_edit" @on-keyup="relation_pinfan_edit=relation_pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 
 				品名&nbsp;&nbsp;
-				<i-input v-model.lazy="main_pinming_edit" @on-keyup="main_pinming_edit=main_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+				<i-input v-model.lazy="relation_pinming_edit" @on-keyup="relation_pinming_edit=relation_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
 
 			</p>
 			<br>
 			
 			<p>
 				需求数量&nbsp;&nbsp;
-				<Input-number v-model.lazy="main_xuqiushuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
+				<Input-number v-model.lazy="relation_xuqiushuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
 
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				
 				类别&nbsp;&nbsp;
-				<i-select v-model.lazy="main_leibie_edit" size="small" style="width:100px" placeholder="">
+				<i-select v-model.lazy="relation_leibie_edit" size="small" style="width:100px" placeholder="">
 					<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</i-select>
 				
@@ -479,17 +466,17 @@ var vm_app = new Vue({
 		zrc_created_at_edit: '',
 		zrc_updated_at_edit: '',
 		
-		modal_main_edit: false,
-		main_id_edit: '',
-		main_xianti_edit: '',
-		main_qufen_edit: '',
-		main_created_at_edit: '',
-		main_updated_at_edit: '',
-		main_jizhongming_edit: '',
-		main_pinfan_edit: '',
-		main_pinming_edit: '',
-		main_xuqiushuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
-		main_leibie_edit: '',
+		modal_relation_edit: false,
+		relation_id_edit: '',
+		relation_xianti_edit: '',
+		relation_qufen_edit: '',
+		relation_created_at_edit: '',
+		relation_updated_at_edit: '',
+		relation_jizhongming_edit: '',
+		relation_pinfan_edit: '',
+		relation_pinming_edit: '',
+		relation_xuqiushuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
+		relation_leibie_edit: '',
 
 		modal_fenxi: false,
 		fenxi_suoshuriqi: '',
@@ -581,7 +568,7 @@ var vm_app = new Vue({
 		tabledata1: [],
 		tableselect1: [],
 		
-		// 表头2
+		// 表头relation
 		tablecolumns_relation: [
 			{
 				type: 'selection',
@@ -615,12 +602,6 @@ var vm_app = new Vue({
 				width: 140
 			},
 			{
-				title: '类别',
-				key: 'leibie',
-				align: 'center',
-				width: 100
-			},
-			{
 				title: '需求数量',
 				key: 'xuqiushuliang',
 				align: 'center',
@@ -631,6 +612,12 @@ var vm_app = new Vue({
 						params.row.xuqiushuliang.toLocaleString()
 					]);
 				}
+			},
+			{
+				title: '类别',
+				key: 'leibie',
+				align: 'center',
+				width: 100
 			},
 			{
 				title: '创建日期',
@@ -661,7 +648,7 @@ var vm_app = new Vue({
 							},
 							on: {
 								click: () => {
-									vm_app.main_edit(params.row)
+									vm_app.relation_edit(params.row)
 								}
 							}
 						}, 'Edit')
@@ -1456,23 +1443,21 @@ var vm_app = new Vue({
 			_this.modal_zrc_edit = true;
 		},
 
-		// main编辑前查看
-		main_edit: function (row) {
+		// relation编辑前查看
+		relation_edit: function (row) {
 			var _this = this;
 			
-			_this.main_id_edit = row.id;
-			_this.main_xianti_edit = row.xianti;
-			_this.main_qufen_edit = row.qufen;
-			_this.main_jizhongming_edit = row.jizhongming;
-			_this.main_pinfan_edit = row.pinfan;
-			_this.main_pinming_edit = row.pinming;
-			_this.main_xuqiushuliang_edit[0] = row.xuqiushuliang;
-			_this.main_xuqiushuliang_edit[1] = row.xuqiushuliang;
-			_this.main_leibie_edit = row.leibie;
-			_this.main_created_at_edit = row.created_at;
-			_this.main_updated_at_edit = row.updated_at;
+			_this.relation_id_edit = row.id;
+			_this.relation_jizhongming_edit = row.jizhongming;
+			_this.relation_pinfan_edit = row.pinfan;
+			_this.relation_pinming_edit = row.pinming;
+			_this.relation_xuqiushuliang_edit[0] = row.xuqiushuliang;
+			_this.relation_xuqiushuliang_edit[1] = row.xuqiushuliang;
+			_this.relation_leibie_edit = row.leibie;
+			_this.relation_created_at_edit = row.created_at;
+			_this.relation_updated_at_edit = row.updated_at;
 
-			_this.modal_main_edit = true;
+			_this.modal_relation_edit = true;
 		},		
 		
 		// zrc编辑后保存
@@ -1530,24 +1515,20 @@ var vm_app = new Vue({
 			})			
 		},
 
-		// main编辑后保存
-		main_edit_ok: function () {
+		// relation编辑后保存
+		relation_edit_ok: function () {
 			var _this = this;
 			
-			var id = _this.main_id_edit;
-			var xianti = _this.main_xianti_edit;
-			var qufen = _this.main_qufen_edit;
-			var jizhongming = _this.main_jizhongming_edit;
-			var pinfan = _this.main_pinfan_edit;
-			var pinming = _this.main_pinming_edit;
-			var xuqiushuliang = _this.main_xuqiushuliang_edit;
-			var leibie = _this.main_leibie_edit;
-			var created_at = _this.main_created_at_edit;
-			var updated_at = _this.main_updated_at_edit;
+			var id = _this.relation_id_edit;
+			var jizhongming = _this.relation_jizhongming_edit;
+			var pinfan = _this.relation_pinfan_edit;
+			var pinming = _this.relation_pinming_edit;
+			var xuqiushuliang = _this.relation_xuqiushuliang_edit;
+			var leibie = _this.relation_leibie_edit;
+			var created_at = _this.relation_created_at_edit;
+			var updated_at = _this.relation_updated_at_edit;
 			
-			if (xianti == '' || xianti == null || xianti == undefined
-				|| qufen == '' || qufen == null || qufen == undefined
-				|| jizhongming == '' || jizhongming == null || jizhongming == undefined
+			if (jizhongming == '' || jizhongming == null || jizhongming == undefined
 				|| pinfan == '' || pinfan == null || pinfan == undefined
 				|| pinming == '' || pinming == null || pinming == undefined
 				|| xuqiushuliang == '' || xuqiushuliang == null || xuqiushuliang == undefined
@@ -1556,12 +1537,10 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			var url = "{{ route('bpjg.zrcfx.mainupdate') }}";
+			var url = "{{ route('bpjg.zrcfx.relationupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: id,
-				xianti: xianti,
-				qufen: qufen,
 				jizhongming: jizhongming,
 				pinfan: pinfan,
 				pinming: pinming,
@@ -1579,16 +1558,14 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
 					
-					_this.main_id_edit = '';
-					_this.main_xianti_edit = '';
-					_this.main_qufen_edit = '';
-					_this.main_jizhongming_edit = '';
-					_this.main_pinfan_edit = '';
-					_this.main_pinming_edit = '';
-					_this.main_xuqiushuliang_edit = [0, 0];
-					_this.main_leibie_edit = '';
-					_this.main_created_at_edit = '';
-					_this.main_updated_at_edit = '';
+					_this.relation_id_edit = '';
+					_this.relation_jizhongming_edit = '';
+					_this.relation_pinfan_edit = '';
+					_this.relation_pinming_edit = '';
+					_this.relation_xuqiushuliang_edit = [0, 0];
+					_this.relation_leibie_edit = '';
+					_this.relation_created_at_edit = '';
+					_this.relation_updated_at_edit = '';
 				} else {
 					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
 				}
@@ -1670,8 +1647,8 @@ var vm_app = new Vue({
 			
 		},
 
-		// 表2选择
-		onselectchange2: function (selection) {
+		// 表relation选择
+		onselectchange_relation: function (selection) {
 			var _this = this;
 			_this.tableselect_relation = [];
 
