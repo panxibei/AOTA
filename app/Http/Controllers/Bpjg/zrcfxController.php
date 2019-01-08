@@ -506,19 +506,19 @@ class zrcfxController extends Controller
 
 
     /**
-     * mainDelete
+     * relationdelete
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainDelete(Request $request)
+    public function relationdelete(Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
-		$id = $request->input('tableselect2');
+		$id = $request->input('tableselect_relation');
 
 		try	{
-			$result = Bpjg_zhongricheng_main::whereIn('id', $id)->delete();
+			$result = Bpjg_zhongricheng_relation::whereIn('id', $id)->delete();
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();

@@ -30,7 +30,7 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function
 	Route::get('relationgets', 'zrcfxController@relationGets')->name('bpjg.zrcfx.relationgets');
 	Route::post('mainupdate', 'zrcfxController@mainUpdate')->name('bpjg.zrcfx.mainupdate');
 	Route::post('relationcreate', 'zrcfxController@relationCreate')->name('bpjg.zrcfx.relationcreate');
-	Route::post('maindelete', 'zrcfxController@mainDelete')->name('bpjg.zrcfx.maindelete');
+	Route::post('relationdelete', 'zrcfxController@relationDelete')->name('bpjg.zrcfx.relationdelete');
 	// Route::get('mainexport', 'zrcfxController@mainExport')->name('bpjg.zrcfx.mainexport');
 	Route::post('relationimport', 'zrcfxController@relationImport')->name('bpjg.zrcfx.relationimport');
 	Route::get('relationdownload', 'zrcfxController@relationDownload')->name('bpjg.zrcfx.relationdownload');

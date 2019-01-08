@@ -106,7 +106,7 @@
 		<br>
 		<i-col span="2">
 			&nbsp;<br>&nbsp;
-			<!--<i-button @click="ondelete_main()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->
+			<!--<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->
 		</i-col>
 		<i-col span="4">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -280,7 +280,7 @@
 	<i-row :gutter="16">
 		<br>
 		<i-col span="2">
-			<i-button @click="ondelete_main()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+			<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
 		</i-col>
 		<i-col span="4">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1628,15 +1628,15 @@ var vm_app = new Vue({
 		},		
 
 		
-		// ondelete_main
-		ondelete_main: function () {
+		// ondelete_relation
+		ondelete_relation: function () {
 			var _this = this;
 			
 			var tableselect_relation = _this.tableselect_relation;
 			
 			if (tableselect_relation[0] == undefined) return false;
 
-			var url = "{{ route('bpjg.zrcfx.maindelete') }}";
+			var url = "{{ route('bpjg.zrcfx.relationdelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				tableselect_relation: tableselect_relation
