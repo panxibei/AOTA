@@ -207,10 +207,10 @@ class zrcfxController extends Controller
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		// $xianti_filter = $request->input('xianti_filter');
-		// $jizhongming_filter = $request->input('jizhongming_filter');
-		// $pinfan_filter = $request->input('pinfan_filter');
-		// $pinming_filter = $request->input('pinming_filter');
-		// $leibie_filter = $request->input('leibie_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
+		$pinfan_filter = $request->input('pinfan_filter');
+		$pinming_filter = $request->input('pinming_filter');
+		$leibie_filter = $request->input('leibie_filter');
 		
 		// $usecache = $request->input('usecache');
 		
@@ -243,18 +243,18 @@ class zrcfxController extends Controller
 				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
 					// return $query->where('xianti', '=', $xianti_filter);
 				// })
-				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
-					// return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
-				// })
-				// ->when($pinfan_filter, function ($query) use ($pinfan_filter) {
-					// return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
-				// })
-				// ->when($pinming_filter, function ($query) use ($pinming_filter) {
-					// return $query->where('pinming', 'like', '%'.$pinming_filter.'%');
-				// })
-				// ->when($leibie_filter, function ($query) use ($leibie_filter) {
-					// return $query->where('leibie', '=', $leibie_filter);
-				// })
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
+				->when($pinfan_filter, function ($query) use ($pinfan_filter) {
+					return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
+				})
+				->when($pinming_filter, function ($query) use ($pinming_filter) {
+					return $query->where('pinming', 'like', '%'.$pinming_filter.'%');
+				})
+				->when($leibie_filter, function ($query) use ($leibie_filter) {
+					return $query->where('leibie', '=', $leibie_filter);
+				})
 				->limit(5000)
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);

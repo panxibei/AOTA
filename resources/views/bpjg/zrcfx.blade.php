@@ -240,13 +240,9 @@
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="qcdate_filter_main" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="qcdate_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
-		<i-col span="3">
-			线体&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="9">
+		<i-col span="12">
 		&nbsp;
 		</i-col>
 	</i-row>
@@ -258,7 +254,7 @@
 		</i-col>
 		<i-col span="3">
 			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter_main" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="jizhongming_filter_main=jizhongming_filter_main.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="jizhongming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="jizhongming_filter_relation=jizhongming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品番&nbsp;&nbsp;
@@ -435,7 +431,7 @@ var vm_app = new Vue({
 		// ##########查询过滤########
 		// 日期范围过滤
 		qcdate_filter_zrc: [], //new Date(),
-		qcdate_filter_main: [], //new Date(),
+		qcdate_filter_relation: [], //new Date(),
 		qcdate_filter_result: '', //new Date(),
 		date_fenxi_suoshuriqi: '', //new Date(),
 		
@@ -444,7 +440,7 @@ var vm_app = new Vue({
 
 		// 机种名
 		jizhongming_filter_zrc: '',
-		jizhongming_filter_main: '',
+		jizhongming_filter_relation: '',
 
 		// 品番过滤
 		pinfan_filter: '',
@@ -1183,22 +1179,21 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			var qcdate_filter_main = [];
+			var qcdate_filter_relation = [];
 
-			for (var i in _this.qcdate_filter_main) {
-				if (typeof(_this.qcdate_filter_main[i])!='string') {
-					qcdate_filter_main.push(_this.qcdate_filter_main[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter_main[i] == '') {
-					// qcdate_filter_main.push(new Date().Format("yyyy-MM-dd"));
+			for (var i in _this.qcdate_filter_relation) {
+				if (typeof(_this.qcdate_filter_relation[i])!='string') {
+					qcdate_filter_relation.push(_this.qcdate_filter_relation[i].Format("yyyy-MM-dd"));
+				} else if (_this.qcdate_filter_relation[i] == '') {
+					// qcdate_filter_relation.push(new Date().Format("yyyy-MM-dd"));
 					_this.tabledata_relation = [];
 					return false;
 				} else {
-					qcdate_filter_main.push(_this.qcdate_filter_main[i]);
+					qcdate_filter_relation.push(_this.qcdate_filter_relation[i]);
 				}
 			}
 			
-			var xianti_filter = _this.xianti_filter;
-			var jizhongming_filter_main = _this.jizhongming_filter_main;
+			var jizhongming_filter_relation = _this.jizhongming_filter_relation;
 			var pinfan_filter = _this.pinfan_filter;
 			var pinming_filter = _this.pinming_filter;
 			var leibie_filter = _this.leibie_filter;
@@ -1209,9 +1204,8 @@ var vm_app = new Vue({
 				params: {
 					perPage: _this.pagepagesize_relation,
 					page: page,
-					qcdate_filter: qcdate_filter_main,
-					xianti_filter: xianti_filter,
-					jizhongming_filter: jizhongming_filter_main,
+					qcdate_filter: qcdate_filter_relation,
+					jizhongming_filter: jizhongming_filter_relation,
 					pinfan_filter: pinfan_filter,
 					pinming_filter: pinming_filter,
 					leibie_filter: leibie_filter
@@ -1265,7 +1259,7 @@ var vm_app = new Vue({
 			// return false;
 			
 			// var xianti_filter = _this.xianti_filter;
-			// var jizhongming_filter_main = _this.jizhongming_filter_main;
+			// var jizhongming_filter_relation = _this.jizhongming_filter_relation;
 			// var pinfan_filter = _this.pinfan_filter;
 			// var pinming_filter = _this.pinming_filter;
 			// var leibie_filter = _this.leibie_filter;
@@ -1278,7 +1272,7 @@ var vm_app = new Vue({
 					page: page,
 					qcdate_filter: datex,
 					// xianti_filter: xianti_filter,
-					// jizhongming_filter: jizhongming_filter_main,
+					// jizhongming_filter: jizhongming_filter_relation,
 					// pinfan_filter: pinfan_filter,
 					// pinming_filter: pinming_filter,
 					// leibie_filter: leibie_filter
@@ -1993,7 +1987,7 @@ var vm_app = new Vue({
 	},
 	mounted: function () {
 		// var _this = this;
-		// _this.qcdate_filter_main = new Date().Format("yyyy-MM-dd");
+		// _this.qcdate_filter_relation = new Date().Format("yyyy-MM-dd");
 		// _this.relationgets(1, 1); // page: 1, last_page: 1
 	}
 })
