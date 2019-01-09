@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Bpjg\zrcfx_relationImport;
 use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Exports\Bpjg\zrcfx_resultExport;
+use App\Exports\Bpjg\zrcfx_relationExport;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -670,12 +671,12 @@ class zrcfxController extends Controller
 	
 	
     /**
-     * qcreportExport
+     * relationExport
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function mainExport0(Request $request)
+    public function relationExport(Request $request)
     {
 		// if (! $request->ajax()) { return null; }
 		
@@ -701,8 +702,8 @@ class zrcfxController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$Bpjg_zhongricheng_main = Bpjg_zhongricheng_main::select('id', 'riqi', 'xianti', 'qufen', 'jizhongming', 'pinfan', 'pinming', 'leibie', 'xuqiushuliang', 'zongshu', 'shuliang', 'created_at')
-			->whereBetween('riqi', [$queryfilter_datefrom, $queryfilter_dateto])
+		$Bpjg_zhongricheng_main = Bpjg_zhongricheng_relation::select('id', 'jizhongming', 'pinfan', 'pinming', 'xuqiushuliang', 'leibie', 'updated_at')
+			->whereBetween('updated_at', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
 		// dd($Bpjg_zhongricheng_main);
 
@@ -717,14 +718,14 @@ class zrcfxController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', '日期', '线体', '区分', '机种名', '品番', '品名', '类别', '需求数量', '总数', '数量', '创建日期'];
+		$title[] = ['id', '机种名', '品番', '品名', '需求数量', '类别', '更新日期'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $Bpjg_zhongricheng_main);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
-		return Excel::download(new zrcfx_mainExport($data), 'bpjg_zrcfx_main_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		return Excel::download(new zrcfx_relationExport($data), 'bpjg_zrcfx_relation_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}
 

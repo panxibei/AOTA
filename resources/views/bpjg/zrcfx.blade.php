@@ -28,7 +28,15 @@
 
 <div id="app" v-cloak>
 
-	<Divider orientation="left">11111111111111. 部品信息导入、分析及查询导出</Divider>
+	<Steps :current="4">
+        <Step title="维护机种/部品关系表" icon="ios-list-box-outline" content="批量导入会覆盖所有数据，仅做初始化之用。"></Step>
+        <Step title="导入中日程表" icon="ios-download-outline" content="可参考模板格式设定数据。"></Step>
+        <Step title="分析数据" icon="ios-analytics-outline" content="结果数据按指定月份分析并覆盖。"></Step>
+        <Step title="查询导出结果" icon="ios-flag-outline" content="按指定月份查询及导出数据。"></Step>
+    </Steps>
+	<br>
+
+	<Divider orientation="left">1. 部品信息导入、分析及查询导出</Divider>
 
 	<i-row :gutter="16">
 		<i-col span="2">
@@ -135,7 +143,7 @@
 	
 	
 
-	<Divider orientation="left">2222222222222. 机种/部品关系表 信息录入</Divider>
+	<Divider orientation="left">2. 机种/部品关系表 信息录入</Divider>
 
 	<i-row :gutter="16">
 		<i-col span="24">
@@ -229,7 +237,7 @@
 	
 	
 	
-	<Divider orientation="left">333333333333. 机种/部品关系表 信息查询</Divider>
+	<Divider orientation="left">3. 机种/部品关系表 信息查询</Divider>
 
 	<i-row :gutter="16">
 		<i-col span="2">
@@ -280,7 +288,7 @@
 		</i-col>
 		<i-col span="4">
 			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_main()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+			<i-button type="default" size="small" @click="exportData_relation()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 		</i-col>
 		<i-col span="18">
 			&nbsp;
@@ -351,11 +359,6 @@
 	
 	
 
-	
-
-	
-	<br>	
-	
 	
 	
 
@@ -1874,8 +1877,26 @@ var vm_app = new Vue({
 		},
 		
 		
-		// exportData_main 主表数据导出
-		exportData_main: function () {
+		// exportData_relation 主表数据导出
+		exportData_relation: function () {
+			var _this = this;
+			
+			if (_this.qcdate_filter_relation == '' || _this.qcdate_filter_relation == undefined) {
+				_this.warning(false, '警告', '请选择日期范围！');
+				return false;
+			}
+			
+			var queryfilter_datefrom = _this.qcdate_filter_relation[0].Format("yyyy-MM-dd");
+			var queryfilter_dateto = _this.qcdate_filter_relation[1].Format("yyyy-MM-dd");
+			
+			var url = "{{ route('bpjg.zrcfx.relationexport') }}"
+				+ "?queryfilter_datefrom=" + queryfilter_datefrom
+				+ "&queryfilter_dateto=" + queryfilter_dateto;
+				
+			// console.log(url);
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
 		},
 		
 		
