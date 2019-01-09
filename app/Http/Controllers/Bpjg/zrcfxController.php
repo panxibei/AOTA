@@ -438,7 +438,9 @@ class zrcfxController extends Controller
 		
 		// 导入excel文件内容
 		try {
-			// $ret = Excel::import(new zrcfx_relationimport, 'excel/'.$filename);
+			// 先清空表
+			Bpjg_zhongricheng_relation::truncate();
+			
 			$ret = Excel::import(new zrcfx_relationimport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;

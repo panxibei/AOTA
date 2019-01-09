@@ -70,7 +70,7 @@
 			<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
 		</i-col>
 		<i-col span="8">
-			<i-button type="primary" size="small" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
+			<i-button type="primary" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
 		</i-col>
 		<i-col span="2">
 			&nbsp;
