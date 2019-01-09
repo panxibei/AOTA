@@ -352,16 +352,6 @@
 	
 	<br>
 	
-	
-	
-	
-	
-	
-	
-
-	
-	
-
 </div>
 @endsection
 
@@ -373,12 +363,6 @@ var current_date = new Date("January 12,2006 22:19:35");
 var vm_app = new Vue({
 	el: '#app',
 	data: {
-		//表1分页
-		pagecurrent1: 1,
-		pagetotal1: 1,
-		pagepagesize1: 10,
-		pagelast1: 1,
-
 		//表relation分页
 		pagecurrent_relation: 1,
 		pagetotal_relation: 1,
@@ -392,19 +376,7 @@ var vm_app = new Vue({
 		pagelast_result: 1,
 		
 		// ##########基本变量########
-		// 批量录入中日程
-		piliangluru_zrc: [
-			{
-				riqi: '',
-				jizhongming: '',
-				shuliang: 1
-			},
-		],
-
-		// 批量录入项
-		piliangluruxiang_zrc: 1,
-
-		// 批量录入主表
+		// 批量录入realtion表
 		piliangluru_relation: [
 			{
 				jizhongming: '',
@@ -418,22 +390,14 @@ var vm_app = new Vue({
 		// 批量录入项
 		piliangluruxiang_relation: 1,
 
-		// 线体
-		xianti: '',
-		
-		// 区分
-		qufen: '',
-		
 		//类别
 		option_leibie: [
 			{value: '冲压', label: '冲压'},
 			{value: '成型', label: '成型'}
 		],
 		
-		
 		// ##########查询过滤########
 		// 日期范围过滤
-		qcdate_filter_zrc: [], //new Date(),
 		qcdate_filter_relation: [], //new Date(),
 		qcdate_filter_result: '', //new Date(),
 		date_fenxi_suoshuriqi: '', //new Date(),
@@ -452,17 +416,7 @@ var vm_app = new Vue({
 		// 类别过滤
 		leibie_filter: '',
 
-		
-
 		// ##########编辑变量########
-		modal_zrc_edit: false,
-		zrc_id_edit: '',
-		zrc_riqi_edit: '',
-		zrc_jizhongming_edit: '',
-		zrc_shuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
-		zrc_created_at_edit: '',
-		zrc_updated_at_edit: '',
-		
 		modal_relation_edit: false,
 		relation_id_edit: '',
 		relation_xianti_edit: '',
@@ -968,24 +922,8 @@ var vm_app = new Vue({
 		tabledata_result: [],
 		tableselect_result: [],
 		
-
-
-		// 删除disabled
-		boo_delete_zrc: true,
-
 		// 删除disabled
 		boo_delete_relation: true,
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		// 上传，批量导入
@@ -993,9 +931,6 @@ var vm_app = new Vue({
 		loadingStatus: false,
 		uploaddisabled: false,
 		
-		
-		
-			
 			
 	},
 	methods: {
@@ -1166,16 +1101,6 @@ var vm_app = new Vue({
 		},
 		
 		
-		// onclear_zrc
-		onclear_zrc: function () {
-			var _this = this;
-			_this.piliangluru_zrc.map(function (v,i) {
-				v.riqi = '';
-				v.jizhongming = '';
-				v.shuliang = 1;
-			});
-		},
-		
 		// onclear_relation
 		onclear_relation: function () {
 			var _this = this;
@@ -1190,54 +1115,7 @@ var vm_app = new Vue({
 			// _this.$refs.xianti.focus();
 		},
 		
-		// oncreate_zrc
-		oncreate_zrc: function () {
-			var _this = this;
-			
-			_this.piliangluru_zrc.map(function (v,i) {
-				// jizhongming: '',
-				// riqi: '',
-				// shuliang: 1
-				
-				if (v.jizhongming == '' || v.riqi == '' || v.shuliang == ''
-					|| v.jizhongming == undefined || v.riqi == undefined || v.shuliang == undefined) {
-					_this.warning(false, '警告', '输入内容为空或不正确！');
-					return false;
-				}
-				
-				if (typeof(v.riqi)!='string') {
-					v.riqi = v.riqi.Format("yyyy-MM-dd");
-				}
-			});
-			
-			var piliangluru_zrc = _this.piliangluru_zrc;
-			
-			var url = "{{ route('bpjg.zrcfx.zrccreate') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.post(url, {
-				piliangluru: piliangluru_zrc
-			})
-			.then(function (response) {
-				// console.log(response.data);
-				// return false;
-				
-				if (response.data) {
-					_this.onclear_zrc();
-					_this.success(false, '成功', '记入成功！');
-					_this.boo_delete_zrc = true;
-					_this.tableselect1 = [];
-					_this.zrcgets();
 
-				} else {
-					_this.error(false, '失败', '记入失败！');
-				}
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', '记入失败！');
-				// console.log(error);
-			})
-		},
-		
 		// oncreate_relation
 		oncreate_relation: function () {
 			var _this = this;
@@ -1288,20 +1166,6 @@ var vm_app = new Vue({
 			})
 		},
 		
-		// zrc编辑前查看
-		zrc_edit: function (row) {
-			var _this = this;
-
-			_this.zrc_id_edit = row.id;
-			_this.zrc_riqi_edit = row.riqi;
-			_this.zrc_jizhongming_edit = row.jizhongming;
-			_this.zrc_shuliang_edit[0] = row.shuliang;
-			_this.zrc_shuliang_edit[1] = row.shuliang;
-			_this.zrc_created_at_edit = row.created_at;
-			_this.zrc_updated_at_edit = row.updated_at;
-
-			_this.modal_zrc_edit = true;
-		},
 
 		// relation编辑前查看
 		relation_edit: function (row) {
@@ -1320,60 +1184,6 @@ var vm_app = new Vue({
 			_this.modal_relation_edit = true;
 		},		
 		
-		// zrc编辑后保存
-		zrc_edit_ok: function () {
-			var _this = this;
-			
-			var id = _this.zrc_id_edit;
-			var riqi = _this.zrc_riqi_edit;
-			var jizhongming = _this.zrc_jizhongming_edit;
-			var shuliang = _this.zrc_shuliang_edit;
-			var created_at = _this.zrc_created_at_edit;
-			var updated_at = _this.zrc_updated_at_edit;
-
-			if (riqi == '' || riqi == null || riqi == undefined
-				|| jizhongming == '' || jizhongming == null || jizhongming == undefined
-				|| shuliang == '' || shuliang == null || shuliang == undefined) {
-				_this.warning(false, '警告', '内容不能为空！');
-				return false;
-			}
-			
-			if (typeof(riqi)!='string') {
-				riqi = riqi.Format("yyyy-MM-dd");
-			}
-			
-			var url = "{{ route('bpjg.zrcfx.zrcupdate') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.post(url, {
-				id: id,
-				riqi: riqi,
-				jizhongming: jizhongming,
-				shuliang: shuliang[1],
-				created_at: created_at,
-				updated_at: updated_at
-			})
-			.then(function (response) {
-				// console.log(response.data);
-				// return false;
-				
-				_this.zrcgets(_this.pagecurrent1, _this.pagelast1);
-				
-				if (response.data) {
-					_this.success(false, '成功', '更新成功！');
-					
-					_this.zrc_id_edit = '';
-					_this.zrc_jizhongming_edit = '';
-					_this.zrc_shuliang_edit = [0, 0];
-					_this.zrc_created_at_edit = '';
-					_this.zrc_updated_at_edit = '';
-				} else {
-					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
-				}
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', '更新失败！');
-			})			
-		},
 
 		// relation编辑后保存
 		relation_edit_ok: function () {
@@ -1436,35 +1246,6 @@ var vm_app = new Vue({
 		},
 		
 		
-		// ondelete_zrc
-		ondelete_zrc: function () {
-			var _this = this;
-			
-			var tableselect1 = _this.tableselect1;
-			
-			if (tableselect1[0] == undefined) return false;
-
-			var url = "{{ route('bpjg.zrcfx.zrcdelete') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.post(url, {
-				tableselect1: tableselect1
-			})
-			.then(function (response) {
-				if (response.data) {
-					_this.success(false, '成功', '删除成功！');
-					_this.boo_delete_zrc = true;
-					_this.tableselect1 = [];
-					_this.zrcgets(_this.pagecurrent1, _this.pagelast1);
-				} else {
-					_this.error(false, '失败', '删除失败！');
-				}
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', '删除失败！');
-			})
-		},		
-
-		
 		// ondelete_relation
 		ondelete_relation: function () {
 			var _this = this;
@@ -1494,19 +1275,6 @@ var vm_app = new Vue({
 		},		
 		
 		
-		// 表1选择
-		onselectchange1: function (selection) {
-			var _this = this;
-			_this.tableselect1 = [];
-
-			for (var i in selection) {
-				_this.tableselect1.push(selection[i].id);
-			}
-			
-			_this.boo_delete_zrc = _this.tableselect1[0] == undefined ? true : false;
-			
-		},
-
 		// 表relation选择
 		onselectchange_relation: function (selection) {
 			var _this = this;
@@ -1520,56 +1288,8 @@ var vm_app = new Vue({
 			
 		},
 
-		// 表result选择 暂未用
-		onselectchange_result: function (selection) {
-			
-			console.log(this.qcdate_filter_result);
-			return false;
-			
-			var _this = this;
-			_this.tableselect_relation = [];
 
-			for (var i in selection) {
-				_this.tableselect_relation.push(selection[i].id);
-			}
-			
-			_this.boo_delete_relation = _this.tableselect_relation[0] == undefined ? true : false;
-			
-		},
-		
-		// 生成piliangluru
-		piliangluru_zrc_generate: function (counts) {
-			var len = this.piliangluru_zrc.length;
-			
-			if (counts > len) {
-				for (var i=0;i<counts-len;i++) {
-					// this.piliangluru_zrc.push({value: 'piliangluru_zrc'+parseInt(len+i+1)});
-					this.piliangluru_zrc.push(
-						{
-							riqi: '',
-							jizhongming: '',
-							shuliang: 1
-						}
-					);
-				}
-			} else if (counts < len) {
-				if (this.piliangluruxiang_zrc != '') {
-					for (var i=counts;i<len;i++) {
-						if (this.piliangluruxiang_zrc == this.piliangluru_zrc[i].value) {
-							this.piliangluruxiang_zrc = '';
-							break;
-						}
-					}
-				}
-				
-				for (var i=0;i<len-counts;i++) {
-					this.piliangluru_zrc.pop();
-				}
-			}			
-
-		},		
-
-		// 生成piliangluru_main
+		// 生成piliangluru_relation
 		piliangluru_relation_generate: function (counts) {
 			var len = this.piliangluru_relation.length;
 			
@@ -1603,7 +1323,7 @@ var vm_app = new Vue({
 		},
 		
 		
-		// upload zrc
+		// upload function
 		handleFormatError (file) {
 			this.$Notice.warning({
 				title: 'The file format is incorrect',
@@ -1848,7 +1568,7 @@ var vm_app = new Vue({
 			})
 		},
 
-		
+		// 分析取消
 		fenxi_cancel: function () {
 			// this.modal_fenxi = false;
 			this.analytics_disabled = false;
