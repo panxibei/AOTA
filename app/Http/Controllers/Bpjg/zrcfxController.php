@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Bpjg;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Models\Bpjg\Bpjg_zhongricheng_zrc;
 use App\Models\Bpjg\Bpjg_zhongricheng_zrcfx;
 use App\Models\Bpjg\Bpjg_zhongricheng_relation;
 use App\Models\Bpjg\Bpjg_zhongricheng_result;
-use App\Models\Bpjg\Bpjg_zhongricheng_main;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-// use App\Imports\Bpjg\zrcfx_zrcImport; //暂留
 use App\Imports\Bpjg\zrcfx_relationImport;
 use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Exports\Bpjg\zrcfx_resultExport;
@@ -201,44 +198,6 @@ class zrcfxController extends Controller
 
 	
     /**
-     * zrcCreate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function zrcCreate(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-		
-		$piliangluru = $request->input('piliangluru');
-
-		// dd($piliangluru);
-		
-		// 写入数据库
-		try	{
-			DB::beginTransaction();
-			
-			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
-			foreach ($piliangluru as $value) {
-				Bpjg_zhongricheng_zrc::create($value);
-			}
-
-			$result = 1;
-		}
-		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
-			DB::rollBack();
-			// return 'Message: ' .$e->getMessage();
-			return 0;
-		}
-
-		DB::commit();
-		Cache::flush();
-		return $result;		
-    }	
-	
-	
-    /**
      * relationCreate
      *
      * @param  int  $id
@@ -292,65 +251,6 @@ class zrcfxController extends Controller
 		return $result;		
     }	
 	
-	
-    /**
-     * zrcUpdate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function zrcUpdate(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-
-		$id = $request->input('id');
-		$riqi = $request->input('riqi');
-		$jizhongming = $request->input('jizhongming');
-		$shuliang = $request->input('shuliang');
-		$created_at = $request->input('created_at');
-		$updated_at = $request->input('updated_at');
-
-		// dd($id);
-		// dd($updated_at);
-		
-		// 判断如果不是最新的记录，不可被编辑
-		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Bpjg_zhongricheng_zrc::select('updated_at')
-			->where('id', $id)
-			->first();
-		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
-
-		// dd($updated_at . ' | ' . $res_updated_at);
-		// dd(gettype($updated_at) . ' | ' . gettype($res_updated_at));
-		// dd($updated_at != $res_updated_at);
-		
-		if ($updated_at != $res_updated_at) {
-			return 0;
-		}
-		
-		// 尝试更新
-		try	{
-			DB::beginTransaction();
-			$result = Bpjg_zhongricheng_zrc::where('id', $id)
-				->update([
-					'riqi'			=> $riqi,
-					'jizhongming'	=> $jizhongming,
-					'shuliang'		=> $shuliang,
-				]);
-			$result = 1;
-		}
-		catch (\Exception $e) {
-			DB::rollBack();
-			// echo 'Message: ' .$e->getMessage();
-			$result = 0;
-		}
-		DB::commit();
-		Cache::flush();
-		// dd($result);
-		return $result;
-
-	}
-
 
     /**
      * relationUpdate
@@ -407,31 +307,6 @@ class zrcfxController extends Controller
 		// dd($result);
 		return $result;
 	}	
-
-
-    /**
-     * zrcDelete
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function zrcDelete(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-
-		$id = $request->input('tableselect1');
-
-		try	{
-			$result = Bpjg_zhongricheng_zrc::whereIn('id', $id)->delete();
-		}
-		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
-			$result = 0;
-		}
-		
-		Cache::flush();
-		return $result;
-	}
 
 
     /**

@@ -111,7 +111,6 @@
 	<br><br>
 	
 	<i-row :gutter="16">
-		<br>
 		<i-col span="2">
 			&nbsp;<br>&nbsp;
 			<!--<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->

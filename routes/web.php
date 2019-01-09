@@ -19,12 +19,6 @@ Route::get('/', function () {
 // 中日程分析页面
 Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function() {
 	Route::get('zrcfx', 'zrcfxController@zrcfxIndex')->name('bpjg.zrcfx.index');
-	// Route::get('zrcgets', 'zrcfxController@zrcGets')->name('bpjg.zrcfx.zrcgets');
-	Route::post('zrcupdate', 'zrcfxController@zrcUpdate')->name('bpjg.zrcfx.zrcupdate');
-	Route::post('zrccreate', 'zrcfxController@zrcCreate')->name('bpjg.zrcfx.zrccreate');
-	Route::post('zrcdelete', 'zrcfxController@zrcDelete')->name('bpjg.zrcfx.zrcdelete');
-	Route::get('zrcexport', 'zrcfxController@zrcExport')->name('bpjg.zrcfx.zrcexport');
-	// Route::post('zrcimport', 'zrcfxController@zrcImport')->name('bpjg.zrcfx.zrcimport');
 	Route::post('zrcfximport', 'zrcfxController@zrcfxImport')->name('bpjg.zrcfx.zrcfximport');
 	Route::get('zrcdownload', 'zrcfxController@zrcDownload')->name('bpjg.zrcfx.zrcdownload');
 	Route::get('relationgets', 'zrcfxController@relationGets')->name('bpjg.zrcfx.relationgets');
@@ -37,7 +31,6 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function
 	Route::get('zrcfxfunction', 'zrcfxController@zrcfxFunction')->name('bpjg.zrcfx.zrcfxfunction');
 	Route::get('resultgets', 'zrcfxController@resultGets')->name('bpjg.zrcfx.resultgets');
 	Route::get('resultexport', 'zrcfxController@resultExport')->name('bpjg.zrcfx.resultexport');
-	// Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
 });
 
 // 品质日报页面
