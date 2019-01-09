@@ -19,7 +19,7 @@ Route::get('/', function () {
 // 中日程分析页面
 Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function() {
 	Route::get('zrcfx', 'zrcfxController@zrcfxIndex')->name('bpjg.zrcfx.index');
-	Route::get('zrcgets', 'zrcfxController@zrcGets')->name('bpjg.zrcfx.zrcgets');
+	// Route::get('zrcgets', 'zrcfxController@zrcGets')->name('bpjg.zrcfx.zrcgets');
 	Route::post('zrcupdate', 'zrcfxController@zrcUpdate')->name('bpjg.zrcfx.zrcupdate');
 	Route::post('zrccreate', 'zrcfxController@zrcCreate')->name('bpjg.zrcfx.zrccreate');
 	Route::post('zrcdelete', 'zrcfxController@zrcDelete')->name('bpjg.zrcfx.zrcdelete');

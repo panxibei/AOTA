@@ -98,11 +98,11 @@
 		</i-col>
 		<i-col span="4">
 			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="4">
 			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+			<i-input v-model.lazy="pinming_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
 		</i-col>
 		<i-col span="9">
 		&nbsp;
@@ -266,11 +266,11 @@
 		</i-col>
 		<i-col span="3">
 			品番&nbsp;&nbsp;
-			<i-input v-model.lazy="pinfan_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter=pinfan_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="pinfan_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_relation=pinfan_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+			<i-input v-model.lazy="pinming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_relation=pinming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 		</i-col>
 		<i-col span="3">
 			类别&nbsp;&nbsp;
@@ -438,18 +438,16 @@ var vm_app = new Vue({
 		qcdate_filter_result: '', //new Date(),
 		date_fenxi_suoshuriqi: '', //new Date(),
 		
-		// 线体过滤
-		xianti_filter: '',
-
 		// 机种名
-		jizhongming_filter_zrc: '',
 		jizhongming_filter_relation: '',
 
 		// 品番过滤
-		pinfan_filter: '',
+		pinfan_filter_result: '',
+		pinfan_filter_relation: '',
 
 		// 品名过滤
-		pinming_filter: '',
+		pinming_filter_result: '',
+		pinming_filter_relation: '',
 		
 		// 类别过滤
 		leibie_filter: '',
@@ -483,90 +481,7 @@ var vm_app = new Vue({
 		analytics_loading: false,
 		modal_relationimport: false,
 		
-		// 表头1
-		tablecolumns1: [
-			{
-				type: 'selection',
-				width: 50,
-				align: 'center',
-				fixed: 'left'
-			},
-			{
-				type: 'index',
-				width: 60,
-				align: 'center'
-			},
-			{
-				title: '日期',
-				key: 'riqi',
-				align: 'center',
-				width: 160,
-				render: (h, params) => {
-					return h('div', [
-						params.row.riqi.substring(0, 10)
-					]);
-				}
-			},
-			{
-				title: '机种名',
-				key: 'jizhongming',
-				align: 'center',
-				width: 120,
-				// sortable: true
-			},
-			{
-				title: '数量',
-				key: 'shuliang',
-				align: 'center',
-				width: 100,
-				// sortable: true,
-				render: (h, params) => {
-					return h('div', [
-						params.row.shuliang.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '创建日期',
-				key: 'created_at',
-				align: 'center',
-				width: 160,
-			},
-			{
-				title: '更新日期',
-				key: 'updated_at',
-				align: 'center',
-				width: 160,
-			},
-			{
-				title: '操作',
-				key: 'action',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						h('Button', {
-							props: {
-								type: 'info',
-								size: 'small'
-							},
-							style: {
-								marginRight: '5px'
-							},
-							on: {
-								click: () => {
-									vm_app.zrc_edit(params.row)
-								}
-							}
-						}, 'Edit')
-					]);
-				},
-				fixed: 'right'
-			},			
-		],
-		tabledata1: [],
-		tableselect1: [],
-		
+
 		// 表头relation
 		tablecolumns_relation: [
 			{
@@ -1118,59 +1033,7 @@ var vm_app = new Vue({
 			];
 		},
 		
-		// zrc列表
-		zrcgets: function (page, last_page) {
-			var _this = this;
-			
-			if (page > last_page) {
-				page = last_page;
-			} else if (page < 1) {
-				page = 1;
-			}
-			
-			var qcdate_filter_zrc = [];
 
-			for (var i in _this.qcdate_filter_zrc) {
-				if (typeof(_this.qcdate_filter_zrc[i])!='string') {
-					qcdate_filter_zrc.push(_this.qcdate_filter_zrc[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter_zrc[i] == '') {
-					// qcdate_filter_zrc.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					qcdate_filter_zrc.push(_this.qcdate_filter_zrc[i]);
-				}
-			}
-			
-			var jizhongming_filter_zrc = _this.jizhongming_filter_zrc;
-
-			var url = "{{ route('bpjg.zrcfx.zrcgets') }}";
-			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
-			axios.get(url,{
-				params: {
-					perPage: _this.pagepagesize_relation,
-					page: page,
-					qcdate_filter: qcdate_filter_zrc,
-					jizhongming_filter: jizhongming_filter_zrc
-				}
-			})
-			.then(function (response) {
-				// console.log(response.data);
-				// return false;
-				
-				if (response.data) {
-					_this.pagecurrent1 = response.data.current_page;
-					_this.pagetotal1 = response.data.total;
-					_this.pagelast1 = response.data.last_page
-					
-					_this.tabledata1 = response.data.data;
-				} else {
-					_this.tabledata1 = [];
-				}
-			})
-			.catch(function (error) {
-				_this.loadingbarerror();
-				_this.error(false, 'Error', error);
-			})
-		},
 	
 		// main列表
 		relationgets: function (page, last_page) {
@@ -1196,9 +1059,9 @@ var vm_app = new Vue({
 				}
 			}
 			
-			var jizhongming_filter_relation = _this.jizhongming_filter_relation;
-			var pinfan_filter = _this.pinfan_filter;
-			var pinming_filter = _this.pinming_filter;
+			var jizhongming_filter = _this.jizhongming_filter_relation;
+			var pinfan_filter = _this.pinfan_filter_relation;
+			var pinming_filter = _this.pinming_filter_relation;
 			var leibie_filter = _this.leibie_filter;
 
 			var url = "{{ route('bpjg.zrcfx.relationgets') }}";
@@ -1208,7 +1071,7 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize_relation,
 					page: page,
 					qcdate_filter: qcdate_filter_relation,
-					jizhongming_filter: jizhongming_filter_relation,
+					jizhongming_filter: jizhongming_filter,
 					pinfan_filter: pinfan_filter,
 					pinming_filter: pinming_filter,
 					leibie_filter: leibie_filter
@@ -1263,8 +1126,8 @@ var vm_app = new Vue({
 			
 			// var xianti_filter = _this.xianti_filter;
 			// var jizhongming_filter_relation = _this.jizhongming_filter_relation;
-			// var pinfan_filter = _this.pinfan_filter;
-			// var pinming_filter = _this.pinming_filter;
+			var pinfan_filter = _this.pinfan_filter_result;
+			var pinming_filter = _this.pinming_filter_result;
 			// var leibie_filter = _this.leibie_filter;
 
 			var url = "{{ route('bpjg.zrcfx.resultgets') }}";
@@ -1276,8 +1139,8 @@ var vm_app = new Vue({
 					qcdate_filter: datex,
 					// xianti_filter: xianti_filter,
 					// jizhongming_filter: jizhongming_filter_relation,
-					// pinfan_filter: pinfan_filter,
-					// pinming_filter: pinming_filter,
+					pinfan_filter: pinfan_filter,
+					pinming_filter: pinming_filter,
 					// leibie_filter: leibie_filter
 				}
 			})
