@@ -52,7 +52,7 @@ return [
             'prefix' => '',
 			'sslmode' => env('DB_SSLMODE', 'prefer'),
 			'options'   => array(
-				PDO::MYSQL_ATTR_SSL_CA      => env('MYSQL_ATTR_SSL_CA', ''),
+				// PDO::MYSQL_ATTR_SSL_CA      => env('MYSQL_ATTR_SSL_CA', '/home/ca-cert.pem'),
 				PDO::MYSQL_ATTR_SSL_CERT    => env('MYSQL_ATTR_SSL_CERT', '/home/cert.pem'),
 				PDO::MYSQL_ATTR_SSL_KEY     => env('MYSQL_ATTR_SSL_KEY', '/home/key.pem')
 			),
