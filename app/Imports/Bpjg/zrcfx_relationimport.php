@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 HeadingRowFormatter::default('none');
 
-class zrcfx_relationimport implements ToModel, WithHeadingRow
+class zrcfx_relationImport implements ToModel, WithHeadingRow
 {
 	
 	//
