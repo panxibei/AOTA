@@ -176,61 +176,66 @@ SMT - daily production report
 	<span><Divider orientation="left">生产信息表</Divider></span>
 	<!--<div style="background-color: rgb(201, 226, 179); height: 1px;"></div>-->
 
-	<div>
 	
-		<i-row :gutter="16">
-			<i-col span="4">
-				查询日期&nbsp;&nbsp;
-				<Date-picker v-model.lazy="dailydate_filter" @on-change="dailydate_filter=datepickerchange(dailydate_filter);dailyreportgets(1,1);" type="date" size="small" placement="top" style="width:120px"></Date-picker>
-			</i-col>
-			<i-col span="20">
-			</i-col>
-		</i-row>
-
-		<br><br><br>
-	
-		<i-row :gutter="16">
-			
-			<i-col span="2">
-				<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
-			</i-col>
-			<i-col span="3">
-				担当者&nbsp;&nbsp;
-				<i-select v-model.lazy="select_dandangzhe" :disabled="disabled_dandangzhe" @on-change="value => dandangzhechange(value)" clearable style="width:80px" size="small" placeholder="">
-					<i-option v-for="item in option_dandangzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			<i-col span="3">
-				确认者&nbsp;&nbsp;
-				<i-select v-model.lazy="select_querenzhe" :disabled="disabled_querenzhe" @on-change="value => querenzhechange(value)" clearable style="width:80px" size="small" placeholder="">
-					<i-option v-for="item in option_querenzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			
-			<i-col span="8">
+	<i-row :gutter="16">
+		<i-col span="2">
 			&nbsp;
-			</i-col>
-			
-			<i-col span="8">
-				&nbsp;&nbsp;&nbsp;<strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp;
-			</i-col>
-		</i-row>
-		<br>
+		</i-col>
+		<i-col span="1">
+			查询：
+		</i-col>
+		<i-col span="6">
+			* 日期范围&nbsp;&nbsp;
+			<Date-picker v-model.lazy="dailydate_filter" @on-change="dailyreportgets(1, 1);" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+		</i-col>
+		<i-col span="12">
+		&nbsp;
+		</i-col>
+	</i-row>
+	<br><br>
+	
+	
+	<i-row :gutter="16">
 		
-		<br>
-		<i-table height="300" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange(selection)"></i-table>
-		<br>
+		<i-col span="2">
+			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
+		</i-col>
+		<i-col span="3">
+			担当者&nbsp;&nbsp;
+			<i-select v-model.lazy="select_dandangzhe" :disabled="disabled_dandangzhe" @on-change="value => dandangzhechange(value)" clearable style="width:80px" size="small" placeholder="">
+				<i-option v-for="item in option_dandangzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="3">
+			确认者&nbsp;&nbsp;
+			<i-select v-model.lazy="select_querenzhe" :disabled="disabled_querenzhe" @on-change="value => querenzhechange(value)" clearable style="width:80px" size="small" placeholder="">
+				<i-option v-for="item in option_querenzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
 		
-		<Modal v-model="modal_jizhaishixiang" title="机器未运转原因区分表" width="540">
-			<div style="text-align:center">
-				<i-table height="300" size="small" border :columns="tablecolumns3" :data="tabledata3"></i-table>
-			</div>
-		</Modal>
+		<i-col span="8">
+		&nbsp;
+		</i-col>
+		
+		<i-col span="8">
+			&nbsp;&nbsp;&nbsp;<strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp;
+		</i-col>
+	</i-row>
+	<br>
+	
+	<br>
+	<i-table height="300" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange(selection)"></i-table>
+	<br>
+	
+	<Modal v-model="modal_jizhaishixiang" title="机器未运转原因区分表" width="540">
+		<div style="text-align:center">
+			<i-table height="300" size="small" border :columns="tablecolumns3" :data="tabledata3"></i-table>
+		</div>
+	</Modal>
 
-		
-		<br>
-		<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
-	</div>					
+	
+	<br>
+	<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
 
 </div>
 @endsection
@@ -934,7 +939,7 @@ var vm_app = new Vue({
 		boo_update: true,
 
 		// 日期过滤
-		dailydate_filter: '',//new Date(),
+		dailydate_filter: [],//new Date(),
 		
 		// 机种名过滤
 		jizhongming_filter: '',
@@ -1187,7 +1192,6 @@ var vm_app = new Vue({
 		// dailyreport列表
 		dailyreportgets: function(page, last_page){
 			var _this = this;
-			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
 			
 			if (page > last_page) {
 				page = last_page;
@@ -1195,14 +1199,21 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			if (typeof(_this.dailydate_filter)!='string') {
-				var dailydate_filter = _this.dailydate_filter.Format("yyyy-MM-dd");
-			} else if (_this.dailydate_filter == '') {
-				var dailydate_filter = _this.dailydate_filter = new Date().Format("yyyy-MM-dd");
-			} else {
-				var dailydate_filter = _this.dailydate_filter;
+			var dailydate_filter = [];
+
+			for (var i in _this.dailydate_filter) {
+				if (typeof(_this.dailydate_filter[i])!='string') {
+					dailydate_filter.push(_this.dailydate_filter[i].Format("yyyy-MM-dd"));
+				} else if (_this.dailydate_filter[i] == '') {
+					dailydate_filter.push(new Date().Format("yyyy-MM-dd"));
+					// _this.tabledata_relation = [];
+					return false;
+				} else {
+					dailydate_filter.push(_this.dailydate_filter[i]);
+				}
 			}
 			
+			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -1321,9 +1332,9 @@ var vm_app = new Vue({
 		
 	},
 	mounted: function () {
-		var _this = this;
-		_this.dailydate_filter = new Date().Format("yyyy-MM-dd");
-		_this.dailyreportgets(1, 1); // page: 1, last_page: 1
+		// var _this = this;
+		// _this.dailydate_filter = new Date().Format("yyyy-MM-dd");
+		// _this.dailyreportgets(1, 1); // page: 1, last_page: 1
 	
 		
 	}
