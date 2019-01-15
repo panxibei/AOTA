@@ -1463,7 +1463,7 @@ var vm_app = new Vue({
 		exportData_relation: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter_relation == '' || _this.qcdate_filter_relation == undefined) {
+			if (_this.qcdate_filter_relation[0] == '' || _this.qcdate_filter_relation[0] == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
