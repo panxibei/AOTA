@@ -405,7 +405,8 @@ var vm_app = new Vue({
 		],
 		
 		// 扫描
-		saomiao: 'MRAP808A/5283600121-51/MAIN/900',
+		// saomiao: 'MRAP808A/5283600121-51/MAIN/900',
+		saomiao: '',
 		
 		// 批量录入项
 		piliangluruxiang: 1,

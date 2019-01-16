@@ -28,154 +28,148 @@ SMT - daily production report
 
 <div id="app" v-cloak>
 
-		<span>
-			<Divider orientation="left" dashed>生产基本信息</Divider>
-		</span>
+	<Divider orientation="left" dashed>生产基本信息</Divider>
 
-		<i-row :gutter="16">
-			<i-col span="4">
-				* 线体&nbsp;&nbsp;
-				<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="">
-					<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			<i-col span="4">
-				* 班次&nbsp;&nbsp;
-				<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="">
-					<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			<i-col span="4">
-			</i-col>
-		</i-row>
+	<i-row :gutter="16">
+		<i-col span="4">
+			* 线体&nbsp;&nbsp;
+			<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="">
+				<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="4">
+			* 班次&nbsp;&nbsp;
+			<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="">
+				<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="4">
+		</i-col>
+	</i-row>
 
-		<br><br><br>
+	<br><br><br>
 
-		<i-row :gutter="16">
-			<i-col span="4">
-				* 机种名&nbsp;&nbsp;
-				<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="4">
-				* SP NO.&nbsp;&nbsp;
-				<i-input v-model.lazy="spno" size="small" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="4">
-				* 品名&nbsp;&nbsp;
-				<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="">
-					<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			<i-col span="4">
-				* LOT数&nbsp;&nbsp;
-				<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				* 工序&nbsp;&nbsp;
-				<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="">
-					<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			<i-col span="4">
-			</i-col>
-		</i-row>
+	<i-row :gutter="16">
+		<i-col span="4">
+			* 机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="4">
+			* SP NO.&nbsp;&nbsp;
+			<i-input v-model.lazy="spno" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="4">
+			* 品名&nbsp;&nbsp;
+			<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="">
+				<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="4">
+			* LOT数&nbsp;&nbsp;
+			<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			* 工序&nbsp;&nbsp;
+			<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="">
+				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+			</i-select>
+		</i-col>
+		<i-col span="4">
+		</i-col>
+	</i-row>
 
-		<br><br>
+	<br><br>
 
-		<i-row :gutter="16">
-			<i-col span="4">
-				* 枚/秒&nbsp;&nbsp;
-				<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				* 枚数&nbsp;&nbsp;
-				<Input-number v-model.lazy="meishu" :min="1" size="small" style="width: 120px"></Input-number>
-			</i-col>
-			<i-col span="16">
-			</i-col>
-		</i-row>
+	<i-row :gutter="16">
+		<i-col span="4">
+			* 枚/秒&nbsp;&nbsp;
+			<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			* 枚数&nbsp;&nbsp;
+			<Input-number v-model.lazy="meishu" :min="1" size="small" style="width: 120px"></Input-number>
+		</i-col>
+		<i-col span="16">
+		</i-col>
+	</i-row>
+	<br><br>
 
-		<br><br>
-		<span>
-			<Divider orientation="left" dashed>机器未运转时间（分）</Divider>
-		</span>
-		<i-row :gutter="16">
-			<i-col span="3">
-				1.新产&nbsp;&nbsp;
-				<Input-number v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="3">
-				1.量产&nbsp;&nbsp;
-				<Input-number v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="2">
-			&nbsp;
-			</i-col>
-			<i-col span="4">
-				2.等待部品&nbsp;&nbsp;
-				<Input-number v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				3.无计划&nbsp;&nbsp;
-				<Input-number v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				4.前后工程等待&nbsp;&nbsp;
-				<Input-number v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				5.无部品&nbsp;&nbsp;
-				<Input-number v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-		</i-row>
+	<Divider orientation="left" dashed>机器未运转时间（分）</Divider>
 
-		<br><br>
+	<i-row :gutter="16">
+		<i-col span="3">
+			1.新产&nbsp;&nbsp;
+			<Input-number v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="3">
+			1.量产&nbsp;&nbsp;
+			<Input-number v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="2">
+		&nbsp;
+		</i-col>
+		<i-col span="4">
+			2.等待部品&nbsp;&nbsp;
+			<Input-number v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			3.无计划&nbsp;&nbsp;
+			<Input-number v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			4.前后工程等待&nbsp;&nbsp;
+			<Input-number v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			5.无部品&nbsp;&nbsp;
+			<Input-number v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+	</i-row>
+	<br><br>
 
-		<i-row :gutter="16">
-			<i-col span="4">
-				6.部品安排等待&nbsp;&nbsp;
-				<Input-number v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				7.定期点检&nbsp;&nbsp;
-				<Input-number v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				8.故障&nbsp;&nbsp;
-				<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				9.部品补充&nbsp;&nbsp;
-				<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-				10.试作&nbsp;&nbsp;
-				<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="4">
-			</i-col>
-		</i-row>
-		
-		<br><br>
-		
-		<i-row :gutter="16">
-			<i-col span="4">
-				记载事项<br>
-				<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 200px"></i-input>
-			</i-col>
-			<i-col span="20">
-				<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
-				&nbsp;&nbsp;<i-button @click="clear()" size="large">清除</i-button>
-			</i-col>
-		</i-row>
-
+	<i-row :gutter="16">
+		<i-col span="4">
+			6.部品安排等待&nbsp;&nbsp;
+			<Input-number v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			7.定期点检&nbsp;&nbsp;
+			<Input-number v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			8.故障&nbsp;&nbsp;
+			<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			9.部品补充&nbsp;&nbsp;
+			<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+			10.试作&nbsp;&nbsp;
+			<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
+		</i-col>
+		<i-col span="4">
+		</i-col>
+	</i-row>
+	
+	<br><br>
+	
+	<i-row :gutter="16">
+		<i-col span="4">
+			记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
+			<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 200px"></i-input>
+		</i-col>
+		<i-col span="20">
+			<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
+			&nbsp;&nbsp;<i-button @click="clear()" size="large">清除</i-button>
+		</i-col>
+	</i-row>
+	<br><br>
 	
 	
 		
-	<br><br><br><br><br>
-	<span><Divider orientation="left">生产信息表</Divider></span>
-	<!--<div style="background-color: rgb(201, 226, 179); height: 1px;"></div>-->
-
+	<br><br><br><br>
+	<Divider orientation="left">生产信息表</Divider>
 	
 	<i-row :gutter="16">
 		<i-col span="2">
@@ -186,14 +180,39 @@ SMT - daily production report
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="dailydate_filter" @on-change="dailyreportgets(1, 1);" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="date_filter_pdreport" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
 		</i-col>
-		<i-col span="12">
+		<i-col span="4">
+			线体&nbsp;&nbsp;
+			<i-input v-model.lazy="xianti_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="4">
+			班次&nbsp;&nbsp;
+			<i-input v-model.lazy="banci_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="banci_filter=banci_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="4">
+			机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+		</i-col>
+		<i-col span="3">
 		&nbsp;
 		</i-col>
 	</i-row>
 	<br><br>
 	
+	<i-row :gutter="16">
+		<i-col span="2">
+			&nbsp;<br>&nbsp;
+		</i-col>
+		<i-col span="4">
+			导出：&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+		</i-col>
+		<i-col span="18">
+			&nbsp;
+		</i-col>
+	</i-row>
+	<br><br>
 	
 	<i-row :gutter="16">
 		
@@ -221,9 +240,9 @@ SMT - daily production report
 			&nbsp;&nbsp;&nbsp;<strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp;
 		</i-col>
 	</i-row>
-	<br>
+	<br><br>
 	
-	<br>
+	
 	<i-table height="300" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange(selection)"></i-table>
 	<br>
 	
@@ -233,7 +252,6 @@ SMT - daily production report
 		</div>
 	</Modal>
 
-	
 	<br>
 	<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
 
@@ -938,10 +956,10 @@ var vm_app = new Vue({
 		// 更新disabled
 		boo_update: true,
 
-		// 日期过滤
-		dailydate_filter: [],//new Date(),
-		
-		// 机种名过滤
+		// 过滤变量
+		date_filter_pdreport: [],//new Date(),
+		xianti_filter: '',
+		banci_filter: '',
 		jizhongming_filter: '',
 		
 		//
@@ -952,7 +970,8 @@ var vm_app = new Vue({
 		//分页
 		pagecurrent: 1,
 		pagetotal: 1,
-		pagepagesize: 10
+		pagepagesize: 10,
+		pagelast: 1,
 
 			
 	},
@@ -1128,7 +1147,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '记入成功！');
 					// _this.clear();
-					_this.dailyreportgets(_this.pagecurrent, _this.pagetotal);
+					_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
@@ -1179,7 +1198,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
 					_this.tableselect = [];
-					_this.dailyreportgets(_this.pagecurrent, _this.pagetotal);
+					_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				} else {
 					_this.error(false, '失败', '删除失败！');
 				}
@@ -1199,17 +1218,17 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			var dailydate_filter = [];
+			var date_filter_pdreport = [];
 
-			for (var i in _this.dailydate_filter) {
-				if (typeof(_this.dailydate_filter[i])!='string') {
-					dailydate_filter.push(_this.dailydate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.dailydate_filter[i] == '') {
-					dailydate_filter.push(new Date().Format("yyyy-MM-dd"));
+			for (var i in _this.date_filter_pdreport) {
+				if (typeof(_this.date_filter_pdreport[i])!='string') {
+					date_filter_pdreport.push(_this.date_filter_pdreport[i].Format("yyyy-MM-dd"));
+				} else if (_this.date_filter_pdreport[i] == '') {
+					date_filter_pdreport.push(new Date().Format("yyyy-MM-dd"));
 					// _this.tabledata_relation = [];
 					return false;
 				} else {
-					dailydate_filter.push(_this.dailydate_filter[i]);
+					date_filter_pdreport.push(_this.date_filter_pdreport[i]);
 				}
 			}
 			
@@ -1219,9 +1238,10 @@ var vm_app = new Vue({
 				params: {
 					perPage: _this.pagepagesize,
 					page: page,
-					dailydate_filter : dailydate_filter,
+					dailydate_filter : date_filter_pdreport,
 					xianti_filter : _this.xianti_filter,
-					banci_filter : _this.banci_filter
+					banci_filter : _this.banci_filter,
+					jizhongming_filter: _this.jizhongming_filter,
 				}
 			})
 			.then(function (response) {
@@ -1232,7 +1252,8 @@ var vm_app = new Vue({
 				// _this.spinShow = !_this.spinShow;
 				
 				_this.pagecurrent = response.data.current_page;
-				_this.pagetotal = response.data.last_page;
+				_this.pagetotal = response.data.total;
+				_this.pagelast = response.data.last_page
 				
 				_this.tabledata1 = response.data.data;
 				_this.tabledata2 = response.data.data;
@@ -1279,7 +1300,7 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
-					_this.dailyreportgets(1,1);
+					_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 					
 					// _this.boo_delete = true;
 					// _this.disabled_dandangzhe = true;
@@ -1312,7 +1333,7 @@ var vm_app = new Vue({
 			.then(function (response) {
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
-					_this.dailyreportgets(1,1);
+					_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 					
 					// _this.boo_delete = true;
 					// _this.disabled_dandangzhe = true;
@@ -1329,11 +1350,32 @@ var vm_app = new Vue({
 		},
 		
 		
+		// 结果表数据导出
+		exportData_pdreport: function () {
+			var _this = this;
+			
+			if (_this.date_filter_pdreport[0] == '' || _this.date_filter_pdreport[0] == undefined) {
+				_this.warning(false, '警告', '请选择日期范围！');
+				return false;
+			}
+			
+			var queryfilter_datefrom = _this.date_filter_pdreport[0].Format("yyyy-MM-dd");
+			var queryfilter_dateto = _this.date_filter_pdreport[1].Format("yyyy-MM-dd");
+			
+			var url = "{{ route('smt.pdreport.pdreportexport') }}"
+				+ "?queryfilter_datefrom=" + queryfilter_datefrom
+				+ "&queryfilter_dateto=" + queryfilter_dateto;
+				
+			// console.log(url);
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},		
 		
 	},
 	mounted: function () {
 		// var _this = this;
-		// _this.dailydate_filter = new Date().Format("yyyy-MM-dd");
+		// _this.date_filter_pdreport = new Date().Format("yyyy-MM-dd");
 		// _this.dailyreportgets(1, 1); // page: 1, last_page: 1
 	
 		
