@@ -183,6 +183,18 @@ class pdreportController extends Controller
 	
 	
     /**
+     * mpointDownload 导入模板下载
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function mpointDownload(Request $request)
+    {
+		return Storage::download('download/smt_mpointimport.xlsx', 'MoBan_Mpoint.xlsx');
+	}
+	
+	
+    /**
      * getJizhongming
      *
      * @param  int  $id
@@ -471,6 +483,9 @@ class pdreportController extends Controller
 		
 		// 导入excel文件内容
 		try {
+			// 先清空表
+			Smt_mpoint::truncate();
+			
 			$ret = Excel::import(new mpointImport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
@@ -482,7 +497,6 @@ class pdreportController extends Controller
 		}
 		
 		return $result;
-		
 	}
 	
 	

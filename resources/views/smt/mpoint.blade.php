@@ -52,12 +52,12 @@ SMT - MPoint
 			* 拼板&nbsp;&nbsp;
 			<Input-number v-model.lazy="pinban" :min="1" size="small"></Input-number>
 		</i-col>
-		<i-col span="4">
+		<i-col span="5">
 			<i-button @click="oncreate()" type="primary">记入</i-button>&nbsp;&nbsp;&nbsp;
 			<i-button @click="onupdate()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;&nbsp;
 			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
 		</i-col>
-		<i-col span="10">
+		<i-col span="2">
 			<Upload
 				:before-upload="uploadstart"
 				:show-upload-list="false"
@@ -65,15 +65,14 @@ SMT - MPoint
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中' : '批量导入' }}</i-button>
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入' }}</i-button>
 			</Upload>
-			<!--
-			<div v-if="file !== null">等待上传: @{{ file.name }} &nbsp;&nbsp;
-				<i-button @click="uploadstart" :loading="loadingStatus" size="small">@{{ loadingStatus ? '上传中' : '上传' }}</i-button>
-				<i-button @click="uploadcancel" size="small">取消</i-button>
-			</div>
-			-->
-
+		</i-col>
+		<i-col span="2">
+			<i-button @click="download_mpoint()" type="text" size="small"><font color="#2db7f5">[下载模板]</font></i-button>
+		</i-col>
+		<i-col span="5">
+			&nbsp;
 		</i-col>
 	</i-row>
 
@@ -498,15 +497,15 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				if (response.data) {
-					_this.success(false, 'Success', 'Deleted successfully!');
+					_this.success(false, '成功', '删除成功！');
 					_this.tableselect = [];
 					_this.mpointgets(_this.pagecurrent, _this.pagelast);
 				} else {
-					_this.error(false, 'Fail', 'Deleted failed!');
+					_this.error(false, '失败', '删除失败！');
 				}
 			})
 			.catch(function (error) {
-				_this.error(false, 'Error', 'Deleted error!');
+				_this.error(false, '错误', '删除失败！');
 				// console.log(error);
 			})
 		},
@@ -592,24 +591,19 @@ var vm_app = new Vue({
 				}, 1000);
 				
 			})
-			
-			// setTimeout( function () {
-				// _this.file = null;
-				// _this.loadingStatus = false;
-				// _this.uploaddisabled = false;
-			// }, 1500);
-			
-			// setTimeout(() => {
-				// _this.file = null;
-				// this.loadingStatus = false;
-				// this.$Message.success('Success')
-			// }, 1500);
 		},
 		uploadcancel: function () {
 			this.file = null;
 			// this.loadingStatus = false;
 		},
 
+		// mpoint模板下载
+		download_mpoint: function () {
+			var url = "{{ route('smt.pdreport.mpointdownload') }}";
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},
 
 
 
@@ -617,8 +611,8 @@ var vm_app = new Vue({
 		
 	},
 	mounted: function () {
-		var _this = this;
-		_this.mpointgets(1, 1); // page: 1, last_page: 1
+		// var _this = this;
+		// _this.mpointgets(1, 1); // page: 1, last_page: 1
 
 	}
 })
