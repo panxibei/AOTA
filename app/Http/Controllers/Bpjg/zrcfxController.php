@@ -661,7 +661,7 @@ class zrcfxController extends Controller
 					SUM(A.d24 * B.xuqiushuliang) AS d24, SUM(A.d25 * B.xuqiushuliang) AS d25, SUM(A.d26 * B.xuqiushuliang) AS d26,
 					SUM(A.d27 * B.xuqiushuliang) AS d27, SUM(A.d28 * B.xuqiushuliang) AS d28, SUM(A.d29 * B.xuqiushuliang) AS d29, SUM(A.d30 * B.xuqiushuliang) AS d30,
 					SUM(A.d31 * B.xuqiushuliang) AS d31
-				FROM bpjg_zhongricheng_zrcfxs AS A INNER JOIN bpjg_zhongricheng_relations AS B
+				FROM bpjg_zhongricheng_zrcfxs AS A RIGHT JOIN bpjg_zhongricheng_relations AS B
 				ON A.jizhongming=B.jizhongming
 				GROUP BY B.pinfan
 			)
