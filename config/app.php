@@ -164,6 +164,7 @@ return [
 		
 		// 自定义
 		Maatwebsite\Excel\ExcelServiceProvider::class,
+		Adldap\Laravel\AdldapServiceProvider::class,
 
     ],
 
@@ -216,6 +217,7 @@ return [
 		
 		// 自定义
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+		'Adldap' => Adldap\Laravel\Facades\Adldap::class
 
     ],
 

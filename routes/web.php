@@ -89,5 +89,6 @@ Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>[]], function() {
 Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>[]], function() {
 	Route::get('test', 'testController@test');
 	Route::get('phpinfo', 'testController@phpinfo');
+	Route::get('ldap', 'testController@ldap');
 	// Route::get('config', 'testController@mainConfig');
 });
