@@ -86,5 +86,8 @@ Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>[]], function() {
 
 
 // 测试用
-Route::get('test', 'testController@test');
-Route::get('chart', 'testController@chart')->name('test.chart');
+Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>[]], function() {
+	Route::get('test', 'testController@test');
+	Route::get('phpinfo', 'testController@phpinfo');
+	// Route::get('config', 'testController@mainConfig');
+});
