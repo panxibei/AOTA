@@ -29,7 +29,6 @@ class LoginController extends Controller
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
-		
 		// $name = $request->input('name');
 		// $password = $request->input('password');
 		// $captcha = $request->input('captcha');
@@ -49,6 +48,7 @@ class LoginController extends Controller
 		}
 
 		// 2.adldap判断AD认证
+		$adldap = false;
 		if (env('LDAP_USE_LDAP') == 'ldap') {
 			$name = $request->input('name');
 			$password = $request->input('password');
@@ -65,9 +65,7 @@ class LoginController extends Controller
 				// echo 'Message: ' .$e->getMessage();
 				$adldap = false;
 			}
-			
-// dump($adldap);
-// dd('result: ' . $adldap);
+
 			// 3.如果adldap认证成功，则同步本地用户的密码
 			//   否则认证失败再由jwt-auth本地判断
 			if ($adldap) {
@@ -78,24 +76,24 @@ class LoginController extends Controller
 
 				// 同步本地用户密码
 				try	{
+					$nowtime = date("Y-m-d H:i:s",time());
+						
 					$result = User::where('name', $name)
-						->update([
-							'password'=>bcrypt($password)
+						->increment('login_counts', 1, [
+							'password'   => bcrypt($password),
+							'email'      => $email,
+							'login_time' => $nowtime,
+							'login_ip'   => $_SERVER['REMOTE_ADDR'],
 						]);
 
 					// 4.如果没有这个用户，则自动新增用户
 					if ($result == 0) {
-						$nowtime = date("Y-m-d H:i:s",time());
-						$logintime = date("Y-m-d H:i:s", 86400);
-
-						// $user['email'] = $user['name'] . env('ADLDAP_ACCOUNT_SUFFIX');
-
 						$result = User::create([
 							'name'     => $name,
 							'email'    => $email,
 							'password' => bcrypt($password),
-							'login_time' => $logintime,
-							'login_ip' => '127.0.0.1',
+							'login_time' => $nowtime,
+							'login_ip' => $_SERVER['REMOTE_ADDR'],
 							'login_counts' => 1,
 							'remember_token' => '',
 							'created_at' => $nowtime,
@@ -103,40 +101,54 @@ class LoginController extends Controller
 							'deleted_at' => NULL
 						]);
 					}
-					// dd($result);
 				}
 				catch (Exception $e) {//捕获异常
 					// echo 'Message: ' .$e->getMessage();
-					// $result = 0;
-					$result = $e->getMessage();
+					// $result = $e->getMessage();
+					$result = null;
 				}
 
 			} else {
 				// 注意：adldap认证失败再由jwt-auth本地判断，不返回失败
 				// return null;
 			}
-
 		}
-
 
 		// 5.jwt-auth，判断用户认证
 		$credentials = $request->only('name', 'password');
-// dd($credentials);
+
 		$token = auth()->attempt($credentials);
 		if (! $token) {
 			// 如果认证失败，则返回null
 			// return response()->json(['error' => 'Unauthorized'], 401);
 			return null;
 		}
+		
+		// 如果没有经过ldap, 则更新本地用户信息
+		if (! $adldap) {
+			try	{
+				$nowtime = date("Y-m-d H:i:s",time());
+					
+				$result = User::where('name', $name)
+					->increment('login_counts', 1, [
+						'login_time' => $nowtime,
+						'login_ip'   => $_SERVER['REMOTE_ADDR'],
+					]);
+			}
+			catch (Exception $e) {//捕获异常
+				// echo 'Message: ' .$e->getMessage();
+				// $result = $e->getMessage();
+				$result = null;
+			}
+		}
 
 		// return $this->respondWithToken($token);
 		// $minutes = 480;
 		// $minutes = config('jwt.ttl', 60);
 		$minutes = $rememberme ? config('jwt.ttl', null) : config('jwt.ttl', 60);
-		// Cookie::queue('token', $token, $minutes);
+		Cookie::queue('token', $token, $minutes);
 		return $token;
 		
     }
-	
 
 }

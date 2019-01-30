@@ -152,8 +152,8 @@ var vm_app = new Vue({
 						rememberme: _this.formInline.rememberme
 					})
 					.then(function (response) {
-						console.log(response.data);
-						return false;
+						// console.log(response.data);
+						// return false;
 						
 						if (response.data) {
 							_this.formInline.password = '**********';
@@ -171,7 +171,7 @@ var vm_app = new Vue({
 					})
 					.catch(function (error) {
 						// console.log(error);
-						_this.formInline.loginmessage = '<font color="red">error: failed!</font>';
+						_this.formInline.loginmessage = '<font color="red">未知错误! 请重试!</font>';
 						_this.logindisabled(false);
 					})
 					_this.captchaclick();
