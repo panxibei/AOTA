@@ -66,8 +66,8 @@ class LoginController extends Controller
 				$adldap = false;
 			}
 			
-dump($adldap);
-dd('result: ' . $adldap);
+// dump($adldap);
+// dd('result: ' . $adldap);
 			// 3.如果adldap认证成功，则同步本地用户的密码
 			//   否则认证失败再由jwt-auth本地判断
 			if ($adldap) {
@@ -86,14 +86,15 @@ dd('result: ' . $adldap);
 					// 4.如果没有这个用户，则自动新增用户
 					if ($result == 0) {
 						$nowtime = date("Y-m-d H:i:s",time());
+						$logintime = date("Y-m-d H:i:s", 86400);
 
 						// $user['email'] = $user['name'] . env('ADLDAP_ACCOUNT_SUFFIX');
 
 						$result = User::create([
-							'name'     => $user['name'],
+							'name'     => $name,
 							'email'    => $email,
-							'password' => bcrypt($user['password']),
-							'login_time' => $nowtime,
+							'password' => bcrypt($password),
+							'login_time' => $logintime,
 							'login_ip' => '127.0.0.1',
 							'login_counts' => 1,
 							'remember_token' => '',
