@@ -152,8 +152,8 @@ var vm_app = new Vue({
 						rememberme: _this.formInline.rememberme
 					})
 					.then(function (response) {
-						// console.log(response.data);
-						// return false;
+						console.log(response.data);
+						return false;
 						
 						if (response.data) {
 							_this.formInline.password = '**********';

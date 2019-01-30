@@ -47,21 +47,18 @@ class LoginController extends Controller
 			// echo '<p style="color: #00ff30;">Matched :)</p>';
 			// dd('<p style="color: #00ff30;">Matched :)</p>');
 		}
-// dump(env('ADLDAP_USE_ADLDAP'));
+
 		// 2.adldap判断AD认证
-		if (env('ADLDAP_USE_ADLDAP') == 'adldap') {
-			$user = $request->only('name', 'password');
+		if (env('LDAP_USE_LDAP') == 'ldap') {
+			$name = $request->input('name');
+			$password = $request->input('password');
 
 			try {
 				$adldap = Adldap::auth()->attempt(
 					// $user['name'] . env('ADLDAP_ADMIN_ACCOUNT_SUFFIX'),
-					$user['name'],
-					$user['password']
+					$name,
+					$password
 					);
-					
-				// 获取用户email
-				$user_tmp = Adldap::search()->users()->find($user['name']);		
-				$user['email'] = $user_tmp['mail'][0];
 			}
 			// catch (Exception $e) {
 			catch (\Adldap\Auth\BindException $e) { //捕获异常
@@ -69,16 +66,21 @@ class LoginController extends Controller
 				$adldap = false;
 			}
 			
-// dd($adldap);
+dump($adldap);
+dd('result: ' . $adldap);
 			// 3.如果adldap认证成功，则同步本地用户的密码
 			//   否则认证失败再由jwt-auth本地判断
 			if ($adldap) {
+				
+				// 获取用户email
+				$user_tmp = Adldap::search()->users()->find($name);		
+				$email = $user_tmp['mail'][0];
 
 				// 同步本地用户密码
 				try	{
-					$result = User::where('name', $user['name'])
+					$result = User::where('name', $name)
 						->update([
-							'password'=>bcrypt($user['password'])
+							'password'=>bcrypt($password)
 						]);
 
 					// 4.如果没有这个用户，则自动新增用户
@@ -89,7 +91,7 @@ class LoginController extends Controller
 
 						$result = User::create([
 							'name'     => $user['name'],
-							'email'    => $user['email'],
+							'email'    => $email,
 							'password' => bcrypt($user['password']),
 							'login_time' => $nowtime,
 							'login_ip' => '127.0.0.1',
@@ -130,79 +132,10 @@ class LoginController extends Controller
 		// $minutes = 480;
 		// $minutes = config('jwt.ttl', 60);
 		$minutes = $rememberme ? config('jwt.ttl', null) : config('jwt.ttl', 60);
-		Cookie::queue('token', $token, $minutes);
+		// Cookie::queue('token', $token, $minutes);
 		return $token;
 		
     }
 	
-	public function username()
-	{
-		return 'username';
-	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
