@@ -222,6 +222,7 @@ return [
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 		'Adldap' => Adldap\Laravel\Facades\Adldap::class,
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
+		'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
     ],
 
