@@ -28,7 +28,13 @@ class LoginController extends Controller
     public function checklogin(Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-dd('abc');
+
+		
+		// $name = $request->input('name');
+		// $password = $request->input('password');
+		// $captcha = $request->input('captcha');
+		$rememberme = $request->input('rememberme');
+		
 		// 1.判断验证码
 		$rules = ['captcha' => 'required|captcha'];
 		// $validator = Validator::make(Input::all(), $rules);
@@ -41,7 +47,7 @@ dd('abc');
 			// echo '<p style="color: #00ff30;">Matched :)</p>';
 			// dd('<p style="color: #00ff30;">Matched :)</p>');
 		}
-		dd($validator->fails());
+// dump(env('ADLDAP_USE_ADLDAP'));
 		// 2.adldap判断AD认证
 		if (env('ADLDAP_USE_ADLDAP') == 'adldap') {
 			$user = $request->only('name', 'password');
@@ -111,11 +117,10 @@ dd('abc');
 
 
 		// 5.jwt-auth，判断用户认证
-		// $credentials['name'] = $request->input('name');
-		// $credentials['password'] = $request->input('password');
 		$credentials = $request->only('name', 'password');
-
-		if (! $token = auth()->attempt($credentials)) {
+// dd($credentials);
+		$token = auth()->attempt($credentials);
+		if (! $token) {
 			// 如果认证失败，则返回null
 			// return response()->json(['error' => 'Unauthorized'], 401);
 			return null;
@@ -123,10 +128,10 @@ dd('abc');
 
 		// return $this->respondWithToken($token);
 		// $minutes = 480;
-		$minutes = config('jwt.ttl', 60);
+		// $minutes = config('jwt.ttl', 60);
+		$minutes = $rememberme ? config('jwt.ttl', null) : config('jwt.ttl', 60);
 		Cookie::queue('token', $token, $minutes);
 		return $token;
-		
 		
     }
 	

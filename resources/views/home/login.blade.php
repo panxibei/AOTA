@@ -54,7 +54,7 @@ Login -
 			
 			
 			<br><br>
-			<!--待完成功能
+			
 			<i-row>
 				<i-col span="16">
 					Remember Me&nbsp;
@@ -64,10 +64,13 @@ Login -
 					</i-switch>
 				</i-col>
 				<i-col span="8">
+				&nbsp;
+				<!--待完成功能
 					<a href="#">Forget?</a>
+				-->
 				</i-col>
 			</i-row>
-			-->
+			
 			
 			<br><br><br>
 			<Form-item>
@@ -128,14 +131,13 @@ var vm_app = new Vue({
 		handleSubmit(name) {
 			this.$refs[name].validate((valid) => {
 				if (valid) {
-					// this.$Message.success('Success!');
-					
 					var _this = this;
 
 					_this.logindisabled(true);
-					_this.loginmessage = '<div class="text-info">正在验证...</div>';
-					
-					if (_this.formInline.username.length == 0 || _this.formInline.password.length == 0 || _this.formInline.captcha.length == 0) {
+					_this.formInline.loginmessage = '<div class="text-info">正在验证...</div>';
+
+					if (_this.formInline.username == undefined || _this.formInline.password == undefined || _this.formInline.captcha == undefined ||
+						_this.formInline.username == '' || _this.formInline.password == '' || _this.formInline.captcha == '') {
 						_this.formInline.loginmessage = '<div class="text-warning">Please full the item</div>';
 						_this.logindisabled(false);
 						return false;
@@ -150,13 +152,17 @@ var vm_app = new Vue({
 						rememberme: _this.formInline.rememberme
 					})
 					.then(function (response) {
+						// console.log(response.data);
+						// return false;
+						
 						if (response.data) {
 							_this.formInline.password = '**********';
 							_this.formInline.loginmessage = '<font color="blue">登录成功! 请稍等...</font>';
 							window.setTimeout(function(){
 								_this.loginreset;
-								var url = "{{ route('admin.config.index') }}";
+								var url = "{{ route('portal') }}";
 								window.location.href = url;
+								_this.formInline.loginmessage = '';
 							}, 1000);
 						} else {
 							_this.formInline.loginmessage = '<font color="red">验证码错误或登录失败!</font>';
@@ -165,7 +171,7 @@ var vm_app = new Vue({
 					})
 					.catch(function (error) {
 						// console.log(error);
-						_this.loginmessage = '<font color="red">error: failed!</font>';
+						_this.formInline.loginmessage = '<font color="red">error: failed!</font>';
 						_this.logindisabled(false);
 					})
 					_this.captchaclick();

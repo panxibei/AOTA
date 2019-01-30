@@ -166,6 +166,8 @@ return [
 		Maatwebsite\Excel\ExcelServiceProvider::class,
 		Adldap\Laravel\AdldapServiceProvider::class,
 		Mews\Captcha\CaptchaServiceProvider::class,
+		Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+		Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 
