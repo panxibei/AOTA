@@ -1,7 +1,7 @@
 @extends('main.layouts.mainbase')
 
 @section('my_title')
-AOTA Management System Beta - Config 
+Main(Config) - 
 @parent
 @endsection
 

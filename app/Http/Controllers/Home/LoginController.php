@@ -47,11 +47,12 @@ class LoginController extends Controller
 			// dd('<p style="color: #00ff30;">Matched :)</p>');
 		}
 
+		$name = $request->input('name');
+		$password = $request->input('password');
+
 		// 2.adldap判断AD认证
 		$adldap = false;
 		if (env('LDAP_USE_LDAP') == 'ldap') {
-			$name = $request->input('name');
-			$password = $request->input('password');
 
 			try {
 				$adldap = Adldap::auth()->attempt(
@@ -145,7 +146,7 @@ class LoginController extends Controller
 		// return $this->respondWithToken($token);
 		// $minutes = 480;
 		// $minutes = config('jwt.ttl', 60);
-		$minutes = $rememberme ? config('jwt.ttl', null) : config('jwt.ttl', 60);
+		$minutes = $rememberme ? 60*24*365 : config('jwt.ttl', 60*24);
 		Cookie::queue('token', $token, $minutes);
 		return $token;
 		

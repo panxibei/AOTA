@@ -5,15 +5,45 @@ namespace App\Http\Controllers\Main;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Admin\Config;
+use App\Models\Admin\User;
+use Cookie;
 use DB;
 use App\Models\Main\Smt_config;
 
 class mainController extends Controller
 {
+	// logout
+	public function logout()
+	{
+		// 删除cookie
+		Cookie::queue(Cookie::forget('token'));
+
+		// Pass true to force the token to be blacklisted "forever"
+		// auth()->logout(true);
+		auth()->logout();
+
+		// 返回登录页面
+		return redirect()->route('login');
+	}
+	
+	
     //
 	public function mainPortal () {
+		
+		// 获取JSON格式的jwt-auth用户响应
+		$me = response()->json(auth()->user());
+		
+		// 获取JSON格式的jwt-auth用户信息（$me->getContent()），就是$me的data部分
+		$user = json_decode($me->getContent(), true);
+		// 用户信息：$user['id']、$user['name'] 等
 
-		return view('main.portal');
+        // 获取配置值
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+        // return view('admin.config', $config);
+		
+		$share = compact('config', 'user');
+        return view('main.portal', $share);
 		
 	}
 

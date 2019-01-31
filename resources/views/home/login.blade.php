@@ -57,7 +57,7 @@ Login -
 			
 			<i-row>
 				<i-col span="16">
-					Remember Me&nbsp;
+					保持登录状态&nbsp;
 					<i-switch ref="ref_rememberme" v-model="formInline.rememberme" size="small">
 						<span slot="open"></span>
 						<span slot="close"></span>

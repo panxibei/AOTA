@@ -8,7 +8,7 @@
 <meta name="author" content="">
 <title>
 @section('my_title')
-
+{{$config['SITE_TITLE']}}  Ver: {{$config['SITE_VERSION']}}
 @show
 </title>
 <link rel="stylesheet" href="{{ asset('statics/iview/styles/iview.css') }}">
@@ -52,7 +52,8 @@
 .layout-nav{
 	float: right;
 	position: relative;
-    width: 420px;
+    <!--width: 420px;-->
+	right: 5px;
     margin: 0 auto;
     margin-right: 10px;
 }
@@ -82,7 +83,7 @@
 			<div style="z-index: 999;">
             <Header :style="{position: 'fixed', width: '100%', marginLeft: '0px'}">
                 <Layout>
-				<i-menu mode="horizontal" theme="light" active-name="3">
+				<i-menu mode="horizontal" theme="light" active-name="1" @on-select="name=>navmenuselect(name)">
 					
 					<!--面包屑-->
 					<div class="layout-breadcrumb">
@@ -91,6 +92,31 @@
 					@show
 					
 					</div>
+					
+					<!--头部导航菜单-->
+                    <div class="layout-nav">
+					
+						<Submenu name="1">
+							<template slot="title">
+								<Icon type="ios-person"></Icon>{{ $user['name'] ?? 'Unknown User'}}
+							</template>
+							<!--
+							<Menu-Group title="使用">
+								<Menu-Item name="3-1">新增和启动</Menu-Item>
+								<Menu-Item name="3-2">活跃分析</Menu-Item>
+								<Menu-Item name="3-3">时段分析</Menu-Item>
+							</Menu-Group>
+							-->
+							<Menu-Item name="1-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
+							<Menu-Item name="1-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
+						</Submenu>
+					
+					
+					
+					
+					
+					
+                    </div>
 
                 </i-menu>
 				</Layout>
@@ -115,7 +141,11 @@
  			<!-- 底部 -->
 			<Footer class="layout-footer-center">
 			@section('my_footer')
-			<a href="">AOTA Management System Beta</a>&nbsp;|&nbsp;Copyright &copy; 2018 AOTA All Rights Reserved.
+			<a href="{{route('portal')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;{{$config['SITE_COPYRIGHT']}}
+			@can('permission_super_admin')
+				<a href="{{route('main.logout')}}"><Icon type="ios-cog-outline"></Icon></a>
+			@endcan
+			
 			@show
 			</Footer>
 			<!-- /底部 -->
@@ -131,7 +161,58 @@
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script src="{{ asset('js/bluebird.min.js') }}"></script>
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
-<script src="{{ asset('statics/echarts/echarts.js') }}"></script>
-@yield('my_js_others')
+@section('my_js_others')
+<script>
+function navmenuselect (name) {
+	switch(name)
+	{
+	case '1-1':
+	  window.location.href = "";
+	  break;
+	case '1-2':
+	  window.location.href = "{{route('main.logout')}}";
+	  break;
+
+	case '2-1-1':
+	  window.location.href = "";
+	  break;
+	case '2-1-2':
+	  window.location.href = "";
+	  break;
+	case '2-1-3':
+	  window.location.href = "";
+	  break;
+
+	case '2-2-1':
+	  window.location.href = "";
+	  break;
+	case '2-2-2':
+	  window.location.href = "";
+	  break;
+
+	case '2-3-1':
+	  window.location.href = "";
+	  break;
+	case '2-3-2':
+	  window.location.href = "";
+	  break;
+	case '2-3-3':
+	  window.location.href = "";
+	  break;
+
+	case '3-1':
+	  window.location.href = "{{route('admin.user.index')}}";
+	  break;
+	case '3-2':
+	  window.location.href = "{{route('admin.role.index')}}";
+	  break;
+	case '3-3':
+	  window.location.href = "{{route('admin.permission.index')}}";
+	  break;
+
+	}
+}
+</script>
+@show
 </body>
 </html>

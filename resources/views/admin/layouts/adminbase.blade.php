@@ -164,7 +164,7 @@
 						<div class="layout-logo"><a href="{{route('admin.config.index')}}">{{$config['SITE_TITLE']}} 后台管理</a></div>
 					</div>
 					<div id="menu">
-					<i-menu :active-name="sideractivename" theme="light" width="auto" :open-names="sideropennames" @on-select="name=>menuselect(name)" accordion>
+					<i-menu :active-name="sideractivename" theme="light" width="auto" :open-names="sideropennames" @on-select="name=>navmenuselect(name)" accordion>
                         <Submenu name="1">
                             <template slot="title">
 								<Icon type="ios-home"></Icon> 后台首页

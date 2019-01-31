@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+    // return view('index');
+// });
 
 
 // 中日程分析页面
-Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function() {
+Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	Route::get('zrcfx', 'zrcfxController@zrcfxIndex')->name('bpjg.zrcfx.index');
 	Route::post('zrcfximport', 'zrcfxController@zrcfxImport')->name('bpjg.zrcfx.zrcfximport');
 	Route::get('zrcdownload', 'zrcfxController@zrcDownload')->name('bpjg.zrcfx.zrcdownload');
@@ -34,7 +34,7 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>[]], function
 });
 
 // 品质日报页面
-Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function() {
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	Route::get('qcreport', 'qcreportController@qcreport')->name('smt.qcreport.qcreport');
 	Route::get('qcreportgets', 'qcreportController@qcreportGets')->name('smt.qcreport.qcreportgets');
 	Route::get('bulianggets', 'qcreportController@buliangGets')->name('smt.qcreport.bulianggets');
@@ -51,7 +51,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 
 
 // 生产日报页面
-Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function() {
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	Route::get('pdreport', 'pdreportController@pdreport')->name('smt.pdreport.pdreport');
 	Route::get('dailyreportgets', 'pdreportController@dailyreportGets')->name('smt.pdreport.dailyreportgets');
 	Route::get('getjizhongming', 'pdreportController@getJizhongming')->name('smt.pdreport.getjizhongming');
@@ -64,7 +64,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 
 
 // MPoint页面
-Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function() {
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	Route::get('mpoint', 'pdreportController@mpoint')->name('smt.pdreport.mpoint');
 	Route::get('mpointgets', 'pdreportController@mpointGets')->name('smt.pdreport.mpointgets');
 	Route::post('mpointcreate', 'pdreportController@mpointCreate')->name('smt.pdreport.mpointcreate');
@@ -76,13 +76,15 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>[]], function()
 
 
 // AOTA门户页面
-Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>[]], function() {
+Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	Route::get('/', 'mainController@mainPortal')->name('portal');
 	Route::get('portal', 'mainController@mainPortal')->name('portal');
 	Route::get('config', 'mainController@mainConfig');
 	Route::get('configgets', 'mainController@configGets')->name('config.configgets');
 	Route::post('configcreate', 'mainController@configCreate')->name('config.create');
 	Route::post('configupdate', 'mainController@configUpdate')->name('config.update');
+	// logout
+	Route::get('logout', 'mainController@logout')->name('main.logout');
 });
 
 
@@ -94,7 +96,7 @@ Route::group(['prefix' => 'login', 'namespace' =>'Home'], function() {
 
 
 // AdminController路由
-Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>'jwtauth'], function() {
+Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	// 显示config页面
 	Route::get('configIndex', 'AdminController@configIndex')->name('admin.config.index');
 
@@ -115,7 +117,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>'jwtauth'],
 
 
 // UserController路由
-Route::group(['prefix'=>'user', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_page_user']], function() {
+Route::group(['prefix'=>'user', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_user|permission_super_admin']], function() {
 
 	// 显示user页面
 	Route::get('userIndex', 'UserController@userIndex')->name('admin.user.index');
@@ -142,7 +144,7 @@ Route::group(['prefix'=>'user', 'namespace'=>'Admin', 'middleware'=>['jwtauth','
 
 
 // RoleController路由
-Route::group(['prefix'=>'role', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_page_role']], function() {
+Route::group(['prefix'=>'role', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_role|permission_super_admin']], function() {
 
 	// 显示role页面
 	Route::get('roleIndex', 'RoleController@roleIndex')->name('admin.role.index');
@@ -198,7 +200,7 @@ Route::group(['prefix'=>'role', 'namespace'=>'Admin', 'middleware'=>['jwtauth','
 
 
 // PermissionController路由
-Route::group(['prefix'=>'permission', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_page_permission']], function() {
+Route::group(['prefix'=>'permission', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_permission|permission_super_admin']], function() {
 
 	// 显示permission页面
 	Route::get('permissionIndex', 'PermissionController@permissionIndex')->name('admin.permission.index');
@@ -251,7 +253,7 @@ Route::group(['prefix'=>'permission', 'namespace'=>'Admin', 'middleware'=>['jwta
 
 
 // 测试用
-Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>[]], function() {
+Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	Route::get('test', 'testController@test');
 	Route::get('phpinfo', 'testController@phpinfo');
 	Route::get('ldap', 'testController@ldap');
