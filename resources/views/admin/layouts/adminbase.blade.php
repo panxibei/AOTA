@@ -84,7 +84,7 @@
 					<!--面包屑-->
 					<div class="layout-breadcrumb">
 						<Breadcrumb>
-							<Breadcrumb-item href="{{route('main.circulation.index')}}">Home</Breadcrumb-item>
+							<Breadcrumb-item href="{{route('portal')}}">Home</Breadcrumb-item>
 							<Breadcrumb-item href="#">@{{ current_nav }}</Breadcrumb-item>
 							<Breadcrumb-item>@{{ current_subnav }}</Breadcrumb-item>
 						</Breadcrumb>
@@ -242,7 +242,7 @@
  			<!-- 底部 -->
 			<Footer class="layout-footer-center">
 			@section('my_footer')
-			<a href="{{route('main.circulation.index')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;{{$config['SITE_COPYRIGHT']}}
+			<a href="{{route('portal')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;{{$config['SITE_COPYRIGHT']}}
 			@show
 			</Footer>
 			<!-- /底部 -->
@@ -267,30 +267,30 @@ function navmenuselect (name) {
 	  break;
 
 	case '2-1-1':
-	  window.location.href = "{{route('admin.field.index')}}";
+	  window.location.href = "";
 	  break;
 	case '2-1-2':
-	  window.location.href = "{{route('admin.slot.index')}}";
+	  window.location.href = "";
 	  break;
 	case '2-1-3':
-	  window.location.href = "{{route('admin.template.index')}}";
+	  window.location.href = "";
 	  break;
 
 	case '2-2-1':
-	  window.location.href = "{{route('admin.slot2field.index')}}";
+	  window.location.href = "";
 	  break;
 	case '2-2-2':
-	  window.location.href = "{{route('admin.template2slot.index')}}";
+	  window.location.href = "";
 	  break;
 
 	case '2-3-1':
-	  window.location.href = "{{route('admin.mailinglist.index')}}";
+	  window.location.href = "";
 	  break;
 	case '2-3-2':
-	  window.location.href = "{{route('admin.slot2user.index')}}";
+	  window.location.href = "";
 	  break;
 	case '2-3-3':
-	  window.location.href = "{{route('admin.user4workflow.index')}}";
+	  window.location.href = "";
 	  break;
 
 	case '3-1':
