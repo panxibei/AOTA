@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Bpjg\Bpjg_zhongricheng_zrcfx;
 use App\Models\Bpjg\Bpjg_zhongricheng_relation;
 use App\Models\Bpjg\Bpjg_zhongricheng_result;
+use App\Models\Admin\Config;
+// use App\Models\Admin\User;
+// use Cookie;
 use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,8 +26,19 @@ class zrcfxController extends Controller
 {
     //
 	public function zrcfxIndex () {
+		// 获取JSON格式的jwt-auth用户响应
+		$me = response()->json(auth()->user());
+		
+		// 获取JSON格式的jwt-auth用户信息（$me->getContent()），就是$me的data部分
+		$user = json_decode($me->getContent(), true);
+		// 用户信息：$user['id']、$user['name'] 等
 
-		return view('bpjg.zrcfx');
+        // 获取配置值
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+        // return view('admin.config', $config);
+		
+		$share = compact('config', 'user');
+		return view('bpjg.zrcfx', $share);
 		
 	}
 	

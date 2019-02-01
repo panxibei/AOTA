@@ -1,7 +1,7 @@
 @extends('bpjg.layouts.mainbase')
 
 @section('my_title')
-部品加工课 - 中日程分析 
+部品加工课（中日程分析） -  
 @parent
 @endsection
 
@@ -36,314 +36,314 @@
     </Steps>
 	<br><br>
 
-<Tabs type="card" v-model="currenttabs">
-	<Tab-pane label="机种/部品关系表">
-	
-		<Divider orientation="left">信息录入</Divider>
-
-		<i-row :gutter="16">
-			<i-col span="24">
-				↓ 批量录入&nbsp;&nbsp;
-				<Input-number v-model.lazy="piliangluruxiang_relation" @on-change="value=>piliangluru_relation_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
-				&nbsp;项
-			</i-col>
-		</i-row>
+	<Tabs type="card" v-model="currenttabs">
+		<Tab-pane label="机种/部品关系表">
 		
+			<Divider orientation="left">信息录入</Divider>
 
-		<span v-for="(item, index) in piliangluru_relation">
-		<br>
-		<i-row :gutter="16">
-			<i-col span="1">
-				&nbsp;No.@{{index+1}}
-			</i-col>
-			<i-col span="4">
-				* 机种名&nbsp;&nbsp;
-				<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="4">
-				* 品番&nbsp;&nbsp;
-				<i-input v-model.lazy="item.pinfan" @on-keyup="item.pinfan=item.pinfan.toUpperCase()" size="small" placeholder="例：07-37361Z02-A" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="4">
-				* 品名&nbsp;&nbsp;
-				<i-input v-model.lazy="item.pinming" @on-keyup="item.pinming=item.pinming.toUpperCase()" size="small" placeholder="例：SPRING,GND 7L" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="4">
-				* 需求数量&nbsp;&nbsp;
-				<Input-number v-model.lazy="item.xuqiushuliang" :min="0" size="small" style="width: 80px"></Input-number>
-			</i-col>
-			<i-col span="3">
-				* 类别&nbsp;&nbsp;
-				<i-select v-model.lazy="item.leibie" size="small" style="width:80px" placeholder="">
-					<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-			<i-col span="4">
-			&nbsp;
-			</i-col>
+			<i-row :gutter="16">
+				<i-col span="24">
+					↓ 批量录入&nbsp;&nbsp;
+					<Input-number v-model.lazy="piliangluruxiang_relation" @on-change="value=>piliangluru_relation_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
+					&nbsp;项
+				</i-col>
+			</i-row>
 			
-		</i-row>
-		<br>
-		</span>
 
-		<br>
-
-		<i-row :gutter="16">
-			<i-col span="3">
-				&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">记入</i-button>
-				&nbsp;&nbsp;<i-button @click="onclear_relation()">清除</i-button>
-			</i-col>
-			<i-col span="4">
-				<Upload
-					:before-upload="uploadstart_relation"
-					:show-upload-list="false"
-					:format="['xls','xlsx']"
-					:on-format-error="handleFormatError"
-					:max-size="2048"
-					action="/">
-					<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 机种/部品关系表' }}</i-button>
-				</Upload>
-			</i-col>
-			<i-col span="2">
-				<i-button @click="download_relation()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
-			</i-col>
-			<i-col span="15">
-				&nbsp;
-			</i-col>
-		</i-row>
-
-		<br><br>
-
-		<i-row :gutter="16">
-			<i-col span="3">
-				&nbsp;
-			</i-col>
-			<i-col span="21">
-				<font color="#ff9900">* 注意：批量导入会将原有 [机种/部品关系表] 数据覆盖！！</font>
-			</i-col>
-		</i-row>
-		
-		<br><br>	
-		
-		
-		<Divider orientation="left">信息查询</Divider>
-
-		<i-row :gutter="16">
-			<i-col span="2">
-				&nbsp;
-			</i-col>
-			<i-col span="1">
-				查询：
-			</i-col>
-			<i-col span="6">
-				* 日期范围&nbsp;&nbsp;
-				<Date-picker v-model.lazy="qcdate_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
-			</i-col>
-			<i-col span="12">
-			&nbsp;
-			</i-col>
-		</i-row>
-		<br><br>
-
-		<i-row :gutter="16">
-			<i-col span="3">
-				&nbsp;
-			</i-col>
-			<i-col span="3">
-				机种名&nbsp;&nbsp;
-				<i-input v-model.lazy="jizhongming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="jizhongming_filter_relation=jizhongming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-			</i-col>
-			<i-col span="3">
-				品番&nbsp;&nbsp;
-				<i-input v-model.lazy="pinfan_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_relation=pinfan_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-			</i-col>
-			<i-col span="3">
-				品名&nbsp;&nbsp;
-				<i-input v-model.lazy="pinming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_relation=pinming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-			</i-col>
-			<i-col span="3">
-				类别&nbsp;&nbsp;
-				<i-select v-model.lazy="leibie_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" clearable size="small" style="width:100px" placeholder="">
-					<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-				</i-select>
-			</i-col>
-		</i-row>
-		<br><br>
-
-		<i-row :gutter="16">
+			<span v-for="(item, index) in piliangluru_relation">
 			<br>
-			<i-col span="2">
-				<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
-			</i-col>
-			<i-col span="4">
-				导出：&nbsp;&nbsp;&nbsp;&nbsp;
-				<i-button type="default" size="small" @click="exportData_relation()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
-			</i-col>
-			<i-col span="18">
-				&nbsp;
-			</i-col>
-		</i-row>
-
-		<i-row :gutter="16">
-			<i-col span="24">
-				<i-table ref="table2" height="400" size="small" border :columns="tablecolumns_relation" :data="tabledata_relation" @on-selection-change="selection => onselectchange_relation(selection)"></i-table>
-				<br><Page :current="pagecurrent_relation" :total="pagetotal_relation" :page-size="pagepagesize_relation" @on-change="currentpage => oncurrentpagechange_relation(currentpage)" show-total show-elevator></Page><br><br>
-			</i-col>
-		</i-row>
-		
-		<Modal v-model="modal_relation_edit" @on-ok="relation_edit_ok" ok-text="保存" title="编辑 - 机种/部品关系表" width="540">
-			<div style="text-align:left">
-				<p>
-					创建时间：@{{ relation_created_at_edit }}
-					
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					
-					更新时间：@{{ relation_updated_at_edit }}
-				
-				</p>
-				<br>
-				
-				<p>
-					机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="relation_jizhongming_edit" @on-keyup="relation_jizhongming_edit=relation_jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
-
-					&nbsp;&nbsp;&nbsp;&nbsp;
-
-					品番&nbsp;&nbsp;
-					<i-input v-model.lazy="relation_pinfan_edit" @on-keyup="relation_pinfan_edit=relation_pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
-
-					&nbsp;&nbsp;&nbsp;&nbsp;
-
-					品名&nbsp;&nbsp;
-					<i-input v-model.lazy="relation_pinming_edit" @on-keyup="relation_pinming_edit=relation_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
-
-				</p>
-				<br>
-				
-				<p>
-					需求数量&nbsp;&nbsp;
-					<Input-number v-model.lazy="relation_xuqiushuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
-
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					
-					类别&nbsp;&nbsp;
-					<i-select v-model.lazy="relation_leibie_edit" size="small" style="width:100px" placeholder="">
+			<i-row :gutter="16">
+				<i-col span="1">
+					&nbsp;No.@{{index+1}}
+				</i-col>
+				<i-col span="4">
+					* 机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					* 品番&nbsp;&nbsp;
+					<i-input v-model.lazy="item.pinfan" @on-keyup="item.pinfan=item.pinfan.toUpperCase()" size="small" placeholder="例：07-37361Z02-A" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					* 品名&nbsp;&nbsp;
+					<i-input v-model.lazy="item.pinming" @on-keyup="item.pinming=item.pinming.toUpperCase()" size="small" placeholder="例：SPRING,GND 7L" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					* 需求数量&nbsp;&nbsp;
+					<Input-number v-model.lazy="item.xuqiushuliang" :min="0" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="3">
+					* 类别&nbsp;&nbsp;
+					<i-select v-model.lazy="item.leibie" size="small" style="width:80px" placeholder="">
 						<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
-					
-					&nbsp;&nbsp;&nbsp;&nbsp;
-				</p>
+				</i-col>
+				<i-col span="4">
+				&nbsp;
+				</i-col>
 				
-				&nbsp;
+			</i-row>
+			<br>
+			</span>
+
+			<br>
+
+			<i-row :gutter="16">
+				<i-col span="3">
+					&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">记入</i-button>
+					&nbsp;&nbsp;<i-button @click="onclear_relation()">清除</i-button>
+				</i-col>
+				<i-col span="4">
+					<Upload
+						:before-upload="uploadstart_relation"
+						:show-upload-list="false"
+						:format="['xls','xlsx']"
+						:on-format-error="handleFormatError"
+						:max-size="2048"
+						action="/">
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 机种/部品关系表' }}</i-button>
+					</Upload>
+				</i-col>
+				<i-col span="2">
+					<i-button @click="download_relation()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
+				</i-col>
+				<i-col span="15">
+					&nbsp;
+				</i-col>
+			</i-row>
+
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="3">
+					&nbsp;
+				</i-col>
+				<i-col span="21">
+					<font color="#ff9900">* 注意：批量导入会将原有 [机种/部品关系表] 数据覆盖！！</font>
+				</i-col>
+			</i-row>
 			
-			</div>	
-		</Modal>
-	
-	</Tab-pane>
+			<br><br>	
+			
+			
+			<Divider orientation="left">信息查询</Divider>
 
-	
-	
-	<Tab-pane label="部品信息">
-	
-		<Divider orientation="left">导入、分析及查询导出</Divider>
+			<i-row :gutter="16">
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="1">
+					查询：
+				</i-col>
+				<i-col span="6">
+					* 日期范围&nbsp;&nbsp;
+					<Date-picker v-model.lazy="qcdate_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+				</i-col>
+				<i-col span="12">
+				&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
 
-		<i-row :gutter="16">
-			<i-col span="2">
-				&nbsp;
-			</i-col>
-			<i-col span="1">
-				导入：
-			</i-col>
-			<i-col span="3">
-				<Upload
-					:before-upload="uploadstart_zrcfx"
-					:show-upload-list="false"
-					:format="['xls','xlsx']"
-					:on-format-error="handleFormatError"
-					:max-size="2048"
-					action="/">
-					<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入 中日程表' }}</i-button>
-				</Upload>
-			</i-col>
-			<i-col span="2">
-				<i-button @click="download_zrc()" type="text" size="small"><font color="#2db7f5">[下载模板]</font></i-button>
-			</i-col>
-			<i-col span="1">
-				&nbsp;
-			</i-col>
-			<i-col span="1">
-				分析：
-			</i-col>
-			<i-col span="4">
-				* 选择月份&nbsp;&nbsp;
-				<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
-			</i-col>
-			<i-col span="8">
-				<i-button type="primary" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
-			</i-col>
-			<i-col span="2">
-				&nbsp;
-			</i-col>
-		</i-row>
+			<i-row :gutter="16">
+				<i-col span="3">
+					&nbsp;
+				</i-col>
+				<i-col span="3">
+					机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="jizhongming_filter_relation=jizhongming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+				</i-col>
+				<i-col span="3">
+					品番&nbsp;&nbsp;
+					<i-input v-model.lazy="pinfan_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_relation=pinfan_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+				</i-col>
+				<i-col span="3">
+					品名&nbsp;&nbsp;
+					<i-input v-model.lazy="pinming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_relation=pinming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
+				</i-col>
+				<i-col span="3">
+					类别&nbsp;&nbsp;
+					<i-select v-model.lazy="leibie_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" clearable size="small" style="width:100px" placeholder="">
+						<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<br>
+				<i-col span="2">
+					<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+				</i-col>
+				<i-col span="4">
+					导出：&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-button type="default" size="small" @click="exportData_relation()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+				</i-col>
+				<i-col span="18">
+					&nbsp;
+				</i-col>
+			</i-row>
+
+			<i-row :gutter="16">
+				<i-col span="24">
+					<i-table ref="table2" height="420" size="small" border :columns="tablecolumns_relation" :data="tabledata_relation" @on-selection-change="selection => onselectchange_relation(selection)"></i-table>
+					<br><Page :current="pagecurrent_relation" :total="pagetotal_relation" :page-size="pagepagesize_relation" @on-change="currentpage => oncurrentpagechange_relation(currentpage)" show-total show-elevator></Page><br><br>
+				</i-col>
+			</i-row>
+
+			<Modal v-model="modal_relation_edit" @on-ok="relation_edit_ok" ok-text="保存" title="编辑 - 机种/部品关系表" width="540">
+				<div style="text-align:left">
+					<p>
+						创建时间：@{{ relation_created_at_edit }}
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						更新时间：@{{ relation_updated_at_edit }}
+					
+					</p>
+					<br>
+					
+					<p>
+						机种名&nbsp;&nbsp;
+						<i-input v-model.lazy="relation_jizhongming_edit" @on-keyup="relation_jizhongming_edit=relation_jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
+						品番&nbsp;&nbsp;
+						<i-input v-model.lazy="relation_pinfan_edit" @on-keyup="relation_pinfan_edit=relation_pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
+						品名&nbsp;&nbsp;
+						<i-input v-model.lazy="relation_pinming_edit" @on-keyup="relation_pinming_edit=relation_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+
+					</p>
+					<br>
+					
+					<p>
+						需求数量&nbsp;&nbsp;
+						<Input-number v-model.lazy="relation_xuqiushuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						类别&nbsp;&nbsp;
+						<i-select v-model.lazy="relation_leibie_edit" size="small" style="width:100px" placeholder="">
+							<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</i-select>
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+					</p>
+					
+					&nbsp;
+				
+				</div>	
+			</Modal>
 		
-		<Modal	v-model="modal_fenxi"	title="分析数据" ok-text="开始分析" @on-ok="fenxi_ok" @on-cancel="fenxi_cancel" width="400">
-			<p>所属日期：<strong>@{{ fenxi_suoshuriqi }}</strong></p>
+		</Tab-pane>
+
+
+		<Tab-pane label="部品信息">
+		
+			<Divider orientation="left">导入、分析及查询导出</Divider>
+
+			<i-row :gutter="16">
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="1">
+					导入：
+				</i-col>
+				<i-col span="3">
+					<Upload
+						:before-upload="uploadstart_zrcfx"
+						:show-upload-list="false"
+						:format="['xls','xlsx']"
+						:on-format-error="handleFormatError"
+						:max-size="2048"
+						action="/">
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入 中日程表' }}</i-button>
+					</Upload>
+				</i-col>
+				<i-col span="2">
+					<i-button @click="download_zrc()" type="text" size="small"><font color="#2db7f5">[下载模板]</font></i-button>
+				</i-col>
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="1">
+					分析：
+				</i-col>
+				<i-col span="4">
+					* 选择月份&nbsp;&nbsp;
+					<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+				</i-col>
+				<i-col span="8">
+					<i-button type="primary" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
+				</i-col>
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+			</i-row>
+			
+			<Modal	v-model="modal_fenxi"	title="分析数据" ok-text="开始分析" @on-ok="fenxi_ok" @on-cancel="fenxi_cancel" width="400">
+				<p>所属日期：<strong>@{{ fenxi_suoshuriqi }}</strong></p>
+				<br>
+				<p>注意：务必确认“所属日期”，否则原有数据将被覆盖！！</p>
+			</Modal>	
+			<br><br>
+			
+			<i-row :gutter="16">
+				<br>
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="1">
+					查询：
+				</i-col>
+				<i-col span="4">
+					* 选择月份&nbsp;&nbsp;
+					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+				</i-col>
+				<i-col span="4">
+					品番&nbsp;&nbsp;
+					<i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					品名&nbsp;&nbsp;
+					<i-input v-model.lazy="pinming_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="9">
+				&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+			
+			<i-row :gutter="16">
+				<i-col span="2">
+					&nbsp;<br>&nbsp;
+					<!--<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->
+				</i-col>
+				<i-col span="4">
+					导出：&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-button type="default" size="small" @click="exportData_result()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+				</i-col>
+				<i-col span="18">
+					&nbsp;
+				</i-col>
+			</i-row>
 			<br>
-			<p>注意：务必确认“所属日期”，否则原有数据将被覆盖！！</p>
-		</Modal>	
-		<br><br>
-		
-		<i-row :gutter="16">
-			<br>
-			<i-col span="2">
-				&nbsp;
-			</i-col>
-			<i-col span="1">
-				查询：
-			</i-col>
-			<i-col span="4">
-				* 选择月份&nbsp;&nbsp;
-				<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
-			</i-col>
-			<i-col span="4">
-				品番&nbsp;&nbsp;
-				<i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="4">
-				品名&nbsp;&nbsp;
-				<i-input v-model.lazy="pinming_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
-			</i-col>
-			<i-col span="9">
-			&nbsp;
-			</i-col>
-		</i-row>
-		<br><br>
-		
-		<i-row :gutter="16">
-			<i-col span="2">
-				&nbsp;<br>&nbsp;
-				<!--<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->
-			</i-col>
-			<i-col span="4">
-				导出：&nbsp;&nbsp;&nbsp;&nbsp;
-				<i-button type="default" size="small" @click="exportData_result()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
-			</i-col>
-			<i-col span="18">
-				&nbsp;
-			</i-col>
-		</i-row>
-		<br>
 
 
-		<i-row :gutter="16">
-			<i-col span="24">
-				<i-table ref="table_result" height="600" size="small" border :columns="tablecolumns_result" :data="tabledata_result"></i-table>
-				<br><Page :current="pagecurrent_result" :total="pagetotal_result" :page-size="pagepagesize_result" @on-change="currentpage => oncurrentpagechange_result(currentpage)" show-total show-elevator></Page><br><br>
-			</i-col>
-		</i-row>
+			<i-row :gutter="16">
+				<i-col span="24">
+					<i-table ref="table_result" height="650" size="small" border :columns="tablecolumns_result" :data="tabledata_result"></i-table>
+					<br><Page :current="pagecurrent_result" :total="pagetotal_result" :page-size="pagepagesize_result" @on-change="currentpage => oncurrentpagechange_result(currentpage)" show-total show-elevator></Page><br><br>
+				</i-col>
+			</i-row>
 
-	</Tab-pane>
+		</Tab-pane>
 
+	</Tabs>
 
 </div>
 @endsection
@@ -365,7 +365,7 @@ var vm_app = new Vue({
 		//表result分页
 		pagecurrent_result: 1,
 		pagetotal_result: 1,
-		pagepagesize_result: 10,
+		pagepagesize_result: 15,
 		pagelast_result: 1,
 		
 		// ##########基本变量########
@@ -460,7 +460,7 @@ var vm_app = new Vue({
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
-				width: 140
+				width: 200
 			},
 			{
 				title: '需求数量',
@@ -540,7 +540,7 @@ var vm_app = new Vue({
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
-				width: 140
+				width: 200
 			},
 			{
 				title: '总数',
@@ -551,7 +551,7 @@ var vm_app = new Vue({
 				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
-						params.row.zongshu.toLocaleString()
+						params.row.zongshu ? params.row.zongshu.toLocaleString() : ''
 					]);
 				}
 			},
@@ -585,7 +585,7 @@ var vm_app = new Vue({
 				width: 80,
 				render: (h, params) => {
 					return h('div', [
-						params.row.d3.toLocaleString()
+						params.row.d3 ? params.row.d3.toLocaleString() : ''
 					]);
 				}
 			},
@@ -596,7 +596,7 @@ var vm_app = new Vue({
 				width: 80,
 				render: (h, params) => {
 					return h('div', [
-						params.row.d4.toLocaleString()
+						params.row.d4 ? params.row.d4.toLocaleString() : ''
 					]);
 				}
 			},
@@ -607,7 +607,7 @@ var vm_app = new Vue({
 				width: 80,
 				render: (h, params) => {
 					return h('div', [
-						params.row.d5.toLocaleString()
+						params.row.d5 ? params.row.d5.toLocaleString() : ''
 					]);
 				}
 			},
