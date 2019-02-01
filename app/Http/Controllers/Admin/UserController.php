@@ -61,18 +61,8 @@ class UserController extends Controller
 		$url = request()->url();
 		$queryParams = request()->query();
 		
-		if (isset($queryParams['perPage'])) {
-			$perPage = $queryParams['perPage'] ?: 10000;
-		} else {
-			$perPage = 10000;
-		}
-		
-		if (isset($queryParams['page'])) {
-			$page = $queryParams['page'] ?: 1;
-		} else {
-			$page = 1;
-		}
-		
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
 
         // 获取用户信息
 		// $perPage = $request->input('perPage');
@@ -83,7 +73,7 @@ class UserController extends Controller
 		$queryfilter_email = $request->input('queryfilter_email');
 		$queryfilter_loginip = $request->input('queryfilter_loginip');
 
-		$user = User::select('id', 'name', 'email', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})
@@ -119,18 +109,20 @@ class UserController extends Controller
 		// $nowtime = date("Y-m-d H:i:s",time());
 		$name = $request->input('name');
 		$email = $request->input('email');
+		$displayname = $request->input('displayname');
 		$password = $request->input('password');
 		
 		$logintime = date("Y-m-d H:i:s", 86400);
 		
 		$result = User::create([
-			'name'     => $name,
-			'email'    => $email,
-			'password' => bcrypt($password),
-			'login_time' => $logintime,
-			'login_ip' => '127.0.0.1',
-			'login_counts' => 0,
-			'remember_token' => '',
+			'name'     		=> $name,
+			'email'    		=> $email,
+			'displayname'	=> $displayname,
+			'password' 		=> bcrypt($password),
+			'login_time' 	=> $logintime,
+			'login_ip' 		=> '255.255.255.255',
+			'login_counts' 	=> 0,
+			'remember_token'=> '',
 			// 'created_at' => $nowtime,
 			// 'updated_at' => $nowtime,
 			// 'deleted_at' => NULL
@@ -226,6 +218,7 @@ class UserController extends Controller
 		$id = $request->input('id');
 		$name = $request->input('name');
 		$email = $request->input('email');
+		$displayname = $request->input('displayname');
 		$password = $request->input('password');
 		// $created_at = $request->input('created_at');
 		// $updated_at = $request->input('updated_at');
@@ -235,15 +228,17 @@ class UserController extends Controller
 			if (isset($password)) {
 				$result = User::where('id', $id)
 					->update([
-						'name'		=>	$name,
-						'email'		=>	$email,
-						'password'	=>	bcrypt($password)
+						'name'			=>	$name,
+						'email'			=>	$email,
+						'displayname'	=>	$displayname,
+						'password'		=>	bcrypt($password)
 					]);
 			} else {
 				$result = User::where('id', $id)
 					->update([
-						'name'	=>	$name,
-						'email'	=>	$email
+						'name'			=>	$name,
+						'email'			=>	$email,
+						'displayname'	=>	$displayname
 					]);
 			}
 		}
@@ -281,7 +276,7 @@ class UserController extends Controller
 		$queryfilter_logintime = $FILTERS_USER_LOGINTIME ?: ['1970-01-01', '9999-12-31'];
 		$queryfilter_loginip = $FILTERS_USER_LOGINIP ?: '';
 		
-		$user = User::select('id', 'name', 'email', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})
@@ -310,7 +305,7 @@ class UserController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', 'name', 'email', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at'];
+		$title[] = ['id', 'name', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $user);

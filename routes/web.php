@@ -76,7 +76,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 
 
 // AOTA门户页面
-Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
+Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
 	Route::get('/', 'mainController@mainPortal')->name('portal');
 	Route::get('portal', 'mainController@mainPortal')->name('portal');
 	Route::get('config', 'mainController@mainConfig');

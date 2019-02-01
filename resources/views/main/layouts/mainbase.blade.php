@@ -51,9 +51,8 @@
 }
 .layout-nav{
 	float: right;
-	position: relative;
+	<!--position: relative;-->
     <!--width: 420px;-->
-	right: 5px;
     margin: 0 auto;
     margin-right: 10px;
 }
@@ -83,7 +82,7 @@
 			<div style="z-index: 999;">
             <Header :style="{position: 'fixed', width: '100%', marginLeft: '0px'}">
                 <Layout>
-				<i-menu mode="horizontal" theme="light" active-name="1" @on-select="name=>navmenuselect(name)">
+				<i-menu mode="horizontal" theme="light" active-name="1" @on-select="name=>topmenuselect(name)">
 					
 					<!--面包屑-->
 					<div class="layout-breadcrumb">
@@ -98,7 +97,7 @@
 					
 						<Submenu name="1">
 							<template slot="title">
-								<Icon type="ios-person"></Icon>{{ $user['name'] ?? 'Unknown User'}}
+								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
 							<!--
 							<Menu-Group title="使用">
@@ -143,7 +142,7 @@
 			@section('my_footer')
 			<a href="{{route('portal')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;{{$config['SITE_COPYRIGHT']}}
 			@can('permission_super_admin')
-				<a href="{{route('main.logout')}}"><Icon type="ios-cog-outline"></Icon></a>
+				<a href="{{route('admin.config.index')}}" target="_blank"><Icon type="ios-cog-outline"></Icon></a>
 			@endcan
 			
 			@show
@@ -163,7 +162,7 @@
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
 @section('my_js_others')
 <script>
-function navmenuselect (name) {
+function topmenuselect (name) {
 	switch(name)
 	{
 	case '1-1':

@@ -52,9 +52,9 @@
 .layout-nav{
 	float: right;
 	position: relative;
-    width: 420px;
+    <!--width: 420px;-->
     margin: 0 auto;
-    margin-right: 10px;
+    margin-right: 210px;
 }
 .layout-footer-center{
     text-align: center;
@@ -78,14 +78,14 @@
 			<div style="z-index: 999;">
             <Header :style="{position: 'fixed', width: '100%', marginLeft: '200px'}">
                 <Layout>
-				<i-menu mode="horizontal" theme="light" active-name="3">
+				<i-menu mode="horizontal" theme="light" active-name="3" @on-select="name=>topmenuselect(name)">
                     <!--<div class="layout-logo">qqqqqqqqqqqq</div>-->
 					
 					<!--面包屑-->
 					<div class="layout-breadcrumb">
 						<Breadcrumb>
-							<Breadcrumb-item href="{{route('portal')}}">Home</Breadcrumb-item>
-							<Breadcrumb-item href="#">@{{ current_nav }}</Breadcrumb-item>
+							<Breadcrumb-item to="{{route('admin.config.index')}}">管理首页</Breadcrumb-item>
+							<Breadcrumb-item to="#">@{{ current_nav }}</Breadcrumb-item>
 							<Breadcrumb-item>@{{ current_subnav }}</Breadcrumb-item>
 						</Breadcrumb>
 					</div>
@@ -95,7 +95,7 @@
 						<!--Item 1-->
                         <Menu-item name="1">
 							<Badge dot :offset="[20, 0]">
-								<Icon type="ios-mail" size="26"/>
+								<Icon type="ios-mail" size="20"/>
 							</Badge>
                             
                         </Menu-item>
@@ -103,7 +103,7 @@
                         <Menu-item name="2">
 							<Dropdown @click.native="event => dropdownuser(event.target.innerText.trim())">
 								<Badge dot :offset="[20, 0]">
-									<Icon type="ios-document" size="26"/>
+									<Icon type="ios-document" size="20"/>
 								</Badge>
 								<Dropdown-menu slot="list" style="width: 260px">
 									<Dropdown-item>
@@ -122,20 +122,20 @@
 							</Dropdown>
                         </Menu-item>
 						<!--Item 3-->
-                        <Menu-item name="3">
-							<Dropdown @click.native="event => dropdownuser(event.target.innerText.trim())">
-								<!--<a href="javascript:;">-->
-									<Icon type="ios-person" size="26" />
-									<Icon type="ios-arrow-down" />
-								<!--</a>-->
-								<Dropdown-menu slot="list">
-									<Dropdown-item><Icon type="person"></Icon> {{ $user['name'] or 'Unknown User'}}</Dropdown-item>
-									<Dropdown-item divided><Icon type="home"></Icon> Home</Dropdown-item>
-									<Dropdown-item><Icon type="android-exit"></Icon> Logout</Dropdown-item>
-								</Dropdown-menu>
-							</Dropdown>
-							
-                        </Menu-item>
+						<Submenu name="3">
+							<template slot="title">
+								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
+							</template>
+							<!--
+							<Menu-Group title="使用">
+								<Menu-Item name="3-1">新增和启动</Menu-Item>
+								<Menu-Item name="3-2">活跃分析</Menu-Item>
+								<Menu-Item name="3-3">时段分析</Menu-Item>
+							</Menu-Group>
+							-->
+							<Menu-Item name="3-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
+							<Menu-Item name="3-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
+						</Submenu>
                     </div>
                 </i-menu>
 				</Layout>
@@ -243,6 +243,10 @@
 			<Footer class="layout-footer-center">
 			@section('my_footer')
 			<a href="{{route('portal')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;{{$config['SITE_COPYRIGHT']}}
+			@can('permission_super_admin')
+				<a href="{{route('admin.config.index')}}"><Icon type="ios-cog-outline"></Icon></a>
+			@endcan
+			
 			@show
 			</Footer>
 			<!-- /底部 -->
@@ -301,6 +305,56 @@ function navmenuselect (name) {
 	  break;
 	case '3-3':
 	  window.location.href = "{{route('admin.permission.index')}}";
+	  break;
+
+	}
+}
+
+function topmenuselect (name) {
+	switch(name)
+	{
+	case '1-1':
+	  window.location.href = "";
+	  break;
+	case '1-2':
+	  window.location.href = "";
+	  break;
+
+	case '2-1-1':
+	  window.location.href = "";
+	  break;
+	case '2-1-2':
+	  window.location.href = "";
+	  break;
+	case '2-1-3':
+	  window.location.href = "";
+	  break;
+
+	case '2-2-1':
+	  window.location.href = "";
+	  break;
+	case '2-2-2':
+	  window.location.href = "";
+	  break;
+
+	case '2-3-1':
+	  window.location.href = "";
+	  break;
+	case '2-3-2':
+	  window.location.href = "";
+	  break;
+	case '2-3-3':
+	  window.location.href = "";
+	  break;
+
+	case '3-1':
+	  window.location.href = "";
+	  break;
+	case '3-2':
+	  window.location.href = "{{route('admin.logout')}}";
+	  break;
+	case '3-3':
+	  window.location.href = "";
 	  break;
 
 	}

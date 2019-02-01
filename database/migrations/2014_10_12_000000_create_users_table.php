@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('email')->unique();
+            $table->string('displayname');
             $table->string('password');
 			$table->timestamp('login_time')->default(null)->comment('登录时间');
 			$table->string('login_ip',15)->default(null)->comment('登录ip');

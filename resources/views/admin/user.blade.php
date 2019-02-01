@@ -87,6 +87,11 @@ Admin(User) -
 							<i-input v-model.lazy="user_add_email" placeholder="" size="small" clearable style="width: 120px" type="email"></i-input>
 							
 							<br><br>
+							
+							displayname&nbsp;&nbsp;
+							<i-input v-model.lazy="user_add_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+
+							<br><br>
 
 							password&nbsp;&nbsp;
 							<i-input v-model.lazy="user_add_password" placeholder="" size="small" clearable style="width: 120px" type="password"></i-input>
@@ -110,6 +115,11 @@ Admin(User) -
 
 							email&nbsp;&nbsp;
 							<i-input v-model.lazy="user_edit_email" placeholder="" size="small" clearable style="width: 120px" type="email"></i-input>
+							
+							<br><br>
+
+							displayname&nbsp;&nbsp;
+							<i-input v-model.lazy="user_edit_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
 							
 							<br><br>
 
@@ -192,12 +202,17 @@ var vm_app = new Vue({
 			{
 				title: 'email',
 				key: 'email',
-				width: 160
+				width: 240
+			},
+			{
+				title: 'displayname',
+				key: 'displayname',
+				width: 180
 			},
 			{
 				title: 'login IP',
 				key: 'login_ip',
-				width: 100
+				width: 130
 			},
 			{
 				title: 'counts',
@@ -286,6 +301,7 @@ var vm_app = new Vue({
 		user_add_id: '',
 		user_add_name: '',
 		user_add_email: '',
+		user_add_displayname: '',
 		user_add_password: '',
 		
 		// 编辑
@@ -293,6 +309,7 @@ var vm_app = new Vue({
 		user_edit_id: '',
 		user_edit_name: '',
 		user_edit_email: '',
+		user_edit_displayname: '',
 		user_edit_password: '',
 		
 		// 删除
@@ -431,6 +448,7 @@ var vm_app = new Vue({
 
 			var queryfilter_name = _this.queryfilter_name;
 			var queryfilter_email = _this.queryfilter_email;
+			var queryfilter_displayname = _this.queryfilter_displayname;
 			var queryfilter_loginip = _this.queryfilter_loginip;
 
 			_this.loadingbarstart();
@@ -443,6 +461,7 @@ var vm_app = new Vue({
 					queryfilter_name: queryfilter_name,
 					queryfilter_logintime: queryfilter_logintime,
 					queryfilter_email: queryfilter_email,
+					queryfilter_displayname: queryfilter_displayname,
 					queryfilter_loginip: queryfilter_loginip,
 				}
 			})
@@ -493,6 +512,7 @@ var vm_app = new Vue({
 			_this.user_edit_id = row.id;
 			_this.user_edit_name = row.name;
 			_this.user_edit_email = row.email;
+			_this.user_edit_displayname = row.displayname;
 			// _this.user_edit_password = row.password;
 			// _this.relation_xuqiushuliang_edit[0] = row.xuqiushuliang;
 			// _this.relation_xuqiushuliang_edit[1] = row.xuqiushuliang;
@@ -510,12 +530,14 @@ var vm_app = new Vue({
 			var id = _this.user_edit_id;
 			var name = _this.user_edit_name;
 			var email = _this.user_edit_email;
+			var displayname = _this.user_edit_displayname;
 			var password = _this.user_edit_password;
 			// var created_at = _this.relation_created_at_edit;
 			// var updated_at = _this.relation_updated_at_edit;
 			
 			if (name == '' || name == null || name == undefined
-				|| email == '' || email == null || email == undefined) {
+				|| email == '' || email == null || email == undefined
+				|| displayname == '' || displayname == null || displayname == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
 				return false;
 			}
@@ -532,6 +554,7 @@ var vm_app = new Vue({
 				id: id,
 				name: name,
 				email: email,
+				displayname: displayname,
 				password: password,
 				// xuqiushuliang: xuqiushuliang[1],
 				// created_at: created_at,
@@ -549,6 +572,7 @@ var vm_app = new Vue({
 					_this.user_edit_id = '';
 					_this.user_edit_name = '';
 					_this.user_edit_email = '';
+					_this.user_edit_displayname = '';
 					_this.user_edit_password = '';
 					
 					// _this.relation_xuqiushuliang_edit = [0, 0];
@@ -623,10 +647,12 @@ var vm_app = new Vue({
 			var _this = this;
 			var name = _this.user_add_name;
 			var email = _this.user_add_email;
+			var displayname = _this.user_add_displayname;
 			var password = _this.user_add_password;
 			
 			if (name == '' || name == null || name == undefined
 				|| email == '' || email == null || email == undefined
+				|| displayname == '' || displayname == null || displayname == undefined
 				|| password == '' || password == null || password == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
 				return false;
@@ -645,6 +671,7 @@ var vm_app = new Vue({
 			axios.post(url, {
 				name: name,
 				email: email,
+				displayname: displayname,
 				password: password
 			})
 			.then(function (response) {
@@ -652,6 +679,7 @@ var vm_app = new Vue({
 					_this.success(false, 'Success', 'User created successfully!');
 					_this.user_add_name = '';
 					_this.user_add_email = '';
+					_this.user_add_displayname = '';
 					_this.user_add_password = '';
 					_this.usergets(_this.page_current, _this.page_last);
 				} else {

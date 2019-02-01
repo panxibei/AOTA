@@ -72,17 +72,18 @@ class LoginController extends Controller
 			if ($adldap) {
 				
 				// 获取用户email
-				$user_tmp = Adldap::search()->users()->find($name);		
+				$user_tmp = Adldap::search()->users()->find($name);
 				$email = $user_tmp['mail'][0];
+				$displayname = $user_tmp['displayname'][0];
 
 				// 同步本地用户密码
+				$nowtime = date("Y-m-d H:i:s",time());
 				try	{
-					$nowtime = date("Y-m-d H:i:s",time());
-						
 					$result = User::where('name', $name)
 						->increment('login_counts', 1, [
 							'password'   => bcrypt($password),
 							'email'      => $email,
+							'displayname'=> $displayname,
 							'login_time' => $nowtime,
 							'login_ip'   => $_SERVER['REMOTE_ADDR'],
 						]);
@@ -90,16 +91,17 @@ class LoginController extends Controller
 					// 4.如果没有这个用户，则自动新增用户
 					if ($result == 0) {
 						$result = User::create([
-							'name'     => $name,
-							'email'    => $email,
-							'password' => bcrypt($password),
-							'login_time' => $nowtime,
-							'login_ip' => $_SERVER['REMOTE_ADDR'],
-							'login_counts' => 1,
-							'remember_token' => '',
-							'created_at' => $nowtime,
-							'updated_at' => $nowtime,
-							'deleted_at' => NULL
+							'name'          => $name,
+							'email'         => $email,
+							'displayname'   => $displayname,
+							'password'      => bcrypt($password),
+							'login_time'    => $nowtime,
+							'login_ip'      => $_SERVER['REMOTE_ADDR'],
+							'login_counts'  => 1,
+							'remember_token'=> '',
+							'created_at'    => $nowtime,
+							'updated_at'    => $nowtime,
+							'deleted_at'    => NULL
 						]);
 					}
 				}

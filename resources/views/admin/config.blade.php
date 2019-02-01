@@ -112,14 +112,13 @@ var vm_app = new Vue({
 					_this.error(false, 'Error', cfg_name + ' failed to be modified!');
 				})
 		},
-
-	},
-	mounted: function(){
-		var _this = this;
-		var url = "{{ route('admin.config.list') }}";
-		_this.loadingbarstart();
-		axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
-		axios.get(url, {
+		
+		configgets: function() {
+			var _this = this;
+			var url = "{{ route('admin.config.list') }}";
+			_this.loadingbarstart();
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url, {
 			})
 			.then(function (response) {
 				//console.log(response);
@@ -133,6 +132,15 @@ var vm_app = new Vue({
 				console.log(error);
 				_this.loadingbarerror();
 			})
+		},
+
+	},
+	mounted: function(){
+		var _this = this;
+		_this.current_nav = '配置管理';
+		_this.current_subnav = '系统配置';
+		_this.configgets();
+
 	}
 });
 </script>
