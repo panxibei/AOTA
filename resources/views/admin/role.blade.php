@@ -82,7 +82,7 @@ Admin(Role) -
 						
 						<p>
 							name&nbsp;&nbsp;
-							<i-input v-model.lazy="role_add_name" placeholder="" size="small" clearable style="width: 120px"></i-input>
+							<i-input v-model.lazy="role_add_name" placeholder="" size="small" clearable style="width: 240px"></i-input>
 
 						</p>
 						
@@ -96,7 +96,7 @@ Admin(Role) -
 						
 						<p>
 							name&nbsp;&nbsp;
-							<i-input v-model.lazy="role_edit_name" placeholder="" size="small" clearable style="width: 120px"></i-input>
+							<i-input v-model.lazy="role_edit_name" placeholder="" size="small" clearable style="width: 240px"></i-input>
 
 						</p>
 						

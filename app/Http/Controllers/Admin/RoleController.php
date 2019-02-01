@@ -263,6 +263,7 @@ class RoleController extends Controller
 		// 重置角色和权限的缓存
 		app()['cache']->forget('spatie.permission.cache');
 		$role = Role::create(['name' => $name]);
+		Cache::flush();
         return $role;
     }
 
@@ -311,7 +312,7 @@ class RoleController extends Controller
 		
         // 如没被使用，则可以删除
 		$result = Role::whereIn('id', $roleid)->delete();
-		// dd($result);
+		Cache::flush();
 		return $result;
     }
 
@@ -342,6 +343,7 @@ class RoleController extends Controller
 		}
 		
 		$result = $user->assignRole($role);
+		Cache::flush();
         return $result;
     }
 
@@ -496,7 +498,7 @@ class RoleController extends Controller
 			->pluck('name')->toArray();
 
 		$result = $role->givePermissionTo($permissions);
-		
+		Cache::flush();
 		return $result;
     }
 
@@ -582,7 +584,7 @@ class RoleController extends Controller
 			// echo 'Message: ' .$e->getMessage();
 			$result = 0;
 		}
-		
+		Cache::flush();
 		return $result;
     }
 	

@@ -1,7 +1,7 @@
 @extends('bpjg.layouts.mainbase')
 
 @section('my_title')
-部品加工课（中日程分析） -  
+部品加工课（中日程分析） - 
 @parent
 @endsection
 

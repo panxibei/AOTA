@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Smt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Admin\Config;
 use App\Models\Smt\Smt_mpoint;
 use App\Models\Smt\Smt_pdreport;
 use App\Models\Smt\Smt_qcreport;
@@ -21,9 +22,20 @@ use Illuminate\Support\Facades\Cache;
 class qcreportController extends Controller
 {
     //
-	public function qcreport () {
+	public function qcreportIndex () {
+		// 获取JSON格式的jwt-auth用户响应
+		$me = response()->json(auth()->user());
 		
-		return view('smt.qcreport');
+		// 获取JSON格式的jwt-auth用户信息（$me->getContent()），就是$me的data部分
+		$user = json_decode($me->getContent(), true);
+		// 用户信息：$user['id']、$user['name'] 等
+
+        // 获取配置值
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+        // return view('admin.config', $config);
+		
+		$share = compact('config', 'user');
+		return view('smt.qcreport', $share);
 		
 	}
 	

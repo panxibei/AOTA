@@ -98,12 +98,12 @@ var vm_app = new Vue({
 			},
 			{
 				name: '生产日报',
-				url: "{{ route('smt.pdreport.pdreport') }}",
+				url: "{{ route('smt.pdreport.index') }}",
 				hits: '???'
 			},
 			{
 				name: '品质日报',
-				url: "{{ route('smt.qcreport.qcreport') }}",
+				url: "{{ route('smt.qcreport.index') }}",
 				hits: '???'
 			},
 		],

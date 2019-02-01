@@ -178,7 +178,7 @@ class PermissionController extends Controller
 		// 重置角色和权限的缓存
 		app()['cache']->forget('spatie.permission.cache');
 		$permission = Permission::create(['name' => $permissionname]);
-
+		Cache::flush();
         return $permission;
     }
 
@@ -227,7 +227,7 @@ class PermissionController extends Controller
 		
         // 如没被使用，则可以删除
 		$result = Permission::whereIn('id', $permissionid)->delete();
-		// dd($result);
+		Cache::flush();
 		return $result;
     }
 	
@@ -269,7 +269,7 @@ class PermissionController extends Controller
 		// foreach ($permission as $permissionname) {
 			// $result = $role->givePermissionTo($permissionname);
 		// }
-
+		Cache::flush();
         return $result;
     }	
 
@@ -525,7 +525,7 @@ class PermissionController extends Controller
 			// echo 'Message: ' .$e->getMessage();
 			$result = 0;
 		}
-		
+		Cache::flush();
 		return $result;
     }
 	
