@@ -99,21 +99,8 @@
 							<template slot="title">
 								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
-							<!--
-							<Menu-Group title="使用">
-								<Menu-Item name="3-1">新增和启动</Menu-Item>
-								<Menu-Item name="3-2">活跃分析</Menu-Item>
-								<Menu-Item name="3-3">时段分析</Menu-Item>
-							</Menu-Group>
-							-->
-							<Menu-Item name="1-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
-							<Menu-Item name="1-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
+							<Menu-Item name="1-1"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
 						</Submenu>
-					
-					
-					
-					
-					
 					
                     </div>
 
@@ -166,9 +153,6 @@ function topmenuselect (name) {
 	switch(name)
 	{
 	case '1-1':
-	  window.location.href = "";
-	  break;
-	case '1-2':
 	  window.location.href = "{{route('main.logout')}}";
 	  break;
 
@@ -200,13 +184,13 @@ function topmenuselect (name) {
 	  break;
 
 	case '3-1':
-	  window.location.href = "{{route('admin.user.index')}}";
+	  window.location.href = "";
 	  break;
 	case '3-2':
-	  window.location.href = "{{route('admin.role.index')}}";
+	  window.location.href = "";
 	  break;
 	case '3-3':
-	  window.location.href = "{{route('admin.permission.index')}}";
+	  window.location.href = "";
 	  break;
 
 	}

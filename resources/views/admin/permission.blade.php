@@ -623,7 +623,7 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				if (response.data) {
-					_this.success(false, 'Success', 'Role created successfully!');
+					_this.success(false, 'Success', 'Permission created successfully!');
 					_this.permission_add_name = '';
 					_this.permissiongets(_this.page_current, _this.page_last);
 				} else {
