@@ -49,10 +49,12 @@
 				</i-col>
 			</i-row>
 			
+			&nbsp;
 
 			<span v-for="(item, index) in piliangluru_relation">
-			<br>
+			
 			<i-row :gutter="16">
+			<br>
 				<i-col span="1">
 					&nbsp;No.@{{index+1}}
 				</i-col>
@@ -137,7 +139,7 @@
 				</i-col>
 				<i-col span="6">
 					* 日期范围&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="12">
 				&nbsp;
@@ -191,7 +193,7 @@
 				</i-col>
 			</i-row>
 
-			<Modal v-model="modal_relation_edit" @on-ok="relation_edit_ok" ok-text="保存" title="编辑 - 机种/部品关系表" width="540">
+			<Modal v-model="modal_relation_edit" @on-ok="relation_edit_ok" ok-text="保存" title="编辑 - 机种/部品关系表" width="600">
 				<div style="text-align:left">
 					<p>
 						创建时间：@{{ relation_created_at_edit }}
@@ -215,7 +217,7 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;
 
 						品名&nbsp;&nbsp;
-						<i-input v-model.lazy="relation_pinming_edit" @on-keyup="relation_pinming_edit=relation_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
+						<i-input v-model.lazy="relation_pinming_edit" @on-keyup="relation_pinming_edit=relation_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 160px"></i-input>
 
 					</p>
 					<br>
@@ -275,7 +277,7 @@
 				</i-col>
 				<i-col span="4">
 					* 选择月份&nbsp;&nbsp;
-					<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+					<Date-picker v-model.lazy="date_fenxi_suoshuriqi" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="8">
 					<i-button type="primary" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
@@ -302,7 +304,7 @@
 				</i-col>
 				<i-col span="4">
 					* 选择月份&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" placement="top" style="width:100px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="4">
 					品番&nbsp;&nbsp;
@@ -439,8 +441,12 @@ var vm_app = new Vue({
 			},
 			{
 				type: 'index',
-				width: 60,
-				align: 'center'
+				title: '序号',
+				width: 70,
+				align: 'center',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize_relation * (vm_app.pagecurrent_relation - 1)
+				}
 			},
 			{
 				title: '机种名',
@@ -526,8 +532,12 @@ var vm_app = new Vue({
 		tablecolumns_result: [
 			{
 				type: 'index',
-				width: 60,
-				align: 'center'
+				title: '序号',
+				width: 70,
+				align: 'center',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize_result * (vm_app.pagecurrent_result - 1)
+				}
 			},
 			{
 				title: '品番',
