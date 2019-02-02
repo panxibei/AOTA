@@ -965,16 +965,15 @@ var vm_app = new Vue({
 			});
 		},
 		
-		autocomplete_search (value) {
-			this.autocomplete_data = !value ? [] : [
-				value,
-				value + value,
-				value + value + value
-			];
+		alert_logout: function () {
+			this.error(false, '会话超时', '会话超时，请重新登录！');
+			window.setTimeout(function(){
+				window.location.href = "{{ route('portal') }}";
+			}, 2000);
+			return false;
 		},
 		
 
-	
 		// main列表
 		relationgets: function (page, last_page) {
 			var _this = this;
@@ -992,7 +991,7 @@ var vm_app = new Vue({
 					qcdate_filter_relation.push(_this.qcdate_filter_relation[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_relation[i] == '') {
 					// qcdate_filter_relation.push(new Date().Format("yyyy-MM-dd"));
-					_this.warning(false, '警告', '请选择日期范围！');
+					// _this.warning(false, '警告', '请选择日期范围！');
 					_this.tabledata_relation = [];
 					return false;
 				} else {
@@ -1023,10 +1022,8 @@ var vm_app = new Vue({
 				// return false;
 				
 				if (response.data['jwt'] == 'logout') {
-					_this.error(false, '错误', '登录失效，请重新登录！');
-					window.setTimeout(function(){
-						window.location.href = "{{ route('portal') }}";
-					}, 2000);
+					_this.alert_logout();
+					return false;
 				}
 				
 				if (response.data) {
@@ -1097,10 +1094,8 @@ var vm_app = new Vue({
 				// return false;
 				
 				if (response.data['jwt'] == 'logout') {
-					_this.error(false, '错误', '登录失效，请重新登录！');
-					window.setTimeout(function(){
-						window.location.href = "{{ route('portal') }}";
-					}, 2000);
+					_this.alert_logout();
+					return false;
 				}
 				
 				if (response.data) {
@@ -1169,6 +1164,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+				
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				if (response.data) {
 					_this.onclear_relation();
@@ -1243,6 +1243,11 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 				
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				_this.relationgets(_this.pagecurrent_relation, _this.pagelast_relation);
 				
 				if (response.data) {
@@ -1280,6 +1285,11 @@ var vm_app = new Vue({
 				tableselect_relation: tableselect_relation
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
 					_this.boo_delete_relation = true;
@@ -1384,9 +1394,12 @@ var vm_app = new Vue({
 				contentType: false, // 告诉axios不要去设置Content-Type请求头
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				
-				if (response.data == 1) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				if (response.data) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
 					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
@@ -1433,7 +1446,11 @@ var vm_app = new Vue({
 				contentType: false, // 告诉axios不要去设置Content-Type请求头
 			})
 			.then(function (response) {
-				// console.log(response.data);
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {
@@ -1567,8 +1584,10 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				if (response.data) {
 					_this.success(false, '成功', '分析数据成功！');

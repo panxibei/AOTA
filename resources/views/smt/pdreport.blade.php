@@ -1024,60 +1024,65 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					jizhongming: _this.jizhongming
+					jizhongming: jizhongming
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				
-				var tmp_pinming = '';
-				var tmp_gongxu = '';
-				var boo_flag = false;
-				
-				_this.option_pinming = [];
-				_this.option_gongxu = [];
-				for (var i in response.data) {
-					// pinming
-					tmp_pinming = response.data[i].pinming;
-					
-					if (_this.option_pinming.length != 0) {
-						for (var j in _this.option_pinming) {
-							if (_this.option_pinming[j].value == tmp_pinming) {
-								boo_flag = true;
-								break;
-							} else {
-								boo_flag = false;
-							}
-						}
-						if (boo_flag == false) {
-							_this.option_pinming.push({value: tmp_pinming, label: tmp_pinming});
-						}
-					} else {
-						_this.option_pinming.push({value: tmp_pinming, label: tmp_pinming});
-					}
-					
-					// gongxu
-					tmp_gongxu = response.data[i].gongxu;
-					
-					if (_this.option_gongxu.length != 0) {
-						for (var j in _this.option_gongxu) {
-							if (_this.option_gongxu[j].value == tmp_gongxu) {
-								boo_flag = true;
-								break;
-							} else {
-								boo_flag = false;
-							}
-						}
-						if (boo_flag == false) {
-							_this.option_gongxu.push({value: tmp_gongxu, label: tmp_gongxu});
-						}
-					} else {
-						_this.option_gongxu.push({value: tmp_gongxu, label: tmp_gongxu});
-					}
-					
+				if (response.data['jwt'] == 'logout') {
+					_this.error(false, '错误', '登录失效，请重新登录！');
+					window.setTimeout(function(){
+						window.location.href = "{{ route('portal') }}";
+					}, 2000);
 				}
 				
-				return false;
+				if (response.data) {
+					var tmp_pinming = '';
+					var tmp_gongxu = '';
+					var boo_flag = false;
+					
+					_this.option_pinming = [];
+					_this.option_gongxu = [];
+					for (var i in response.data) {
+						// pinming
+						tmp_pinming = response.data[i].pinming;
+						
+						if (_this.option_pinming.length != 0) {
+							for (var j in _this.option_pinming) {
+								if (_this.option_pinming[j].value == tmp_pinming) {
+									boo_flag = true;
+									break;
+								} else {
+									boo_flag = false;
+								}
+							}
+							if (boo_flag == false) {
+								_this.option_pinming.push({value: tmp_pinming, label: tmp_pinming});
+							}
+						} else {
+							_this.option_pinming.push({value: tmp_pinming, label: tmp_pinming});
+						}
+						
+						// gongxu
+						tmp_gongxu = response.data[i].gongxu;
+						
+						if (_this.option_gongxu.length != 0) {
+							for (var j in _this.option_gongxu) {
+								if (_this.option_gongxu[j].value == tmp_gongxu) {
+									boo_flag = true;
+									break;
+								} else {
+									boo_flag = false;
+								}
+							}
+							if (boo_flag == false) {
+								_this.option_gongxu.push({value: tmp_gongxu, label: tmp_gongxu});
+							}
+						} else {
+							_this.option_gongxu.push({value: tmp_gongxu, label: tmp_gongxu});
+						}
+						
+					}
+				}
 			})
 			.catch(function (error) {
 				// console.log(error);
@@ -1226,7 +1231,7 @@ var vm_app = new Vue({
 				} else if (_this.date_filter_pdreport[i] == '') {
 					date_filter_pdreport.push(new Date().Format("yyyy-MM-dd"));
 					// _this.tabledata_relation = [];
-					return false;
+					// return false;
 				} else {
 					date_filter_pdreport.push(_this.date_filter_pdreport[i]);
 				}
