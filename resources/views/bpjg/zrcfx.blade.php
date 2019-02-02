@@ -1021,6 +1021,13 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 				
+				if (response.data['jwt'] == 'logout') {
+					_this.error(false, '错误', '登录失效，请重新登录！');
+					window.setTimeout(function(){
+						window.location.href = "{{ route('portal') }}";
+					}, 2000);
+				}
+				
 				if (response.data) {
 					_this.pagecurrent_relation = response.data.current_page;
 					_this.pagetotal_relation = response.data.total;
@@ -1087,6 +1094,13 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+				
+				if (response.data['jwt'] == 'logout') {
+					_this.error(false, '错误', '登录失效，请重新登录！');
+					window.setTimeout(function(){
+						window.location.href = "{{ route('portal') }}";
+					}, 2000);
+				}
 				
 				if (response.data) {
 					_this.pagecurrent_result = response.data.current_page;

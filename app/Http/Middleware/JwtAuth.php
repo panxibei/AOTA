@@ -33,7 +33,9 @@ class JwtAuth
 			// dd('credentials are invalid');
 			if($request->ajax()){
 				// 如果是ajax请求，则返回空数组，由axios处理返回登录页面
-				return response()->json();
+				// return response()->json();
+				// return response()->json(['name' => 'Abigail']);
+				return response()->json(['jwt' => 'logout']);
 			} else {
 				// 如果是正常请求，则直接返回登录页面
 				return redirect()->route('login');

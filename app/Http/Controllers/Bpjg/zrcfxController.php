@@ -56,17 +56,9 @@ class zrcfxController extends Controller
 		$url = request()->url();
 		$queryParams = request()->query();
 		
-		if (isset($queryParams['perPage'])) {
-			$perPage = $queryParams['perPage'] ?: 10000;
-		} else {
-			$perPage = 10000;
-		}
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
 		
-		if (isset($queryParams['page'])) {
-			$page = $queryParams['page'] ?: 1;
-		} else {
-			$page = 1;
-		}
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		$xianti_filter = $request->input('xianti_filter');
@@ -138,17 +130,9 @@ class zrcfxController extends Controller
 		$url = request()->url();
 		$queryParams = request()->query();
 		
-		if (isset($queryParams['perPage'])) {
-			$perPage = $queryParams['perPage'] ?: 10000;
-		} else {
-			$perPage = 10000;
-		}
-		
-		if (isset($queryParams['page'])) {
-			$page = $queryParams['page'] ?: 1;
-		} else {
-			$page = 1;
-		}
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
+
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		// $xianti_filter = $request->input('xianti_filter');
