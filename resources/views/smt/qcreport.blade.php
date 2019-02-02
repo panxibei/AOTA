@@ -1325,6 +1325,13 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.error(false, '错误', '登录失效，请重新登录！');
+					window.setTimeout(function(){
+						window.location.href = "{{ route('portal') }}";
+					}, 2000);
+				}
+				
 				if (response.data) {
 					_this.pagecurrent = response.data.current_page;
 					_this.pagetotal = response.data.total;

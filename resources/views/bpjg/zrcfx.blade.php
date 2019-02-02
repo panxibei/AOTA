@@ -992,6 +992,7 @@ var vm_app = new Vue({
 					qcdate_filter_relation.push(_this.qcdate_filter_relation[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_relation[i] == '') {
 					// qcdate_filter_relation.push(new Date().Format("yyyy-MM-dd"));
+					_this.warning(false, '警告', '请选择日期范围！');
 					_this.tabledata_relation = [];
 					return false;
 				} else {

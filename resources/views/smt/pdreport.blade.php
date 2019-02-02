@@ -1245,28 +1245,35 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				// return false;
-				// if (typeof(response.data.data) == "undefined") {
-					// _this.alert_exit();
-				// }
-				// _this.spinShow = !_this.spinShow;
-				
-				_this.pagecurrent = response.data.current_page;
-				_this.pagetotal = response.data.total;
-				_this.pagelast = response.data.last_page
-				
-				_this.tabledata1 = response.data.data;
-				_this.tabledata2 = response.data.data;
-				
-				// 合计
-				_this.xiaoji_chajiandianshu = 0;
-				_this.xiaoji_jiadonglv = 0;
-				// _this.hejifen = 0;
-				for (var i in _this.tabledata1) {
-					_this.xiaoji_chajiandianshu += _this.tabledata1[i].chajiandianshu;
-					_this.xiaoji_jiadonglv += _this.tabledata1[i].jiadonglv;
+				if (response.data['jwt'] == 'logout') {
+					_this.error(false, '错误', '登录失效，请重新登录！');
+					window.setTimeout(function(){
+						window.location.href = "{{ route('portal') }}";
+					}, 2000);
 				}
-				_this.hejifen = 720 * _this.xiaoji_jiadonglv;
+				
+				if (response.data) {
+					_this.pagecurrent = response.data.current_page;
+					_this.pagetotal = response.data.total;
+					_this.pagelast = response.data.last_page
+					
+					_this.tabledata1 = response.data.data;
+					_this.tabledata2 = response.data.data;
+					
+					// 合计
+					_this.xiaoji_chajiandianshu = 0;
+					_this.xiaoji_jiadonglv = 0;
+					// _this.hejifen = 0;
+					for (var i in _this.tabledata1) {
+						_this.xiaoji_chajiandianshu += _this.tabledata1[i].chajiandianshu;
+						_this.xiaoji_jiadonglv += _this.tabledata1[i].jiadonglv;
+					}
+					_this.hejifen = 720 * _this.xiaoji_jiadonglv;
+				
+				} else {
+					_this.tabledata1 = [];
+					_this.tabledata2 = [];
+				}
 				
 				// 恢复禁用状态
 				_this.boo_delete = true;
@@ -1277,8 +1284,6 @@ var vm_app = new Vue({
 				
 			})
 			.catch(function (error) {
-				console.log(error);
-				alert(error);
 				_this.loadingbarerror();
 			})
 		},
