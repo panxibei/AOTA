@@ -52,7 +52,7 @@ class LoginController extends Controller
 
 		// 2.adldap判断AD认证
 		$adldap = false;
-		if (env('LDAP_USE_LDAP') == 'ldap') {
+		if (config('ldap.ldap_use_ldap') == 'ldap') {
 
 			try {
 				$adldap = Adldap::auth()->attempt(
@@ -148,7 +148,7 @@ class LoginController extends Controller
 		// return $this->respondWithToken($token);
 		// $minutes = 480;
 		// $minutes = config('jwt.ttl', 60);
-		$minutes = $rememberme ? config('jwt.ttl', 60*24*365) : env('JWT_COOKIES_TTL', 60*24);
+		$minutes = $rememberme ? config('jwt.ttl', 60*24*365) : config('jwt.jwt_cookies_ttl', 60*24);
 		Cookie::queue('token', $token, $minutes);
 		return $token;
 		

@@ -31,6 +31,7 @@ class JwtAuth
 		if (! sizeof($user)) {
 			// 无有效用户登录，则认证失败，退回登录界面
 			// dd('credentials are invalid');
+
 			if($request->ajax()){
 				// 如果是ajax请求，则返回空数组，由axios处理返回登录页面
 				// return response()->json();
