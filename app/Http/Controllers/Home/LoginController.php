@@ -148,7 +148,7 @@ class LoginController extends Controller
 		// return $this->respondWithToken($token);
 		// $minutes = 480;
 		// $minutes = config('jwt.ttl', 60);
-		$minutes = $rememberme ? 60*24*365 : config('jwt.ttl', 60*24);
+		$minutes = $rememberme ? config('jwt.ttl', 60*24*365) : env('JWT_COOKIES_TTL', 60*24);
 		Cookie::queue('token', $token, $minutes);
 		return $token;
 		
