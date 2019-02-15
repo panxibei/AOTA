@@ -139,7 +139,7 @@
 				</i-col>
 				<i-col span="6">
 					* 日期范围&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter_relation" :options="qcdate_filter_relation_options" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" format="yyyy-MM-dd" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="12">
 				&nbsp;
@@ -394,6 +394,56 @@ var vm_app = new Vue({
 		// ##########查询过滤########
 		// 日期范围过滤
 		qcdate_filter_relation: [], //new Date(),
+		qcdate_filter_relation_options: {
+			shortcuts: [
+				{
+					text: '前 1 周',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 1 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 3 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 6 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 120);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 1 年',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+						return [start, end];
+					}
+				},
+			]
+		},
+
 		qcdate_filter_result: '', //new Date(),
 		date_fenxi_suoshuriqi: '', //new Date(),
 		
@@ -977,7 +1027,7 @@ var vm_app = new Vue({
 		// main列表
 		relationgets: function (page, last_page) {
 			var _this = this;
-			
+
 			if (page > last_page) {
 				page = last_page;
 			} else if (page < 1) {
@@ -986,19 +1036,24 @@ var vm_app = new Vue({
 			
 			var qcdate_filter_relation = [];
 
-			for (var i in _this.qcdate_filter_relation) {
+ 			for (var i in _this.qcdate_filter_relation) {
 				if (typeof(_this.qcdate_filter_relation[i])!='string') {
 					qcdate_filter_relation.push(_this.qcdate_filter_relation[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_relation[i] == '') {
 					// qcdate_filter_relation.push(new Date().Format("yyyy-MM-dd"));
-					// _this.warning(false, '警告', '请选择日期范围！');
+					_this.warning(false, '警告', '请选择日期范围！');
 					_this.tabledata_relation = [];
 					return false;
 				} else {
 					qcdate_filter_relation.push(_this.qcdate_filter_relation[i]);
 				}
 			}
-			
+
+			console.log(qcdate_filter_relation);
+/* 			if (qcdate_filter_relation[0] == qcdate_filter_relation[1]) {
+				var newDate = DateAdd("d ", 5, now);
+			}
+ */			
 			var jizhongming_filter = _this.jizhongming_filter_relation;
 			var pinfan_filter = _this.pinfan_filter_relation;
 			var pinming_filter = _this.pinming_filter_relation;
