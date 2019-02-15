@@ -13,20 +13,20 @@ use Adldap\Laravel\Facades\Adldap;
 
 class LoginController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+	$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
 
-        return view('home.login', $config);
-    }
+			return view('home.login', $config);
+	}
 
-    public function checklogin(Request $request)
-    {
+	public function checklogin(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		// $name = $request->input('name');
@@ -152,6 +152,6 @@ class LoginController extends Controller
 		Cookie::queue('token', $token, $minutes);
 		return $token;
 		
-    }
+  }
 
 }
