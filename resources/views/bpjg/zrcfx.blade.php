@@ -138,8 +138,8 @@
 					查询：
 				</i-col>
 				<i-col span="6">
-					* 日期范围&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_relation" :options="qcdate_filter_relation_options" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" format="yyyy-MM-dd" size="small" style="width:200px"></Date-picker>
+					日期范围&nbsp;&nbsp;
+					<Date-picker v-model.lazy="qcdate_filter_relation" :options="qcdate_filter_relation_options" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="12">
 				&nbsp;
@@ -1033,10 +1033,15 @@ var vm_app = new Vue({
 			} else if (page < 1) {
 				page = 1;
 			}
+
+			var jizhongming_filter = _this.jizhongming_filter_relation;
+			var pinfan_filter = _this.pinfan_filter_relation;
+			var pinming_filter = _this.pinming_filter_relation;
+			var leibie_filter = _this.leibie_filter;
 			
 			var qcdate_filter_relation = [];
 
- 			for (var i in _this.qcdate_filter_relation) {
+/* 			for (var i in _this.qcdate_filter_relation) {
 				if (typeof(_this.qcdate_filter_relation[i])!='string') {
 					qcdate_filter_relation.push(_this.qcdate_filter_relation[i].Format("yyyy-MM-dd"));
 				} else if (_this.qcdate_filter_relation[i] == '') {
@@ -1048,16 +1053,24 @@ var vm_app = new Vue({
 					qcdate_filter_relation.push(_this.qcdate_filter_relation[i]);
 				}
 			}
+ */
 
-			console.log(qcdate_filter_relation);
-/* 			if (qcdate_filter_relation[0] == qcdate_filter_relation[1]) {
-				var newDate = DateAdd("d ", 5, now);
+
+			if (_this.qcdate_filter_relation[0] == '') {
+				if (jizhongming_filter == '' && pinfan_filter == '' && pinming_filter== '' && leibie_filter == '') {
+					_this.tabledata_relation = [];
+					return false;
+				} else {
+					const end = new Date();
+					const start = new Date();
+					start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+					qcdate_filter_relation = [start.Format("yyyy-MM-dd"), end.Format("yyyy-MM-dd")];
+				}
+			} else {
+				for (var i in _this.qcdate_filter_relation) {
+					typeof(_this.qcdate_filter_relation[i])!='string' ? qcdate_filter_relation[i] =  _this.qcdate_filter_relation[i].Format("yyyy-MM-dd") : qcdate_filter_relation[i] =  _this.qcdate_filter_relation[i];
+				}
 			}
- */			
-			var jizhongming_filter = _this.jizhongming_filter_relation;
-			var pinfan_filter = _this.pinfan_filter_relation;
-			var pinming_filter = _this.pinming_filter_relation;
-			var leibie_filter = _this.leibie_filter;
 
 			var url = "{{ route('bpjg.zrcfx.relationgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
