@@ -74,7 +74,7 @@ Admin(User) -
 				<i-table height="300" size="small" border :columns="tablecolumns" :data="tabledata" @on-selection-change="selection => onselectchange(selection)"></i-table>
 				<br><Page :current="page_current" :total="page_total" :page-size="page_size" @on-change="currentpage => oncurrentpagechange(currentpage)" @on-page-size-change="pagesize => onpagesizechange(pagesize)" :page-size-opts="[5, 10, 20, 50]" show-total show-elevator show-sizer></Page>
 			
-				<Modal v-model="modal_user_add" @on-ok="oncreate_user_ok" ok-text="新建" title="Create - User" width="420">
+				<Modal v-model="modal_user_add" @on-ok="oncreate_user_ok" ok-text="新建" title="Create - User" width="460">
 					<div style="text-align:left">
 						
 						<p>
@@ -87,6 +87,11 @@ Admin(User) -
 							<i-input v-model.lazy="user_add_email" placeholder="" size="small" clearable style="width: 120px" type="email"></i-input>
 							
 							<br><br>
+
+							ldapname&nbsp;&nbsp;
+							<i-input v-model.lazy="user_add_ldapname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+
+							&nbsp;&nbsp;&nbsp;&nbsp;
 							
 							displayname&nbsp;&nbsp;
 							<i-input v-model.lazy="user_add_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
@@ -104,7 +109,7 @@ Admin(User) -
 					</div>	
 				</Modal>
 				
-				<Modal v-model="modal_user_edit" @on-ok="user_edit_ok" ok-text="保存" title="Edit - User" width="420">
+				<Modal v-model="modal_user_edit" @on-ok="user_edit_ok" ok-text="保存" title="Edit - User" width="460">
 					<div style="text-align:left">
 						
 						<p>
@@ -117,6 +122,10 @@ Admin(User) -
 							<i-input v-model.lazy="user_edit_email" placeholder="" size="small" clearable style="width: 120px" type="email"></i-input>
 							
 							<br><br>
+							ldapname&nbsp;&nbsp;
+							<i-input v-model.lazy="user_edit_ldapname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+
+							&nbsp;&nbsp;&nbsp;&nbsp;
 
 							displayname&nbsp;&nbsp;
 							<i-input v-model.lazy="user_edit_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
@@ -197,6 +206,11 @@ var vm_app = new Vue({
 			{
 				title: 'name',
 				key: 'name',
+				width: 120
+			},
+			{
+				title: 'ldapname',
+				key: 'ldapname',
 				width: 120
 			},
 			{
@@ -300,6 +314,7 @@ var vm_app = new Vue({
 		modal_user_add: false,
 		user_add_id: '',
 		user_add_name: '',
+		user_add_ldapname: '',
 		user_add_email: '',
 		user_add_displayname: '',
 		user_add_password: '',
@@ -308,6 +323,7 @@ var vm_app = new Vue({
 		modal_user_edit: false,
 		user_edit_id: '',
 		user_edit_name: '',
+		user_edit_ldapname: '',
 		user_edit_email: '',
 		user_edit_displayname: '',
 		user_edit_password: '',
@@ -511,6 +527,7 @@ var vm_app = new Vue({
 			
 			_this.user_edit_id = row.id;
 			_this.user_edit_name = row.name;
+			_this.user_edit_ldapname = row.ldapname;
 			_this.user_edit_email = row.email;
 			_this.user_edit_displayname = row.displayname;
 			// _this.user_edit_password = row.password;
@@ -529,6 +546,7 @@ var vm_app = new Vue({
 			
 			var id = _this.user_edit_id;
 			var name = _this.user_edit_name;
+			var ldapname = _this.user_edit_ldapname;
 			var email = _this.user_edit_email;
 			var displayname = _this.user_edit_displayname;
 			var password = _this.user_edit_password;
@@ -536,6 +554,7 @@ var vm_app = new Vue({
 			// var updated_at = _this.relation_updated_at_edit;
 			
 			if (name == '' || name == null || name == undefined
+				|| ldapname == '' || ldapname == null || ldapname == undefined
 				|| email == '' || email == null || email == undefined
 				|| displayname == '' || displayname == null || displayname == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
@@ -553,6 +572,7 @@ var vm_app = new Vue({
 			axios.post(url, {
 				id: id,
 				name: name,
+				ldapname: ldapname,
 				email: email,
 				displayname: displayname,
 				password: password,
@@ -571,6 +591,7 @@ var vm_app = new Vue({
 					
 					_this.user_edit_id = '';
 					_this.user_edit_name = '';
+					_this.user_edit_ldapname = '';
 					_this.user_edit_email = '';
 					_this.user_edit_displayname = '';
 					_this.user_edit_password = '';
@@ -646,11 +667,13 @@ var vm_app = new Vue({
 		oncreate_user_ok: function () {
 			var _this = this;
 			var name = _this.user_add_name;
+			var ldapname = _this.user_add_ldapname;
 			var email = _this.user_add_email;
 			var displayname = _this.user_add_displayname;
 			var password = _this.user_add_password;
 			
 			if (name == '' || name == null || name == undefined
+				|| ldapname == '' || ldapname == null || ldapname == undefined
 				|| email == '' || email == null || email == undefined
 				|| displayname == '' || displayname == null || displayname == undefined
 				|| password == '' || password == null || password == undefined) {
@@ -670,6 +693,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				name: name,
+				ldapname: ldapname,
 				email: email,
 				displayname: displayname,
 				password: password
@@ -678,6 +702,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, 'Success', 'User created successfully!');
 					_this.user_add_name = '';
+					_this.user_add_ldapname = '';
 					_this.user_add_email = '';
 					_this.user_add_displayname = '';
 					_this.user_add_password = '';

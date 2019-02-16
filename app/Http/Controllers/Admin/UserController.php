@@ -10,7 +10,7 @@ use App\Models\Admin\User;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-use App\Exports\userExport;
+use App\Exports\Admin\userExport;
 
 // use Illuminate\Database\Eloquent\Collection;
 // use Illuminate\Support\Collection;
@@ -73,7 +73,7 @@ class UserController extends Controller
 		$queryfilter_email = $request->input('queryfilter_email');
 		$queryfilter_loginip = $request->input('queryfilter_loginip');
 
-		$user = User::select('id', 'name', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})
@@ -108,6 +108,7 @@ class UserController extends Controller
 		// $newuser = $request->only('name', 'email');
 		// $nowtime = date("Y-m-d H:i:s",time());
 		$name = $request->input('name');
+		$ldapname = $request->input('ldapname');
 		$email = $request->input('email');
 		$displayname = $request->input('displayname');
 		$password = $request->input('password');
@@ -116,6 +117,7 @@ class UserController extends Controller
 		
 		$result = User::create([
 			'name'     		=> $name,
+			'ldapname'     	=> $ldapname,
 			'email'    		=> $email,
 			'displayname'	=> $displayname,
 			'password' 		=> bcrypt($password),
@@ -217,6 +219,7 @@ class UserController extends Controller
 
 		$id = $request->input('id');
 		$name = $request->input('name');
+		$ldapname = $request->input('ldapname');
 		$email = $request->input('email');
 		$displayname = $request->input('displayname');
 		$password = $request->input('password');
@@ -229,6 +232,7 @@ class UserController extends Controller
 				$result = User::where('id', $id)
 					->update([
 						'name'			=>	$name,
+						'ldapname'		=>	$ldapname,
 						'email'			=>	$email,
 						'displayname'	=>	$displayname,
 						'password'		=>	bcrypt($password)
@@ -237,6 +241,7 @@ class UserController extends Controller
 				$result = User::where('id', $id)
 					->update([
 						'name'			=>	$name,
+						'ldapname'		=>	$ldapname,
 						'email'			=>	$email,
 						'displayname'	=>	$displayname
 					]);
@@ -276,7 +281,7 @@ class UserController extends Controller
 		$queryfilter_logintime = $FILTERS_USER_LOGINTIME ?: ['1970-01-01', '9999-12-31'];
 		$queryfilter_loginip = $FILTERS_USER_LOGINIP ?: '';
 		
-		$user = User::select('id', 'name', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})
@@ -305,7 +310,7 @@ class UserController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', 'name', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at'];
+		$title[] = ['id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $user);

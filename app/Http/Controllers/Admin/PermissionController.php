@@ -11,7 +11,7 @@ use DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\permissionExport;
+use App\Exports\Admin\permissionExport;
 use Illuminate\Support\Facades\Cache;
 
 class PermissionController extends Controller

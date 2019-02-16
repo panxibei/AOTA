@@ -20,7 +20,7 @@ Main(Config) -
 @endsection
 
 @section('my_project')
-<strong>AOTA Management System Beta - Config</strong>
+<strong>AOTA Management System - Config</strong>
 @endsection
 
 @section('my_body')
