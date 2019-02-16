@@ -701,7 +701,7 @@ var vm_app = new Vue({
 			})
 			.then(function (response) {
 				if (response.data) {
-					_this.success(false, 'Success', 'User created successfully!');
+					_this.success(false, '成功', '用户创建成功！');
 					_this.user_add_name = '';
 					// _this.user_add_ldapname = '';
 					_this.user_add_email = '';
@@ -709,11 +709,11 @@ var vm_app = new Vue({
 					_this.user_add_password = '';
 					_this.usergets(_this.page_current, _this.page_last);
 				} else {
-					_this.error(false, 'Warning', 'User created failed!');
+					_this.error(false, '失败', '用户创建失败！');
 				}
 			})
 			.catch(function (error) {
-				_this.error(false, 'Error', 'User created failed!');
+				_this.error(false, '错误', '用户创建失败！');
 			})
 		},		
 		

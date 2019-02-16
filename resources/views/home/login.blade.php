@@ -74,8 +74,8 @@ Login -
 			
 			<br><br><br>
 			<Form-item>
-			<i-button type="primary" @click="handleSubmit('formInline')" ref="ref_login_submit">登 录</i-button>&nbsp;&nbsp;
-			<i-button @click="handleReset('formInline')" ref="ref_login_reset" style="margin-left: 8px">重 置</i-button>
+			<i-button :disabled="disabled_login_submit" type="primary" @click="handleSubmit('formInline')">登 录</i-button>&nbsp;&nbsp;
+			<i-button :disabled="disabled_login_reset" @click="handleReset('formInline')" style="margin-left: 8px">重 置</i-button>
 			</Form-item>
 			
 			<div v-html="formInline.loginmessage">@{{ formInline.loginmessage }}</div>
@@ -105,26 +105,29 @@ var vm_app = new Vue({
     el: '#app',
     data: {
 		
-		formInline: {
-			username: '',
-			password: '',
-			captcha: '',
-			rememberme: false,
-			loginmessage: ''
-		},
-		ruleInline: {
-			username: [
-				{ required: true, message: '请填写用户名', trigger: 'blur' }
-			],
-			password: [
-				{ required: true, message: '请填写密码', trigger: 'blur' },
-				{ type: 'string', min: 3, message: 'Password length is more than 3 bits', trigger: 'blur' }
-			],
-			captcha: [
-				{ required: true, message: '请填写验证码', trigger: 'blur' },
-				{ type: 'string', min: 3, message: 'The captcha length is 3 bits', trigger: 'blur' }
-			]
-		},
+			formInline: {
+				username: '',
+				password: '',
+				captcha: '',
+				rememberme: false,
+				loginmessage: ''
+			},
+			ruleInline: {
+				username: [
+					{ required: true, message: '请填写用户名', trigger: 'blur' }
+				],
+				password: [
+					{ required: true, message: '请填写密码', trigger: 'blur' },
+					{ type: 'string', min: 3, message: 'Password length is more than 3 bits', trigger: 'blur' }
+				],
+				captcha: [
+					{ required: true, message: '请填写验证码', trigger: 'blur' },
+					{ type: 'string', min: 3, message: 'The captcha length is 3 bits', trigger: 'blur' }
+				]
+			},
+
+			disabled_login_submit: false,
+			disabled_login_reset: false,
 		
     },
 	methods: {
@@ -134,7 +137,7 @@ var vm_app = new Vue({
 					var _this = this;
 
 					_this.logindisabled(true);
-					_this.formInline.loginmessage = '<div class="text-info">正在验证...</div>';
+					_this.formInline.loginmessage = '<div class="text-info">正在验证... 稍等...</div>';
 
 					if (_this.formInline.username == undefined || _this.formInline.password == undefined || _this.formInline.captcha == undefined ||
 						_this.formInline.username == '' || _this.formInline.password == '' || _this.formInline.captcha == '') {
@@ -193,15 +196,15 @@ var vm_app = new Vue({
 				_this.$refs.ref_password.disabled = true;
 				_this.$refs.ref_captcha.disabled = true;
 				_this.$refs.ref_rememberme.disabled = true;
-				_this.$refs.ref_login_submit.disabled = true;
-				_this.$refs.ref_login_reset.disabled = true;
+				_this.disabled_login_submit = true;
+				_this.disabled_login_reset = true;
 			} else {
 				_this.$refs.ref_username.disabled = false;
 				_this.$refs.ref_password.disabled = false;
 				_this.$refs.ref_captcha.disabled = false;
 				_this.$refs.ref_rememberme.disabled = false;
-				_this.$refs.ref_login_submit.disabled = false;
-				_this.$refs.ref_login_reset.disabled = false;
+				_this.disabled_login_submit = false;
+				_this.disabled_login_reset = false;
 			}
 		},
 	}
