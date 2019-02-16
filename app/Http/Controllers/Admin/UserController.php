@@ -108,7 +108,7 @@ class UserController extends Controller
 		// $newuser = $request->only('name', 'email');
 		// $nowtime = date("Y-m-d H:i:s",time());
 		$name = $request->input('name');
-		$ldapname = $request->input('ldapname');
+		// $ldapname = $request->input('ldapname');
 		$email = $request->input('email');
 		$displayname = $request->input('displayname');
 		$password = $request->input('password');
@@ -117,7 +117,7 @@ class UserController extends Controller
 		
 		$result = User::create([
 			'name'     		=> $name,
-			'ldapname'     	=> $ldapname,
+			// 'ldapname'     	=> $ldapname,
 			'email'    		=> $email,
 			'displayname'	=> $displayname,
 			'password' 		=> bcrypt($password),
@@ -219,7 +219,7 @@ class UserController extends Controller
 
 		$id = $request->input('id');
 		$name = $request->input('name');
-		$ldapname = $request->input('ldapname');
+		// $ldapname = $request->input('ldapname');
 		$email = $request->input('email');
 		$displayname = $request->input('displayname');
 		$password = $request->input('password');
@@ -232,7 +232,7 @@ class UserController extends Controller
 				$result = User::where('id', $id)
 					->update([
 						'name'			=>	$name,
-						'ldapname'		=>	$ldapname,
+						// 'ldapname'		=>	$ldapname,
 						'email'			=>	$email,
 						'displayname'	=>	$displayname,
 						'password'		=>	bcrypt($password)
@@ -241,7 +241,7 @@ class UserController extends Controller
 				$result = User::where('id', $id)
 					->update([
 						'name'			=>	$name,
-						'ldapname'		=>	$ldapname,
+						// 'ldapname'		=>	$ldapname,
 						'email'			=>	$email,
 						'displayname'	=>	$displayname
 					]);

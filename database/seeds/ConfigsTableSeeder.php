@@ -25,7 +25,7 @@ class ConfigsTableSeeder extends Seeder
             array (
                 'cfg_id' => 1,
                 'cfg_name' => 'SITE_TITLE',
-                'cfg_value' => 'Aota Managerment System 2019',
+                'cfg_value' => 'Aota Managerment System',
                 'cfg_description' => '站点名称',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
@@ -35,7 +35,7 @@ class ConfigsTableSeeder extends Seeder
             array (
                 'cfg_id' => 2,
                 'cfg_name' => 'SITE_VERSION',
-                'cfg_value' => '1901.29.0.1606',
+                'cfg_value' => '1902.16.0.2053',
 				'cfg_description' => '站点版本号',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
@@ -45,7 +45,7 @@ class ConfigsTableSeeder extends Seeder
             array (
                 'cfg_id' => 3,
                 'cfg_name' => 'SITE_COPYRIGHT',
-                'cfg_value' => '© 2018-2019 by GaoFenghua',
+                'cfg_value' => '© 2018-2019 GaoFenghua',
 				'cfg_description' => '站点版权信息',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,

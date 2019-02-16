@@ -59,7 +59,7 @@ class LoginController extends Controller
 					// $user['name'] . env('ADLDAP_ADMIN_ACCOUNT_SUFFIX'),
 					$name,
 					$password
-					);
+				);
 			}
 			// catch (Exception $e) {
 			catch (\Adldap\Auth\BindException $e) { //捕获异常
@@ -75,6 +75,7 @@ class LoginController extends Controller
 				$user_tmp = Adldap::search()->users()->find($name);
 				$email = $user_tmp['mail'][0];
 				$displayname = $user_tmp['displayname'][0];
+				$ldapname = $name;
 
 				// 同步本地用户密码
 				$nowtime = date("Y-m-d H:i:s",time());
@@ -82,6 +83,7 @@ class LoginController extends Controller
 					$result = User::where('name', $name)
 						->increment('login_counts', 1, [
 							'password'   => bcrypt($password),
+							'ldapname'   => $ldapname,
 							'email'      => $email,
 							'displayname'=> $displayname,
 							'login_time' => $nowtime,
@@ -92,6 +94,7 @@ class LoginController extends Controller
 					if ($result == 0) {
 						$result = User::create([
 							'name'          => $name,
+							'ldapname'   	=> $ldapname,
 							'email'         => $email,
 							'displayname'   => $displayname,
 							'password'      => bcrypt($password),
