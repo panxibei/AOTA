@@ -20,7 +20,7 @@ Main(Portal) -
 @endsection
 
 @section('my_project')
-<strong>AOTA Management System Beta - Portal</strong>
+<strong>AOTA Management System - Portal</strong>
 @endsection
 
 @section('my_body')
@@ -38,7 +38,7 @@ Main(Portal) -
 					<p v-for="item in CardListSmt">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
 						<span style="float:right">
-							Hits: @{{ item.hits }}
+							Percent: @{{ item.percent }}%
 						</span>
 					</p>
 			</Card>
@@ -58,7 +58,7 @@ Main(Portal) -
 					<p v-for="item in CardListBupinjiagong">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
 						<span style="float:right">
-							Hits: @{{ item.hits }}
+							Percent: @{{ item.percent }}%
 						</span>
 					</p>
 			</Card>
@@ -94,17 +94,17 @@ var vm_app = new Vue({
 			{
 				name: 'Mpoint',
 				url: "{{ route('smt.pdreport.mpoint') }}", //'http://172.22.15.199:8888/smt/mpoint',
-				hits: '???'
+				percent: 85,
 			},
 			{
 				name: '生产日报',
 				url: "{{ route('smt.pdreport.index') }}",
-				hits: '???'
+				percent: 75,
 			},
 			{
 				name: '品质日报',
 				url: "{{ route('smt.qcreport.index') }}",
-				hits: '???'
+				percent: 90,
 			},
 		],
 
@@ -113,7 +113,7 @@ var vm_app = new Vue({
 			{
 				name: '中日程分析',
 				url: "{{ route('bpjg.zrcfx.index') }}",
-				hits: '???'
+				percent: 95,
 			},
 		],
 		
