@@ -140,6 +140,10 @@ Route::group(['prefix'=>'user', 'namespace'=>'Admin', 'middleware'=>['jwtauth','
 	// 测试excelExport
 	Route::get('excelExport', 'UserController@excelExport')->name('admin.user.excelexport');
 
+	// 清除user的ttl
+	Route::post('userclsttl', 'UserController@userClsttl')->name('admin.user.clsttl');
+
+
 });
 
 

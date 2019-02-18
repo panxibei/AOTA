@@ -81,7 +81,7 @@
 			<div style="z-index: 999;">
             <Header :style="{position: 'fixed', width: '100%', marginLeft: '0px'}">
                 <Layout>
-				<i-menu mode="horizontal" theme="light" active-name="3">
+				<i-menu mode="horizontal" theme="light" active-name="1" @on-select="name=>topmenuselect(name)">
 					
 					<!--面包屑-->
 					<div class="layout-breadcrumb">

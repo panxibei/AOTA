@@ -41,14 +41,19 @@ class pdreportController extends Controller
     //
 	public function mpoint () {
 		
-		// $test = DB::table('mpoints')->get();
-		// dd($test);
+		// 获取JSON格式的jwt-auth用户响应
+		$me = response()->json(auth()->user());
 		
-		// $test0 = json_encode([1,2,3]);
-		// $share = compact('test', 'test0');
+		// 获取JSON格式的jwt-auth用户信息（$me->getContent()），就是$me的data部分
+		$user = json_decode($me->getContent(), true);
+		// 用户信息：$user['id']、$user['name'] 等
+
+        // 获取配置值
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+        // return view('admin.config', $config);
 		
-		// return view('mpoint', $share);
-		return view('smt.mpoint');
+		$share = compact('config', 'user');
+		return view('smt.mpoint', $share);
 		
 	}
 	

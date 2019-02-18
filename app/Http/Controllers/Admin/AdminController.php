@@ -20,6 +20,21 @@ class AdminController extends Controller
 		// 删除cookie
 		Cookie::queue(Cookie::forget('token'));
 
+		// 重置login_ttl为0
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+
+		try	{
+			User::where('id', $user['id'])
+			->update([
+				'login_ttl'	=> 0
+			]);
+		}
+		catch (Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			// $result = 0;
+		}
+
 		// Pass true to force the token to be blacklisted "forever"
 		// auth()->logout(true);
 		auth()->logout();

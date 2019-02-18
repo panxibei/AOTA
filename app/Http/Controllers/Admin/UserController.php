@@ -322,4 +322,32 @@ class UserController extends Controller
     }
 
 
+
+    /**
+     * 清除用户TTL
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userClsttl(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$id = $request->input('id');
+
+		try	{
+			$result = User::where('id', $id)
+				->update([
+					'login_ttl'	=>	0,
+				]);
+			// $result = 1;
+		}
+		catch (Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		// dd($result);
+		return $result;
+    }	
+
 }

@@ -280,7 +280,7 @@ var vm_app = new Vue({
 				title: 'Action',
 				key: 'action',
 				align: 'center',
-				width: 80,
+				width: 140,
 				render: (h, params) => {
 					return h('div', [
 						h('Button', {
@@ -296,7 +296,21 @@ var vm_app = new Vue({
 									vm_app.user_edit(params.row)
 								}
 							}
-						}, 'Edit')
+						}, 'Edit'),
+						h('Button', {
+							props: {
+								type: 'primary',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.user_clsttl(params.row)
+								}
+							}
+						}, 'ClsTTL')
 					]);
 				},
 				fixed: 'right'
@@ -726,6 +740,30 @@ var vm_app = new Vue({
 			return false;
 		},
 		
+		// ClearTTL
+		user_clsttl: function (row) {
+			var _this = this;
+			var id = row.id;
+
+			var url = "{{ route('admin.user.clsttl') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				id: id,
+			})
+			.then(function (response) {
+ 				if (response.data) {
+					_this.success(false, '成功', '清除用户登录TTL成功！');
+				} else {
+					_this.error(false, '失败', '清除用户登录TTL失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '清除用户登录TTL失败！');
+			})
+
+
+			
+		},
 		
 		
 		

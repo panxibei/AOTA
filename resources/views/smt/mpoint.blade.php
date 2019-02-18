@@ -300,6 +300,14 @@ var vm_app = new Vue({
 				desc: nodesc ? '' : content
 			});
 		},
+
+		alert_logout: function () {
+			this.error(false, '会话超时', '会话超时，请重新登录！');
+			window.setTimeout(function(){
+				window.location.href = "{{ route('portal') }}";
+			}, 2000);
+			return false;
+		},
 		
 		// datepickerchange: function (date) {
 			// if (typeof(date)=='string') {
@@ -347,6 +355,11 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.pagecurrent = response.data.current_page;
 					_this.pagetotal = response.data.total;

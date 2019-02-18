@@ -161,7 +161,7 @@ var vm_app = new Vue({
 						if (response.data) {
 
 							if (response.data=='nosingleuser') {
-								_this.formInline.loginmessage = '<font color="red">用户已在其他地方登录! 请注销后再试！</font>';
+								_this.formInline.loginmessage = '<font color="red">用户已在其他地方登录！ 请注销再试！</font>';
 								_this.logindisabled(false);
 								return false;
 							}
