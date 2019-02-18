@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('displayname');
             $table->string('password');
-			$table->timestamp('login_time')->default(null)->comment('登录时间');
+			$table->timestamp('login_time')->comment('登录时间');
+			$table->integer('login_ttl')->default(0)->comment('登录有效时间');
 			$table->string('login_ip',15)->default(null)->comment('登录ip');
 			$table->integer('login_counts')->default(0)->comment('登录次数');
             $table->rememberToken();

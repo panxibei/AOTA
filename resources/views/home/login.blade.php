@@ -159,6 +159,15 @@ var vm_app = new Vue({
 						// return false;
 						
 						if (response.data) {
+
+							if (response.data=='nosingleuser') {
+								_this.formInline.loginmessage = '<font color="red">用户已在其他地方登录! 请注销后再试！</font>';
+								_this.logindisabled(false);
+								return false;
+							}
+
+
+
 							_this.formInline.password = '**********';
 							_this.formInline.loginmessage = '<font color="blue">登录成功! 请稍等...</font>';
 							window.setTimeout(function(){

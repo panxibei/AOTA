@@ -50,6 +50,23 @@ class LoginController extends Controller
 		$name = $request->input('name');
 		$password = $request->input('password');
 
+		// 判断单用户登录
+		$singleUser = User::select('login_time', 'login_ttl')->where('name', $name)->first();
+		$user_login_time = strtotime($singleUser['login_time']);
+		$user_login_ttl = $singleUser['login_ttl'] * 60;
+		$user_login_expire = $user_login_time + $user_login_ttl;
+		$user_now = time();
+		
+		if ($user_now < $user_login_expire) {
+			// return $user_login_time . '|' . $user_login_ttl . '|' .$user_now . 'singleuser';
+			return 'nosingleuser';
+		}
+
+
+		// $minutes = 480;
+		// $minutes = config('jwt.ttl', 60);
+		$minutes = $rememberme ? config('jwt.ttl', 60*24*365) : config('jwt.jwt_cookies_ttl', 60*24);
+
 		// 2.adldap判断AD认证
 		$adldap = false;
 		if (config('ldap.ldap_use_ldap') == 'ldap') {
@@ -87,6 +104,7 @@ class LoginController extends Controller
 							'email'      => $email,
 							'displayname'=> $displayname,
 							'login_time' => $nowtime,
+							'login_ttl'	 => $minutes,
 							'login_ip'   => $_SERVER['REMOTE_ADDR'],
 						]);
 
@@ -99,6 +117,7 @@ class LoginController extends Controller
 							'displayname'   => $displayname,
 							'password'      => bcrypt($password),
 							'login_time'    => $nowtime,
+							'login_ttl'	 	=> $minutes,
 							'login_ip'      => $_SERVER['REMOTE_ADDR'],
 							'login_counts'  => 1,
 							'remember_token'=> '',
@@ -130,6 +149,7 @@ class LoginController extends Controller
 			return null;
 		}
 		
+		
 		// 如果没有经过ldap, 则更新本地用户信息
 		if (! $adldap) {
 			try	{
@@ -138,6 +158,7 @@ class LoginController extends Controller
 				$result = User::where('name', $name)
 					->increment('login_counts', 1, [
 						'login_time' => $nowtime,
+						'login_ttl' => $minutes,
 						'login_ip'   => $_SERVER['REMOTE_ADDR'],
 					]);
 			}
@@ -149,9 +170,6 @@ class LoginController extends Controller
 		}
 
 		// return $this->respondWithToken($token);
-		// $minutes = 480;
-		// $minutes = config('jwt.ttl', 60);
-		$minutes = $rememberme ? config('jwt.ttl', 60*24*365) : config('jwt.jwt_cookies_ttl', 60*24);
 		Cookie::queue('token', $token, $minutes);
 		return $token;
 		
