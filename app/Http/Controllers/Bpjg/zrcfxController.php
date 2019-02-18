@@ -77,8 +77,7 @@ class zrcfxController extends Controller
 
 		$fullUrl = sha1("{$url}?{$queryString}");
 		
-		// dd($fullUrl);
-		// dd($queryParams);
+	
 		// dd($qcdate_filter);
 		
 		// 注意$usecache变量的类型
