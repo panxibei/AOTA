@@ -79,12 +79,17 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
 	Route::get('/', 'mainController@mainPortal')->name('portal');
 	Route::get('portal', 'mainController@mainPortal')->name('portal');
-	Route::get('config', 'mainController@mainConfig');
-	Route::get('configgets', 'mainController@configGets')->name('config.configgets');
-	Route::post('configcreate', 'mainController@configCreate')->name('config.create');
-	Route::post('configupdate', 'mainController@configUpdate')->name('config.update');
 	// logout
 	Route::get('logout', 'mainController@logout')->name('main.logout');
+});
+
+
+// AOTA配置页面
+Route::group(['prefix'=>'smt', 'namespace'=>'Main', 'middleware'=>['jwtauth','permission:permission_smt_config|permission_super_admin']], function() {
+	Route::get('config', 'mainController@mainConfig')->name('smt.config');;
+	Route::get('configgets', 'mainController@configGets')->name('smt.configgets');
+	Route::post('configcreate', 'mainController@configCreate')->name('smt.configcreate');
+	Route::post('configupdate', 'mainController@configUpdate')->name('smt.configupdate');
 });
 
 

@@ -34,6 +34,11 @@ Main(Portal) -
 			<Card>
 				<p slot="title">
 					SMT管理系统（Beta版）
+					@hasanyrole('role_smt_config|role_super_admin')
+					<span style="float:right">
+						<a href="{{ route('smt.config') }}" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;Config</a>
+					</span>
+					@endcan
 				</p>
 					<p v-for="item in CardListSmt">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>

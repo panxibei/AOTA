@@ -34,8 +34,6 @@ class mainController extends Controller
 			// $result = 0;
 		}
 
-
-
 		// Pass true to force the token to be blacklisted "forever"
 		// auth()->logout(true);
 		auth()->logout();
@@ -89,7 +87,6 @@ class mainController extends Controller
 		// $configgets = Smt_config::pluck('value', 'name');
 		$configgets = Smt_config::select('title', 'name', 'value')->get();
 			
-		
 		return $configgets;		
 	}
 
@@ -130,8 +127,6 @@ class mainController extends Controller
 
 		DB::commit();
 		return $result;				
-		
-		
 		
 	}
 

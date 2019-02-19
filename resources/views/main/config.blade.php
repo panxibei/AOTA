@@ -224,7 +224,7 @@ var vm_app = new Vue({
 			var _this = this;
 
 
-			var url = "{{ route('config.configgets') }}";
+			var url = "{{ route('smt.configgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -274,7 +274,7 @@ var vm_app = new Vue({
 				return false;
 			}
 
-			var url = "{{ route('config.update') }}";
+			var url = "{{ route('smt.configupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				name : name,
