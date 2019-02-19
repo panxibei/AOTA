@@ -169,7 +169,7 @@ var vm_app = new Vue({
 
 
 							_this.formInline.password = '**********';
-							_this.formInline.loginmessage = '<font color="blue">登录成功! 请稍等...</font>';
+							_this.formInline.loginmessage = '<font color="blue">登录成功！ 请稍等...</font>';
 							window.setTimeout(function(){
 								_this.loginreset;
 								var url = "{{ route('portal') }}";
@@ -177,13 +177,13 @@ var vm_app = new Vue({
 								_this.formInline.loginmessage = '';
 							}, 1000);
 						} else {
-							_this.formInline.loginmessage = '<font color="red">验证码错误或登录失败!</font>';
+							_this.formInline.loginmessage = '<font color="red">验证码错误或登录失败！</font>';
 							_this.logindisabled(false);
 						}
 					})
 					.catch(function (error) {
 						// console.log(error);
-						_this.formInline.loginmessage = '<font color="red">未知错误! 请重试!</font>';
+						_this.formInline.loginmessage = '<font color="red">用户过期或未知错误！</font>';
 						_this.logindisabled(false);
 					})
 					_this.captchaclick();
