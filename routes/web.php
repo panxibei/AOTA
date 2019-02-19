@@ -64,7 +64,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 
 
 // MPoint页面
-Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_mpoint|permission_super_admin']], function() {
 	Route::get('mpoint', 'pdreportController@mpoint')->name('smt.pdreport.mpoint');
 	Route::get('mpointgets', 'pdreportController@mpointGets')->name('smt.pdreport.mpointgets');
 	Route::post('mpointcreate', 'pdreportController@mpointCreate')->name('smt.pdreport.mpointcreate');
