@@ -1217,7 +1217,7 @@ var vm_app = new Vue({
 		configgets: function () {
 			var _this = this;
 
-			var url = "{{ route('config.configgets') }}";
+			var url = "{{ route('smt.configgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
