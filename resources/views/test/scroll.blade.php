@@ -186,9 +186,18 @@
 					<br>
 
 					<Scroll :on-reach-bottom="handleReachBottom" distance-to-edge=5 height="200">
-						<Card dis-hover v-for="(item, index) in list1" :key="index" style="margin: 32px 0">
+<!-- 						<Card dis-hover v-for="(item, index) in list1" :key="index" style="margin: 32px 0">
 							Content @{{ item }}
 						</Card>
+ -->
+                        <Collapse v-for="(item, index) in list_log">
+                            <Panel name="@{{ index }}">
+                                @{{ item.label }}
+                                <p slot="content">
+                                @{{ item.value }}
+                                </p>
+                            </Panel>
+                        </Collapse>
 					</Scroll>
 
 
@@ -474,6 +483,48 @@ var vm_app = new Vue({
 		spinShow: true,
 
 		list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        list_log: [
+            {
+                label: '拙政园1',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园2',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园3',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园4',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园5',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园6',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园7',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园8',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园9',
+                value: 'zhuozhengyuan',
+            },
+            {
+                label: '拙政园10',
+                value: 'zhuozhengyuan',
+            },
+        ],
 
 
 	},
@@ -586,7 +637,6 @@ var vm_app = new Vue({
 					for (let i = 1; i < 21; i++) {
 						this.list1.push(last + i);
 					}
-					// this.list1.push(8);
 					resolve();
 				}, 2000);
 			});

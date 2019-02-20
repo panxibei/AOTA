@@ -207,6 +207,14 @@ var vm_app = new Vue({
 			});
 		},
 		
+		alert_logout: function () {
+			this.error(false, '会话超时', '会话超时，请重新登录！');
+			window.setTimeout(function(){
+				window.location.href = "{{ route('portal') }}";
+			}, 2000);
+			return false;
+		},
+				
 		// 把laravel返回的结果转换成select能接受的格式
 		json2select: function (value) {
 			var arr = value.split(/[\s\n]/);
@@ -231,6 +239,11 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
 				if (response.data) {
 					_this.CardListSmt = response.data;
 					
@@ -281,6 +294,11 @@ var vm_app = new Vue({
 				value: value
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
 				} else {
