@@ -10,6 +10,7 @@ use App\Models\Admin\User;
 use Cookie;
 use DB;
 use App\Models\Main\Smt_config;
+use App\Models\Main\Release;
 
 class mainController extends Controller
 {
@@ -105,7 +106,7 @@ class mainController extends Controller
 		// $configgets = Smt_config::pluck('value', 'name');
 		$configgets = Smt_config::select('title', 'name', 'value')->get();
 			
-		return $configgets;		
+		return $configgets;
 	}
 
 	public function configCreate (Request $request) {
@@ -174,9 +175,25 @@ class mainController extends Controller
 		DB::commit();
 		return $result;				
 		
-		
-		
 	}
+
+
+	public function mainReleasegets (Request $request) {
+
+		if (! $request->ajax()) return null;
+
+		$offset = $request->input('offset');
+
+		$releasegets = Release::select('title', 'content')
+			->offset($offset)
+			->limit(5)
+			->orderBy('id', 'desc')
+			->get()
+			->toArray();
+		
+		return $releasegets;
+	}
+
 	
 	
 

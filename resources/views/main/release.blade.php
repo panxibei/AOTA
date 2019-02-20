@@ -1,7 +1,7 @@
 @extends('main.layouts.mainbase')
 
 @section('my_title')
-Main(Logs) - 
+Main(Releases) - 
 @parent
 @endsection
 
@@ -20,7 +20,7 @@ Main(Logs) -
 @endsection
 
 @section('my_project')
-<strong>AOTA Management System - Logs</strong>
+<strong>AOTA Management System - Releases</strong>
 @endsection
 
 @section('my_body')
@@ -36,14 +36,15 @@ Main(Logs) -
 					SMT管理系统配置
 				</p>
                 <Scroll :on-reach-bottom="handleReachBottom" distance-to-edge=5 height="200">
-                    <Collapse simple v-for="(item, index) in list_log">
+                    <Collapse simple v-for="(item, index) in list_release">
                         <Panel name="@{{ index }}">
-                            @{{ item.label }}
+                            @{{ item.title }}
                             <p slot="content">
-                            @{{ item.value }}
+                            @{{ item.content }}
                             </p>
                         </Panel>
                     </Collapse>
+                    <br><div style='text-align:center;'><font color="red">@{{ release_message }}</font></div>
                 </Scroll>
 			</Card>
 
@@ -80,49 +81,52 @@ var vm_app = new Vue({
 	el: '#app',
 	data: {
 		
-        list_log: [
+        list_release: [],
+        list_release0: [
             {
-                label: '拙政园1',
-                value: 'zhuozhengyuan',
+                title: '拙政园1',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园2',
-                value: 'zhuozhengyuan',
+                title: '拙政园2',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园3',
-                value: 'zhuozhengyuan',
+                title: '拙政园3',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园4',
-                value: 'zhuozhengyuan',
+                title: '拙政园4',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园5',
-                value: 'zhuozhengyuan',
+                title: '拙政园5',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园6',
-                value: 'zhuozhengyuan',
+                title: '拙政园6',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园7',
-                value: 'zhuozhengyuan',
+                title: '拙政园7',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园8',
-                value: 'zhuozhengyuan',
+                title: '拙政园8',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园9',
-                value: 'zhuozhengyuan',
+                title: '拙政园9',
+                content: 'zhuozhengyuan',
             },
             {
-                label: '拙政园10',
-                value: 'zhuozhengyuan',
+                title: '拙政园10',
+                content: 'zhuozhengyuan',
             },
         ],
-			
+		
+        release_offset: 0,
+        release_message: '',
 			
 	},
 	methods: {
@@ -160,15 +164,53 @@ var vm_app = new Vue({
 			return false;
 		},		
 
+		// release列表
+		releasegets: function () {
+			var _this = this;
+			var url = "{{ route('release.releasegets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					offset: _this.release_offset,
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data[0]);
+				// console.log(response.data[0]=='');
+				// return false;
+				
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 
+                if (response.data[0]==undefined) {
+                    _this.release_message = '-------- 我是有底线的 --------';
+                }
+				
+				if (response.data) {
+					// _this.list_release = response.data;
+					_this.list_release = _this.list_release.concat(response.data);
+				} else {
+					_this.list_release = [];
+				}
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+			})
+		},
 
 		handleReachBottom () {
+            var _this = this;
 			return new Promise(resolve => {
 				setTimeout(() => {
-					const last = this.list1[this.list1.length - 1];
-					for (let i = 1; i < 21; i++) {
-						this.list1.push(last + i);
-					}
+					// const last = this.list1[this.list1.length - 1];
+					// for (let i = 1; i < 21; i++) {
+					// 	this.list1.push(last + i);
+					// }
+                    _this.release_offset+=5;
+                    _this.releasegets();
 					resolve();
 				}, 2000);
 			});
@@ -182,6 +224,8 @@ var vm_app = new Vue({
 
 	},
 	mounted: function () {
+		var _this = this;
+		_this.releasegets();
 	}
 })
 </script>

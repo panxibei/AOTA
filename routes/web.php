@@ -97,6 +97,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Main', 'middleware'=>['jwtauth','pe
 // release页面
 Route::group(['prefix'=>'release', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
 	Route::get('/', 'mainController@mainRelease')->name('release');
+	Route::get('releasegets', 'mainController@mainReleasegets')->name('release.releasegets');
 });
 
 
