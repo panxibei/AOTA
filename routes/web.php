@@ -267,5 +267,6 @@ Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>['jwtauth','p
 	Route::get('test', 'testController@test');
 	Route::get('phpinfo', 'testController@phpinfo');
 	Route::get('ldap', 'testController@ldap');
+	Route::get('scroll', 'testController@scroll');
 	// Route::get('config', 'testController@mainConfig');
 });

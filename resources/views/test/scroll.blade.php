@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Test iview</title>
+	<title>Test iview scroll</title>
 	<link rel="stylesheet" href="{{ asset('statics/iview/styles/iview.css') }}">
 
 <style type="text/css">
@@ -184,6 +184,12 @@
 					<br>
 					<br>
 					<br>
+
+					<Scroll :on-reach-bottom="handleReachBottom" distance-to-edge=5 height="200">
+						<Card dis-hover v-for="(item, index) in list1" :key="index" style="margin: 32px 0">
+							Content @{{ item }}
+						</Card>
+					</Scroll>
 
 
 					<br>bottom bottom bottom
@@ -467,6 +473,7 @@ var vm_app = new Vue({
 		stepcurrent: 0,
 		spinShow: true,
 
+		list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
 
 	},
@@ -572,6 +579,18 @@ var vm_app = new Vue({
 		},
 
 
+		handleReachBottom () {
+			return new Promise(resolve => {
+				setTimeout(() => {
+					const last = this.list1[this.list1.length - 1];
+					for (let i = 1; i < 21; i++) {
+						this.list1.push(last + i);
+					}
+					// this.list1.push(8);
+					resolve();
+				}, 2000);
+			});
+		},
 
 
 

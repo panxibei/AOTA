@@ -62,5 +62,12 @@ dd($email);
     }
 	
 	
+    // scroll界面
+	public function scroll() {
+
+		return view('test.scroll');
+		
+	}
+	
 
 }
