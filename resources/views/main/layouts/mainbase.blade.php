@@ -127,7 +127,7 @@
  			<!-- 底部 -->
 			<Footer class="layout-footer-center">
 			@section('my_footer')
-			<a href="{{route('portal')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;{{$config['SITE_COPYRIGHT']}}
+			<a href="{{route('portal')}}">{{$config['SITE_TITLE']}}</a>&nbsp;&nbsp;<a href="{{route('release')}}">{{$config['SITE_COPYRIGHT']}}</a>
 			@can('permission_super_admin')
 				<a href="{{route('admin.config.index')}}" target="_blank"><Icon type="ios-cog-outline"></Icon></a>
 			@endcan

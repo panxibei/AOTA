@@ -33,9 +33,9 @@ Main(Releases) -
 
 			<Card>
 				<p slot="title">
-					SMT管理系统配置
+					系统日志
 				</p>
-                <Scroll :on-reach-bottom="handleReachBottom" distance-to-edge=5 height="200">
+                <Scroll :on-reach-bottom="handleReachBottom" distance-to-edge=5 height="400">
                     <Collapse simple v-for="(item, index) in list_release">
                         <Panel name="@{{ index }}">
                             @{{ item.title }}
@@ -44,7 +44,7 @@ Main(Releases) -
                             </p>
                         </Panel>
                     </Collapse>
-                    <br><div style='text-align:center;'><font color="red">@{{ release_message }}</font></div>
+                    <br><div style='text-align:center;'>@{{ release_message }}</div>
                 </Scroll>
 			</Card>
 
@@ -82,51 +82,9 @@ var vm_app = new Vue({
 	data: {
 		
         list_release: [],
-        list_release0: [
-            {
-                title: '拙政园1',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园2',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园3',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园4',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园5',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园6',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园7',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园8',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园9',
-                content: 'zhuozhengyuan',
-            },
-            {
-                title: '拙政园10',
-                content: 'zhuozhengyuan',
-            },
-        ],
 		
         release_offset: 0,
-        release_message: '',
+        release_message: '向下滚动加载更多',
 			
 	},
 	methods: {
@@ -209,7 +167,7 @@ var vm_app = new Vue({
 					// for (let i = 1; i < 21; i++) {
 					// 	this.list1.push(last + i);
 					// }
-                    _this.release_offset+=5;
+                    _this.release_offset+=10;
                     _this.releasegets();
 					resolve();
 				}, 2000);

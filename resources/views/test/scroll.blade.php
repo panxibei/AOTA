@@ -486,7 +486,7 @@ var vm_app = new Vue({
         list_log: [
             {
                 label: '拙政园1',
-                value: 'zhuozhengyuan \n\r fsadfasfs',
+                value: '<p>zhuozhengyuan</p><p>fsadfasfs</p>',
             },
             {
                 label: '拙政园2',

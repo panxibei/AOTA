@@ -186,7 +186,7 @@ class mainController extends Controller
 
 		$releasegets = Release::select('title', 'content')
 			->offset($offset)
-			->limit(5)
+			->limit(10)
 			->orderBy('id', 'desc')
 			->get()
 			->toArray();
