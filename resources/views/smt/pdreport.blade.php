@@ -28,232 +28,239 @@ SMT - daily production report
 
 <div id="app" v-cloak>
 
-	<Divider orientation="left" dashed>生产基本信息</Divider>
+	<Tabs type="card" v-model="currenttabs">
+		<Tab-pane label="生产信息录入">
 
-	<i-row :gutter="16">
-		<i-col span="4">
-			* 线体&nbsp;&nbsp;
-			<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="">
-				<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-		<i-col span="4">
-			* 班次&nbsp;&nbsp;
-			<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="">
-				<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-		<i-col span="4">
-		</i-col>
-	</i-row>
+			<Divider orientation="left">生产基本信息</Divider>
 
-	<br><br><br>
+			<i-row :gutter="16">
+				<i-col span="4">
+					* 线体&nbsp;&nbsp;
+					<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="">
+						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="4">
+					* 班次&nbsp;&nbsp;
+					<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="">
+						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="4">
+				</i-col>
+			</i-row>
 
-	<i-row :gutter="16">
-		<i-col span="4">
-			* 机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="4">
-			* SP NO.&nbsp;&nbsp;
-			<i-input v-model.lazy="spno" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="4">
-			* 品名&nbsp;&nbsp;
-			<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="">
-				<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-		<i-col span="4">
-			* LOT数&nbsp;&nbsp;
-			<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			* 工序&nbsp;&nbsp;
-			<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="">
-				<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-		<i-col span="4">
-		</i-col>
-	</i-row>
+			<br><br><br>
 
-	<br><br>
+			<i-row :gutter="16">
+				<i-col span="4">
+					* 机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					* SP NO.&nbsp;&nbsp;
+					<i-input v-model.lazy="spno" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					* 品名&nbsp;&nbsp;
+					<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="">
+						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="4">
+					* LOT数&nbsp;&nbsp;
+					<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					* 工序&nbsp;&nbsp;
+					<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="">
+						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="4">
+				</i-col>
+			</i-row>
 
-	<i-row :gutter="16">
-		<i-col span="4">
-			* 枚/秒&nbsp;&nbsp;
-			<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			* 枚数&nbsp;&nbsp;
-			<Input-number v-model.lazy="meishu" :min="1" size="small" style="width: 120px"></Input-number>
-		</i-col>
-		<i-col span="16">
-		</i-col>
-	</i-row>
-	<br><br>
+			<br><br>
 
-	<Divider orientation="left" dashed>机器未运转时间（分）</Divider>
+			<i-row :gutter="16">
+				<i-col span="4">
+					* 枚/秒&nbsp;&nbsp;
+					<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					* 枚数&nbsp;&nbsp;
+					<Input-number v-model.lazy="meishu" :min="1" size="small" style="width: 120px"></Input-number>
+				</i-col>
+				<i-col span="16">
+				</i-col>
+			</i-row>
+			<br><br>
 
-	<i-row :gutter="16">
-		<i-col span="3">
-			1.新产&nbsp;&nbsp;
-			<Input-number v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="3">
-			1.量产&nbsp;&nbsp;
-			<Input-number v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="2">
-		&nbsp;
-		</i-col>
-		<i-col span="4">
-			2.等待部品&nbsp;&nbsp;
-			<Input-number v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			3.无计划&nbsp;&nbsp;
-			<Input-number v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			4.前后工程等待&nbsp;&nbsp;
-			<Input-number v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			5.无部品&nbsp;&nbsp;
-			<Input-number v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-	</i-row>
-	<br><br>
+			<Divider orientation="left">机器未运转时间（分）</Divider>
 
-	<i-row :gutter="16">
-		<i-col span="4">
-			6.部品安排等待&nbsp;&nbsp;
-			<Input-number v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			7.定期点检&nbsp;&nbsp;
-			<Input-number v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			8.故障&nbsp;&nbsp;
-			<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			9.部品补充&nbsp;&nbsp;
-			<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-			10.试作&nbsp;&nbsp;
-			<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
-		</i-col>
-		<i-col span="4">
-		</i-col>
-	</i-row>
-	
-	<br><br>
-	
-	<i-row :gutter="16">
-		<i-col span="4">
-			记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-			<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 200px"></i-input>
-		</i-col>
-		<i-col span="20">
-			<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
-			&nbsp;&nbsp;<i-button @click="clear()" size="large">清除</i-button>
-		</i-col>
-	</i-row>
-	<br><br>
-	
-	
-		
-	<br><br><br><br>
-	<Divider orientation="left">生产信息表</Divider>
-	
-	<i-row :gutter="16">
-		<i-col span="2">
-			&nbsp;
-		</i-col>
-		<i-col span="1">
-			查询：
-		</i-col>
-		<i-col span="6">
-			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
-		</i-col>
-		<i-col span="4">
-			线体&nbsp;&nbsp;
-			<i-input v-model.lazy="xianti_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="4">
-			班次&nbsp;&nbsp;
-			<i-input v-model.lazy="banci_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="banci_filter=banci_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="4">
-			机种名&nbsp;&nbsp;
-			<i-input v-model.lazy="jizhongming_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-		</i-col>
-		<i-col span="3">
-		&nbsp;
-		</i-col>
-	</i-row>
-	<br><br>
-	
-	<i-row :gutter="16">
-		<i-col span="2">
-			&nbsp;<br>&nbsp;
-		</i-col>
-		<i-col span="4">
-			导出：&nbsp;&nbsp;&nbsp;&nbsp;
-			<i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
-		</i-col>
-		<i-col span="18">
-			&nbsp;
-		</i-col>
-	</i-row>
-	<br><br>
-	
-	<i-row :gutter="16">
-		
-		<i-col span="2">
-			<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
-		</i-col>
-		<i-col span="3">
-			担当者&nbsp;&nbsp;
-			<i-select v-model.lazy="select_dandangzhe" :disabled="disabled_dandangzhe" @on-change="value => dandangzhechange(value)" clearable style="width:80px" size="small" placeholder="">
-				<i-option v-for="item in option_dandangzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-		<i-col span="3">
-			确认者&nbsp;&nbsp;
-			<i-select v-model.lazy="select_querenzhe" :disabled="disabled_querenzhe" @on-change="value => querenzhechange(value)" clearable style="width:80px" size="small" placeholder="">
-				<i-option v-for="item in option_querenzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-			</i-select>
-		</i-col>
-		
-		<i-col span="8">
-		&nbsp;
-		</i-col>
-		
-		<i-col span="8">
-			&nbsp;&nbsp;&nbsp;<strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp;
-		</i-col>
-	</i-row>
-	<br><br>
-	
-	
-	<i-table height="300" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange(selection)"></i-table>
-	<br>
-	
-	<Modal v-model="modal_jizhaishixiang" title="机器未运转原因区分表" width="540">
-		<div style="text-align:center">
-			<i-table height="300" size="small" border :columns="tablecolumns3" :data="tabledata3"></i-table>
-		</div>
-	</Modal>
+			<i-row :gutter="16">
+				<i-col span="3">
+					1.新产&nbsp;&nbsp;
+					<Input-number v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="3">
+					1.量产&nbsp;&nbsp;
+					<Input-number v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="2">
+				&nbsp;
+				</i-col>
+				<i-col span="4">
+					2.等待部品&nbsp;&nbsp;
+					<Input-number v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					3.无计划&nbsp;&nbsp;
+					<Input-number v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					4.前后工程等待&nbsp;&nbsp;
+					<Input-number v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					5.无部品&nbsp;&nbsp;
+					<Input-number v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+			</i-row>
+			<br><br>
 
-	<br>
-	<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
+			<i-row :gutter="16">
+				<i-col span="4">
+					6.部品安排等待&nbsp;&nbsp;
+					<Input-number v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					7.定期点检&nbsp;&nbsp;
+					<Input-number v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					8.故障&nbsp;&nbsp;
+					<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					9.部品补充&nbsp;&nbsp;
+					<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+					10.试作&nbsp;&nbsp;
+					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="4">
+				</i-col>
+			</i-row>
+			
+			<br><br>
+			
+			<i-row :gutter="16">
+				<i-col span="8">
+					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
+					<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="16">
+					<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
+					&nbsp;&nbsp;<i-button @click="clear()" size="large">清除</i-button>
+				</i-col>
+			</i-row>
+			<br><br>
+
+		</Tab-pane>
+
+
+		<Tab-pane label="生产信息表">
+			
+			<i-row :gutter="16">
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="1">
+					查询：
+				</i-col>
+				<i-col span="6">
+					* 日期范围&nbsp;&nbsp;
+					<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
+				</i-col>
+				<i-col span="4">
+					线体&nbsp;&nbsp;
+					<i-input v-model.lazy="xianti_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					班次&nbsp;&nbsp;
+					<i-input v-model.lazy="banci_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="banci_filter=banci_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
+					机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="3">
+				&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+			
+			<i-row :gutter="16">
+				<i-col span="2">
+					&nbsp;<br>&nbsp;
+				</i-col>
+				<i-col span="4">
+					导出：&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+				</i-col>
+				<i-col span="18">
+					&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+			
+			<i-row :gutter="16">
+				
+				<i-col span="2">
+					<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
+				</i-col>
+				<i-col span="3">
+					担当者&nbsp;&nbsp;
+					<i-select v-model.lazy="select_dandangzhe" :disabled="disabled_dandangzhe" @on-change="value => dandangzhechange(value)" clearable style="width:80px" size="small" placeholder="">
+						<i-option v-for="item in option_dandangzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="3">
+					确认者&nbsp;&nbsp;
+					<i-select v-model.lazy="select_querenzhe" :disabled="disabled_querenzhe" @on-change="value => querenzhechange(value)" clearable style="width:80px" size="small" placeholder="">
+						<i-option v-for="item in option_querenzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				
+				<i-col span="8">
+				&nbsp;
+				</i-col>
+				
+				<i-col span="8">
+					&nbsp;&nbsp;&nbsp;<strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+			
+			
+			<i-table height="300" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange(selection)"></i-table>
+			<br>
+			
+			<Modal v-model="modal_jizhaishixiang" title="机器未运转原因区分表" width="540">
+				<div style="text-align:center">
+					<i-table height="300" size="small" border :columns="tablecolumns3" :data="tabledata3"></i-table>
+				</div>
+			</Modal>
+
+			<br>
+			<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
+
+		</Tab-pane>
+
+	</Tabs>
 
 </div>
 @endsection
@@ -1023,6 +1030,9 @@ var vm_app = new Vue({
 		pagetotal: 1,
 		pagepagesize: 10,
 		pagelast: 1,
+
+		// tabs索引
+		currenttabs: 0,
 
 			
 	},
