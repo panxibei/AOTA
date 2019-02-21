@@ -160,7 +160,7 @@ SMT - daily production report
 			<i-row :gutter="16">
 				<i-col span="8">
 					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-					<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="16">
 					<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
@@ -173,7 +173,7 @@ SMT - daily production report
 
 
 		<Tab-pane label="生产信息表">
-			
+			<br>
 			<i-row :gutter="16">
 				<i-col span="2">
 					&nbsp;
@@ -633,7 +633,7 @@ var vm_app = new Vue({
 						title: 'LOT残',
 						key: 'lotcan',
 						align: 'center',
-						width: 60
+						width: 80
 					},
 					{
 						title: '插件点数',
@@ -721,7 +721,17 @@ var vm_app = new Vue({
 								title: '等待部品',
 								key: 'dengdaibupin',
 								align: 'center',
-								width: 80
+								width: 80,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '等待'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '部品')
+									]);
+								}
 							}
 						]
 					},
@@ -745,7 +755,17 @@ var vm_app = new Vue({
 								title: '前后工程等待',
 								key: 'qianhougongchengdengdai',
 								align: 'center',
-								width: 80
+								width: 80,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '前后工'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '程等待')
+									]);
+								}
 							}
 						]
 					},
@@ -769,7 +789,17 @@ var vm_app = new Vue({
 								title: '部品安排等待',
 								key: 'bupinanpaidengdai',
 								align: 'center',
-								width: 80
+								width: 80,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '部品安'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '排等待')
+									]);
+								}
 							}
 						]
 					},
@@ -781,7 +811,17 @@ var vm_app = new Vue({
 								title: '定期点检',
 								key: 'dingqidianjian',
 								align: 'center',
-								width: 80
+								width: 80,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '定期'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '点检')
+									]);
+								}
 							}
 						]
 					},
@@ -805,7 +845,17 @@ var vm_app = new Vue({
 								title: '部品补充',
 								key: 'bupinbuchong',
 								align: 'center',
-								width: 80
+								width: 80,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '部品'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '补充')
+									]);
+								}
 							}
 						]
 					},
