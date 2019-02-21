@@ -154,7 +154,7 @@ SMT(QC report) -
 				</i-col>
 				<i-col span="6">
 					* 日期范围&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter" :options="qcdate_filter_options" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="3">
 					线体&nbsp;&nbsp;
@@ -997,7 +997,58 @@ var vm_app = new Vue({
 		
 		// 日期范围过滤
 		qcdate_filter: [], //new Date(),
-		
+		qcdate_filter_options: {
+			shortcuts: [
+				{
+					text: '前 1 周',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						// start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+						start.setDate(start.getDate() - 7);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 1 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setDate(start.getDate() - 30);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 3 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setDate(start.getDate() - 90);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 6 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setDate(start.getDate() - 180);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 1 年',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						// start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+						start.setDate(start.getDate() - 365);
+						return [start, end];
+					}
+				},
+			]
+		},
+
 		// 机种名
 		jizhongming_filter: '',
 		
