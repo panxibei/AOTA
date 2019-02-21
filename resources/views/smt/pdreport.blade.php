@@ -180,7 +180,7 @@ SMT - daily production report
 		</i-col>
 		<i-col span="6">
 			* 日期范围&nbsp;&nbsp;
-			<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+			<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
 		</i-col>
 		<i-col span="4">
 			线体&nbsp;&nbsp;
