@@ -207,12 +207,12 @@ var vm_app = new Vue({
 			{
 				title: 'name',
 				key: 'name',
-				width: 120
+				width: 130
 			},
 			{
 				title: 'ldapname',
 				key: 'ldapname',
-				width: 120
+				width: 130
 			},
 			{
 				title: 'email',
