@@ -712,7 +712,7 @@ var vm_app = new Vue({
 			var userid = _this.user_select;
 			var roleid = _this.targetkeystransfer;
 
-			if (userid == undefined || roleid == undefined || userid == '' || roleid == '') return false;
+			if (userid == undefined || userid == '') return false;
 			
 			var url = "{{ route('admin.role.userupdaterole') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';

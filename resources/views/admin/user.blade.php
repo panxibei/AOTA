@@ -641,11 +641,11 @@ var vm_app = new Vue({
 					_this.usergets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '删除成功！');
 				} else {
-					_this.error(false, '失败', '删除失败！');
+					_this.error(false, '失败', '删除失败！请确认用户与角色或权限的关系！');
 				}
 			})
 			.catch(function (error) {
-				_this.error(false, '错误', '删除失败！');
+				_this.error(false, '错误', '删除失败！请确认用户与角色或权限的关系！');
 			})
 		},
 		
