@@ -86,6 +86,14 @@ var vm_app = new Vue({
 				desc: nodesc ? '' : content
 			});
 		},
+
+		alert_logout: function () {
+			this.error(false, '会话超时', '会话超时，请重新登录！');
+			window.setTimeout(function(){
+				window.location.href = "{{ route('portal') }}";
+			}, 2000);
+			return false;
+		},
 		
 		configchange: function(event){
 			var _this = this;
@@ -101,7 +109,13 @@ var vm_app = new Vue({
 					cfg_data: cfg_data
 				})
 				.then(function (response) {
-					if (response.data) {
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				if (response.data) {
 						// alert('success');
 					} else {
 						_this.warning(false, 'Warning', cfg_name + ' failed to be modified!');
@@ -121,6 +135,12 @@ var vm_app = new Vue({
 			axios.get(url, {
 			})
 			.then(function (response) {
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				//console.log(response);
 				_this.gets = response.data;
 				// _this.gets.total = _this.gets.data.length;
@@ -129,7 +149,6 @@ var vm_app = new Vue({
 				_this.loadingbarfinish();
 			})
 			.catch(function (error) {
-				console.log(error);
 				_this.loadingbarerror();
 			})
 		},

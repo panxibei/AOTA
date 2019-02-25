@@ -343,16 +343,13 @@ var vm_app = new Vue({
 				desc: nodesc ? '' : content
 			});
 		},
-		
-		alert_exit: function () {
-			this.$Notice.error({
-				title: '会话超时',
-				desc: '会话超时，请重新登录！',
-				duration: 2,
-				onClose: function () {
-					window.location.href = "{{ route('login') }}";
-				}
-			});
+
+		alert_logout: function () {
+			this.error(false, '会话超时', '会话超时，请重新登录！');
+			window.setTimeout(function(){
+				window.location.href = "{{ route('portal') }}";
+			}, 2000);
+			return false;
 		},
 		
 		// 把laravel返回的结果转换成select能接受的格式
@@ -458,6 +455,11 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
 				if (response.data) {
 					_this.delete_disabled_permission = true;
 					_this.tableselect = [];
@@ -467,8 +469,6 @@ var vm_app = new Vue({
 					_this.page_last = response.data.last_page;
 					_this.tabledata = response.data.data;
 					
-				} else {
-					_this.alert_exit();
 				}
 				
 				_this.loadingbarfinish();
@@ -705,7 +705,7 @@ var vm_app = new Vue({
 			var roleid = _this.role_select;
 			var permissionid = _this.targetkeystransfer;
 
-			if (roleid == undefined || permissionid == undefined || roleid == '' || permissionid == '') return false;
+			if (roleid == undefined || roleid == '') return false;
 			
 			var url = "{{ route('admin.permission.roleupdatepermission') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';

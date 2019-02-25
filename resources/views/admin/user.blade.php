@@ -411,16 +411,13 @@ var vm_app = new Vue({
 				desc: nodesc ? '' : content
 			});
 		},
-		
-		alert_exit: function () {
-			this.$Notice.error({
-				title: '会话超时',
-				desc: '会话超时，请重新登录！',
-				duration: 2,
-				onClose: function () {
-					window.location.href = "{{ route('login') }}";
-				}
-			});
+
+		alert_logout: function () {
+			this.error(false, '会话超时', '会话超时，请重新登录！');
+			window.setTimeout(function(){
+				window.location.href = "{{ route('portal') }}";
+			}, 2000);
+			return false;
 		},
 		
 		// 切换当前页
@@ -500,9 +497,10 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 
-				// if (response.data.length == 0 || response.data.data == undefined) {
-					// _this.alert_exit();
-				// }
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				if (response.data) {
 					_this.delete_disabled_user = true;
@@ -512,8 +510,6 @@ var vm_app = new Vue({
 					_this.page_total = response.data.total;
 					_this.page_last = response.data.last_page;
 					_this.tabledata = response.data.data;
-				} else {
-					_this.alert_exit();
 				}
 				
 				_this.loadingbarfinish();
