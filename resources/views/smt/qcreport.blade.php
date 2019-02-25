@@ -194,11 +194,9 @@ SMT(QC report) -
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
-				<i-col span="1">
-					不良内容
-				</i-col>
-				<i-col span="9">
-					<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" multiple size="small" clearable style="width:400px" placeholder="例：部品不良">
+				<i-col span="10">
+					不良内容&nbsp;&nbsp;
+					<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" multiple size="small" clearable style="width:200px" placeholder="例：连焊">
 						<Option-group label="****** 印刷系 ******">
 							<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 						</Option-group>
