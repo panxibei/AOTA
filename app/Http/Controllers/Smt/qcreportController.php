@@ -224,6 +224,10 @@ class qcreportController extends Controller
 		$meishu = $request->input('meishu');
 		$piliangluru = $request->input('piliangluru');
 
+		if ($dianmei == 0 || $meishu == 0) {
+			return 0;
+		}
+
 		$saomiao_arr = explode('/', $saomiao);
 		
 		$s['jizhongming'] = $saomiao_arr[0];
@@ -241,6 +245,7 @@ class qcreportController extends Controller
 		
 		$s['bushihejianshuheji'] = 0;
 		foreach ($piliangluru as $value) {
+			if ($value['shuliang'] == 0) return 0;
 			$s['bushihejianshuheji'] += $value['shuliang'];
 		}
 
