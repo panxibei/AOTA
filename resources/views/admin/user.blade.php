@@ -436,6 +436,11 @@ var vm_app = new Vue({
 				cfg_data: cfg_data
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.page_size = pagesize;
 					_this.usergets(1, _this.page_last);
@@ -594,6 +599,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				_this.usergets(_this.page_current, _this.page_last);
 				
@@ -633,6 +643,11 @@ var vm_app = new Vue({
 				tableselect: tableselect
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.usergets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '删除成功！');
@@ -655,6 +670,11 @@ var vm_app = new Vue({
 				userid: userid
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, '成功', 'User 禁用/启用 successfully!');
 					_this.usergets(_this.page_current, _this.page_last);
@@ -710,6 +730,11 @@ var vm_app = new Vue({
 				password: password
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, '成功', '用户创建成功！');
 					_this.user_add_name = '';
@@ -747,6 +772,11 @@ var vm_app = new Vue({
 				id: id,
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
  				if (response.data) {
 					_this.success(false, '成功', '清除用户登录TTL成功！');
 				} else {

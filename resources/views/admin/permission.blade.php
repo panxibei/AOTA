@@ -404,6 +404,12 @@ var vm_app = new Vue({
 				cfg_data: cfg_data
 			})
 			.then(function (response) {
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.page_size = pagesize;
 					_this.permissiongets(1, _this.page_last);
@@ -544,6 +550,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				_this.permissiongets(_this.page_current, _this.page_last);
 				
@@ -581,6 +592,11 @@ var vm_app = new Vue({
 				tableselect: tableselect
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.permissiongets(_this.page_current, _this.page_last);
 					_this.success(false, '成功', '删除成功！');
@@ -622,6 +638,11 @@ var vm_app = new Vue({
 				name: name,
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, 'Success', 'Permission created successfully!');
 					_this.permission_add_name = '';
@@ -680,6 +701,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				if (response.data) {
 					var json = response.data.allpermissions;
@@ -716,6 +742,12 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, 'Success', 'Update OK!');
 				} else {
@@ -744,6 +776,12 @@ var vm_app = new Vue({
 					}
 				})
 				.then(function (response) {
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+					
 					if (response.data) {
 						var json = response.data;
 						_this.role_options = _this.json2selectvalue(json);
@@ -787,6 +825,12 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					var json = response.data;
 					var str = '';
@@ -819,6 +863,11 @@ var vm_app = new Vue({
 					}
 				})
 				.then(function (response) {
+					if (response.data['jwt'] == 'logout') {
+						_this.alert_logout();
+						return false;
+					}
+					
 					if (response.data) {
 						var json = response.data;
 						_this.permission2role_options = _this.json2selectvalue(json);
@@ -850,6 +899,11 @@ var vm_app = new Vue({
 					}
 				})
 				.then(function (response) {
+					if (response.data['jwt'] == 'logout') {
+						_this.alert_logout();
+						return false;
+					}
+					
 					if (response.data) {
 						var json = response.data;
 						_this.test_permission_options = _this.json2selectvalue(json);
@@ -880,6 +934,11 @@ var vm_app = new Vue({
 					}
 				})
 				.then(function (response) {
+					if (response.data['jwt'] == 'logout') {
+						_this.alert_logout();
+						return false;
+					}
+					
 					if (response.data) {
 						var json = response.data;
 						_this.test_user_options = _this.json2selectvalue(json);
@@ -917,6 +976,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				if (response.data) {
 					_this.success(false, 'Success', 'Permission(s) test successfully!');
