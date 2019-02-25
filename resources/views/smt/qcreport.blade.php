@@ -237,7 +237,7 @@ SMT(QC report) -
 					&nbsp;
 				</i-col>
 				<i-col span="4">
-					&nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp;
+					<!-- &nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp; -->
 				</i-col>
 			</i-row>
 
@@ -656,12 +656,13 @@ var vm_app = new Vue({
 				},
 				fixed: 'right'
 			},			
-			{
+/* 			{
 				title: '生产日期',
 				key: 'shengchanriqi',
 				align: 'center',
 				width: 160,
 			},
+ */			
 			{
 				title: '线体',
 				key: 'xianti',
@@ -1275,6 +1276,11 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
 				if (response.data) {
 					response.data.map(function (v, i) {
 						
@@ -1441,6 +1447,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.saomiao_data = response.data;
 				} else {
@@ -1540,6 +1551,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				if (response.data) {
 					_this.onclear();
@@ -1560,7 +1576,6 @@ var vm_app = new Vue({
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '记入失败！');
-				// console.log(error);
 			})
 		},		
 		
@@ -2265,6 +2280,11 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					var chartdata1 = response.data.data;
 					// console.log(chartdata1);
@@ -2450,6 +2470,11 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					var chartdata2 = response.data.data;			
 			
@@ -2607,6 +2632,11 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					var chartdata3 = response.data.data;			
 			
@@ -2694,7 +2724,8 @@ var vm_app = new Vue({
 					
 						// 按不良内容汇总数量，共24种
 						if (i > 0 && i < 24) {
-							var riqi = new Date(v.shengchanriqi);
+							// var riqi = new Date(v.shengchanriqi);
+							var riqi = new Date(v.created_at);
 							// var riqi = v.shengchanriqi.split('-');
 
 							// 日期在去年的，统一保存到下标为0的数组中
@@ -2834,7 +2865,14 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				_this.dianmei = response.data.dianmei;
+
+				// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
 				_this.shengchanriqi = response.data.shengchanriqi;
 			})
 			.catch(function (error) {
@@ -2925,6 +2963,11 @@ var vm_app = new Vue({
 			.then(function (response) {
 				// console.log(response.data);
 				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
 				
 				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
 				

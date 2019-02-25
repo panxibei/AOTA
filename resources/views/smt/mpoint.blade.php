@@ -469,6 +469,11 @@ var vm_app = new Vue({
 				// created_at: created_at
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, 'Success', 'Created successfully!');
 					_this.onclear();
@@ -515,6 +520,11 @@ var vm_app = new Vue({
 				id: id
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, 'Success', 'Updated successfully!');
 					_this.onclear();
@@ -560,6 +570,11 @@ var vm_app = new Vue({
 				tableselect: tableselect
 			})
 			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
 					_this.tableselect = [];
@@ -632,7 +647,11 @@ var vm_app = new Vue({
 				contentType: false, // 告诉axios不要去设置Content-Type请求头
 			})
 			.then(function (response) {
-				// console.log(response.data);
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
 				if (response.data == 1) {
 					_this.success(false, 'Success', '导入成功！');
 				} else {

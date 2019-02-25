@@ -40,30 +40,22 @@ class qcreportController extends Controller
 	}
 	
 	
-    /**
-     * qcreportGets
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function qcreportGets(Request $request)
-    {
-		if (! $request->ajax()) { return null; }
+	/**
+	 * qcreportGets
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportGets(Request $request)
+	{
+		if (! $request->ajax()) return null;
 
 		$url = request()->url();
 		$queryParams = request()->query();
+
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
 		
-		if (isset($queryParams['perPage'])) {
-			$perPage = $queryParams['perPage'] ?: 10000;
-		} else {
-			$perPage = 10000;
-		}
-		
-		if (isset($queryParams['page'])) {
-			$page = $queryParams['page'] ?: 1;
-		} else {
-			$page = 1;
-		}
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		$xianti_filter = $request->input('xianti_filter');
@@ -97,8 +89,11 @@ class qcreportController extends Controller
 		if (Cache::has($fullUrl)) {
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
+			// $dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+			// 		return $query->whereBetween('shengchanriqi', $qcdate_filter);
+			// 	})
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-					return $query->whereBetween('shengchanriqi', $qcdate_filter);
+					return $query->whereBetween('created_at', $qcdate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', '=', $xianti_filter);
@@ -125,17 +120,17 @@ class qcreportController extends Controller
 		}
 		
 		return $dailyreport;
-    }	
+	}	
 
 	
-    /**
-     * buliangGets 暂未使用
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function buliangGets(Request $request)
-    {
+	/**
+	 * buliangGets 暂未使用
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function buliangGets(Request $request)
+	{
 		if (! $request->ajax()) { return null; }
 
 		$dr_id = $request->input('dr_id');
@@ -153,17 +148,17 @@ class qcreportController extends Controller
 
 		// dd($qcreport);
 		return $qcreport;
-    }	
+	}	
 	
-	// 此函数暂未用到
-    /**
-     * getSaomiao
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getSaomiao(Request $request)
-    {
+// 此函数暂未用到
+	/**
+	 * getSaomiao
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getSaomiao(Request $request)
+	{
 		if (! $request->ajax()) return null;
 
 		$saomiao = $request->input('saomiao');
@@ -194,6 +189,7 @@ class qcreportController extends Controller
 				->where('gongxu', $gongxu)
 				->first();
 			
+			// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
 			$shengchanriqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
 
 			$result = compact('dianmei', 'shengchanriqi');
@@ -209,14 +205,14 @@ class qcreportController extends Controller
 	}
 
 
-    /**
-     * qcreportCreate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function qcreportCreate(Request $request)
-    {
+	/**
+	 * qcreportCreate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportCreate(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
 		$saomiao = $request->input('saomiao');
@@ -288,17 +284,17 @@ class qcreportController extends Controller
 		DB::commit();
 		Cache::flush();
 		return $result;		
-    }
+	}
 
 
-    /**
-     * qcreportUpdate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function qcreportUpdate(Request $request)
-    {
+	/**
+	 * qcreportUpdate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportUpdate(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('id');
@@ -367,14 +363,14 @@ class qcreportController extends Controller
 	}
 
 
-    /**
-     * qcreportDelete
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function qcreportDelete(Request $request)
-    {
+	/**
+	 * qcreportDelete
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportDelete(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('tableselect1');
@@ -393,14 +389,14 @@ class qcreportController extends Controller
 	}
 
 
-    /**
-     * qcreportExport
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function qcreportExport(Request $request)
-    {
+	/**
+	 * qcreportExport
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportExport(Request $request)
+	{
 		// if (! $request->ajax()) { return null; }
 		
 		$queryfilter_datefrom = $request->input('queryfilter_datefrom');
@@ -458,14 +454,14 @@ class qcreportController extends Controller
 	}
 	
 	
-    /**
-     * qcreportImport
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function qcreportImport(Request $request)
-    {
+	/**
+	 * qcreportImport
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportImport(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		// 接收文件

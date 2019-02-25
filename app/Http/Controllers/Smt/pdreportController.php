@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\Cache;
 class pdreportController extends Controller
 {
     //
-	public function pdreportIndex () {
+	public function pdreportIndex ()
+	{
 		// 获取JSON格式的jwt-auth用户响应
 		$me = response()->json(auth()->user());
 		
@@ -39,8 +40,8 @@ class pdreportController extends Controller
 	}
 
     //
-	public function mpoint () {
-		
+	public function mpoint ()
+	{
 		// 获取JSON格式的jwt-auth用户响应
 		$me = response()->json(auth()->user());
 		
@@ -57,24 +58,24 @@ class pdreportController extends Controller
 		
 	}
 	
-    /**
-     * mpointGets
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function mpointGets(Request $request)
-    {
-		if (! $request->ajax()) { return null; }
+	/**
+	 * mpointGets
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mpointGets(Request $request)
+	{
+		if (! $request->ajax()) return null;
 
-		$perPage = $request->input('perPage');
-		$page = $request->input('page');
-		if (null == $page) $page = 1;
+		$queryParams = request()->query();
+
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
 
 		$dailydate_filter = $request->input('dailydate_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
 		
-		// $mpoint = DB::table('mpoints')
 		$mpoint = Smt_mpoint::when($dailydate_filter, function ($query) use ($dailydate_filter) {
 				return $query->whereBetween('created_at', $dailydate_filter);
 			})
@@ -83,22 +84,19 @@ class pdreportController extends Controller
 			})
 			->orderBy('created_at', 'desc')
 			->paginate($perPage, ['*'], 'page', $page);
-		
-		// $circulation = Circulation::select('id', 'guid', 'name', 'template_id', 'mailinglist_id', 'slot2user_id', 'slot_id', 'user_id', 'current_station as currentstation', 'creator', 'todo_time', 'progress', 'description', 'is_archived', 'created_at as sendingdate')
-			// ->get()->toArray();
 
 		return $mpoint;
-    }
+	}
 	
-    /**
-     * mpointCreate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function mpointCreate(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+	/**
+	 * mpointCreate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mpointCreate(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$mpoint = $request->only(
 			'jizhongming',
@@ -129,17 +127,17 @@ class pdreportController extends Controller
 		}
 
 		return $result;
-    }
+	}
 
-    /**
-     * mpointUpdate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function mpointUpdate(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+	/**
+	 * mpointUpdate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mpointUpdate(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$mpoint = $request->only(
 			'jizhongming',
@@ -170,18 +168,18 @@ class pdreportController extends Controller
 		}
 
 		return $result;
-    }
+	}
 	
 	
-    /**
-     * mpointDelete
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function mpointDelete(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+	/**
+	 * mpointDelete
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mpointDelete(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->only('tableselect');
 
@@ -192,48 +190,47 @@ class pdreportController extends Controller
 	}
 	
 	
-    /**
-     * mpointDownload 导入模板下载
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function mpointDownload(Request $request)
-    {
+	/**
+	 * mpointDownload 导入模板下载
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mpointDownload(Request $request)
+	{
 		return Storage::download('download/smt_mpointimport.xlsx', 'MoBan_Mpoint.xlsx');
 	}
 	
 	
-    /**
-     * getJizhongming
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getJizhongming(Request $request)
-    {
-		if (! $request->ajax()) { return null; }
+	/**
+	 * getJizhongming
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getJizhongming(Request $request)
+	{
+		if (! $request->ajax()) return null;
 
-		$jizhongming = $request->only('jizhongming');
+		$jizhongming = $request->input('jizhongming');
 
-		// $result = DB::table('mpoints')
 		$result = Smt_mpoint::where('jizhongming', $jizhongming)
 			->get();
-		// dd($result);
+
 		return $result;
 
 	}
 	
 	
-    /**
-     * dailyreportCreate
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function dailyreportCreate(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+	/**
+	 * dailyreportCreate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function dailyreportCreate(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$dailyreport = $request->only(
 			'xianti',
@@ -249,7 +246,6 @@ class pdreportController extends Controller
 		// dd($dailyreport['banci']);
 		
 		//读取点/枚
-		// $t = DB::table('mpoints')->select('diantai', 'pinban')
 		$t = Smt_mpoint::select('diantai', 'pinban')
 			->where('jizhongming', $dailyreport['jizhongming'])
 			->where('pinming', $dailyreport['pinming'])
@@ -293,33 +289,24 @@ class pdreportController extends Controller
 		}
 
 		return $result;
-    }
+	}
 	
 	
-    /**
-     * dailyreportGets
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function dailyreportGets(Request $request)
-    {
+	/**
+	 * dailyreportGets
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function dailyreportGets(Request $request)
+	{
 		if (! $request->ajax()) return null;
 		
 		$url = request()->url();
 		$queryParams = request()->query();
-		
-		if (isset($queryParams['perPage'])) {
-			$perPage = $queryParams['perPage'] ?: 10000;
-		} else {
-			$perPage = 10000;
-		}
-		
-		if (isset($queryParams['page'])) {
-			$page = $queryParams['page'] ?: 1;
-		} else {
-			$page = 1;
-		}
+
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
 		
 		$dailydate_filter = $request->input('dailydate_filter');
 		$xianti_filter = $request->input('xianti_filter');
@@ -358,18 +345,18 @@ class pdreportController extends Controller
 		}
 
 		return $result;
-    }
+	}
 	
 	
-    /**
-     * dailyreportDelete
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function dailyreportDelete(Request $request)
-    {
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+	/**
+	 * dailyreportDelete
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function dailyreportDelete(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->only('tableselect');
 
@@ -378,14 +365,14 @@ class pdreportController extends Controller
 
 	}
 	
-    /**
-     * dandangzheChange
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function dandangzheChange(Request $request)
-    {
+	/**
+	 * dandangzheChange
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function dandangzheChange(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
 
 		$dailyreport = $request->only('id', 'dandangzhe');
@@ -415,14 +402,14 @@ class pdreportController extends Controller
 		return $result;
 	}
 
-    /**
-     * querenzheChange
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function querenzheChange(Request $request)
-    {
+	/**
+	 * querenzheChange
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function querenzheChange(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
 
 		$dailyreport = $request->only('id', 'querenzhe');
@@ -450,14 +437,14 @@ class pdreportController extends Controller
 		return $result;
 	}
 	
-    /**
-     * mpointImport
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function mpointImport(Request $request)
-    {
+	/**
+	 * mpointImport
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mpointImport(Request $request)
+	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		// 接收文件
@@ -510,14 +497,14 @@ class pdreportController extends Controller
 	}
 	
 	
-    /**
-     * pdreportExport
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function pdreportExport(Request $request)
-    {
+	/**
+	 * pdreportExport
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function pdreportExport(Request $request)
+	{
 		// if (! $request->ajax()) { return null; }
 		
 		$queryfilter_datefrom = $request->input('queryfilter_datefrom');
