@@ -114,15 +114,14 @@ Admin(Role) -
 	<Tab-pane label="Advance">
 
 		<i-row :gutter="16">
-			<i-col span="9">
+			<i-col span="15">
 				<i-select v-model.lazy="user_select" filterable remote :remote-method="remoteMethod_user" :loading="user_loading" @on-change="onchange_user" clearable placeholder="输入用户名后选择" style="width: 280px;">
 					<i-option v-for="item in user_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 				</i-select>
 				&nbsp;&nbsp;
 				<i-button type="primary" :disabled="boo_update" @click="userupdaterole">Update</i-button>
-			</i-col>
-			<i-col span="6">
-				&nbsp;
+				&nbsp;&nbsp;
+				当前用户：@{{ displayname }}
 			</i-col>
 			<i-col span="6">
 				<i-select v-model.lazy="role2user_select" filterable remote :remote-method="remoteMethod_role2user" :loading="role2user_loading" @on-change="onchange_role2user" clearable placeholder="输入角色名称查看哪些用户正在使用">
@@ -287,6 +286,7 @@ var vm_app = new Vue({
 		titlestransfer: ['待选', '已选'], // ['源列表', '目的列表']
 		datatransfer: [],
 		targetkeystransfer: [], // ['1', '2'] key
+		displayname: '',
 		
 		// 选择角色查看哪些用户使用
 		role2user_select: '',
@@ -691,6 +691,7 @@ var vm_app = new Vue({
 			// console.log(userid);return false;
 			
 			if (userid == undefined || userid == '') {
+				_this.displayname = '';
 				_this.targetkeystransfer = [];
 				_this.datatransfer = [];
 				_this.boo_update = true;
@@ -720,9 +721,12 @@ var vm_app = new Vue({
 					var arr = response.data.userhasrole;
 					_this.targetkeystransfer = _this.arr2target(arr);
 
+					_this.displayname = response.data.displayname;
+
 				} else {
 					_this.targetkeystransfer = [];
 					_this.datatransfer = [];
+					_this.displayname = '';
 				}
 			})
 			.catch(function (error) {

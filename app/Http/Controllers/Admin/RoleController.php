@@ -243,9 +243,13 @@ class RoleController extends Controller
 		$allroles = DB::table('roles')
 			->pluck('name', 'id')->toArray();
 
+		$displayname = DB::table('users')
+			->where('id', $userid)
+			->value('displayname');
+
 		// $result['userhasrole'] = $userhasrole;
 		// $result['allroles'] = $allroles;
-		$result = compact('userhasrole', 'allroles');
+		$result = compact('userhasrole', 'allroles', 'displayname');
 
 		return $result;
     }
