@@ -20,10 +20,9 @@ SMT(QC report) -
 <div id="app" v-cloak>
 
 	<Tabs type="card" v-model="currenttabs">
-		<Tab-pane label="工程内不良记录及品质日报">
+		<Tab-pane label="工程内不良录入">
 
-			<Divider orientation="left">工程内不良记录</Divider>
-
+			<br>
 			<i-row :gutter="16">
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
@@ -64,7 +63,8 @@ SMT(QC report) -
 				<i-col span="24">
 					↓ 批量录入&nbsp;&nbsp;
 					<Input-number v-model.lazy="piliangluruxiang" @on-change="value=>piliangluru_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
-					&nbsp;项
+					&nbsp;项（最多10项）&nbsp;&nbsp;
+					<i-switch v-model="piliangluru_keep" size="small"></i-switch>&nbsp;保持批量录入数
 				</i-col>
 			</i-row>
 			
@@ -143,8 +143,12 @@ SMT(QC report) -
 
 			
 			<br><br><br>
-			<Divider orientation="left">品质管理日报</Divider>
 
+		</Tab-pane>
+
+		<Tab-pane label="品质管理日报">
+
+			<br>
 			<i-row :gutter="16">
 				<i-col span="2">
 					&nbsp;
@@ -218,180 +222,192 @@ SMT(QC report) -
 					</i-select>
 				</i-col>
 			</i-row>
-			<br><br>
+			<br><br><br>
 
-			<i-row :gutter="16">
-				<br>
-				<i-col span="2">
-					<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
-				</i-col>
-				<i-col span="8">
-					导出：<!--&nbsp;&nbsp;&nbsp;&nbsp;
-					<i-button type="default" size="small" @click="exportData_table()"><Icon type="ios-download-outline"></Icon> 导出当前显示数据</i-button>-->
-					&nbsp;&nbsp;
-					<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
-				</i-col>
-				<i-col span="10">
-					&nbsp;
-				</i-col>
-				<i-col span="4">
-					<!-- &nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp; -->
-				</i-col>
-			</i-row>
+			<Tabs type="card" v-model="currentsubtabs">
+				<Tab-pane label="品质管理日报">
 
-			<i-row :gutter="16">
-				<i-col span="24">
-					<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
-					<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
-				</i-col>
-			</i-row>
-			
-			<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
-				<div style="text-align:left">
-					<p>
-						机种名：@{{ jizhongming_edit }}
-					
-						&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-row :gutter="16">
+						<br>
+						<i-col span="2">
+							<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+						</i-col>
+						<i-col span="8">
+							导出：<!--&nbsp;&nbsp;&nbsp;&nbsp;
+							<i-button type="default" size="small" @click="exportData_table()"><Icon type="ios-download-outline"></Icon> 导出当前显示数据</i-button>-->
+							&nbsp;&nbsp;
+							<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+						</i-col>
+						<i-col span="10">
+							&nbsp;
+						</i-col>
+						<i-col span="4">
+							<!-- &nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp; -->
+						</i-col>
+					</i-row>
+
+					<i-row :gutter="16">
+						<i-col span="24">
+							<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+							<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+						</i-col>
+					</i-row>
+
+					<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
+						<div style="text-align:left">
+							<p>
+								机种名：@{{ jizhongming_edit }}
+							
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								创建时间：@{{ created_at_edit }}
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								更新时间：@{{ updated_at_edit }}
+							
+							</p>
+							<br>
+							
+							<!--<span v-for="(item, index) in piliangbianji">-->
+							<p>
+								枚数&nbsp;&nbsp;
+								<Input-number v-model.lazy="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+							
+								检查机类型&nbsp;&nbsp;
+								<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
+									<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+								</i-select>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								检查者&nbsp;&nbsp;
+								<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
+									<Option-group label="*** 一组 ***">
+										<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="*** 二组 ***">
+										<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="*** 三组 ***">
+										<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+								</i-select>
+							</p>
+							<br>
+							
+							<p>
+								不良内容&nbsp;&nbsp;
+								<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
+									<Option-group label="****** 印刷系 ******">
+										<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 装着系 ******">
+										<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 异物系 ******">
+										<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 人系 ******">
+										<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 部品系 ******">
+										<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 其他 ******">
+										<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+								</i-select>
+							</p>
+							<br>
+
+							<p>
+								位号&nbsp;&nbsp;
+								<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								数量&nbsp;&nbsp;
+								<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+
+							</p>
+							<br>
+							<!--</span>-->
+							
+							&nbsp;
 						
-						创建时间：@{{ created_at_edit }}
+							<p>
+							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 的内容。
+							</p>
 						
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						更新时间：@{{ updated_at_edit }}
-					
-					</p>
-					<br>
-					
-					<!--<span v-for="(item, index) in piliangbianji">-->
-					<p>
-						枚数&nbsp;&nbsp;
-						<Input-number v-model.lazy="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</div>	
+					</Modal>
 
-						&nbsp;&nbsp;&nbsp;&nbsp;
-					
-						检查机类型&nbsp;&nbsp;
-						<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
-							<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</i-select>
+				</Tab-pane>
 
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						检查者&nbsp;&nbsp;
-						<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
-							<Option-group label="*** 一组 ***">
-								<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="*** 二组 ***">
-								<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="*** 三组 ***">
-								<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-						</i-select>
-					</p>
-					<br>
-					
-					<p>
-						不良内容&nbsp;&nbsp;
-						<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
-							<Option-group label="****** 印刷系 ******">
-								<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 装着系 ******">
-								<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 异物系 ******">
-								<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 人系 ******">
-								<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 部品系 ******">
-								<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 其他 ******">
-								<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-						</i-select>
-					</p>
-					<br>
+				<Tab-pane label="图表 - 工程内不良记录（PPM）">
 
-					<p>
-						位号&nbsp;&nbsp;
-						<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+					<i-button @click="onchart1()" type="info" size="small">刷新图表 ↘</i-button>
+					<!--
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					<Upload
+						:before-upload="handleUpload"
+						action="{{ route('smt.qcreport.qcreportimport') }}">
+						<i-button icon="ios-cloud-upload-outline">Upload files</i-button>
+					</Upload>
+					<div v-if="file !== null">Upload file: @{{ file.name }} <i-button @click="upload" :loading="loadingStatus" size="small">@{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</i-button></div>
+					-->
 
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						数量&nbsp;&nbsp;
-						<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
+					<br><br>
+					<i-row :gutter="16">
+						<i-col span="24">
+							<div id="chart1" style="height:600px"></div>
+						</i-col>
+					</i-row>
 
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
+				</Tab-pane>
 
-					</p>
-					<br>
-					<!--</span>-->
-					
-					&nbsp;
-				
-					<p>
-					※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 的内容。
-					</p>
-				
-				</div>	
-			</Modal>
+				<Tab-pane label="图表 - 按不良内容统计不良占有率">
 
-	
+					<i-button @click="onchart2()" type="info" size="small">刷新图表 ↘</i-button>
+					<br><br>
+					<i-row :gutter="16">
+						<i-col span="24">
+							<div id="chart2" style="height:500px"></div>
+						</i-col>
+					</i-row>
+
+				</Tab-pane>
+
+				<Tab-pane label="图表 - 按月份对比不良率和PPM">
+
+					<i-button @click="onchart3()" type="info" size="small">刷新图表 ↘</i-button>
+					<br><br>
+					<i-row :gutter="16">
+						<i-col span="24">
+							<div id="chart3" style="height:600px"></div>
+						</i-col>
+					</i-row>
+
+				</Tab-pane>
+
+			</Tabs>
+
+
+
+
+
+
+
 		</Tab-pane>
 
 
-		<Tab-pane label="图表 - 工程内不良记录（PPM）">
-	
-			<i-button @click="onchart1()" type="info" size="small">刷新图表 ↘</i-button>
-			<!--
-			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-			<Upload
-				:before-upload="handleUpload"
-				action="{{ route('smt.qcreport.qcreportimport') }}">
-				<i-button icon="ios-cloud-upload-outline">Upload files</i-button>
-			</Upload>
-			<div v-if="file !== null">Upload file: @{{ file.name }} <i-button @click="upload" :loading="loadingStatus" size="small">@{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</i-button></div>
-			-->
-			
-			<br><br>
-			<i-row :gutter="16">
-				<i-col span="24">
-					<div id="chart1" style="height:600px"></div>
-				</i-col>
-			</i-row>
-	
-		</Tab-pane>
 
-
-		<Tab-pane label="图表 - 按不良内容统计不良占有率">
-
-			<i-button @click="onchart2()" type="info" size="small">刷新图表 ↘</i-button>
-			<br><br>
-			<i-row :gutter="16">
-				<i-col span="24">
-					<div id="chart2" style="height:500px"></div>
-				</i-col>
-			</i-row>
-
-		</Tab-pane>
-
-
-		<Tab-pane label="图表 - 按月份对比不良率和PPM">
-	
-			<i-button @click="onchart3()" type="info" size="small">刷新图表 ↘</i-button>
-			<br><br>
-			<i-row :gutter="16">
-				<i-col span="24">
-					<div id="chart3" style="height:600px"></div>
-				</i-col>
-			</i-row>
-	
-		</Tab-pane>
 
 	</Tabs>
 	
@@ -414,6 +430,7 @@ var vm_app = new Vue({
 				jianchazhe: ''
 			},
 		],
+		piliangluru_keep: false,
 		
 		// 扫描
 		// saomiao: 'MRAP808A/5283600121-51/MAIN/900',
@@ -1209,6 +1226,7 @@ var vm_app = new Vue({
 		
 		// tabs索引
 		currenttabs: 0,
+		currentsubtabs: 0,
 
 	},
 	methods: {
@@ -1345,24 +1363,48 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			var qcdate_filter = [];
-
-			for (var i in _this.qcdate_filter) {
-				if (typeof(_this.qcdate_filter[i])!='string') {
-					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter[i] == '') {
-					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					qcdate_filter.push(_this.qcdate_filter[i]);
-				}
-			}
-			
 			var xianti_filter = _this.xianti_filter;
 			var banci_filter = _this.banci_filter;
 			var jizhongming_filter = _this.jizhongming_filter;
 			var pinming_filter = _this.pinming_filter;
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
+
+			var qcdate_filter = [];
+
+			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter == undefined) {
+				
+				// 日期范围优先
+				_this.tabledata1 = [];
+				// if (xianti_filter == '' && banci_filter == '' && jizhongming_filter == '' &&  pinming_filter == '' && gongxu_filter == '' && buliangneirong_filter == '') {
+				// if (xianti_filter == '' || xianti_filter == undefined && banci_filter == '' || banci_filter != undefined && jizhongming_filter == '' || jizhongming_filter == undefined &&  pinming_filter == '' || pinming_filter == undefined && gongxu_filter == '' || gongxu_filter == undefined && buliangneirong_filter == '' || buliangneirong_filter == undefined) {
+				// 	|| xianti_filter != undefined || banci_filter != undefined || jizhongming_filter != undefined ||  pinming_filter != undefined || gongxu_filter != undefined || buliangneirong_filter != undefined) {
+					// _this.warning(false, '警告', '请先选择日期范围！');
+				// }
+
+				_this.warning(false, '警告', '请先选择日期范围！');
+				return false;
+
+				// 日期范围不需要优先
+				/*
+				if (jizhongming_filter == '' && pinfan_filter == '' && pinming_filter== '' && leibie_filter == '') {
+					_this.tabledata_relation = [];
+					return false;
+				} else {
+					const end = new Date();
+					const start = new Date();
+					// end.setTime(end.getTime() + 3600 * 1000 * 24 * 1);
+					end.setDate(end.getDate());
+					// start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+					start.setDate(start.getDate() - 365);
+					qcdate_filter = [start, end];
+				}
+				*/
+			} else {
+				qcdate_filter =  _this.qcdate_filter;
+			}
+			
+			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -1466,6 +1508,9 @@ var vm_app = new Vue({
 		// onclear
 		onclear: function () {
 			var _this = this;
+
+			// var piliangluruxiang = _this.piliangluruxiang;
+
 			_this.saomiao = '';
 			_this.shengchanriqi = '';
 			_this.xianti = '';
@@ -1474,25 +1519,26 @@ var vm_app = new Vue({
 			_this.dianmei = '';
 			_this.meishu = '';
 			
-			// _this.piliangluru.map(function (v,i) {
-				// v.jianchajileixing = '';
-				// v.buliangneirong = '';
-				// v.weihao = '';
-				// v.shuliang = '';
-				// v.jianchazhe = '';
-			// });
-			
-			_this.piliangluru = [
-				{
-					jianchajileixing: '',
-					buliangneirong: '',
-					weihao: '',
-					shuliang: '',
-					jianchazhe: '',
-				}
-			];
-			
-			_this.piliangluruxiang = 1;
+			if (_this.piliangluru_keep) {
+				_this.piliangluru.map(function (v,i) {
+					v.jianchajileixing = '';
+					v.buliangneirong = '';
+					v.weihao = '';
+					v.shuliang = '';
+					v.jianchazhe = '';
+				});
+			} else {
+				_this.piliangluru = [
+					{
+						jianchajileixing: '',
+						buliangneirong: '',
+						weihao: '',
+						shuliang: '',
+						jianchazhe: '',
+					}
+				];
+				_this.piliangluruxiang = 1;
+			}
 			
 			_this.$refs.saomiao.focus();
 		},
@@ -1558,16 +1604,14 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.onclear();
 					_this.success(false, '成功', '记入成功！');
+
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
-					_this.qcreportgets(_this.pagecurrent, _this.pagelast);
-					
 
-					// var t = [];
-					// for (var i in tableselect1) {
-						// t.push({id: tableselect1[i]});
-					// }
-					// _this.onselectchange1(t);
+					if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
+						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+					}
+
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
@@ -1635,15 +1679,14 @@ var vm_app = new Vue({
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
-			
-			var queryfilter_datefrom = _this.qcdate_filter[0].Format("yyyy-MM-dd");
-			var queryfilter_dateto = _this.qcdate_filter[1].Format("yyyy-MM-dd");
+
+			var queryfilter_datefrom = _this.qcdate_filter[0].Format("yyyy-MM-dd 00:00:00");
+			var queryfilter_dateto = _this.qcdate_filter[1].Format("yyyy-MM-dd 23:59:59");
 			
 			var url = "{{ route('smt.qcreport.qcreportexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom
 				+ "&queryfilter_dateto=" + queryfilter_dateto;
 				
-			// console.log(url);
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
@@ -1653,7 +1696,7 @@ var vm_app = new Vue({
 		//
 		// 生成piliangluru
 		piliangluru_generate: function (counts) {
-			
+			if (counts == undefined) counts = 1;
 			var len = this.piliangluru.length;
 			
 			if (counts > len) {
@@ -2240,27 +2283,26 @@ var vm_app = new Vue({
 				ppm[i] = 0;
 			}
 			
-			// 图表按当前表格中最大记录数重新查询
-			
-			var qcdate_filter = [];
-
-			for (var i in _this.qcdate_filter) {
-				if (typeof(_this.qcdate_filter[i])!='string') {
-					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter[i] == '') {
-					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					qcdate_filter.push(_this.qcdate_filter[i]);
-				}
-			}
-			
-			
 			var xianti_filter = _this.xianti_filter;
 			var banci_filter = _this.banci_filter;
 			var jizhongming_filter = _this.jizhongming_filter;
 			var pinming_filter = _this.pinming_filter;
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
+			
+			// 图表按当前表格中最大记录数重新查询
+			
+			var qcdate_filter = [];
+
+			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter == undefined) {
+				_this.tabledata1 = [];
+				_this.warning(false, '警告', '请先选择日期范围！');
+				return false;
+			} else {
+				qcdate_filter =  _this.qcdate_filter;
+			}
+			
+			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -2431,26 +2473,26 @@ var vm_app = new Vue({
 				shuliang_huizong[i] = 0;
 			}
 			
-			// 图表按当前表格中最大记录数重新查询
-			
-			var qcdate_filter = [];
-
-			for (var i in _this.qcdate_filter) {
-				if (typeof(_this.qcdate_filter[i])!='string') {
-					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter[i] == '') {
-					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					qcdate_filter.push(_this.qcdate_filter[i]);
-				}
-			}
-			
 			var xianti_filter = _this.xianti_filter;
 			var banci_filter = _this.banci_filter;
 			var jizhongming_filter = _this.jizhongming_filter;
 			var pinming_filter = _this.pinming_filter;
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
+
+			// 图表按当前表格中最大记录数重新查询
+			
+			var qcdate_filter = [];
+
+			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter == undefined) {
+				_this.tabledata1 = [];
+				_this.warning(false, '警告', '请先选择日期范围！');
+				return false;
+			} else {
+				qcdate_filter =  _this.qcdate_filter;
+			}
+			
+			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			
 			var url = "{{ route('smt.qcreport.qcreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -2657,8 +2699,8 @@ var vm_app = new Vue({
 					var current_year = dd.getFullYear();
 					var last_year = dd.getFullYear() - 1;
 
-					var last_date_range = [new Date(last_year + '-01-01'), new Date(last_year + '-12-31')];
-					var current_date_range = [new Date(current_year + '-01-01'), new Date(current_year + '-12-31')];
+					var last_date_range = [new Date(last_year + '-01-01 00:00:00'), new Date(last_year + '-12-31 23:59:59')];
+					var current_date_range = [new Date(current_year + '-01-01 00:00:00'), new Date(current_year + '-12-31 23:59:59')];
 
 					// console.log(last_date_range);
 					// console.log(current_date_range);

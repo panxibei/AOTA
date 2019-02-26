@@ -1387,6 +1387,7 @@ var vm_app = new Vue({
 
 		// 生成piliangluru_relation
 		piliangluru_relation_generate: function (counts) {
+			if (counts == undefined) counts = 1;
 			var len = this.piliangluru_relation.length;
 			
 			if (counts > len) {
