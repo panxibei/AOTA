@@ -16,11 +16,11 @@ function mobile() {
 }
 isMobile = mobile();
 // console.log(isMobile);
-/* if (isMobile) {
+if (isMobile) {
 	alert('系统暂不支持移动端！');
 	document.execCommand("Stop");
 	window.stop();
-} */
+}
  
 // 给日期类对象添加日期差方法，返回日期与diff参数日期的时间差，单位为天
 // 对Date的扩展，将 Date 转化为指定格式的String
@@ -58,21 +58,21 @@ function checkBrowser () {
 	var isSafari = userAgent.indexOf("Safari") > -1;
 	var isOpera = userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1;
 	if (isOpera) {
-		alert("Opera");
+		// alert("Opera");
 	}; //判断是否Firefox浏览器
 	if (isFirefox) {
-		alert("FF");
+		// alert("FF");
 	} //判断是否Chrome浏览器
 	else if (isChrome){
-		alert("Chrome");
+		// alert("Chrome");
 	} //判断是否Safari浏览器
 	else if (isSafari) {
-		alert("Safari");
+		// alert("Safari");
 	}
 	// if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && userAgent.indexOf(".NET") > -1 && !isOpera) {
 	//判断是否IE浏览器
 	else {
-		alert("IE");
+		// alert("IE");
 		alert('请使用Chrome或Firefox浏览器！');
 		document.execCommand("stop");
 	};	
