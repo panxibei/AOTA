@@ -16,11 +16,11 @@ function mobile() {
 }
 isMobile = mobile();
 // console.log(isMobile);
-if (isMobile) {
+/* if (isMobile) {
 	alert('系统暂不支持移动端！');
 	document.execCommand("Stop");
 	window.stop();
-}
+} */
  
 // 给日期类对象添加日期差方法，返回日期与diff参数日期的时间差，单位为天
 // 对Date的扩展，将 Date 转化为指定格式的String
