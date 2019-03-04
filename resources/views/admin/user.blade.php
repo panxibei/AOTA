@@ -84,7 +84,7 @@ Admin(User) -
 							&nbsp;&nbsp;&nbsp;&nbsp;
 
 							email&nbsp;&nbsp;
-							<i-input v-model.lazy="user_add_email" placeholder="" size="small" clearable style="width: 120px" type="email"></i-input>
+							<i-input v-model.lazy="user_add_email" placeholder="" size="small" clearable style="width: 200px" type="email"></i-input>
 							
 							<br><br>
 
@@ -94,7 +94,7 @@ Admin(User) -
 							&nbsp;&nbsp;&nbsp;&nbsp;
  -->							
 							displayname&nbsp;&nbsp;
-							<i-input v-model.lazy="user_add_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+							<i-input v-model.lazy="user_add_displayname" placeholder="" size="small" clearable style="width: 160px"></i-input>
 
 							<br><br>
 
@@ -119,7 +119,7 @@ Admin(User) -
 							&nbsp;&nbsp;&nbsp;&nbsp;
 
 							email&nbsp;&nbsp;
-							<i-input v-model.lazy="user_edit_email" placeholder="" size="small" clearable style="width: 120px" type="email"></i-input>
+							<i-input v-model.lazy="user_edit_email" placeholder="" size="small" clearable style="width: 200px" type="email"></i-input>
 							
 							<br><br>
 
@@ -129,7 +129,7 @@ Admin(User) -
 							&nbsp;&nbsp;&nbsp;&nbsp;
  -->
 							displayname&nbsp;&nbsp;
-							<i-input v-model.lazy="user_edit_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+							<i-input v-model.lazy="user_edit_displayname" placeholder="" size="small" clearable style="width: 160px"></i-input>
 							
 							<br><br>
 
