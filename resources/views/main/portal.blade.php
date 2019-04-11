@@ -38,14 +38,14 @@ Main(Portal) -
 					<span style="float:right">
 						<a href="{{ route('smt.config') }}" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;Config</a>
 					</span>
-					@endcan
+					@endhasanyrole
 				</p>
-					<p v-for="item in CardListSmt">
-						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
-						<span style="float:right">
-							Percent: @{{ item.percent }}%
-						</span>
-					</p>
+				<p v-for="item in CardListSmt">
+					<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
+					<span style="float:right">
+						Percent: @{{ item.percent }}%
+					</span>
+				</p>
 			</Card>
 
 		</i-col>
@@ -58,7 +58,7 @@ Main(Portal) -
 		
 			<Card>
 				<p slot="title">
-					部品加工管理系统（Beta版）
+					部品加工管理系统（RC版）
 				</p>
 					<p v-for="item in CardListBupinjiagong">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
@@ -69,7 +69,28 @@ Main(Portal) -
 			</Card>
 		
 		</i-col>
-		<i-col span="5">
+		
+		<i-col span="1">
+		&nbsp;
+		</i-col>
+		
+		<i-col span="6">
+		
+			<Card>
+				<p slot="title">
+					生产管理系统（Beta版）
+				</p>
+					<p v-for="item in CardListShengchanguanli">
+						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
+						<span style="float:right">
+							Percent: @{{ item.percent }}%
+						</span>
+					</p>
+			</Card>
+		
+		</i-col>
+
+		<i-col span="4">
 		&nbsp;
 		</i-col>
 	</i-row>
@@ -113,10 +134,17 @@ var vm_app = new Vue({
 			},
 		],
 
-
 		CardListBupinjiagong: [
 			{
 				name: '中日程分析',
+				url: "{{ route('bpjg.zrcfx.index') }}",
+				percent: 100,
+			},
+		],
+
+		CardListShengchanguanli: [
+			{
+				name: '耗材分析',
 				url: "{{ route('bpjg.zrcfx.index') }}",
 				percent: 95,
 			},
