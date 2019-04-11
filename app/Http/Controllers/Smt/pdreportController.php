@@ -233,6 +233,7 @@ class pdreportController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$dailyreport = $request->only(
+			'shengchanriqi',
 			'xianti',
 			'banci',
 			'jizhongming',
@@ -276,6 +277,7 @@ class pdreportController extends Controller
 		try	{
 			// $result = DB::table('dailyreports')->insert([
 			$result = Smt_pdreport::create([
+				'shengchanriqi'	=> $dailyreport['shengchanriqi'],
 				'xianti'		=> $dailyreport['xianti'],
 				'banci'			=> $dailyreport['banci'],
 				'jizhongming'	=> $dailyreport['jizhongming'],
@@ -352,7 +354,7 @@ class pdreportController extends Controller
 			$result = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$result = Smt_pdreport::when($dailydate_filter, function ($query) use ($dailydate_filter) {
-					return $query->whereBetween('created_at', $dailydate_filter);
+					return $query->whereBetween('shengchanriqi', $dailydate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
@@ -363,7 +365,7 @@ class pdreportController extends Controller
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				})
-				->orderBy('created_at', 'asc')
+				->orderBy('shengchanriqi', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 		
 			Cache::put($fullUrl, $result, now()->addSeconds(10));

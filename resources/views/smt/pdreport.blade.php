@@ -47,6 +47,11 @@ SMT - daily production report
 					</i-select>
 				</i-col>
 				<i-col span="4">
+					* 生产日期&nbsp;&nbsp;
+					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px"></Date-picker>
+				</i-col>
+				<i-col span="12">
+					&nbsp;
 				</i-col>
 			</i-row>
 
@@ -182,7 +187,7 @@ SMT - daily production report
 					查询：
 				</i-col>
 				<i-col span="6">
-					* 日期范围&nbsp;&nbsp;
+					* 生产日期范围&nbsp;&nbsp;
 					<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="4">
@@ -426,6 +431,9 @@ var vm_app = new Vue({
 			}
 		],
 		
+		// 生产日期
+		shengchanriqi: '',
+
 		// 机种名
 		jizhongming: '',
 		
@@ -479,6 +487,13 @@ var vm_app = new Vue({
 				type: 'index',
 				width: 40,
 				align: 'center'
+			},
+			// 1
+			{
+				title: '生产日期',
+				key: 'shengchanriqi',
+				align: 'center',
+				width: 160
 			},
 			// 1
 			{
@@ -663,12 +678,12 @@ var vm_app = new Vue({
 			},
 			
 			// 1
-			{
-				title: '创建日期',
-				key: 'created_at',
-				align: 'center',
-				width: 160,
-			}
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// }
 
 			
 			
@@ -1237,6 +1252,7 @@ var vm_app = new Vue({
 		create: function () {
 			var _this = this;
 			
+			var shengchanriqi = _this.shengchanriqi;
 			var xianti = _this.xianti;
 			var banci = _this.banci;
 			var jizhongming = _this.jizhongming;
@@ -1260,8 +1276,8 @@ var vm_app = new Vue({
 			var shizuo = _this.shizuo;
 			var jizaishixiang = _this.jizaishixiang;
 
-			if (xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || meishu == '' || gongxu == ''
-				|| xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || meishu == undefined || gongxu == undefined) {
+			if (shengchanriqi == '' || xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || meishu == '' || gongxu == ''
+				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || meishu == undefined || gongxu == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
@@ -1269,6 +1285,7 @@ var vm_app = new Vue({
 			var url = "{{ route('smt.pdreport.dailyreportcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
+				shengchanriqi: shengchanriqi.Format("yyyy-MM-dd 00:00:00"),
 				xianti: xianti,
 				banci: banci,
 				jizhongming: jizhongming,
@@ -1295,7 +1312,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.clear();
 					_this.success(false, '成功', '记入成功！');
-					_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
+					// _this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
@@ -1376,7 +1393,7 @@ var vm_app = new Vue({
 			} else {
 				date_filter_pdreport =  _this.date_filter_pdreport;
 			}
-
+// console.log(date_filter_pdreport);return false;
 			date_filter_pdreport = [date_filter_pdreport[0].Format("yyyy-MM-dd 00:00:00"), date_filter_pdreport[1].Format("yyyy-MM-dd 23:59:59")];
 
 			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
