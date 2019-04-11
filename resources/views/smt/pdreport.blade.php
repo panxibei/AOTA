@@ -1365,21 +1365,20 @@ var vm_app = new Vue({
 			} else if (page < 1) {
 				page = 1;
 			}
-			
+
 			var date_filter_pdreport = [];
 
-			for (var i in _this.date_filter_pdreport) {
-				if (typeof(_this.date_filter_pdreport[i])!='string') {
-					date_filter_pdreport.push(_this.date_filter_pdreport[i].Format("yyyy-MM-dd"));
-				} else if (_this.date_filter_pdreport[i] == '') {
-					date_filter_pdreport.push(new Date().Format("yyyy-MM-dd"));
-					// _this.tabledata_relation = [];
-					// return false;
-				} else {
-					date_filter_pdreport.push(_this.date_filter_pdreport[i]);
-				}
+			if (_this.date_filter_pdreport[0] == '' || _this.date_filter_pdreport == undefined) {
+				_this.tabledata1 = [];
+				_this.tabledata2 = [];
+				_this.warning(false, '警告', '请先选择日期范围！');
+				return false;
+			} else {
+				date_filter_pdreport =  _this.date_filter_pdreport;
 			}
-			
+
+			date_filter_pdreport = [date_filter_pdreport[0].Format("yyyy-MM-dd 00:00:00"), date_filter_pdreport[1].Format("yyyy-MM-dd 23:59:59")];
+
 			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -1393,6 +1392,9 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;

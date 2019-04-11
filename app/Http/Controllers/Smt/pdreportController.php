@@ -337,7 +337,7 @@ class pdreportController extends Controller
 		$xianti_filter = $request->input('xianti_filter');
 		$banci_filter = $request->input('banci_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
-		
+
 		//对查询参数按照键名排序
 		ksort($queryParams);
 		
@@ -366,7 +366,7 @@ class pdreportController extends Controller
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 		
-			Cache::put($fullUrl, $result, now()->addSeconds(30));
+			Cache::put($fullUrl, $result, now()->addSeconds(10));
 		}
 
 		return $result;
