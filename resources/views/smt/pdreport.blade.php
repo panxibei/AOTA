@@ -101,11 +101,11 @@ SMT - daily production report
 
 			<i-row :gutter="16">
 				<i-col span="3">
-					1.新产&nbsp;&nbsp;
+					1.新产切换&nbsp;&nbsp;
 					<Input-number v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="3">
-					1.量产&nbsp;&nbsp;
+					1.量产切换&nbsp;&nbsp;
 					<Input-number v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="2">
@@ -1246,8 +1246,20 @@ var vm_app = new Vue({
 			var gongxu = _this.select_gongxu;
 			var meimiao = _this.meimiao;
 			var meishu = _this.meishu;
-			
-			
+
+			var xinchan = _this.xinchan;
+			var liangchan = _this.liangchan;
+			var dengdaibupin = _this.dengdaibupin;
+			var wujihua = _this.wujihua;
+			var qianhougongchengdengdai = _this.qianhougongchengdengdai;
+			var wubupin = _this.wubupin;
+			var bupinanpaidengdai = _this.bupinanpaidengdai;
+			var dingqidianjian = _this.dingqidianjian;
+			var guzhang = _this.guzhang;
+			var bupinbuchong = _this.bupinbuchong;
+			var shizuo = _this.shizuo;
+			var jizaishixiang = _this.jizaishixiang;
+
 			if (xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || meishu == '' || gongxu == ''
 				|| xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || meishu == undefined || gongxu == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
@@ -1257,20 +1269,32 @@ var vm_app = new Vue({
 			var url = "{{ route('smt.pdreport.dailyreportcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				xianti : xianti,
-				banci : banci,
-				jizhongming : jizhongming,
-				spno : spno,
-				pinming : pinming,
-				lotshu : lotshu,
-				gongxu : gongxu,
-				meimiao : meimiao,
-				meishu : meishu
+				xianti: xianti,
+				banci: banci,
+				jizhongming: jizhongming,
+				spno: spno,
+				pinming: pinming,
+				lotshu: lotshu,
+				gongxu: gongxu,
+				meimiao: meimiao,
+				meishu: meishu,
+				xinchan: xinchan,
+				liangchan: liangchan,
+				dengdaibupin: dengdaibupin,
+				wujihua: wujihua,
+				qianhougongchengdengdai: qianhougongchengdengdai,
+				wubupin: wubupin,
+				bupinanpaidengdai: bupinanpaidengdai,
+				dingqidianjian: dingqidianjian,
+				guzhang: guzhang,
+				bupinbuchong: bupinbuchong,
+				shizuo: shizuo,
+				jizaishixiang: jizaishixiang,
 			})
 			.then(function (response) {
 				if (response.data) {
+					_this.clear();
 					_this.success(false, '成功', '记入成功！');
-					// _this.clear();
 					_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				} else {
 					_this.error(false, '失败', '记入失败！');

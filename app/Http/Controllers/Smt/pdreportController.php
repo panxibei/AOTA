@@ -241,7 +241,19 @@ class pdreportController extends Controller
 			'lotshu',
 			'meimiao',
 			'meishu',
-			'gongxu'
+			'gongxu',
+			'xinchan',
+			'liangchan',
+			'dengdaibupin',
+			'wujihua',
+			'qianhougongchengdengdai',
+			'wubupin',
+			'bupinanpaidengdai',
+			'dingqidianjian',
+			'guzhang',
+			'bupinbuchong',
+			'shizuo',
+			'jizaishixiang'
 		);
 		// dd($dailyreport['banci']);
 		
@@ -279,7 +291,20 @@ class pdreportController extends Controller
 				'taishu'		=> $taishu,
 				'lotcan'		=> 0,
 				'chajiandianshu'=> $chajiandianshu,
-				'jiadonglv'		=> $jiadonglv
+				'jiadonglv'		=> $jiadonglv,
+
+				'xinchan'					=> $dailyreport['xinchan'],
+				'liangchan'					=> $dailyreport['liangchan'],
+				'dengdaibupin'				=> $dailyreport['dengdaibupin'],
+				'wujihua'					=> $dailyreport['wujihua'],
+				'qianhougongchengdengdai'	=> $dailyreport['qianhougongchengdengdai'],
+				'wubupin'					=> $dailyreport['wubupin'],
+				'bupinanpaidengdai'			=> $dailyreport['bupinanpaidengdai'],
+				'dingqidianjian'			=> $dailyreport['dingqidianjian'],
+				'guzhang'					=> $dailyreport['guzhang'],
+				'bupinbuchong'				=> $dailyreport['bupinbuchong'],
+				'shizuo'					=> $dailyreport['shizuo'],
+				'jizaishixiang'				=> $dailyreport['jizaishixiang'],
 			]);
 			$result = 1;
 		}
