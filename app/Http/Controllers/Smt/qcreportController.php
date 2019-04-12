@@ -179,7 +179,7 @@ class qcreportController extends Controller
 				->where('pinming', $pinming)
 				->where('gongxu', $gongxu)
 				->first();
-			
+				dd($res);
 			$dianmei = $res['diantai'] * $res['pinban']; 
 			
 			$res = Smt_pdreport::select('xianti', 'banci')
