@@ -29,18 +29,6 @@ SMT(QC report) -
 					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
 				</i-col>
 				<i-col span="3">
-					* 线体&nbsp;&nbsp;
-					<i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
-						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-				</i-col>
-				<i-col span="3">
-					* 班次&nbsp;&nbsp;
-					<i-select v-model.lazy="banci" clearable style="width:80px" placeholder="">
-						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-				</i-col>
-				<i-col span="3">
 					* 工序&nbsp;&nbsp;
 					<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:80px" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
@@ -53,6 +41,20 @@ SMT(QC report) -
 				<i-col span="4">
 					* 枚数&nbsp;&nbsp;
 					<Input-number v-model.lazy="meishu" :min="1" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="3">
+					线体&nbsp;&nbsp;
+					<i-input v-model.lazy="xianti" readonly placeholder="" style="width: 80px"></i-input>
+					<!-- <i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
+						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select> -->
+				</i-col>
+				<i-col span="3">
+					班次&nbsp;&nbsp;
+					<i-input v-model.lazy="banci" readonly placeholder="" style="width: 80px"></i-input>
+					<!-- <i-select v-model.lazy="banci" clearable style="width:80px" placeholder="">
+						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select> -->
 				</i-col>
 				<input v-model.lazy="shengchanriqi" hidden="hidden"></input>
 			</i-row>
@@ -666,7 +668,7 @@ var vm_app = new Vue({
 									vm_app.qcreport_edit(params.row)
 								}
 							}
-						}, 'Edit')
+						}, '编辑')
 					]);
 				},
 				fixed: 'right'
@@ -1597,8 +1599,8 @@ var vm_app = new Vue({
 				piliangluru: piliangluru
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
@@ -2909,11 +2911,16 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;
 				}
 				
+				_this.xianti = response.data.xianti;
+				_this.banci = response.data.banci;
 				_this.dianmei = response.data.dianmei;
 
 				// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）

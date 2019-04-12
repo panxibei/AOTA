@@ -93,7 +93,7 @@ class qcreportController extends Controller
 			// 		return $query->whereBetween('shengchanriqi', $qcdate_filter);
 			// 	})
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-					return $query->whereBetween('created_at', $qcdate_filter);
+					return $query->whereBetween('shengchanriqi', $qcdate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', '=', $xianti_filter);
@@ -182,7 +182,7 @@ class qcreportController extends Controller
 			
 			$dianmei = $res['diantai'] * $res['pinban']; 
 			
-			$res = Smt_pdreport::select('created_at')
+			$res = Smt_pdreport::select('xianti', 'banci')
 				->where('jizhongming', $jizhongming)
 				->where('spno', $spno)
 				->where('pinming', $pinming)
@@ -190,9 +190,12 @@ class qcreportController extends Controller
 				->first();
 			
 			// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
-			$shengchanriqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
+			// $shengchanriqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
 
-			$result = compact('dianmei', 'shengchanriqi');
+			$xianti = $res['xianti'];
+			$banci = $res['banci'];
+
+			$result = compact('dianmei', 'xianti', 'banci');
 			
 		}
 		catch (\Exception $e) {
@@ -251,9 +254,12 @@ class qcreportController extends Controller
 		$s['hejidianshu'] = $dianmei * $meishu;
 		
 		$s['bushihejianshuheji'] = 0;
+
 		foreach ($piliangluru as $value) {
-			if ($value['shuliang'] == 0) return 0;
-			$s['bushihejianshuheji'] += $value['shuliang'];
+
+			if ($value['shuliang'] != 0) {
+				$s['bushihejianshuheji'] += $value['shuliang'];
+			}
 		}
 
 		if ($s['bushihejianshuheji'] == 0) {
@@ -262,7 +268,7 @@ class qcreportController extends Controller
 			$s['ppm'] = $s['bushihejianshuheji'] / $s['hejidianshu'] * 1000000;
 		}
 
-		dd($s);
+		// dd($s);
 		
 		// 不良内容为一维数组，字符串化
 		// foreach ($piliangluru as $key => $value) {
@@ -275,7 +281,7 @@ class qcreportController extends Controller
 			$p[] = array_merge($value, $s);
 		}
 
-		dd($p);
+		// dd($p);
 		
 		// 写入数据库
 		try	{
