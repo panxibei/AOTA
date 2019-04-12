@@ -1,7 +1,7 @@
 @extends('smt.layouts.mainbase')
 
 @section('my_title')
-SMT - daily production report 
+SMT - PD report 
 @parent
 @endsection
 

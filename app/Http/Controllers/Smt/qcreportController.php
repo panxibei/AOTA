@@ -188,7 +188,7 @@ class qcreportController extends Controller
 				->where('pinming', $pinming)
 				->where('gongxu', $gongxu)
 				->first();
-			
+			dd($res);
 			// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
 			// $shengchanriqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
 
