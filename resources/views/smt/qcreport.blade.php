@@ -19,7 +19,7 @@ SMT(QC report) -
 
 <div id="app" v-cloak>
 
-	<Tabs type="card" v-model="currenttabs">
+	<Tabs type="card" v-model="currenttabs" :animated="false">
 		<Tab-pane label="工程内不良录入">
 
 			<br>
@@ -226,7 +226,7 @@ SMT(QC report) -
 			</i-row>
 			<br><br><br>
 
-			<Tabs type="card" v-model="currentsubtabs">
+			<Tabs type="card" v-model="currentsubtabs" :animated="false">
 				<Tab-pane label="品质管理日报">
 
 					<i-row :gutter="16">

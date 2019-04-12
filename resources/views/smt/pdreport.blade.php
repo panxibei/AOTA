@@ -28,7 +28,7 @@ SMT - PD report
 
 <div id="app" v-cloak>
 
-	<Tabs type="card" v-model="currenttabs">
+	<Tabs type="card" v-model="currenttabs" :animated="false">
 		<Tab-pane label="生产信息录入">
 
 			<Divider orientation="left">生产基本信息</Divider>

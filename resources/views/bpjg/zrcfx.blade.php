@@ -36,7 +36,7 @@
     </Steps>
 	<br><br>
 
-	<Tabs type="card" v-model="currenttabs">
+	<Tabs type="card" v-model="currenttabs" :animated="false">
 		<Tab-pane label="机种/部品关系表">
 		
 			<Divider orientation="left">信息录入</Divider>
