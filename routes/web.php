@@ -98,6 +98,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Main', 'middleware'=>['jwtauth','pe
 Route::group(['prefix'=>'release', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
 	Route::get('/', 'mainController@mainRelease')->name('release');
 	Route::get('releasegets', 'mainController@mainReleasegets')->name('release.releasegets');
+	Route::post('releaseCreate', 'mainController@mainReleaseCreate')->name('release.releasecreate');
 });
 
 

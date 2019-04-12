@@ -194,7 +194,36 @@ class mainController extends Controller
 		return $releasegets;
 	}
 
-	
+
+	/**
+	 * mainReleaseCreate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function mainReleaseCreate(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$title = $request->input('title');
+		$content = $request->input('content');
+
+		// 写入数据库
+		try	{
+			// $result = DB::table('dailyreports')->insert([
+			$result = Release::create([
+				'title'		=> $title,
+				'content'	=> $content,
+			]);
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+
+		return $result;
+	}	
 	
 
 }

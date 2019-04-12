@@ -49,12 +49,38 @@ Main(Releases) -
 			</Card>
 
 		</i-col>
-		
+
 		<i-col span="1">
 		&nbsp;
 		</i-col>
+
+		<i-col span="11">
+
+			<Card>
+				<p slot="title">
+					日志录入
+				</p>
+
+				Title<br>
+				<i-input v-model.lazy="log_add_title" size="small" clearable style="width: 300px"></i-input>
+				
+				<br><br>
+
+				Content<br>
+				<i-input type="textarea" :rows="6" v-model.lazy="log_add_content" size="small" placeholder="" clearable style="width: 300px"></i-input>
+
+				<br><br>
+				
+				<i-button @click="oncreate()" type="primary" size="large">提交</i-button>
+				&nbsp;&nbsp;<i-button @click="onclear()" size="large">清除</i-button>
+
+
+			</Card>
+
+		</i-col>
 		
-		<i-col span="6">
+		
+		<i-col span="1">
 		&nbsp;
 		</i-col>
 	</i-row>
@@ -85,6 +111,9 @@ var vm_app = new Vue({
 		
         release_offset: 0,
         release_message: '向下滚动加载更多',
+
+		log_add_title: '',
+		log_add_content: '',
 			
 	},
 	methods: {
@@ -174,14 +203,52 @@ var vm_app = new Vue({
 			});
 		},
 
+		onclear() {
+			var _this = this;
+			_this.log_add_title = '';
+			_this.log_add_content = '';
+		},
+		
+		// create
+		oncreate() {
+			var _this = this;
+			
+			var log_add_title = _this.log_add_title;
+			var log_add_content = _this.log_add_content;
 
+			if (log_add_title == '' || log_add_content == ''
+				|| log_add_title == undefined || log_add_content == undefined) {
+				_this.warning(false, '警告', '输入内容为空或不正确！');
+				return false;
+			}
+
+			var url = "{{ route('release.releasecreate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				title: log_add_title,
+				content: log_add_content,
+			})
+			.then(function (response) {
+				if (response.data) {
+					_this.onclear();
+					_this.list_release = [];
+					_this.releasegets();
+					_this.success(false, '成功', '提交成功！');
+				} else {
+					_this.error(false, '失败', '提交失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '提交失败！');
+			})
+		},
 
 
 
 
 
 	},
-	mounted: function () {
+	mounted() {
 		var _this = this;
 		_this.releasegets();
 	}
