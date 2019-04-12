@@ -261,8 +261,7 @@ SMT - daily production report
 			</Modal>
 
 			<Modal v-model="modal_jizhaishixiang_detail" title="机器未运转原因 - 记载事项" width="540">
-				<!-- <div style="white-space: pre-wrap;word-wrap: break-word;"> -->
-				<div style="white-space: pre-wrap;">
+				<div style="white-space: pre-line;">
 					@{{ jizaishixiang_detail }}
 				</div>
 			</Modal>
