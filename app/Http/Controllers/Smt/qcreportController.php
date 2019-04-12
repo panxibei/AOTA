@@ -216,7 +216,7 @@ class qcreportController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
 		$saomiao = $request->input('saomiao');
-		$shengchanriqi = $request->input('shengchanriqi');
+		// $shengchanriqi = $request->input('shengchanriqi');
 		$xianti = $request->input('xianti');
 		$banci = $request->input('banci');
 		$gongxu = $request->input('gongxu');
@@ -234,8 +234,15 @@ class qcreportController extends Controller
 		$s['spno'] = $saomiao_arr[1];
 		$s['pinming'] = $saomiao_arr[2];
 		$s['lotshu'] = $saomiao_arr[3];
-		
-		$s['shengchanriqi'] = $shengchanriqi;
+
+		// 获取生产日期
+		$shengchanriqi = Smt_pdreport::select('shengchanriqi')
+		->where('jizhongming', $s['jizhongming'])
+		->where('spno', $s['spno'])
+		->where('pinming', $s['pinming'])
+		->first();
+		// dd($shengchanriqi['shengchanriqi']);
+		$s['shengchanriqi'] = $shengchanriqi['shengchanriqi'];
 		$s['xianti'] = $xianti;
 		$s['banci'] = $banci;
 		$s['gongxu'] = $gongxu;
@@ -254,6 +261,8 @@ class qcreportController extends Controller
 		} else {
 			$s['ppm'] = $s['bushihejianshuheji'] / $s['hejidianshu'] * 1000000;
 		}
+
+		dd($s);
 		
 		// 不良内容为一维数组，字符串化
 		// foreach ($piliangluru as $key => $value) {
@@ -266,7 +275,7 @@ class qcreportController extends Controller
 			$p[] = array_merge($value, $s);
 		}
 
-		// dd($p);
+		dd($p);
 		
 		// 写入数据库
 		try	{
@@ -282,7 +291,7 @@ class qcreportController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			// return 'Message: ' .$e->getMessage();
+			dd('Message: ' .$e->getMessage());
 			return 0;
 		}
 

@@ -64,7 +64,7 @@ SMT(QC report) -
 					↓ 批量录入&nbsp;&nbsp;
 					<Input-number v-model.lazy="piliangluruxiang" @on-change="value=>piliangluru_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
 					&nbsp;项（最多10项）&nbsp;&nbsp;
-					<i-switch v-model="piliangluru_keep" size="small"></i-switch>&nbsp;保持批量录入数
+					<i-switch v-model="piliangluru_keep" size="small"></i-switch>&nbsp;锁定批量录入数
 				</i-col>
 			</i-row>
 			
@@ -671,13 +671,17 @@ var vm_app = new Vue({
 				},
 				fixed: 'right'
 			},			
-/* 			{
+ 			{
 				title: '生产日期',
 				key: 'shengchanriqi',
 				align: 'center',
-				width: 160,
+				width: 120,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shengchanriqi.substring(0,10)
+					]);
+				}
 			},
- */			
 			{
 				title: '线体',
 				key: 'xianti',
@@ -1547,7 +1551,7 @@ var vm_app = new Vue({
 		oncreate: function () {
 			var _this = this;
 			var saomiao = _this.saomiao;
-			var shengchanriqi = _this.shengchanriqi;
+			// var shengchanriqi = _this.shengchanriqi;
 			var xianti = _this.xianti;
 			var banci = _this.banci;
 			var gongxu = _this.gongxu;
@@ -1584,7 +1588,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				saomiao: saomiao,
-				shengchanriqi: shengchanriqi,
+				// shengchanriqi: shengchanriqi,
 				xianti: xianti,
 				banci: banci,
 				gongxu: gongxu,
@@ -1593,8 +1597,8 @@ var vm_app = new Vue({
 				piliangluru: piliangluru
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
