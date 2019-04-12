@@ -84,7 +84,7 @@ SMT - MPoint
 	
 		<i-row :gutter="16">
 			<i-col span="3">
-				<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">Delete</i-button>&nbsp;&nbsp;
+				<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button>&nbsp;&nbsp;
 			</i-col>
 			<i-col span="6">
 				日期范围&nbsp;&nbsp;
@@ -239,7 +239,7 @@ var vm_app = new Vue({
 									vm_app.editmpoint(params.row)
 								}
 							}
-						}, 'Edit')
+						}, '编辑')
 					]);
 				}
 			}

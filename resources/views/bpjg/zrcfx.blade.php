@@ -175,7 +175,7 @@
 			<i-row :gutter="16">
 				<br>
 				<i-col span="2">
-					<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;
+					<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">删除</i-button>&nbsp;<br>&nbsp;
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -570,7 +570,7 @@ var vm_app = new Vue({
 									vm_app.relation_edit(params.row)
 								}
 							}
-						}, 'Edit')
+						}, '编辑')
 					]);
 				},
 				fixed: 'right'
