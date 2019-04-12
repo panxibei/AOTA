@@ -501,7 +501,12 @@ var vm_app = new Vue({
 				title: '生产日期',
 				key: 'shengchanriqi',
 				align: 'center',
-				width: 160
+				width: 120,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shengchanriqi.substring(0,10)
+					]);
+				}
 			},
 			// 1
 			{
@@ -1562,8 +1567,8 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			var queryfilter_datefrom = _this.date_filter_pdreport[0].Format("yyyy-MM-dd");
-			var queryfilter_dateto = _this.date_filter_pdreport[1].Format("yyyy-MM-dd");
+			var queryfilter_datefrom = _this.date_filter_pdreport[0].Format("yyyy-MM-dd 00:00:00");
+			var queryfilter_dateto = _this.date_filter_pdreport[1].Format("yyyy-MM-dd 23:59:59");
 			
 			var url = "{{ route('smt.pdreport.pdreportexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom

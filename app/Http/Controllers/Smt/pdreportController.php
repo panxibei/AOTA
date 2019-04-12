@@ -556,13 +556,15 @@ class pdreportController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$smt_pdreport = Smt_pdreport::select('created_at', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
+		$smt_pdreport = Smt_pdreport::select(DB::raw('LEFT(shengchanriqi, 10)'), 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
+		// $smt_pdreport = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'taishu', 'lotcan', 'chajiandianshu',
 			'jiadonglv', 'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
 			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'bupinbuchong', 'shizuo',
 			'jizaishixiang', 'dandangzhe', 'querenzhe')
-			->whereBetween('created_at', [$queryfilter_datefrom, $queryfilter_dateto])
+			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
+		
 		// dd($smt_pdreport);
 
         // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
