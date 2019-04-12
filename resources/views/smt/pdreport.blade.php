@@ -260,6 +260,12 @@ SMT - daily production report
 				</div>
 			</Modal>
 
+			<Modal v-model="modal_jizhaishixiang_detail" title="机器未运转原因 - 记载事项" width="540">
+				<div style="text-align:center">
+					@{{ jizhaishixiang_detail }}
+				</div>
+			</Modal>
+
 			<br>
 			<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
 
@@ -281,6 +287,8 @@ var vm_app = new Vue({
 		
 		// 记载事项说明
 		modal_jizhaishixiang: false,
+		modal_jizhaishixiang_detail: false,
+		jizhaishixiang_detail: '',
 		
 		// 担当者
 		disabled_dandangzhe: true,
@@ -911,7 +919,28 @@ var vm_app = new Vue({
 								}, '查看说明')
 								
 							]);
-						}
+						},
+						render: (h, params) => {
+							return h('div', [
+								h('Button', {
+									props: {
+										type: 'text',
+										size: 'small'
+									},
+									on: {
+										click: () => {
+											// vm_app.viewmpoint(params.row)
+											vm_app.jizhaishixiang_detail = params.row.jizaishixiang || '无内容'
+											vm_app.modal_jizhaishixiang_detail = true
+										}
+									}
+								}, [
+									h('span', {
+									}, params.row.jizaishixiang.substr(0, 6) + '...'),
+								]),
+								
+							]);
+						},
 					}
 				]
 
