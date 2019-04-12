@@ -16,7 +16,25 @@
 // });
 
 
-// 中日程分析页面
+// 生产管理课 耗材分析页面
+Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','permission:permission_scgl_hcfx|permission_super_admin']], function() {
+	Route::get('hcfx', 'hcfxController@hcfxIndex')->name('scgl.hcfx.index');
+
+	Route::post('zrcfximport', 'zrcfxController@zrcfxImport')->name('bpjg.zrcfx.zrcfximport');
+	Route::get('zrcdownload', 'zrcfxController@zrcDownload')->name('bpjg.zrcfx.zrcdownload');
+	Route::get('relationgets', 'zrcfxController@relationGets')->name('bpjg.zrcfx.relationgets');
+	Route::post('relationupdate', 'zrcfxController@relationUpdate')->name('bpjg.zrcfx.relationupdate');
+	Route::post('relationcreate', 'zrcfxController@relationCreate')->name('bpjg.zrcfx.relationcreate');
+	Route::post('relationdelete', 'zrcfxController@relationDelete')->name('bpjg.zrcfx.relationdelete');
+	Route::get('relationexport', 'zrcfxController@relationExport')->name('bpjg.zrcfx.relationexport');
+	Route::post('relationimport', 'zrcfxController@relationImport')->name('bpjg.zrcfx.relationimport');
+	Route::get('relationdownload', 'zrcfxController@relationDownload')->name('bpjg.zrcfx.relationdownload');
+	Route::get('zrcfxfunction', 'zrcfxController@zrcfxFunction')->name('bpjg.zrcfx.zrcfxfunction');
+	Route::get('resultgets', 'zrcfxController@resultGets')->name('bpjg.zrcfx.resultgets');
+	Route::get('resultexport', 'zrcfxController@resultExport')->name('bpjg.zrcfx.resultexport');
+});
+
+// 部品加工课 中日程分析页面
 Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>['jwtauth','permission:permission_bpjg_zrcfx|permission_super_admin']], function() {
 	Route::get('zrcfx', 'zrcfxController@zrcfxIndex')->name('bpjg.zrcfx.index');
 	Route::post('zrcfximport', 'zrcfxController@zrcfxImport')->name('bpjg.zrcfx.zrcfximport');
@@ -33,7 +51,7 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>['jwtauth','p
 	Route::get('resultexport', 'zrcfxController@resultExport')->name('bpjg.zrcfx.resultexport');
 });
 
-// 品质日报页面
+// SMT 品质日报页面
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_qcreport|permission_super_admin']], function() {
 	Route::get('qcreportIndex', 'qcreportController@qcreportIndex')->name('smt.qcreport.index');
 	Route::get('qcreportgets', 'qcreportController@qcreportGets')->name('smt.qcreport.qcreportgets');
@@ -50,7 +68,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 });
 
 
-// 生产日报页面
+// SMT 生产日报页面
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_pdreport|permission_super_admin']], function() {
 	Route::get('pdreportIndex', 'pdreportController@pdreportIndex')->name('smt.pdreport.index');
 	Route::get('dailyreportgets', 'pdreportController@dailyreportGets')->name('smt.pdreport.dailyreportgets');

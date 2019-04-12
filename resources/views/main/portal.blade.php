@@ -145,7 +145,7 @@ var vm_app = new Vue({
 		CardListShengchanguanli: [
 			{
 				name: '耗材分析',
-				url: "{{ route('bpjg.zrcfx.index') }}",
+				url: "{{ route('scgl.hcfx.index') }}",
 				percent: 95,
 			},
 		],
