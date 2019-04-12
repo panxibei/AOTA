@@ -898,7 +898,7 @@ var vm_app = new Vue({
 						title: '记载事项<br>查看说明',
 						key: 'jizaishixiang',
 						align: 'center',
-						width: 200,
+						width: 140,
 						renderHeader: (h, params) => {
 							return h('div', [
 								h('span', {

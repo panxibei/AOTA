@@ -39,7 +39,7 @@ Main(Releases) -
                     <Collapse simple v-for="(item, index) in list_release">
                         <Panel name="@{{ index }}">
                             @{{ item.title }}
-                            <p slot="content">
+                            <p slot="content" style="white-space: pre-line;">
                             @{{ item.content }}
                             </p>
                         </Panel>
