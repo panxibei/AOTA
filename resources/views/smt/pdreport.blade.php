@@ -1174,6 +1174,8 @@ var vm_app = new Vue({
 					var tmp_gongxu = '';
 					var boo_flag = false;
 					
+					_this.select_pinming = '';
+					_this.select_gongxu = '';
 					_this.option_pinming = [];
 					_this.option_gongxu = [];
 					for (var i in response.data) {
