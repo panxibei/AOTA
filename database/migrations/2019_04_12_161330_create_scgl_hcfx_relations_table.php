@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateScglHcfxJizhong2tuopansTable extends Migration
+class CreateScglHcfxRelationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateScglHcfxJizhong2tuopansTable extends Migration
      */
     public function up()
     {
-        Schema::create('scgl_hcfx_jizhong2tuopans', function (Blueprint $table) {
+        Schema::create('scgl_hcfx_relations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('jizhongming', 50)->comment('机种名');
             $table->string('tuopanxinghao', 50)->comment('托盘型号');
@@ -29,6 +29,6 @@ class CreateScglHcfxJizhong2tuopansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scgl_hcfx_jizhong2tuopans');
+        Schema::dropIfExists('scgl_hcfx_relations');
     }
 }

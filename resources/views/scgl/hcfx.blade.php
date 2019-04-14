@@ -37,7 +37,7 @@
 	<br><br>
 
 	<Tabs type="card" v-model="currenttabs" :animated="false">
-		<Tab-pane label="机种/部品关系表">
+		<Tab-pane label="机种/托盘关系表">
 		
 			<Divider orientation="left">信息录入</Divider>
 
@@ -63,24 +63,16 @@
 					<i-input v-model.lazy="item.jizhongming" @on-keyup="item.jizhongming=item.jizhongming.toUpperCase()" size="small" placeholder="例：QH00048" clearable style="width: 120px"></i-input>
 				</i-col>
 				<i-col span="4">
-					* 品番&nbsp;&nbsp;
-					<i-input v-model.lazy="item.pinfan" @on-keyup="item.pinfan=item.pinfan.toUpperCase()" size="small" placeholder="例：07-37361Z02-A" clearable style="width: 120px"></i-input>
-				</i-col>
-				<i-col span="4">
-					* 品名&nbsp;&nbsp;
-					<i-input v-model.lazy="item.pinming" @on-keyup="item.pinming=item.pinming.toUpperCase()" size="small" placeholder="例：SPRING,GND 7L" clearable style="width: 120px"></i-input>
-				</i-col>
-				<i-col span="4">
-					* 需求数量&nbsp;&nbsp;
-					<Input-number v-model.lazy="item.xuqiushuliang" :min="0" size="small" style="width: 80px"></Input-number>
-				</i-col>
-				<i-col span="3">
-					* 类别&nbsp;&nbsp;
-					<i-select v-model.lazy="item.leibie" size="small" style="width:80px" placeholder="">
-						<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					* 托盘型号&nbsp;&nbsp;
+					<i-select v-model.lazy="item.tuopanxinghao" size="small" style="width:80px" placeholder="">
+						<i-option v-for="item in option_tuopanxinghao" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
+					* 台/托&nbsp;&nbsp;
+					<Input-number v-model.lazy="item.tai_per_tuo" :min="0" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="11">
 				&nbsp;
 				</i-col>
 				
@@ -103,7 +95,7 @@
 						:on-format-error="handleFormatError"
 						:max-size="2048"
 						action="/">
-						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 机种/部品关系表' }}</i-button>
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '批量导入 机种/托盘关系表' }}</i-button>
 					</Upload>
 				</i-col>
 				<i-col span="2">
@@ -121,7 +113,7 @@
 					&nbsp;
 				</i-col>
 				<i-col span="21">
-					<font color="#ff9900">* 注意：批量导入会将原有 [机种/部品关系表] 数据覆盖！！</font>
+					<font color="#ff9900">* 注意：批量导入会将原有 [机种/托盘关系表] 数据覆盖！！</font>
 				</i-col>
 			</i-row>
 			
@@ -139,38 +131,20 @@
 				</i-col>
 				<i-col span="6">
 					日期范围&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_relation" :options="qcdate_filter_relation_options" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="date_filter_relation" :options="date_filter_relation_options" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
-				<i-col span="12">
-				&nbsp;
-				</i-col>
-			</i-row>
-			<br><br>
-
-			<i-row :gutter="16">
-				<i-col span="3">
-					&nbsp;
-				</i-col>
-				<i-col span="3">
+				<i-col span="4">
 					机种名&nbsp;&nbsp;
 					<i-input v-model.lazy="jizhongming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="jizhongming_filter_relation=jizhongming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
 				</i-col>
-				<i-col span="3">
-					品番&nbsp;&nbsp;
-					<i-input v-model.lazy="pinfan_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_relation=pinfan_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-				</i-col>
-				<i-col span="3">
-					品名&nbsp;&nbsp;
-					<i-input v-model.lazy="pinming_filter_relation" @on-change="relationgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_relation=pinming_filter_relation.toUpperCase()" size="small" clearable style="width: 100px"></i-input>
-				</i-col>
-				<i-col span="3">
-					类别&nbsp;&nbsp;
-					<i-select v-model.lazy="leibie_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" clearable size="small" style="width:100px" placeholder="">
-						<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+				<i-col span="8">
+					托盘型号&nbsp;&nbsp;
+					<i-select v-model.lazy="tuopanxinghao_filter" @on-change="relationgets(pagecurrent_relation, pagelast_relation);onselectchange_relation();" clearable size="small" style="width:100px" placeholder="">
+						<i-option v-for="item in option_tuopanxinghao" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 			</i-row>
-			<br><br>
+			<br>
 
 			<i-row :gutter="16">
 				<br>
@@ -210,29 +184,17 @@
 						<i-input v-model.lazy="relation_jizhongming_edit" @on-keyup="relation_jizhongming_edit=relation_jizhongming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
 
 						&nbsp;&nbsp;&nbsp;&nbsp;
-
-						品番&nbsp;&nbsp;
-						<i-input v-model.lazy="relation_pinfan_edit" @on-keyup="relation_pinfan_edit=relation_pinfan_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 120px"></i-input>
-
-						&nbsp;&nbsp;&nbsp;&nbsp;
-
-						品名&nbsp;&nbsp;
-						<i-input v-model.lazy="relation_pinming_edit" @on-keyup="relation_pinming_edit=relation_pinming_edit.toUpperCase()" placeholder="例：" size="small" clearable style="width: 160px"></i-input>
-
-					</p>
-					<br>
-					
-					<p>
-						需求数量&nbsp;&nbsp;
-						<Input-number v-model.lazy="relation_xuqiushuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
-
-						&nbsp;&nbsp;&nbsp;&nbsp;
 						
-						类别&nbsp;&nbsp;
-						<i-select v-model.lazy="relation_leibie_edit" size="small" style="width:100px" placeholder="">
-							<i-option v-for="item in option_leibie" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						托盘型号&nbsp;&nbsp;
+						<i-select v-model.lazy="relation_tuopanxinghao_edit" size="small" style="width:120px" placeholder="">
+							<i-option v-for="item in option_tuopanxinghao" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 						</i-select>
-						
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
+						台/托&nbsp;&nbsp;
+						<Input-number v-model.lazy="relation_tai_per_tuo_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
+				
 						&nbsp;&nbsp;&nbsp;&nbsp;
 					</p>
 					
@@ -244,7 +206,7 @@
 		</Tab-pane>
 
 
-		<Tab-pane label="部品信息">
+		<Tab-pane label="耗材分析">
 		
 			<Divider orientation="left">导入、分析及查询导出</Divider>
 
@@ -308,11 +270,11 @@
 				</i-col>
 				<i-col span="4">
 					品番&nbsp;&nbsp;
-					<i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+					<!-- <i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="4">
 					品名&nbsp;&nbsp;
-					<i-input v-model.lazy="pinming_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
+					<!-- <i-input v-model.lazy="pinming_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="9">
 				&nbsp;
@@ -375,10 +337,8 @@ var vm_app = new Vue({
 		piliangluru_relation: [
 			{
 				jizhongming: '',
-				pinfan: '',
-				pinming: '',
-				xuqiushuliang: 1,
-				leibie: ''
+				tuopanxinghao: '',
+				tai_per_tuo: 1,
 			},
 		],
 
@@ -386,15 +346,21 @@ var vm_app = new Vue({
 		piliangluruxiang_relation: 1,
 
 		//类别
-		option_leibie: [
-			{value: '冲压', label: '冲压'},
-			{value: '成型', label: '成型'}
+		option_tuopanxinghao: [
+			{value: 'Y01', label: 'Y01'},
+			{value: 'Y02', label: 'Y02'},
+			{value: 'Y03', label: 'Y03'},
+			{value: 'Y04', label: 'Y04'},
+			{value: 'Y05', label: 'Y05'},
+			{value: 'Y06', label: 'Y06'},
+			{value: 'Y07', label: 'Y07'},
+			{value: '其他', label: '其他'},
 		],
 		
 		// ##########查询过滤########
 		// 日期范围过滤
-		qcdate_filter_relation: [], //new Date(),
-		qcdate_filter_relation_options: {
+		date_filter_relation: [], //new Date(),
+		date_filter_relation_options: {
 			shortcuts: [
 				{
 					text: '前 1 周',
@@ -452,29 +418,17 @@ var vm_app = new Vue({
 		// 机种名
 		jizhongming_filter_relation: '',
 
-		// 品番过滤
-		pinfan_filter_result: '',
-		pinfan_filter_relation: '',
-
-		// 品名过滤
-		pinming_filter_result: '',
-		pinming_filter_relation: '',
-		
-		// 类别过滤
-		leibie_filter: '',
+		// 托盘型号过滤
+		tuopanxinghao_filter: '',
 
 		// ##########编辑变量########
 		modal_relation_edit: false,
 		relation_id_edit: '',
-		relation_xianti_edit: '',
-		relation_qufen_edit: '',
 		relation_created_at_edit: '',
 		relation_updated_at_edit: '',
 		relation_jizhongming_edit: '',
-		relation_pinfan_edit: '',
-		relation_pinming_edit: '',
-		relation_xuqiushuliang_edit: [0, 0], //第一下标为原始值，第二下标为变化值
-		relation_leibie_edit: '',
+		relation_tai_per_tuo_edit: [0, 0], //第一下标为原始值，第二下标为变化值
+		relation_tuopanxinghao_edit: '',
 
 		modal_fenxi: false,
 		fenxi_suoshuriqi: '',
@@ -505,38 +459,25 @@ var vm_app = new Vue({
 				key: 'jizhongming',
 				align: 'center',
 				width: 120,
-				// sortable: true
+				sortable: true,
 			},
 			{
-				title: '品番',
-				key: 'pinfan',
+				title: '托盘型号',
+				key: 'tuopanxinghao',
 				align: 'center',
-				width: 140,
-				// sortable: true
+				width: 160,
+                sortable: true,
 			},
 			{
-				title: '品名',
-				key: 'pinming',
-				align: 'center',
-				width: 200
-			},
-			{
-				title: '需求数量',
-				key: 'xuqiushuliang',
+				title: '台/托',
+				key: 'tai_per_tuo',
 				align: 'center',
 				width: 100,
-				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
-						params.row.xuqiushuliang.toLocaleString()
+						params.row.tai_per_tuo.toLocaleString()
 					]);
 				}
-			},
-			{
-				title: '类别',
-				key: 'leibie',
-				align: 'center',
-				width: 100
 			},
 			{
 				title: '创建日期',
@@ -1026,7 +967,7 @@ var vm_app = new Vue({
 		},
 		
 
-		// main列表
+		// 关系列表
 		relationgets: function (page, last_page) {
 			var _this = this;
 
@@ -1037,14 +978,12 @@ var vm_app = new Vue({
 			}
 
 			var jizhongming_filter = _this.jizhongming_filter_relation;
-			var pinfan_filter = _this.pinfan_filter_relation;
-			var pinming_filter = _this.pinming_filter_relation;
-			var leibie_filter = _this.leibie_filter;
+			var tuopanxinghao_filter = _this.tuopanxinghao_filter;
 			
-			var qcdate_filter_relation = [];
+			var date_filter_relation = [];
 
-			if (_this.qcdate_filter_relation[0] == '') {
-				if (jizhongming_filter == '' && pinfan_filter == '' && pinming_filter== '' && leibie_filter == '') {
+			if (_this.date_filter_relation[0] == '') {
+				if (jizhongming_filter == '' && tuopanxinghao_filter == '') {
 					_this.tabledata_relation = [];
 					return false;
 				} else {
@@ -1054,33 +993,31 @@ var vm_app = new Vue({
 					end.setDate(end.getDate());
 					// start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
 					start.setDate(start.getDate() - 365);
-					qcdate_filter_relation = [start, end];
+					date_filter_relation = [start, end];
 				}
 			} else {
- 				// for (var i in _this.qcdate_filter_relation) {
-					// typeof(_this.qcdate_filter_relation[i])!='string' ? qcdate_filter_relation[i] =  _this.qcdate_filter_relation[i].Format("yyyy-MM-dd") : qcdate_filter_relation[i] =  _this.qcdate_filter_relation[i];
+ 				// for (var i in _this.date_filter_relation) {
+					// typeof(_this.date_filter_relation[i])!='string' ? date_filter_relation[i] =  _this.date_filter_relation[i].Format("yyyy-MM-dd") : date_filter_relation[i] =  _this.date_filter_relation[i];
 				// }
- 				// for (var i in _this.qcdate_filter_relation) {
-				// 	qcdate_filter_relation0.push(_this.qcdate_filter_relation[i]);
+ 				// for (var i in _this.date_filter_relation) {
+				// 	qcdate_filter_relation0.push(_this.date_filter_relation[i]);
 				// }
-				qcdate_filter_relation =  _this.qcdate_filter_relation;
+				date_filter_relation =  _this.date_filter_relation;
 			}
 
-			qcdate_filter_relation = [qcdate_filter_relation[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter_relation[1].Format("yyyy-MM-dd 23:59:59")];
-			// console.log(_this.qcdate_filter_relation);
-			// console.log(qcdate_filter_relation);
+			date_filter_relation = [date_filter_relation[0].Format("yyyy-MM-dd 00:00:00"), date_filter_relation[1].Format("yyyy-MM-dd 23:59:59")];
+			// console.log(_this.date_filter_relation);
+			// console.log(date_filter_relation);
 
-			var url = "{{ route('bpjg.zrcfx.relationgets') }}";
+			var url = "{{ route('scgl.hcfx.relationgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
 					perPage: _this.pagepagesize_relation,
 					page: page,
-					qcdate_filter: qcdate_filter_relation,
+					qcdate_filter: date_filter_relation,
 					jizhongming_filter: jizhongming_filter,
-					pinfan_filter: pinfan_filter,
-					pinming_filter: pinming_filter,
-					leibie_filter: leibie_filter
+					tuopanxinghao_filter: tuopanxinghao_filter
 				}
 			})
 			.then(function (response) {
@@ -1137,9 +1074,9 @@ var vm_app = new Vue({
 			
 			// var xianti_filter = _this.xianti_filter;
 			// var jizhongming_filter_relation = _this.jizhongming_filter_relation;
-			var pinfan_filter = _this.pinfan_filter_result;
-			var pinming_filter = _this.pinming_filter_result;
-			// var leibie_filter = _this.leibie_filter;
+			// var pinfan_filter = _this.pinfan_filter_result;
+			// var pinming_filter = _this.pinming_filter_result;
+			// var tuopanxinghao_filter = _this.tuopanxinghao_filter;
 
 			var url = "{{ route('bpjg.zrcfx.resultgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -1152,7 +1089,7 @@ var vm_app = new Vue({
 					// jizhongming_filter: jizhongming_filter_relation,
 					pinfan_filter: pinfan_filter,
 					pinming_filter: pinming_filter,
-					// leibie_filter: leibie_filter
+					// tuopanxinghao_filter: tuopanxinghao_filter
 				}
 			})
 			.then(function (response) {
@@ -1189,8 +1126,8 @@ var vm_app = new Vue({
 				v.jizhongming = '';
 				v.pinfan = '';
 				v.pinming = '';
-				v.xuqiushuliang = 1;
-				v.leibie = '';
+				v.tai_per_tuo = 1;
+				v.tuopanxinghao = '';
 			});
 			
 			// _this.$refs.xianti.focus();
@@ -1206,11 +1143,11 @@ var vm_app = new Vue({
 				// jizhongming: '',
 				// pinfan: '',
 				// pinming: '',
-				// xuqiushuliang: 0,
-				// leibie: ''
+				// tai_per_tuo: 0,
+				// tuopanxinghao: ''
 				
-				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.xuqiushuliang == '' || v.leibie == ''
-					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.xuqiushuliang == undefined || v.leibie == undefined) {
+				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.tai_per_tuo == '' || v.tuopanxinghao == ''
+					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.tai_per_tuo == undefined || v.tuopanxinghao == undefined) {
 					booFlagOk = false;
 				}
 			});
@@ -1259,11 +1196,9 @@ var vm_app = new Vue({
 			
 			_this.relation_id_edit = row.id;
 			_this.relation_jizhongming_edit = row.jizhongming;
-			_this.relation_pinfan_edit = row.pinfan;
-			_this.relation_pinming_edit = row.pinming;
-			_this.relation_xuqiushuliang_edit[0] = row.xuqiushuliang;
-			_this.relation_xuqiushuliang_edit[1] = row.xuqiushuliang;
-			_this.relation_leibie_edit = row.leibie;
+			_this.relation_tai_per_tuo_edit[0] = row.tai_per_tuo;
+			_this.relation_tai_per_tuo_edit[1] = row.tai_per_tuo;
+			_this.relation_tuopanxinghao_edit = row.tuopanxinghao;
 			_this.relation_created_at_edit = row.created_at;
 			_this.relation_updated_at_edit = row.updated_at;
 
@@ -1279,16 +1214,16 @@ var vm_app = new Vue({
 			var jizhongming = _this.relation_jizhongming_edit;
 			var pinfan = _this.relation_pinfan_edit;
 			var pinming = _this.relation_pinming_edit;
-			var xuqiushuliang = _this.relation_xuqiushuliang_edit;
-			var leibie = _this.relation_leibie_edit;
+			var tai_per_tuo = _this.relation_tai_per_tuo_edit;
+			var tuopanxinghao = _this.relation_tuopanxinghao_edit;
 			var created_at = _this.relation_created_at_edit;
 			var updated_at = _this.relation_updated_at_edit;
 			
 			if (jizhongming == '' || jizhongming == null || jizhongming == undefined
 				|| pinfan == '' || pinfan == null || pinfan == undefined
 				|| pinming == '' || pinming == null || pinming == undefined
-				|| xuqiushuliang == '' || xuqiushuliang == null || xuqiushuliang == undefined
-				|| leibie == '' || leibie == null || leibie == undefined) {
+				|| tai_per_tuo == '' || tai_per_tuo == null || tai_per_tuo == undefined
+				|| tuopanxinghao == '' || tuopanxinghao == null || tuopanxinghao == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
 				return false;
 			}
@@ -1300,8 +1235,8 @@ var vm_app = new Vue({
 				jizhongming: jizhongming,
 				pinfan: pinfan,
 				pinming: pinming,
-				xuqiushuliang: xuqiushuliang[1],
-				leibie: leibie,
+				tai_per_tuo: tai_per_tuo[1],
+				tuopanxinghao: tuopanxinghao,
 				created_at: created_at,
 				updated_at: updated_at
 			})
@@ -1323,8 +1258,8 @@ var vm_app = new Vue({
 					_this.relation_jizhongming_edit = '';
 					_this.relation_pinfan_edit = '';
 					_this.relation_pinming_edit = '';
-					_this.relation_xuqiushuliang_edit = [0, 0];
-					_this.relation_leibie_edit = '';
+					_this.relation_tai_per_tuo_edit = [0, 0];
+					_this.relation_tuopanxinghao_edit = '';
 					_this.relation_created_at_edit = '';
 					_this.relation_updated_at_edit = '';
 				} else {
@@ -1398,8 +1333,8 @@ var vm_app = new Vue({
 							jizhongming: '',
 							pinfan: '',
 							pinming: '',
-							xuqiushuliang: 1,
-							leibie: ''
+							tai_per_tuo: 1,
+							tuopanxinghao: ''
 						}
 					);
 				}
@@ -1568,13 +1503,13 @@ var vm_app = new Vue({
 		exportData_relation: function () {
 			var _this = this;
 			
-			if (_this.qcdate_filter_relation[0] == '' || _this.qcdate_filter_relation[0] == undefined) {
+			if (_this.date_filter_relation[0] == '' || _this.date_filter_relation[0] == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var queryfilter_datefrom = _this.qcdate_filter_relation[0].Format("yyyy-MM-dd");
-			var queryfilter_dateto = _this.qcdate_filter_relation[1].Format("yyyy-MM-dd");
+			var queryfilter_datefrom = _this.date_filter_relation[0].Format("yyyy-MM-dd");
+			var queryfilter_dateto = _this.date_filter_relation[1].Format("yyyy-MM-dd");
 			
 			var url = "{{ route('bpjg.zrcfx.relationexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom
@@ -1697,7 +1632,7 @@ var vm_app = new Vue({
 	},
 	mounted: function () {
 		// var _this = this;
-		// _this.qcdate_filter_relation = new Date().Format("yyyy-MM-dd");
+		// _this.date_filter_relation = new Date().Format("yyyy-MM-dd");
 		// _this.relationgets(1, 1); // page: 1, last_page: 1
 	}
 })

@@ -19,19 +19,19 @@
 // 生产管理课 耗材分析页面
 Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','permission:permission_scgl_hcfx|permission_super_admin']], function() {
 	Route::get('hcfx', 'hcfxController@hcfxIndex')->name('scgl.hcfx.index');
+	Route::get('relationgets', 'hcfxController@relationGets')->name('scgl.hcfx.relationgets');
 
-	Route::post('zrcfximport', 'zrcfxController@zrcfxImport')->name('bpjg.zrcfx.zrcfximport');
-	Route::get('zrcdownload', 'zrcfxController@zrcDownload')->name('bpjg.zrcfx.zrcdownload');
-	Route::get('relationgets', 'zrcfxController@relationGets')->name('bpjg.zrcfx.relationgets');
-	Route::post('relationupdate', 'zrcfxController@relationUpdate')->name('bpjg.zrcfx.relationupdate');
-	Route::post('relationcreate', 'zrcfxController@relationCreate')->name('bpjg.zrcfx.relationcreate');
-	Route::post('relationdelete', 'zrcfxController@relationDelete')->name('bpjg.zrcfx.relationdelete');
-	Route::get('relationexport', 'zrcfxController@relationExport')->name('bpjg.zrcfx.relationexport');
-	Route::post('relationimport', 'zrcfxController@relationImport')->name('bpjg.zrcfx.relationimport');
-	Route::get('relationdownload', 'zrcfxController@relationDownload')->name('bpjg.zrcfx.relationdownload');
-	Route::get('zrcfxfunction', 'zrcfxController@zrcfxFunction')->name('bpjg.zrcfx.zrcfxfunction');
-	Route::get('resultgets', 'zrcfxController@resultGets')->name('bpjg.zrcfx.resultgets');
-	Route::get('resultexport', 'zrcfxController@resultExport')->name('bpjg.zrcfx.resultexport');
+	Route::post('zrcfximport', 'hcfxController@zrcfxImport')->name('scgl.hcfx.zrcfximport');
+	Route::get('zrcdownload', 'hcfxController@zrcDownload')->name('scgl.hcfx.zrcdownload');
+	Route::post('relationupdate', 'hcfxController@relationUpdate')->name('scgl.hcfx.relationupdate');
+	Route::post('relationcreate', 'hcfxController@relationCreate')->name('scgl.hcfx.relationcreate');
+	Route::post('relationdelete', 'hcfxController@relationDelete')->name('scgl.hcfx.relationdelete');
+	Route::get('relationexport', 'hcfxController@relationExport')->name('scgl.hcfx.relationexport');
+	Route::post('relationimport', 'hcfxController@relationImport')->name('scgl.hcfx.relationimport');
+	Route::get('relationdownload', 'hcfxController@relationDownload')->name('scgl.hcfx.relationdownload');
+	Route::get('zrcfxfunction', 'hcfxController@zrcfxFunction')->name('scgl.hcfx.zrcfxfunction');
+	Route::get('resultgets', 'hcfxController@resultGets')->name('scgl.hcfx.resultgets');
+	Route::get('resultexport', 'hcfxController@resultExport')->name('scgl.hcfx.resultexport');
 });
 
 // 部品加工课 中日程分析页面
