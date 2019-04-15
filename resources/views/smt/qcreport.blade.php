@@ -143,8 +143,11 @@ SMT(QC report) -
 				</i-col>
 			</i-row>
 
-			
-			<br><br><br>
+			&nbsp;<br><br><br>
+
+			<span v-for="n in (10 - piliangluru.length)">
+				<br><br>
+			</span>
 
 		</Tab-pane>
 
