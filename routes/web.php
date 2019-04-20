@@ -16,6 +16,14 @@
 // });
 
 
+// 生产管理课 配置页面
+Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','permission:permission_scgl_config|permission_super_admin']], function() {
+	Route::get('config', 'configController@scglConfig')->name('scgl.config');
+	Route::post('configcreate', 'configController@configCreate')->name('scgl.configcreate');
+	Route::post('configupdate', 'configController@configUpdate')->name('scgl.configupdate');
+	Route::get('configgets', 'configController@configGets')->name('scgl.configgets');
+});
+
 // 生产管理课 耗材分析页面
 Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','permission:permission_scgl_hcfx|permission_super_admin']], function() {
 	Route::get('hcfx', 'hcfxController@hcfxIndex')->name('scgl.hcfx.index');
@@ -49,6 +57,14 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>['jwtauth','p
 	Route::get('zrcfxfunction', 'zrcfxController@zrcfxFunction')->name('bpjg.zrcfx.zrcfxfunction');
 	Route::get('resultgets', 'zrcfxController@resultGets')->name('bpjg.zrcfx.resultgets');
 	Route::get('resultexport', 'zrcfxController@resultExport')->name('bpjg.zrcfx.resultexport');
+});
+
+// SMT 配置页面
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_config|permission_super_admin']], function() {
+	Route::get('config', 'configController@smtConfig')->name('smt.config');
+	Route::post('configcreate', 'configController@configCreate')->name('smt.configcreate');
+	Route::post('configupdate', 'configController@configUpdate')->name('smt.configupdate');
+	Route::get('configgets', 'configController@configGets')->name('smt.configgets');
 });
 
 // SMT 品质日报页面
@@ -97,7 +113,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], function() {
 	Route::get('/', 'mainController@mainPortal')->name('portal');
 	Route::get('portal', 'mainController@mainPortal')->name('portal');
-	Route::get('configgets', 'mainController@configGets')->name('smt.configgets');
+	// Route::get('configgets', 'mainController@configGets')->name('smt.configgets');
 
 	// logout
 	Route::get('logout', 'mainController@logout')->name('main.logout');
@@ -106,9 +122,9 @@ Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], fun
 
 // AOTA配置页面
 Route::group(['prefix'=>'smt', 'namespace'=>'Main', 'middleware'=>['jwtauth','permission:permission_smt_config|permission_super_admin']], function() {
-	Route::get('config', 'mainController@mainConfig')->name('smt.config');
-	Route::post('configcreate', 'mainController@configCreate')->name('smt.configcreate');
-	Route::post('configupdate', 'mainController@configUpdate')->name('smt.configupdate');
+	// Route::get('config', 'mainController@mainConfig')->name('smt.config');
+	// Route::post('configcreate', 'mainController@configCreate')->name('smt.configcreate');
+	// Route::post('configupdate', 'mainController@configUpdate')->name('smt.configupdate');
 });
 
 

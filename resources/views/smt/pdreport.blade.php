@@ -528,7 +528,7 @@ var vm_app = new Vue({
 				title: '班次',
 				key: 'banci',
 				align: 'center',
-				width: 60,
+				width: 80,
 				filters: [
 					{
 						label: 'A-1',
@@ -574,7 +574,7 @@ var vm_app = new Vue({
 			},
 			// 3
 			{
-				title: '班次',
+				title: '机种信息',
 				align: 'center',
 				children: [
 					{
@@ -589,21 +589,21 @@ var vm_app = new Vue({
 						key: 'spno',
 						align: 'center',
 						width: 140,
-						sortable: true
+						// sortable: true
 					},
 					{
 						title: '品名',
 						key: 'pinming',
 						align: 'center',
 						width: 100,
-						sortable: true
+						// sortable: true
 					},
 					{
 						title: 'LOT数',
 						key: 'lotshu',
 						align: 'center',
 						width: 100,
-						sortable: true
+						// sortable: true
 					}
 
 				]

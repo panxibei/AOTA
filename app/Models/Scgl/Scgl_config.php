@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Main;
+namespace App\Models\Scgl;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Smt_config extends Model
+class Scgl_config extends Model
 {
 	protected $fillable = [
         'name', 'value',
