@@ -490,7 +490,8 @@ var vm_app = new Vue({
 			{
 				type: 'selection',
 				width: 50,
-				align: 'center'
+				align: 'center',
+				fixed: 'left'
 			},
 			// 1
 			{
@@ -498,6 +499,7 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 70,
 				align: 'center',
+				fixed: 'left',
 				indexMethod: (row) => {
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
@@ -721,6 +723,7 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 70,
 				align: 'center',
+				fixed: 'left',
 				indexMethod: (row) => {
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
