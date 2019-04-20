@@ -35,8 +35,7 @@ class configController extends Controller
 
 		if (! $request->ajax()) return null;
 
-		// $configgets = Smt_config::pluck('value', 'name');
-		$configgets = Smt_config::select('title', 'name', 'value')->get();
+		$configgets = Scgl_config::select('title', 'name', 'value')->get();
 			
 		return $configgets;
 	}
@@ -53,7 +52,7 @@ class configController extends Controller
 		try	{
 			DB::beginTransaction();
 			
-			$data_old = Smt_config::select('value')
+			$data_old = Scgl_config::select('value')
 				->where('name', $name)
 				->first();
 			// dd($data_old['value']);
@@ -64,7 +63,7 @@ class configController extends Controller
 			$data_new = implode('---', $arr);
 			// dd($data_new);
 			
-			 Smt_config::where('name', $name)
+            Scgl_config::where('name', $name)
 			 ->update(['value' => $data_new]);
 
 			$result = 1;
@@ -92,7 +91,7 @@ class configController extends Controller
 		try	{
 			DB::beginTransaction();
 			
-			 Smt_config::where('name', $name)
+            Scgl_config::where('name', $name)
 				 ->update(['value' => $value]);
 
 			$result = 1;

@@ -35,7 +35,7 @@
 				<p slot="title">
 					耗材管理配置
 				</p>
-				<p v-for="item in CardListSmt">
+				<p v-for="item in CardListHcgl">
 					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
 					
 					
@@ -50,11 +50,6 @@
 					
 					<span style="float:right">
 					&nbsp;
-					<!--
-					<i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
-						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-					-->
 
 					</span>
 					<br><br>
@@ -101,77 +96,25 @@ var vm_app = new Vue({
 		// 线体
 
 		
-		CardListSmt: [
-			{
-				title: '线体',
-				name: 'xianti',
-				value: '',
-			},
-			{
-				title: '班次',
-				name: 'banci',
-				value: '',
-			},
-			{
-				title: '品质日报',
-				name: '品质日报',
-				value: '',
-			},
-		],
-
-
-		CardListBupinjiagong: [
-			{
-				name: '中日程分析',
-				url: '#',
-				hits: '???'
-			},
+		CardListHcgl: [
+			// {
+			// 	title: '线体',
+			// 	name: 'xianti',
+			// 	value: '',
+			// },
+			// {
+			// 	title: '班次',
+			// 	name: 'banci',
+			// 	value: '',
+			// },
+			// {
+			// 	title: '品质日报',
+			// 	name: '品质日报',
+			// 	value: '',
+			// },
 		],
 		
-		
-		xianti: '',
-		option_xianti: [
-			{
-				value: 'SMT-1',
-				label: 'SMT-1'
-			},
-			{
-				value: 'SMT-2',
-				label: 'SMT-2'
-			},
-			{
-				value: 'SMT-3',
-				label: 'SMT-3'
-			},
-			{
-				value: 'SMT-4',
-				label: 'SMT-4'
-			},
-			{
-				value: 'SMT-5',
-				label: 'SMT-5'
-			},
-			{
-				value: 'SMT-6',
-				label: 'SMT-6'
-			},
-			{
-				value: 'SMT-7',
-				label: 'SMT-7'
-			},
-			{
-				value: 'SMT-8',
-				label: 'SMT-8'
-			},
-			{
-				value: 'SMT-9',
-				label: 'SMT-9'
-			},
-			{
-				value: 'SMT-10',
-				label: 'SMT-10'
-			}
-		],
+
 			
 			
 	},
@@ -202,7 +145,7 @@ var vm_app = new Vue({
 			});
 		},
 		
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
@@ -210,24 +153,10 @@ var vm_app = new Vue({
 			return false;
 		},
 				
-		// 把laravel返回的结果转换成select能接受的格式
-		json2select: function (value) {
-			var arr = value.split(/[\s\n]/);
-			var arr_result = [];
-
-			arr.map(function (v, i) {
-				arr_result.push({ value: v, label: v });
-			});
-
-			return arr_result;
-		},
-		
-		
-		configgets: function () {
+		configgets () {
 			var _this = this;
 
-
-			var url = "{{ route('smt.configgets') }}";
+			var url = "{{ route('scgl.configgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -240,30 +169,7 @@ var vm_app = new Vue({
 				}
 
 				if (response.data) {
-					_this.CardListSmt = response.data;
-					
-					// 用于select形式显示
-					// _this.CardListSmt.map(function (v, i) {
-						// if (v.name == 'xianti') {
-							// _this.option_xianti = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'banci') {
-							// _this.option_banci = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'gongxu') {
-							// _this.option_gongxu = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'jianchajileixing') {
-							// _this.option_jianchajileixing = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'buliangneirong') {
-							// _this.option_buliangneirong = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'jianchazhe') {
-							// _this.option_jianchazhe = _this.json2select(v.value);
-						// }
-					// });
-
+					_this.CardListHcgl = response.data;
 				}
 				
 			})
@@ -273,7 +179,7 @@ var vm_app = new Vue({
 		},
 
 
-		onupdate: function (name, value) {
+		onupdate (name, value) {
 			var _this = this;
 
 			if (name == '' || name == undefined
@@ -282,7 +188,7 @@ var vm_app = new Vue({
 				return false;
 			}
 
-			var url = "{{ route('smt.configupdate') }}";
+			var url = "{{ route('scgl.configupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				name : name,
@@ -302,7 +208,6 @@ var vm_app = new Vue({
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '更新失败！');
-				// console.log(error);
 			})
 		},		
 		
@@ -310,7 +215,7 @@ var vm_app = new Vue({
 			
 			
 	},
-	mounted: function () {
+	mounted () {
 		var _this = this;
 		_this.configgets();
 	}
