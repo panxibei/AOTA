@@ -220,7 +220,7 @@ var vm_app = new Vue({
 				width: 200
 			},
 			{
-				title: 'Action',
+				title: '操作',
 				key: 'action',
 				align: 'center',
 				width: 100,

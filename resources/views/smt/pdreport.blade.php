@@ -245,7 +245,8 @@ SMT - PD report
 				</i-col>
 				
 				<i-col span="8">
-					&nbsp;&nbsp;&nbsp;<strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;
+					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
 				</i-col>
 			</i-row>
 			<br><br>
@@ -268,6 +269,7 @@ SMT - PD report
 
 			<br>
 			<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
+			<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
 
 		</Tab-pane>
 
@@ -493,8 +495,12 @@ var vm_app = new Vue({
 			// 1
 			{
 				type: 'index',
-				width: 40,
-				align: 'center'
+				align: 'center',
+				width: 70,
+				align: 'center',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
+				}
 			},
 			// 1
 			{
@@ -683,7 +689,10 @@ var vm_app = new Vue({
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
-								parseFloat(params.row.jiadonglv * 100) + '%'
+								// parseFloat(params.row.jiadonglv * 100) + '%'
+								// (params.row.jiadonglv * 100) + '%'
+								// params.row.jiadonglv * 100
+								Math.round(params.row.jiadonglv*100) + '%'
 							]);
 						}
 					}
@@ -709,8 +718,12 @@ var vm_app = new Vue({
 			// 1
 			{
 				type: 'index',
-				width: 40,
-				align: 'center'
+				align: 'center',
+				width: 70,
+				align: 'center',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
+				}
 			},
 			// 2
 			{
@@ -1164,7 +1177,7 @@ var vm_app = new Vue({
 			});
 		},
 
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
@@ -1172,7 +1185,12 @@ var vm_app = new Vue({
 			return false;
 		},
 		
-		datepickerchange: function (date) {
+		// 切换当前页
+		oncurrentpagechange (currentpage) {
+			this.dailyreportgets(currentpage, this.pagelast);
+		},
+
+		datepickerchange (date) {
 			if (typeof(date)=='string') {
 				return date;
 			} else {
