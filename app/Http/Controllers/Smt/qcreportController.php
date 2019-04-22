@@ -113,10 +113,10 @@ class qcreportController extends Controller
 				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
 					return $query->whereIn('buliangneirong', $buliangneirong_filter);
 				})
-				->orderBy('created_at', 'asc')
+				->orderBy('jianchariqi', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $dailyreport, now()->addSeconds(30));
+			Cache::put($fullUrl, $dailyreport, now()->addSeconds(10));
 		}
 		
 		return $dailyreport;
@@ -230,7 +230,7 @@ class qcreportController extends Controller
 		if ($dianmei == 0 || $meishu == 0) {
 			return 0;
 		}
-
+// dd($jianchariqi);
 		$saomiao_arr = explode('/', $saomiao);
 		
 		$s['jizhongming'] = $saomiao_arr[0];
@@ -297,7 +297,7 @@ class qcreportController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			return 0;
 		}
 

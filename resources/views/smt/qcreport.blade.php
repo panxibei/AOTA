@@ -1583,7 +1583,7 @@ var vm_app = new Vue({
 			var dianmei = _this.dianmei;
 			var meishu = _this.meishu;
 			
-			if (saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
+			if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
 				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
 				|| dianmei == '' || dianmei == undefined || dianmei == 0
 				|| meishu == '' || meishu == undefined || meishu == 0) {
