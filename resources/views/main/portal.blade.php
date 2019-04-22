@@ -151,7 +151,7 @@ var vm_app = new Vue({
 			{
 				name: '耗材分析',
 				url: "{{ route('scgl.hcfx.index') }}",
-				percent: 95,
+				percent: 30,
 			},
 		],
 		

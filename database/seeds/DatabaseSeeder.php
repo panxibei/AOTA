@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
 		$this->call(UsersTableSeeder::class);
 		$this->call(ConfigsTableSeeder::class);
 		$this->call(RolesAndPermissionsSeeder::class);
-		
         $this->call(Smt_configsTableSeeder::class);
+        $this->call(Scgl_hcfx_tuopansTableSeeder::class);
     }
 }
