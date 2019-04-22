@@ -187,7 +187,7 @@ SMT - PD report
 					查询：
 				</i-col>
 				<i-col span="6">
-					* 生产日期范围&nbsp;&nbsp;
+					* 生产日期&nbsp;&nbsp;
 					<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="4">
@@ -1084,6 +1084,15 @@ var vm_app = new Vue({
 		date_filter_pdreport: [],//new Date(),
 		date_filter_options: {
 			shortcuts: [
+				{
+					text: '今天',
+					value () {
+						return [new Date(), new Date()];
+					},
+					// onClick: (picker) => {
+					// 	this.$Message.info('Click today');
+					// },
+				},
 				{
 					text: '前 1 周',
 					value () {

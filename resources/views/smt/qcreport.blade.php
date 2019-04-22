@@ -177,7 +177,7 @@ SMT(QC report) -
 					查询：
 				</i-col>
 				<i-col span="6">
-					* 日期范围&nbsp;&nbsp;
+					* 检查日期&nbsp;&nbsp;
 					<Date-picker v-model.lazy="qcdate_filter" :options="qcdate_filter_options" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="3">
@@ -1044,6 +1044,15 @@ var vm_app = new Vue({
 		qcdate_filter: [], //new Date(),
 		qcdate_filter_options: {
 			shortcuts: [
+				{
+					text: '今天',
+					value () {
+						return [new Date(), new Date()];
+					},
+					// onClick: (picker) => {
+					// 	this.$Message.info('Click today');
+					// },
+				},
 				{
 					text: '前 1 周',
 					value () {
