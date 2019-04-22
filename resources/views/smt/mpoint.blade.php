@@ -177,7 +177,7 @@ var vm_app = new Vue({
 				key: 'pinming',
 				align: 'center',
 				width: 150,
-				sortable: true
+				// sortable: true
 			},
 			// 4
 			{
@@ -368,7 +368,7 @@ var vm_app = new Vue({
 			});
 		},
 
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
@@ -376,21 +376,13 @@ var vm_app = new Vue({
 			return false;
 		},
 		
-		// datepickerchange: function (date) {
-			// if (typeof(date)=='string') {
-				// return date;
-			// } else {
-				// return date.Format("yyyy-MM-dd");
-			// }
-		// },
-		
 		// 切换当前页
-		oncurrentpagechange: function (currentpage) {
+		oncurrentpagechange (currentpage) {
 			this.mpointgets(currentpage, this.pagelast);
 		},
 		
 		// mpoint列表
-		mpointgets: function(page, last_page){
+		mpointgets (page, last_page){
 			var _this = this;
 			
 			if (page > last_page) {
@@ -438,15 +430,13 @@ var vm_app = new Vue({
 				}
 			})
 			.catch(function (error) {
-				console.log(error);
-				alert(error);
 				_this.loadingbarerror();
 			})
 		},
 		
 		
 		//
-		onclear: function () {
+		onclear () {
 			var _this = this;
 			_this.jizhongming = '';
 			_this.pinming = '';
@@ -457,7 +447,7 @@ var vm_app = new Vue({
 		},
 		
 		// oncreate
-		oncreate: function () {
+		oncreate () {
 			var _this = this;
 			
 			var jizhongming = _this.jizhongming;
@@ -465,8 +455,6 @@ var vm_app = new Vue({
 			var gongxu = _this.gongxu_select;
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
-			
-			// var created_at = new Date().Format("yyyy-MM-dd");
 			
 			if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
 				|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
@@ -482,7 +470,6 @@ var vm_app = new Vue({
 				gongxu: gongxu,
 				diantai: diantai,
 				pinban: pinban
-				// created_at: created_at
 			})
 			.then(function (response) {
 				if (response.data['jwt'] == 'logout') {
@@ -491,21 +478,20 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.success(false, 'Success', 'Created successfully!');
+					_this.success(false, '成功', '创建成功！');
 					_this.onclear();
 					_this.mpointgets(_this.pagecurrent, _this.pagelast);
 				} else {
-					_this.error(false, 'Fail', 'Created failed!');
+					_this.error(false, '失败', '创建失败！');
 				}
 			})
 			.catch(function (error) {
-				_this.error(false, 'Error', 'Created error!');
-				// console.log(error);
+				_this.error(false, '错误', '创建失败！');
 			})
 		},
 		
 		// onupdate
-		onupdate: function () {
+		onupdate () {
 			var _this = this;
 			
 			if (_this.mpointid == '') return false;
@@ -542,23 +528,22 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.success(false, 'Success', 'Updated successfully!');
+					_this.success(false, '成功', '更新成功！');
 					_this.onclear();
 					_this.mpointgets(_this.pagecurrent, _this.pagelast);
 				} else {
-					_this.error(false, 'Fail', 'Updated failed!');
+					_this.error(false, '失败', '更新失败！');
 				}
 				_this.mpointid = '';
 			})
 			.catch(function (error) {
-				_this.error(false, 'Error', 'Updated error!');
-				// console.log(error);
+				_this.error(false, '错误', '更新失败！');
 				_this.mpointid = '';
 			})
 		},
 		
 		//
-		onselectchange: function (selection) {
+		onselectchange (selection) {
 			// console.log(row);
 			var _this = this;
 			_this.tableselect = [];
@@ -571,7 +556,7 @@ var vm_app = new Vue({
 		},
 		
 		//
-		ondelete: function (selection) {
+		ondelete (selection) {
 			var _this = this;
 			
 			var tableselect = _this.tableselect;
@@ -601,11 +586,10 @@ var vm_app = new Vue({
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '删除失败！');
-				// console.log(error);
 			})
 		},
 		// 查看
-		editmpoint: function (row) {
+		editmpoint (row) {
 			var _this = this;
 			_this.jizhongming = row.jizhongming;
 			_this.pinming = row.pinming;
@@ -614,11 +598,6 @@ var vm_app = new Vue({
 			_this.pinban = row.pinban;
 			_this.mpointid = row.id
 			_this.boo_update = false;
-		},
-		
-		//
-		onimport: function () {
-			alert();
 		},
 		
 		// upload
@@ -634,11 +613,11 @@ var vm_app = new Vue({
 				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
 			});
 		},
-		handleUpload: function (file) {
+		handleUpload (file) {
 			this.file = file;
 			return false;
 		},
-		uploadstart: function (file) {
+		uploadstart (file) {
 			var _this = this;
 			_this.file = file;
 			_this.uploaddisabled = true;
@@ -669,9 +648,9 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data == 1) {
-					_this.success(false, 'Success', '导入成功！');
+					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！');
+					_this.error(false, '失败', '导入失败！');
 				}
 				
 				setTimeout( function () {
@@ -688,16 +667,15 @@ var vm_app = new Vue({
 					_this.loadingStatus = false;
 					_this.uploaddisabled = false;
 				}, 1000);
-				
 			})
 		},
-		uploadcancel: function () {
+		uploadcancel () {
 			this.file = null;
 			// this.loadingStatus = false;
 		},
 
 		// mpoint模板下载
-		download_mpoint: function () {
+		download_mpoint () {
 			var url = "{{ route('smt.pdreport.mpointdownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
@@ -709,7 +687,7 @@ var vm_app = new Vue({
 
 		
 	},
-	mounted: function () {
+	mounted () {
 		// var _this = this;
 		// _this.mpointgets(1, 1); // page: 1, last_page: 1
 
