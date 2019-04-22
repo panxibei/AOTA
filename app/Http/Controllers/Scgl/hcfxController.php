@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Scgl;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Scgl\Scgl_hcfx_tuopan;
 use App\Models\Scgl\Scgl_hcfx_relation;
 
 
@@ -44,6 +45,44 @@ class hcfxController extends Controller
 		
 	}
 	
+	
+    /**
+     * guigeGets
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function guigeGets(Request $request)
+    {
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+
+		$perPage = 10000;
+		$page = 1;
+
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$result = Cache::get($fullUrl);    //直接读取cache
+		} else {                                   //如果cache里面没有        
+			$result = Scgl_hcfx_tuopan::limit(5000)
+				->orderBy('created_at', 'asc')
+				->paginate($perPage, ['*'], 'page', $page);
+			
+			Cache::put($fullUrl, $result, now()->addSeconds(10));
+		}
+		
+		return $result;
+    }	
 	
     /**
      * relationGets
@@ -187,6 +226,53 @@ class hcfxController extends Controller
 		return $result;
     }
 
+	
+    /**
+     * guigeCreate
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function guigeCreate(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+		
+		$pinming = $request->input('pinming');
+		$daima = $request->input('daima');
+		$guige = $request->input('guige');
+		$created_at = date('Y-m-d H:i:s');
+		$updated_at = date('Y-m-d H:i:s');
+
+		$s[0]['pinming'] = $pinming;
+		$s[0]['daima'] = $daima;
+		$s[0]['guige'] = $guige;
+		$s[0]['created_at'] = $created_at;
+		$s[0]['updated_at'] = $updated_at;
+		
+		// 写入数据库
+		try	{
+			DB::beginTransaction();
+			
+			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
+			// foreach ($s as $value) {
+				// Bpjg_zhongricheng_main::create($value);
+			// }
+			Scgl_hcfx_tuopan::insert($s);
+
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			DB::rollBack();
+			// return 'Message: ' .$e->getMessage();
+			return 0;
+		}
+
+		DB::commit();
+		Cache::flush();
+		return $result;		
+    }	
+	
 	
     /**
      * relationCreate

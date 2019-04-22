@@ -27,7 +27,11 @@ Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','p
 // 生产管理课 耗材分析页面
 Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','permission:permission_scgl_hcfx|permission_super_admin']], function() {
 	Route::get('hcfx', 'hcfxController@hcfxIndex')->name('scgl.hcfx.index');
+	Route::get('guigegets', 'hcfxController@guigeGets')->name('scgl.hcfx.guigegets');
 	Route::get('relationgets', 'hcfxController@relationGets')->name('scgl.hcfx.relationgets');
+	Route::post('guigeCreate', 'hcfxController@guigeCreate')->name('scgl.hcfx.guigecreate');
+
+
 
 	Route::post('zrcfximport', 'hcfxController@zrcfxImport')->name('scgl.hcfx.zrcfximport');
 	Route::get('zrcdownload', 'hcfxController@zrcDownload')->name('scgl.hcfx.zrcdownload');

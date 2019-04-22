@@ -37,6 +37,56 @@
 	<br><br>
 
 	<Tabs type="card" v-model="currenttabs" :animated="false">
+		<Tab-pane label="托盘规格表">
+
+		<i-row :gutter="16">
+			<br>
+			<i-col span="1">
+			&nbsp;
+			</i-col>
+			<i-col span="4">
+				* 品名&nbsp;&nbsp;
+				<i-input v-model.lazy="pinming" size="small" placeholder="例：Y03熏蒸板" clearable style="width: 120px"></i-input>
+			</i-col>
+			<i-col span="4">
+				* 代码&nbsp;&nbsp;
+				<i-input v-model.lazy="daima" size="small" placeholder="例：Y03" clearable style="width: 120px"></i-input>
+			</i-col>
+			<i-col span="4">
+				* 规格&nbsp;&nbsp;
+				<i-input v-model.lazy="guige" size="small" placeholder="例：1140*980*130" clearable style="width: 140px"></i-input>
+			</i-col>
+			<i-col span="11">
+				&nbsp;&nbsp;<i-button @click="oncreate_guige" type="primary">新增</i-button>
+				&nbsp;&nbsp;<i-button @click="onclear_guige">清除</i-button>
+			</i-col>
+		</i-row>
+		<br><br>
+
+		<i-row :gutter="16">
+			<br>
+			<i-col span="2">
+				<i-button @click="ondelete_guige()" :disabled="boo_delete_guige" type="warning" size="small">批量删除</i-button>&nbsp;<br>&nbsp;
+			</i-col>
+			<i-col span="4">
+				&nbsp;
+			</i-col>
+			<i-col span="18">
+				&nbsp;
+			</i-col>
+		</i-row>
+		<br>
+
+
+		<i-row :gutter="16">
+			<i-col span="24">
+				<i-table ref="table_guige" height="420" size="small" border :columns="tablecolumns_guige" :data="tabledata_guige"></i-table>
+			</i-col>
+		</i-row>
+
+
+		</Tab-pane>
+
 		<Tab-pane label="机种/托盘关系表">
 		
 			<Divider orientation="left">信息录入</Divider>
@@ -333,6 +383,11 @@ var vm_app = new Vue({
 		pagelast_result: 1,
 		
 		// ##########基本变量########
+		pinming: '',
+		daima: '',
+		guige: '',
+
+
 		// 批量录入realtion表
 		piliangluru_relation: [
 			{
@@ -436,6 +491,78 @@ var vm_app = new Vue({
 		analytics_loading: false,
 		modal_relationimport: false,
 		
+
+		// 表头guige
+		tablecolumns_guige: [
+			{
+				type: 'selection',
+				width: 50,
+				align: 'center',
+			},
+			{
+				type: 'index',
+				title: '序号',
+				width: 70,
+				align: 'center',
+			},
+			{
+				title: '品名',
+				key: 'pinming',
+				align: 'center',
+				width: 120,
+			},
+			{
+				title: '代码',
+				key: 'daima',
+				align: 'center',
+				width: 160,
+			},
+			{
+				title: '规格',
+				key: 'guige',
+				align: 'center',
+				width: 100,
+			},
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+			// {
+			// 	title: '更新日期',
+			// 	key: 'updated_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+			// {
+			// 	title: '操作',
+			// 	key: 'action',
+			// 	align: 'center',
+			// 	width: 70,
+			// 	render: (h, params) => {
+			// 		return h('div', [
+			// 			h('Button', {
+			// 				props: {
+			// 					type: 'info',
+			// 					size: 'small'
+			// 				},
+			// 				style: {
+			// 					marginRight: '5px'
+			// 				},
+			// 				on: {
+			// 					click: () => {
+			// 						vm_app.relation_edit(params.row)
+			// 					}
+			// 				}
+			// 			}, '编辑')
+			// 		]);
+			// 	},
+			// 	fixed: 'right'
+			// },			
+		],
+		tabledata_guige: [],
+		tableselect_guige: [],
 
 		// 表头relation
 		tablecolumns_relation: [
@@ -919,6 +1046,7 @@ var vm_app = new Vue({
 		tableselect_result: [],
 		
 		// 删除disabled
+		boo_delete_guige: true,
 		boo_delete_relation: true,
 		
 		
@@ -966,6 +1094,36 @@ var vm_app = new Vue({
 			return false;
 		},
 		
+
+		// 规格列表
+		guigegets () {
+			var _this = this;
+			var url = "{{ route('scgl.hcfx.guigegets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {}
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.tabledata_guige = response.data.data;
+				} else {
+					_this.tabledata_guige = [];
+				}
+				
+			})
+			.catch(function (error) {
+				_this.loadingbarerror();
+				_this.error(false, 'Error', error);
+			})
+		},
 
 		// 关系列表
 		relationgets: function (page, last_page) {
@@ -1118,6 +1276,59 @@ var vm_app = new Vue({
 			})
 		},
 		
+		
+		// onclear_guige
+		onclear_guige: function () {
+			var _this = this;
+			_this.pinming = '';
+			_this.daima = '';
+			_this.guige = '';
+		},
+		
+
+		// oncreate_guige
+		oncreate_guige () {
+			var _this = this;
+			var pinming = _this.pinming;
+			var daima = _this.daima;
+			var guige = _this.guige;
+
+			if (pinming == '' || daima == '' || guige == '' 
+				|| pinming == undefined || daima == undefined || guige == undefined) {
+				_this.warning(false, '警告', '输入内容为空或不正确！');
+				return false;
+			}
+			
+			var url = "{{ route('scgl.hcfx.guigecreate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				pinming: pinming,
+				daima: daima,
+				guige: guige
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.onclear_guige();
+					_this.success(false, '成功', '新增成功！');
+					_this.boo_delete_guige = true;
+					_this.tableselect_guige = [];
+					_this.guigegets();
+				} else {
+					_this.error(false, '失败', '新增失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '新增失败！');
+			})
+		},
 		
 		// onclear_relation
 		onclear_relation: function () {
@@ -1631,7 +1842,8 @@ var vm_app = new Vue({
 			
 	},
 	mounted: function () {
-		// var _this = this;
+		var _this = this;
+		_this.guigegets();
 		// _this.date_filter_relation = new Date().Format("yyyy-MM-dd");
 		// _this.relationgets(1, 1); // page: 1, last_page: 1
 	}
