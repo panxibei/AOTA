@@ -148,13 +148,19 @@ var vm_app = new Vue({
 			{
 				type: 'selection',
 				width: 50,
-				align: 'center'
+				align: 'center',
+				fixed: 'left'
 			},
 			// 1
 			{
 				type: 'index',
-				width: 60,
-				align: 'center'
+				align: 'center',
+				width: 70,
+				align: 'center',
+				fixed: 'left',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
+				}
 			},
 			// 2
 			{
@@ -241,7 +247,8 @@ var vm_app = new Vue({
 							}
 						}, '编辑')
 					]);
-				}
+				},
+				fixed: 'right'
 			}
 		],
 		tabledata: [],
@@ -259,6 +266,15 @@ var vm_app = new Vue({
 		dailydate_filter: [],
 		dailydate_filter_options: {
 			shortcuts: [
+				{
+					text: '今天',
+					value () {
+						return [new Date(), new Date()];
+					},
+					// onClick: (picker) => {
+					// 	this.$Message.info('Click today');
+					// },
+				},
 				{
 					text: '前 1 周',
 					value () {

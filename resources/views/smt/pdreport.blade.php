@@ -1397,6 +1397,15 @@ var vm_app = new Vue({
 				return false;
 			}
 
+			// 正则判断spno（10位数字 + 横杠 + 一位或两位数字）
+			var pattern = /^\d{10}-\d{1,2}$/;
+			// console.log(pattern.test(spno));
+			// return false;
+			if (! pattern.test(spno)) {
+				_this.warning(false, '警告', 'SP NO. 输入不正确！');
+				return false;
+			}
+
 			var url = "{{ route('smt.pdreport.dailyreportcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
