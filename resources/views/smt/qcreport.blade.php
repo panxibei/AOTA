@@ -26,11 +26,11 @@ SMT(QC report) -
 			<i-row :gutter="16">
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
-					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 300px"></i-input>
+					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
 				</i-col>
 				<i-col span="3">
 					* 工序&nbsp;&nbsp;
-					<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:60px" placeholder="">
+					<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:80px" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
@@ -47,29 +47,30 @@ SMT(QC report) -
 				</i-col>
 			</i-row>
 
-			<br>
+			<br><br><br>
+
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 线体&nbsp;&nbsp;
-					<i-input v-model.lazy="xianti" readonly placeholder="" style="width: 80px"></i-input>
-					<!-- <i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
+					<!-- <i-input v-model.lazy="xianti" readonly placeholder="" style="width: 80px"></i-input> -->
+					<i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select> -->
+					</i-select>
 				</i-col>
 				<i-col span="4">
 					* 班次&nbsp;&nbsp;
-					<i-input v-model.lazy="banci" readonly placeholder="" style="width: 80px"></i-input>
-					<!-- <i-select v-model.lazy="banci" clearable style="width:80px" placeholder="">
+					<!-- <i-input v-model.lazy="banci" readonly placeholder="" style="width: 80px"></i-input> -->
+					<i-select v-model.lazy="banci" clearable style="width:80px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select> -->
+					</i-select>
 				</i-col>
-				<input v-model.lazy="shengchanriqi" hidden="hidden"></input>
+				<!-- <input v-model.lazy="jianchariqi" hidden="hidden"></input> -->
 				<i-col span="4">
-					* 生产日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px"></Date-picker>
+					* 检查日期&nbsp;&nbsp;
+					<Date-picker v-model.lazy="jianchariqi" type="date" style="width:120px"></Date-picker>
 				</i-col>
 				<i-col span="12">
-				&nbsp;
+					&nbsp;
 				</i-col>
 			</i-row>
 
@@ -267,7 +268,7 @@ SMT(QC report) -
 
 					<i-row :gutter="16">
 						<i-col span="24">
-							<i-table ref="table1" height="400" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+							<i-table ref="table1" height="460" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
 							<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
 						</i-col>
 					</i-row>
@@ -503,8 +504,8 @@ var vm_app = new Vue({
 			}
 		],
 		
-		// 生产日期
-		shengchanriqi: '',
+		// 检查日期
+		jianchariqi: '',
 		
 		// 线体
 		xianti: '',
@@ -660,11 +661,16 @@ var vm_app = new Vue({
 				align: 'center',
 				fixed: 'left'
 			},
-			// {
-				// type: 'index',
-				// width: 60,
-				// align: 'center'
-			// },
+			{
+				type: 'index',
+				align: 'center',
+				width: 70,
+				align: 'center',
+				fixed: 'left',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
+				}
+			},
 			{
 				title: '操作',
 				key: 'action',
@@ -691,13 +697,13 @@ var vm_app = new Vue({
 				fixed: 'right'
 			},			
  			{
-				title: '生产日期',
-				key: 'shengchanriqi',
+				title: '检查日期',
+				key: 'jianchariqi',
 				align: 'center',
 				width: 120,
 				render: (h, params) => {
 					return h('div', [
-						params.row.shengchanriqi.substring(0,10)
+						params.row.jianchariqi.substring(0,10)
 					]);
 				}
 			},
@@ -910,7 +916,7 @@ var vm_app = new Vue({
 				title: '不良内容',
 				key: 'buliangneirong',
 				align: 'center',
-				width: 120,
+				width: 160,
 				// filters: [
 					// {value: '连焊', label: '连焊'}, 
 					// {value: '引脚焊锡量少', label: '引脚焊锡量少'},
@@ -1535,7 +1541,7 @@ var vm_app = new Vue({
 			// var piliangluruxiang = _this.piliangluruxiang;
 
 			_this.saomiao = '';
-			_this.shengchanriqi = '';
+			_this.jianchariqi = '';
 			_this.xianti = '';
 			_this.banci = '';
 			_this.gongxu = '';
@@ -1570,7 +1576,7 @@ var vm_app = new Vue({
 		oncreate: function () {
 			var _this = this;
 			var saomiao = _this.saomiao;
-			// var shengchanriqi = _this.shengchanriqi;
+			var jianchariqi = _this.jianchariqi;
 			var xianti = _this.xianti;
 			var banci = _this.banci;
 			var gongxu = _this.gongxu;
@@ -1607,7 +1613,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				saomiao: saomiao,
-				// shengchanriqi: shengchanriqi,
+				jianchariqi: jianchariqi.Format("yyyy-MM-dd 00:00:00"),
 				xianti: xianti,
 				banci: banci,
 				gongxu: gongxu,
@@ -2787,9 +2793,9 @@ var vm_app = new Vue({
 					
 						// 按不良内容汇总数量，共24种
 						if (i > 0 && i < 24) {
-							// var riqi = new Date(v.shengchanriqi);
+							// var riqi = new Date(v.jianchariqi);
 							var riqi = new Date(v.created_at);
-							// var riqi = v.shengchanriqi.split('-');
+							// var riqi = v.jianchariqi.split('-');
 
 							// 日期在去年的，统一保存到下标为0的数组中
 							if (riqi >= last_date_range[0] && riqi <= last_date_range[1]) {
@@ -2941,7 +2947,7 @@ var vm_app = new Vue({
 				_this.dianmei = response.data.dianmei;
 
 				// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
-				_this.shengchanriqi = response.data.shengchanriqi;
+				_this.jianchariqi = response.data.jianchariqi;
 			})
 			.catch(function (error) {
 				this.error(false, 'Error', error);

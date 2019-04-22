@@ -90,10 +90,10 @@ class qcreportController extends Controller
 			$dailyreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			// $dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-			// 		return $query->whereBetween('shengchanriqi', $qcdate_filter);
+			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
 			// 	})
 			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-					return $query->whereBetween('shengchanriqi', $qcdate_filter);
+					return $query->whereBetween('jianchariqi', $qcdate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', '=', $xianti_filter);
@@ -190,7 +190,7 @@ class qcreportController extends Controller
 				->first();
 			
 			// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
-			// $shengchanriqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
+			// $jianchariqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
 
 			$xianti = $res['xianti'];
 			$banci = $res['banci'];
@@ -219,7 +219,7 @@ class qcreportController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
 		$saomiao = $request->input('saomiao');
-		// $shengchanriqi = $request->input('shengchanriqi');
+		$jianchariqi = $request->input('jianchariqi');
 		$xianti = $request->input('xianti');
 		$banci = $request->input('banci');
 		$gongxu = $request->input('gongxu');
@@ -239,13 +239,13 @@ class qcreportController extends Controller
 		$s['lotshu'] = $saomiao_arr[3];
 
 		// 获取生产日期
-		$shengchanriqi = Smt_pdreport::select('shengchanriqi')
-		->where('jizhongming', $s['jizhongming'])
-		->where('spno', $s['spno'])
-		->where('pinming', $s['pinming'])
-		->first();
-		// dd($shengchanriqi['shengchanriqi']);
-		$s['shengchanriqi'] = $shengchanriqi['shengchanriqi'];
+		// $jianchariqi = Smt_pdreport::select('jianchariqi')
+		// ->where('jizhongming', $s['jizhongming'])
+		// ->where('spno', $s['spno'])
+		// ->where('pinming', $s['pinming'])
+		// ->first();
+		// dd($jianchariqi['jianchariqi']);
+		$s['jianchariqi'] = $jianchariqi;
 		$s['xianti'] = $xianti;
 		$s['banci'] = $banci;
 		$s['gongxu'] = $gongxu;
@@ -442,13 +442,13 @@ class qcreportController extends Controller
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
 
-		// $qcreport = Smt_qcreport::select('id', 'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+		// $qcreport = Smt_qcreport::select('id', 'jianchariqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
 		// 	'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
-		// 	->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
+		// 	->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
 		// 	->get()->toArray();
-		$qcreport = Smt_qcreport::select(DB::raw('LEFT(shengchanriqi, 10)'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+		$qcreport = Smt_qcreport::select(DB::raw('LEFT(jianchariqi, 10)'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
 			'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
-			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
+			->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
 		// dd($qcreport);
 		
@@ -465,9 +465,9 @@ class qcreportController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		// $title[] = ['生产日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
+		// $title[] = ['检查日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
 		// 	'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
-		$title[] = ['生产日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
+		$title[] = ['检查日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
 			'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
 
 		// 合并Excel的标题和数据为一个整体
