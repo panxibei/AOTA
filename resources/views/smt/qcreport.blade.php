@@ -1274,12 +1274,12 @@ var vm_app = new Vue({
 		},
 		
 		// 切换当前页
-		oncurrentpagechange: function (currentpage) {
+		oncurrentpagechange (currentpage) {
 			this.qcreportgets(currentpage, this.pagelast);
 		},
 		
 		// 把laravel返回的结果转换成select能接受的格式
-		json2select: function (value) {
+		json2select (value) {
 			var arr = value.split(/[\s\n]/);
 			var arr_result = [];
 
@@ -1291,10 +1291,10 @@ var vm_app = new Vue({
 		},
 		
 		
-		configgets: function () {
+		configgets () {
 			var _this = this;
 
-			var url = "{{ route('smt.configgets') }}";
+			var url = "{{ route('smt.configgetsqcreport') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -3048,7 +3048,7 @@ var vm_app = new Vue({
 
 			
 	},
-	mounted: function () {
+	mounted () {
 		var _this = this;
 		_this.configgets();
 		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");

@@ -31,16 +31,31 @@ class configController extends Controller
 		
 	}
 
-	public function configGets (Request $request) {
+	public function configGetsPdreport (Request $request) {
 
 		if (! $request->ajax()) return null;
 
 		// $configgets = Smt_config::pluck('value', 'name');
-		$configgets = Smt_config::select('title', 'name', 'value')->get();
+		$configgets = Smt_config::select('title', 'name', 'value')
+			->where('suoshu', 'pdreport')
+			->get();
 			
 		return $configgets;
 	}
 
+	public function configGetsQcreport (Request $request) {
+
+		if (! $request->ajax()) return null;
+
+		// $configgets = Smt_config::pluck('value', 'name');
+		$configgets = Smt_config::select('title', 'name', 'value')
+			->where('suoshu', 'qcreport')
+			->get();
+			
+		return $configgets;
+	}
+
+	// 未使用
 	public function configCreate (Request $request) {
 
 		if (! $request->ajax()) return null;
@@ -81,24 +96,23 @@ class configController extends Controller
 		
 	}
 
-	public function configUpdate (Request $request) {
+	public function configUpdatePdreport (Request $request) {
 
 		if (! $request->ajax()) return null;
 		
 		$name = $request->input('name');
 		$value = $request->input('value');
-		// dd($value);
 		
 		try	{
 			DB::beginTransaction();
 			
-			 Smt_config::where('name', $name)
-				 ->update(['value' => $value]);
+			Smt_config::where('name', $name)
+				->where('suoshu', 'pdreport')
+				->update(['value' => $value]);
 
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
 			// return 'Message: ' .$e->getMessage();
 			return 0;
@@ -106,7 +120,32 @@ class configController extends Controller
 
 		DB::commit();
 		return $result;				
+	}
+
+	public function configUpdateQcreport (Request $request) {
+
+		if (! $request->ajax()) return null;
 		
+		$name = $request->input('name');
+		$value = $request->input('value');
+		
+		try	{
+			DB::beginTransaction();
+			
+			Smt_config::where('name', $name)
+				->where('suoshu', 'qcreport')
+				->update(['value' => $value]);
+
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			DB::rollBack();
+			// return 'Message: ' .$e->getMessage();
+			return 0;
+		}
+
+		DB::commit();
+		return $result;				
 	}
 
 

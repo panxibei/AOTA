@@ -17,7 +17,8 @@ class CreateSmtConfigsTable extends Migration
             $table->increments('id');
 			$table->string('title', 100);
 			$table->string('name', 100);
-			$table->text('value')->nullable();
+            $table->text('value')->nullable();
+            $table->string('suoshu')->comment('配置所属哪个页面');
             $table->timestamps();
 			$table->engine = 'InnoDB';
 		});

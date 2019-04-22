@@ -33,9 +33,9 @@ SMT (Config) -
 
 			<Card>
 				<p slot="title">
-					SMT管理系统配置
+					生产日报配置
 				</p>
-				<p v-for="item in CardListSmt">
+				<p v-for="item in CardListSmtPdreport">
 					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
 					
 					
@@ -46,7 +46,7 @@ SMT (Config) -
 					
 
 					&nbsp;&nbsp;
-					<i-button type="default" size="small" @click="onupdate(item.name, item.value)">更新</i-button>
+					<i-button type="default" size="small" @click="onupdate_pdreport(item.name, item.value)">更新</i-button>
 					
 					<span style="float:right">
 					&nbsp;
@@ -67,29 +67,38 @@ SMT (Config) -
 		&nbsp;
 		</i-col>
 		
-		<i-col span="6">
+		<i-col span="9">
 		
 			<Card>
 				<p slot="title">
-					部品加工管理系统配置
+					品质日报配置
+				</p>
+				<p v-for="item in CardListSmtQcreport">
+					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
+					
+					
+					<i-input v-model.lazy="item.value" type="textarea" size="small" style="width: 160px"></i-input>
+		
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					&nbsp;&nbsp;
+					<i-button type="default" size="small" @click="onupdate_qcreport(item.name, item.value)">更新</i-button>
+					
+					<span style="float:right">
+					&nbsp;
+
+					</span>
+					<br><br>
 				</p>
 			</Card>
 		
 		</i-col>
-		<i-col span="2">
+		<i-col span="3">
 		&nbsp;
 		</i-col>
 	</i-row>
 
-	<br><br><br>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
-	<p><br></p><p><br></p><p><br></p>
+	&nbsp;<br>
 	
 
 
@@ -106,31 +115,31 @@ var vm_app = new Vue({
 		// 线体
 
 		
-		CardListSmt: [
-			{
-				title: '线体',
-				name: 'xianti',
-				value: '',
-			},
-			{
-				title: '班次',
-				name: 'banci',
-				value: '',
-			},
-			{
-				title: '品质日报',
-				name: '品质日报',
-				value: '',
-			},
+		CardListSmtPdreport: [
+			// {
+			// 	title: '线体',
+			// 	name: 'xianti',
+			// 	value: '',
+			// },
+			// {
+			// 	title: '班次',
+			// 	name: 'banci',
+			// 	value: '',
+			// },
+			// {
+			// 	title: '品质日报',
+			// 	name: '品质日报',
+			// 	value: '',
+			// },
 		],
 
 
-		CardListBupinjiagong: [
-			{
-				name: '中日程分析',
-				url: '#',
-				hits: '???'
-			},
+		CardListSmtQcreport: [
+			// {
+			// 	name: '中日程分析',
+			// 	url: '#',
+			// 	hits: '???'
+			// },
 		],
 		
 		
@@ -207,7 +216,7 @@ var vm_app = new Vue({
 			});
 		},
 		
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
@@ -215,24 +224,10 @@ var vm_app = new Vue({
 			return false;
 		},
 				
-		// 把laravel返回的结果转换成select能接受的格式
-		json2select: function (value) {
-			var arr = value.split(/[\s\n]/);
-			var arr_result = [];
-
-			arr.map(function (v, i) {
-				arr_result.push({ value: v, label: v });
-			});
-
-			return arr_result;
-		},
 		
-		
-		configgets: function () {
+		configgetspdreport () {
 			var _this = this;
-
-
-			var url = "{{ route('smt.configgets') }}";
+			var url = "{{ route('smt.configgetspdreport') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -245,32 +240,31 @@ var vm_app = new Vue({
 				}
 
 				if (response.data) {
-					_this.CardListSmt = response.data;
-					
-					// 用于select形式显示
-					// _this.CardListSmt.map(function (v, i) {
-						// if (v.name == 'xianti') {
-							// _this.option_xianti = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'banci') {
-							// _this.option_banci = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'gongxu') {
-							// _this.option_gongxu = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'jianchajileixing') {
-							// _this.option_jianchajileixing = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'buliangneirong') {
-							// _this.option_buliangneirong = _this.json2select(v.value);
-						// }
-						// else if (v.name == 'jianchazhe') {
-							// _this.option_jianchazhe = _this.json2select(v.value);
-						// }
-					// });
-
+					_this.CardListSmtPdreport = response.data;
 				}
-				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+			})
+		},
+		
+		configgetsqcreport () {
+			var _this = this;
+			var url = "{{ route('smt.configgetsqcreport') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+				}
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				if (response.data) {
+					_this.CardListSmtQcreport = response.data;
+				}
 			})
 			.catch(function (error) {
 				_this.error(false, 'Error', error);
@@ -278,7 +272,7 @@ var vm_app = new Vue({
 		},
 
 
-		onupdate: function (name, value) {
+		onupdate_pdreport (name, value) {
 			var _this = this;
 
 			if (name == '' || name == undefined
@@ -287,7 +281,40 @@ var vm_app = new Vue({
 				return false;
 			}
 
-			var url = "{{ route('smt.configupdate') }}";
+			var url = "{{ route('smt.configupdatepdreport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				name : name,
+				value: value
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				if (response.data) {
+					_this.success(false, '成功', '更新成功！');
+				} else {
+					_this.error(false, '失败', '更新失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '更新失败！');
+				// console.log(error);
+			})
+		},
+
+		onupdate_qcreport (name, value) {
+			var _this = this;
+
+			if (name == '' || name == undefined
+				|| value == '' || value == undefined) {
+				_this.warning(false, '警告', '输入内容为空或不正确！');
+				return false;
+			}
+
+			var url = "{{ route('smt.configupdateqcreport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				name : name,
@@ -317,7 +344,8 @@ var vm_app = new Vue({
 	},
 	mounted: function () {
 		var _this = this;
-		_this.configgets();
+		_this.configgetspdreport();
+		_this.configgetsqcreport();
 	}
 })
 </script>

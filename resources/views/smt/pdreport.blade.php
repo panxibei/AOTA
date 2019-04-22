@@ -296,28 +296,28 @@ var vm_app = new Vue({
 		disabled_dandangzhe: true,
 		select_dandangzhe: '',
 		option_dandangzhe: [
-			{
-				value: '庄慧',
-				label: '庄慧'
-			},
-			{
-				value: '曹平兰',
-				label: '曹平兰'
-			}
+			// {
+			// 	value: '庄慧',
+			// 	label: '庄慧'
+			// },
+			// {
+			// 	value: '曹平兰',
+			// 	label: '曹平兰'
+			// }
 		],
 		
 		// 确认者
 		disabled_querenzhe: true,
 		select_querenzhe: '',
 		option_querenzhe: [
-			{
-				value: '庄慧1',
-				label: '庄慧1'
-			},
-			{
-				value: '曹平兰1',
-				label: '曹平兰1'
-			}
+			// {
+			// 	value: '庄慧1',
+			// 	label: '庄慧1'
+			// },
+			// {
+			// 	value: '曹平兰1',
+			// 	label: '曹平兰1'
+			// }
 		],
 		
 		// 线体
@@ -623,7 +623,7 @@ var vm_app = new Vue({
 						title: '点/枚',
 						key: 'dianmei',
 						align: 'center',
-						width: 60,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.dianmei.toLocaleString()
@@ -1193,6 +1193,53 @@ var vm_app = new Vue({
 			this.dailyreportgets(currentpage, this.pagelast);
 		},
 
+		// 把laravel返回的结果转换成select能接受的格式
+		json2select (value) {
+			var arr = value.split(/[\s\n]/);
+			var arr_result = [];
+
+			arr.map(function (v, i) {
+				arr_result.push({ value: v, label: v });
+			});
+
+			return arr_result;
+		},
+
+		configgets () {
+			var _this = this;
+
+			var url = "{{ route('smt.configgetspdreport') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+				}
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				if (response.data) {
+					response.data.map(function (v, i) {
+						
+						if (v.name == 'dandangzhe') {
+							_this.option_dandangzhe = _this.json2select(v.value);
+						}
+						else if (v.name == 'querenzhe') {
+							_this.option_querenzhe = _this.json2select(v.value);
+						}
+					
+					});
+
+				}
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+			})
+		},
+
 		datepickerchange (date) {
 			if (typeof(date)=='string') {
 				return date;
@@ -1602,12 +1649,9 @@ var vm_app = new Vue({
 		},		
 		
 	},
-	mounted: function () {
-		// var _this = this;
-		// _this.date_filter_pdreport = new Date().Format("yyyy-MM-dd");
-		// _this.dailyreportgets(1, 1); // page: 1, last_page: 1
-	
-		
+	mounted () {
+		var _this = this;
+		_this.configgets();
 	}
 })
 </script>
