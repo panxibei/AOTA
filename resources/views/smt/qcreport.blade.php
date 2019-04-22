@@ -26,11 +26,11 @@ SMT(QC report) -
 			<i-row :gutter="16">
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
-					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
+					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 300px"></i-input>
 				</i-col>
 				<i-col span="3">
 					* 工序&nbsp;&nbsp;
-					<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:80px" placeholder="">
+					<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:60px" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
@@ -38,25 +38,39 @@ SMT(QC report) -
 					* 点/枚&nbsp;&nbsp;
 					<Input-number v-model.lazy="dianmei" :min="1" readonly style="width: 80px"></Input-number>
 				</i-col>
-				<i-col span="4">
+				<i-col span="3">
 					* 枚数&nbsp;&nbsp;
 					<Input-number v-model.lazy="meishu" :min="1" style="width: 80px"></Input-number>
 				</i-col>
-				<i-col span="3">
-					线体&nbsp;&nbsp;
+				<i-col span="5">
+					&nbsp;
+				</i-col>
+			</i-row>
+
+			<br>
+			<i-row :gutter="16">
+				<i-col span="4">
+					* 线体&nbsp;&nbsp;
 					<i-input v-model.lazy="xianti" readonly placeholder="" style="width: 80px"></i-input>
 					<!-- <i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select> -->
 				</i-col>
-				<i-col span="3">
-					班次&nbsp;&nbsp;
+				<i-col span="4">
+					* 班次&nbsp;&nbsp;
 					<i-input v-model.lazy="banci" readonly placeholder="" style="width: 80px"></i-input>
 					<!-- <i-select v-model.lazy="banci" clearable style="width:80px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select> -->
 				</i-col>
 				<input v-model.lazy="shengchanriqi" hidden="hidden"></input>
+				<i-col span="4">
+					* 生产日期&nbsp;&nbsp;
+					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px"></Date-picker>
+				</i-col>
+				<i-col span="12">
+				&nbsp;
+				</i-col>
 			</i-row>
 
 			<br><br><br>
