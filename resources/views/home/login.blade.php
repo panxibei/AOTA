@@ -28,18 +28,18 @@ Login -
 	
 		<i-form ref="formInline" :model="formInline" :rules="ruleInline" @submit.native.prevent>
 			<Form-item prop="username">
-				<i-input ref="ref_username" type="text" v-model="formInline.username" @on-enter="handleSubmit('formInline')" placeholder="用户">
+				<i-input ref="ref_username" type="text" v-model="formInline.username" @on-enter="handleSubmit('formInline')" placeholder="用户" size="large">
 					<Icon type="ios-person-outline" slot="prepend"></Icon>
 				</i-input>
 			</Form-item>
 		
 			<Form-item prop="password">
-				<i-input ref="ref_password" type="password" v-model="formInline.password" @on-enter="handleSubmit('formInline')" placeholder="密码">
+				<i-input ref="ref_password" type="password" v-model="formInline.password" @on-enter="handleSubmit('formInline')" placeholder="密码" size="large">
 					<Icon type="ios-lock-outline" slot="prepend"></Icon>
 				</i-input>
 			</Form-item>
 
-			<i-row>
+			<!-- <i-row>
 				<i-col span="16">
 					<Form-item prop="captcha">
 						<i-input ref="ref_captcha" type="text" v-model="formInline.captcha" @on-enter="handleSubmit('formInline')" placeholder="验证码" style="width:120px">
@@ -53,7 +53,7 @@ Login -
 			</i-row>
 			
 			
-			<br><br>
+			<br><br> -->
 			
 			<i-row>
 				<i-col span="16">
@@ -74,8 +74,9 @@ Login -
 			
 			<br><br><br>
 			<Form-item>
-			<i-button :disabled="disabled_login_submit" type="primary" @click="handleSubmit('formInline')">登 录</i-button>&nbsp;&nbsp;
-			<i-button :disabled="disabled_login_reset" @click="handleReset('formInline')" style="margin-left: 8px">重 置</i-button>
+			<i-button :disabled="disabled_login_submit" type="primary" @click="handleSubmit('formInline')" size="large">登 录</i-button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<i-button :disabled="disabled_login_reset" @click="handleReset('formInline')" size="large">重 置</i-button>
 			</Form-item>
 			
 			<div v-html="formInline.loginmessage">@{{ formInline.loginmessage }}</div>
@@ -108,7 +109,7 @@ var vm_app = new Vue({
 			formInline: {
 				username: '',
 				password: '',
-				captcha: '',
+				// captcha: '',
 				rememberme: false,
 				loginmessage: ''
 			},
@@ -120,10 +121,10 @@ var vm_app = new Vue({
 					{ required: true, message: '请填写密码', trigger: 'blur' },
 					{ type: 'string', min: 3, message: 'Password length is more than 3 bits', trigger: 'blur' }
 				],
-				captcha: [
-					{ required: true, message: '请填写验证码', trigger: 'blur' },
-					{ type: 'string', min: 3, message: 'The captcha length is 3 bits', trigger: 'blur' }
-				]
+				// captcha: [
+				// 	{ required: true, message: '请填写验证码', trigger: 'blur' },
+				// 	{ type: 'string', min: 3, message: 'The captcha length is 3 bits', trigger: 'blur' }
+				// ]
 			},
 
 			disabled_login_submit: false,
@@ -133,14 +134,21 @@ var vm_app = new Vue({
 	methods: {
 		handleSubmit(name) {
 			this.$refs[name].validate((valid) => {
+				// console.log(valid);return false;
 				if (valid) {
 					var _this = this;
 
 					_this.logindisabled(true);
 					_this.formInline.loginmessage = '<div class="text-info">正在验证... 稍等...</div>';
 
-					if (_this.formInline.username == undefined || _this.formInline.password == undefined || _this.formInline.captcha == undefined ||
-						_this.formInline.username == '' || _this.formInline.password == '' || _this.formInline.captcha == '') {
+					// if (_this.formInline.username == undefined || _this.formInline.password == undefined || _this.formInline.captcha == undefined ||
+					// 	_this.formInline.username == '' || _this.formInline.password == '' || _this.formInline.captcha == '') {
+					// 	_this.formInline.loginmessage = '<div class="text-warning">Please full the item</div>';
+					// 	_this.logindisabled(false);
+					// 	return false;
+					// }
+					if (_this.formInline.username == undefined || _this.formInline.password == undefined ||
+						_this.formInline.username == '' || _this.formInline.password == '') {
 						_this.formInline.loginmessage = '<div class="text-warning">Please full the item</div>';
 						_this.logindisabled(false);
 						return false;
@@ -151,7 +159,7 @@ var vm_app = new Vue({
 					axios.post(url, {
 						name: _this.formInline.username,
 						password: _this.formInline.password,
-						captcha: _this.formInline.captcha,
+						// captcha: _this.formInline.captcha,
 						rememberme: _this.formInline.rememberme
 					})
 					.then(function (response) {
@@ -165,8 +173,6 @@ var vm_app = new Vue({
 								_this.logindisabled(false);
 								return false;
 							}
-
-
 
 							_this.formInline.password = '**********';
 							_this.formInline.loginmessage = '<font color="blue">登录成功！ 请稍等...</font>';
@@ -186,7 +192,7 @@ var vm_app = new Vue({
 						_this.formInline.loginmessage = '<font color="red">用户过期或未知错误！</font>';
 						_this.logindisabled(false);
 					})
-					_this.captchaclick();
+					// _this.captchaclick();
 				} else {
 					// this.$Message.error('Fail!');
 				}
@@ -195,22 +201,22 @@ var vm_app = new Vue({
 		handleReset (name) {
 			this.$refs[name].resetFields();
 		},
-		captchaclick: function(){
-			this.$refs.captcha.src+=Math.random().toString().substr(-1);
-		},
-		logindisabled: function (value) {
+		// captchaclick: function(){
+		// 	this.$refs.captcha.src+=Math.random().toString().substr(-1);
+		// },
+		logindisabled (value) {
 			var _this = this;
 			if (value) {
 				_this.$refs.ref_username.disabled = true;
 				_this.$refs.ref_password.disabled = true;
-				_this.$refs.ref_captcha.disabled = true;
+				// _this.$refs.ref_captcha.disabled = true;
 				_this.$refs.ref_rememberme.disabled = true;
 				_this.disabled_login_submit = true;
 				_this.disabled_login_reset = true;
 			} else {
 				_this.$refs.ref_username.disabled = false;
 				_this.$refs.ref_password.disabled = false;
-				_this.$refs.ref_captcha.disabled = false;
+				// _this.$refs.ref_captcha.disabled = false;
 				_this.$refs.ref_rememberme.disabled = false;
 				_this.disabled_login_submit = false;
 				_this.disabled_login_reset = false;

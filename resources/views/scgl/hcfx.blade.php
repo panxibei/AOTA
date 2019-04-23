@@ -515,13 +515,13 @@ var vm_app = new Vue({
 				title: '代码',
 				key: 'daima',
 				align: 'center',
-				width: 160,
+				width: 120,
 			},
 			{
 				title: '规格',
 				key: 'guige',
 				align: 'center',
-				width: 100,
+				width: 160,
 			},
 			// {
 			// 	title: '创建日期',
