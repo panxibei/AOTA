@@ -55,6 +55,7 @@ Login -
 			
 			<br><br> -->
 			
+			<div style="display: none;">
 			<i-row>
 				<i-col span="16">
 					保持登录状态&nbsp;
@@ -70,9 +71,10 @@ Login -
 				-->
 				</i-col>
 			</i-row>
+			</div>
 			
 			
-			<br><br><br>
+			<!-- <br><br><br> -->
 			<Form-item>
 			<i-button :disabled="disabled_login_submit" type="primary" @click="handleSubmit('formInline')" size="large">登 录</i-button>
 			&nbsp;&nbsp;&nbsp;&nbsp;
@@ -110,7 +112,7 @@ var vm_app = new Vue({
 				username: '',
 				password: '',
 				// captcha: '',
-				rememberme: false,
+				rememberme: true,
 				loginmessage: ''
 			},
 			ruleInline: {

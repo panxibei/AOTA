@@ -80,7 +80,7 @@
 				<br><br><br>
 				@section('my_logo_and_title')
 				<h1>{{$SITE_TITLE}}<br>
-				<small>{{$SITE_VERSION}}</small></h1>
+				<!-- <small>{{$SITE_VERSION}}</small></h1> -->
 				@show
 				<!-- /头部 -->
 			</Header>
