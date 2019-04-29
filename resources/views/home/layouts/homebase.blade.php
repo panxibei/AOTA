@@ -73,8 +73,8 @@
 <body>
 <div id="app" v-cloak>
 <br><br><br><br>
-	<div class="layout">
-		<Layout>
+	<!-- <div class="layout"> -->
+	<div class="">
 			<Header class="layout-header-center">
 				<!-- 头部 -->
 				<br><br><br>
@@ -84,7 +84,7 @@
 				@show
 				<!-- /头部 -->
 			</Header>
-			<Layout>
+			<Layout style="background: #ffffff;">
 			<Content>
 				<!-- 主体 -->
 				@section('my_body')
@@ -101,7 +101,6 @@
 				</Footer>
 				<!-- /底部 -->
 			</Footer>
-		</Layout>
 	</div>
 </div>
 <script src="{{ asset('js/vue.min.js') }}"></script>
