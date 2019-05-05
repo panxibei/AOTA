@@ -402,14 +402,14 @@ var vm_app = new Vue({
 
 		//类别
 		option_tuopanxinghao: [
-			{value: 'Y01', label: 'Y01'},
-			{value: 'Y02', label: 'Y02'},
-			{value: 'Y03', label: 'Y03'},
-			{value: 'Y04', label: 'Y04'},
-			{value: 'Y05', label: 'Y05'},
-			{value: 'Y06', label: 'Y06'},
-			{value: 'Y07', label: 'Y07'},
-			{value: '其他', label: '其他'},
+			// {value: 'Y01', label: 'Y01'},
+			// {value: 'Y02', label: 'Y02'},
+			// {value: 'Y03', label: 'Y03'},
+			// {value: 'Y04', label: 'Y04'},
+			// {value: 'Y05', label: 'Y05'},
+			// {value: 'Y06', label: 'Y06'},
+			// {value: 'Y07', label: 'Y07'},
+			// {value: '其他', label: '其他'},
 		],
 		
 		// ##########查询过滤########
@@ -1113,7 +1113,15 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.tabledata_guige = response.data.data;
+					var json = response.data.data;
+					_this.tabledata_guige = json;
+
+					_this.option_tuopanxinghao = [];
+					json.map(function (v, i) {
+						_this.option_tuopanxinghao.push({ value: v.daima, label: v.daima });
+					});
+
+
 				} else {
 					_this.tabledata_guige = [];
 				}
@@ -1423,32 +1431,26 @@ var vm_app = new Vue({
 			
 			var id = _this.relation_id_edit;
 			var jizhongming = _this.relation_jizhongming_edit;
-			var pinfan = _this.relation_pinfan_edit;
-			var pinming = _this.relation_pinming_edit;
 			var tai_per_tuo = _this.relation_tai_per_tuo_edit;
 			var tuopanxinghao = _this.relation_tuopanxinghao_edit;
-			var created_at = _this.relation_created_at_edit;
+			// var created_at = _this.relation_created_at_edit;
 			var updated_at = _this.relation_updated_at_edit;
 			
 			if (jizhongming == '' || jizhongming == null || jizhongming == undefined
-				|| pinfan == '' || pinfan == null || pinfan == undefined
-				|| pinming == '' || pinming == null || pinming == undefined
 				|| tai_per_tuo == '' || tai_per_tuo == null || tai_per_tuo == undefined
 				|| tuopanxinghao == '' || tuopanxinghao == null || tuopanxinghao == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
 				return false;
 			}
 			
-			var url = "{{ route('bpjg.zrcfx.relationupdate') }}";
+			var url = "{{ route('scgl.hcfx.relationupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: id,
 				jizhongming: jizhongming,
-				pinfan: pinfan,
-				pinming: pinming,
 				tai_per_tuo: tai_per_tuo[1],
 				tuopanxinghao: tuopanxinghao,
-				created_at: created_at,
+				// created_at: created_at,
 				updated_at: updated_at
 			})
 			.then(function (response) {
@@ -1467,8 +1469,6 @@ var vm_app = new Vue({
 					
 					_this.relation_id_edit = '';
 					_this.relation_jizhongming_edit = '';
-					_this.relation_pinfan_edit = '';
-					_this.relation_pinming_edit = '';
 					_this.relation_tai_per_tuo_edit = [0, 0];
 					_this.relation_tuopanxinghao_edit = '';
 					_this.relation_created_at_edit = '';

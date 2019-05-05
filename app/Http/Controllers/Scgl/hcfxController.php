@@ -341,18 +341,16 @@ class hcfxController extends Controller
 
 		$id = $request->input('id');
 		$jizhongming = $request->input('jizhongming');
-		$pinfan = $request->input('pinfan');
-		$pinming = $request->input('pinming');
-		$xuqiushuliang = $request->input('xuqiushuliang');
-		$leibie = $request->input('leibie');
-		$created_at = $request->input('created_at');
+		$tuopanxinghao = $request->input('tuopanxinghao');
+		$tai_per_tuo = $request->input('tai_per_tuo');
+		// $created_at = $request->input('created_at');
 		$updated_at = $request->input('updated_at');
 		
 		// dd($updated_at);
 		
 		// 判断如果不是最新的记录，不可被编辑
 		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Bpjg_zhongricheng_relation::select('updated_at')
+		$res = Scgl_hcfx_relation::select('updated_at')
 			->where('id', $id)
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
@@ -364,13 +362,11 @@ class hcfxController extends Controller
 		// 尝试更新
 		try	{
 			DB::beginTransaction();
-			$result = Bpjg_zhongricheng_relation::where('id', $id)
+			$result = Scgl_hcfx_relation::where('id', $id)
 				->update([
 					'jizhongming'		=> $jizhongming,
-					'pinfan' 			=> $pinfan,
-					'pinming'			=> $pinming,
-					'xuqiushuliang'		=> $xuqiushuliang,
-					'leibie'			=> $leibie,
+					'tuopanxinghao'		=> $tuopanxinghao,
+					'tai_per_tuo'			=> $tai_per_tuo,
 				]);
 			$result = 1;
 		}

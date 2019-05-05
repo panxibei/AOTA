@@ -22,21 +22,29 @@ class Scgl_hcfx_tuopansTableSeeder extends Seeder
         Scgl_hcfx_tuopan::insert(array (
             0 => 
             array (
+                'pinming' => '刨花板托盘',
+                'daima' => 'Y01',
+                'guige' => '1160*1120*130',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            1 => 
+            array (
+                'pinming' => '刨花板托盘',
+                'daima' => 'Y02',
+                'guige' => '1000*1050*130',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            2 => 
+            array (
                 'pinming' => 'Y03熏蒸板',
                 'daima' => 'Y03',
                 'guige' => '1140*980*130',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            1 => 
-            array (
-                'pinming' => 'Y06熏蒸板',
-                'daima' => 'Y06',
-                'guige' => '1220*1010*130',
-                'created_at' => $nowtime,
-                'updated_at' => $nowtime,
-            ),
-            2 => 
+            3 => 
             array (
                 'pinming' => 'Y05熏蒸板',
                 'daima' => 'Y05',
@@ -44,7 +52,15 @@ class Scgl_hcfx_tuopansTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            3 => 
+            4 => 
+            array (
+                'pinming' => 'Y06熏蒸板',
+                'daima' => 'Y06',
+                'guige' => '1220*1010*130',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            5 => 
             array (
                 'pinming' => 'Y07木托盘',
                 'daima' => 'Y07',
@@ -52,19 +68,11 @@ class Scgl_hcfx_tuopansTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            4 => 
+            6 => 
             array (
-                'pinming' => '刨花板托盘',
-                'daima' => 'Y01',
-                'guige' => '1160*1120*130',
-                'created_at' => $nowtime,
-                'updated_at' => $nowtime,
-            ),
-            5 => 
-            array (
-                'pinming' => '刨花板托盘',
-                'daima' => 'Y02',
-                'guige' => '1000*1050*130',
+                'pinming' => '纸固角',
+                'daima' => '其他',
+                'guige' => '1.5*50*1450',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
