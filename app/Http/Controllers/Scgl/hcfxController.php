@@ -494,7 +494,7 @@ class hcfxController extends Controller
 
 			//定义文件名
 			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
-			$filename = 'zrcfx_relationimport.'.$ext;
+			$filename = 'scgl_hcfx_relationimport.'.$ext;
 			// dd($filename);
 
 			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
@@ -510,7 +510,7 @@ class hcfxController extends Controller
 			// 先清空表
 			Bpjg_zhongricheng_relation::truncate();
 			
-			$ret = Excel::import(new zrcfx_relationimport, 'excel/'.$filename);
+			$ret = Excel::import(new scgl_hcfx_relationimport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
@@ -545,7 +545,7 @@ class hcfxController extends Controller
      */
     public function relationDownload(Request $request)
     {
-		return Storage::download('download/zrcfx_relationimport.xlsx', 'MoBan_Relation.xlsx');
+		return Storage::download('download/scgl_hcfx_relationimport.xlsx', 'MoBan_Relation.xlsx');
 	}
 	
 	

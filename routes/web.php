@@ -33,14 +33,14 @@ Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','p
 	Route::post('relationupdate', 'hcfxController@relationUpdate')->name('scgl.hcfx.relationupdate');
 	Route::post('relationcreate', 'hcfxController@relationCreate')->name('scgl.hcfx.relationcreate');
 	Route::post('relationdelete', 'hcfxController@relationDelete')->name('scgl.hcfx.relationdelete');
+	Route::get('relationdownload', 'hcfxController@relationDownload')->name('scgl.hcfx.relationdownload');
+	Route::post('relationimport', 'hcfxController@relationImport')->name('scgl.hcfx.relationimport');
 
-	
+
 
 	Route::post('zrcfximport', 'hcfxController@zrcfxImport')->name('scgl.hcfx.zrcfximport');
 	Route::get('zrcdownload', 'hcfxController@zrcDownload')->name('scgl.hcfx.zrcdownload');
 	Route::get('relationexport', 'hcfxController@relationExport')->name('scgl.hcfx.relationexport');
-	Route::post('relationimport', 'hcfxController@relationImport')->name('scgl.hcfx.relationimport');
-	Route::get('relationdownload', 'hcfxController@relationDownload')->name('scgl.hcfx.relationdownload');
 	Route::get('zrcfxfunction', 'hcfxController@zrcfxFunction')->name('scgl.hcfx.zrcfxfunction');
 	Route::get('resultgets', 'hcfxController@resultGets')->name('scgl.hcfx.resultgets');
 	Route::get('resultexport', 'hcfxController@resultExport')->name('scgl.hcfx.resultexport');

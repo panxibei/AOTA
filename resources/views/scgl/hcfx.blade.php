@@ -1644,7 +1644,7 @@ var vm_app = new Vue({
 			
 			// return false;
 			
-			var url = "{{ route('bpjg.zrcfx.relationimport') }}";
+			var url = "{{ route('scgl.hcfx.relationimport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
@@ -1699,7 +1699,7 @@ var vm_app = new Vue({
 
 		// relation模板下载
 		download_relation: function () {
-			var url = "{{ route('bpjg.zrcfx.relationdownload') }}";
+			var url = "{{ route('scgl.hcfx.relationdownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
