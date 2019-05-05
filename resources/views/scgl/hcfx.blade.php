@@ -350,14 +350,14 @@
 
 			<i-row :gutter="16">
 				<i-col span="11">
-					<i-table ref="table_result1" height="650" size="small" border :columns="tablecolumns_result1" :data="tabledata_result1"></i-table>
+					<i-table ref="table_result1" height="350" size="small" border :columns="tablecolumns_result1" :data="tabledata_result1"></i-table>
 					<br><Page :current="pagecurrent_result1" :total="pagetotal_result1" :page-size="pagepagesize_result1" @on-change="currentpage => oncurrentpagechange_result1(currentpage)" show-total show-elevator></Page><br><br>
 				</i-col>
 				<i-col span="1">
 				&nbsp;
 				</i-col>
 				<i-col span="11">
-					<i-table ref="table_result2" height="650" size="small" border :columns="tablecolumns_result2" :data="tabledata_result2"></i-table>
+					<i-table ref="table_result2" height="350" size="small" border :columns="tablecolumns_result2" :data="tabledata_result2"></i-table>
 					<br><Page :current="pagecurrent_result2" :total="pagetotal_result2" :page-size="pagepagesize_result2" @on-change="currentpage => oncurrentpagechange_result2(currentpage)" show-total show-elevator></Page><br><br>
 				</i-col>
 				<i-col span="1">
@@ -994,11 +994,11 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			// if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
-			// 	_this.tabledata_result1 = [];
-			// 	return false;
-			// }
-			
+			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+				_this.tabledata_result1 = [];
+				return false;
+			}
+
 			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
 			// var days =	getDays(datex); //例：getDays(2018-12)
 			
@@ -1062,10 +1062,10 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			// if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
-			// 	_this.tabledata_result1 = [];
-			// 	return false;
-			// }
+			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+				_this.tabledata_result2 = [];
+				return false;
+			}
 			
 			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
 			// var days =	getDays(datex); //例：getDays(2018-12)
@@ -1660,9 +1660,14 @@ var vm_app = new Vue({
 		},
 		
 		
-		// 切换当前页 result
+		// 切换当前页 result1
 		oncurrentpagechange_result1: function (currentpage) {
 			this.resultgets1(currentpage, this.pagelast_result1);
+		},
+		
+		// 切换当前页 result2
+		oncurrentpagechange_result2: function (currentpage) {
+			this.resultgets2(currentpage, this.pagelast_result2);
 		},
 		
 		

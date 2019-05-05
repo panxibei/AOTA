@@ -15,6 +15,7 @@ class CreateScglHcfxResult2sTable extends Migration
     {
         Schema::create('scgl_hcfx_result2s', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('suoshuriqi', 50)->comment('所属日期');
             $table->string('jizhongming', 50)->comment('机种');
             $table->integer('chanliang')->comment('21号-31号的产量（计划）');
             $table->integer('tai_per_tuo')->comment('台/托');
