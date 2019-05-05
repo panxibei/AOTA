@@ -316,15 +316,15 @@
 				</i-col>
 				<i-col span="4">
 					* 选择月份&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result1, pagelast_result1);" type="month" size="small" style="width:100px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets1(pagecurrent_result1, pagelast_result1);resultgets2(pagecurrent_result2, pagelast_result2);" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="4">
 					品番&nbsp;&nbsp;
-					<!-- <i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
+					<!-- <i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets1(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="4">
 					品名&nbsp;&nbsp;
-					<!-- <i-input v-model.lazy="pinming_filter_result" @on-change="resultgets(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
+					<!-- <i-input v-model.lazy="pinming_filter_result" @on-change="resultgets1(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="9">
 				&nbsp;
@@ -984,8 +984,8 @@ var vm_app = new Vue({
 		},
 		
 		
-		// result列表
-		resultgets: function (page, last_page) {
+		// result1列表
+		resultgets1: function (page, last_page) {
 			var _this = this;
 			
 			if (page > last_page) {
@@ -994,10 +994,10 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
-				_this.tabledata_result1 = [];
-				return false;
-			}
+			// if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+			// 	_this.tabledata_result1 = [];
+			// 	return false;
+			// }
 			
 			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
 			// var days =	getDays(datex); //例：getDays(2018-12)
@@ -1015,18 +1015,15 @@ var vm_app = new Vue({
 			// var pinming_filter = _this.pinming_filter_result;
 			// var tuopanxinghao_filter = _this.tuopanxinghao_filter;
 
-			var url = "{{ route('bpjg.zrcfx.resultgets') }}";
+			var url = "{{ route('scgl.hcfx.resultgets1') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
 					perPage: _this.pagepagesize_result1,
 					page: page,
 					qcdate_filter: datex,
-					// xianti_filter: xianti_filter,
-					// jizhongming_filter: jizhongming_filter_relation,
-					pinfan_filter: pinfan_filter,
-					pinming_filter: pinming_filter,
-					// tuopanxinghao_filter: tuopanxinghao_filter
+					// pinfan_filter: pinfan_filter,
+					// pinming_filter: pinming_filter,
 				}
 			})
 			.then(function (response) {
@@ -1050,7 +1047,75 @@ var vm_app = new Vue({
 				
 			})
 			.catch(function (error) {
-				_this.loadingbarerror();
+				// _this.loadingbarerror();
+				_this.error(false, 'Error', error);
+			})
+		},
+		
+		// result2列表
+		resultgets2: function (page, last_page) {
+			var _this = this;
+			
+			if (page > last_page) {
+				page = last_page;
+			} else if (page < 1) {
+				page = 1;
+			}
+			
+			// if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
+			// 	_this.tabledata_result1 = [];
+			// 	return false;
+			// }
+			
+			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
+			// var days =	getDays(datex); //例：getDays(2018-12)
+			
+			// var qcdate_filter_result = [];
+			// qcdate_filter_result[0] = datex + '-01 00:00:00';
+			// qcdate_filter_result[1] = datex + '-' + days + ' 23:59:59';
+			
+			// console.log(qcdate_filter_result);
+			// return false;
+			
+			// var xianti_filter = _this.xianti_filter;
+			// var jizhongming_filter_relation = _this.jizhongming_filter_relation;
+			// var pinfan_filter = _this.pinfan_filter_result;
+			// var pinming_filter = _this.pinming_filter_result;
+			// var tuopanxinghao_filter = _this.tuopanxinghao_filter;
+
+			var url = "{{ route('scgl.hcfx.resultgets2') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					perPage: _this.pagepagesize_result2,
+					page: page,
+					qcdate_filter: datex,
+					// pinfan_filter: pinfan_filter,
+					// pinming_filter: pinming_filter,
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+				
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.pagecurrent_result2 = response.data.current_page;
+					_this.pagetotal_result2 = response.data.total;
+					_this.pagelast_result2 = response.data.last_page
+					
+					_this.tabledata_result2 = response.data.data;
+				} else {
+					_this.tabledata_result2 = [];
+				}
+				
+			})
+			.catch(function (error) {
+				// _this.loadingbarerror();
 				_this.error(false, 'Error', error);
 			})
 		},
@@ -1573,7 +1638,7 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '分析数据成功！');
 					// _this.boo_delete_relation = true;
 					_this.tableselect_result1 = [];
-					_this.resultgets(_this.pagecurrent_result1, _this.pagelast_result1);
+					_this.resultgets1(_this.pagecurrent_result1, _this.pagelast_result1);
 				} else {
 					_this.error(false, '失败', '分析数据失败！');
 				}
@@ -1597,7 +1662,7 @@ var vm_app = new Vue({
 		
 		// 切换当前页 result
 		oncurrentpagechange_result1: function (currentpage) {
-			this.resultgets(currentpage, this.pagelast_result1);
+			this.resultgets1(currentpage, this.pagelast_result1);
 		},
 		
 		

@@ -38,11 +38,12 @@ Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','p
 	Route::get('relationexport', 'hcfxController@relationExport')->name('scgl.hcfx.relationexport');
 	Route::get('zrcdownload', 'hcfxController@zrcDownload')->name('scgl.hcfx.zrcdownload');
 	Route::post('zrcfximport', 'hcfxController@zrcfxImport')->name('scgl.hcfx.zrcfximport');
+	Route::get('resultgets1', 'hcfxController@resultGets1')->name('scgl.hcfx.resultgets1');
+	Route::get('resultgets2', 'hcfxController@resultGets2')->name('scgl.hcfx.resultgets2');
 
 
 
 	Route::get('zrcfxfunction', 'hcfxController@zrcfxFunction')->name('scgl.hcfx.zrcfxfunction');
-	Route::get('resultgets', 'hcfxController@resultGets')->name('scgl.hcfx.resultgets');
 	Route::get('resultexport', 'hcfxController@resultExport')->name('scgl.hcfx.resultexport');
 });
 

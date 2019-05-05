@@ -152,12 +152,88 @@ class hcfxController extends Controller
 	
 	
     /**
-     * resultGets
+     * resultGets1
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function resultGets(Request $request)
+    public function resultGets1(Request $request)
+    {
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+		
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
+
+		// dd($queryParams);
+		$qcdate_filter = $request->input('qcdate_filter');
+		// $jizhongming_filter = $request->input('jizhongming_filter');
+		// $pinfan_filter = $request->input('pinfan_filter');
+		// $pinming_filter = $request->input('pinming_filter');
+		// $leibie_filter = $request->input('leibie_filter');
+		
+		// $usecache = $request->input('usecache');
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		// dd($fullUrl);
+		// dd($queryParams);
+		// dd($qcdate_filter);
+		
+		// 注意$usecache变量的类型
+		// if ($usecache == "false") {
+			// Cache::forget($fullUrl);
+			// Cache::flush();
+		// }
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$result = Cache::get($fullUrl);    //直接读取cache
+		} else {                              //如果cache里面没有        
+			$result = Bpjg_zhongricheng_result::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+					// return $query->whereBetween('updated_at', $qcdate_filter);
+					return $query->where('suoshuriqi', $qcdate_filter);
+				})
+				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
+					// return $query->where('xianti', '=', $xianti_filter);
+				// })
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
+				->when($pinfan_filter, function ($query) use ($pinfan_filter) {
+					return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
+				})
+				->when($pinming_filter, function ($query) use ($pinming_filter) {
+					return $query->where('pinming', 'like', '%'.$pinming_filter.'%');
+				})
+				->when($leibie_filter, function ($query) use ($leibie_filter) {
+					return $query->where('leibie', '=', $leibie_filter);
+				})
+				->limit(5000)
+				->orderBy('created_at', 'asc')
+				->paginate($perPage, ['*'], 'page', $page);
+			
+			Cache::put($fullUrl, $result, now()->addSeconds(10));
+		}
+		
+		return $result;
+    }
+	
+    /**
+     * resultGets2
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resultGets2(Request $request)
     {
 		if (! $request->ajax()) return null;
 
@@ -222,7 +298,7 @@ class hcfxController extends Controller
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $result, now()->addSeconds(30));
+			Cache::put($fullUrl, $result, now()->addSeconds(10));
 		}
 		
 		return $result;
