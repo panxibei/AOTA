@@ -18,10 +18,10 @@ use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Scgl\hcfx_relationImport;
+use App\Exports\Scgl\hcfx_relationExport;
 
 use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Exports\Bpjg\zrcfx_resultExport;
-use App\Exports\Bpjg\zrcfx_relationExport;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -582,10 +582,10 @@ class hcfxController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$Bpjg_zhongricheng_main = Bpjg_zhongricheng_relation::select('id', 'jizhongming', 'pinfan', 'pinming', 'xuqiushuliang', 'leibie', 'updated_at')
+		$Scgl_hcfx_relation = Scgl_hcfx_relation::select('id', 'jizhongming', 'tuopanxinghao', 'tai_per_tuo', 'updated_at')
 			->whereBetween('updated_at', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
-		// dd($Bpjg_zhongricheng_main);
+		// dd($Scgl_hcfx_relation);
 
         // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
 		// $cellData = [
@@ -598,14 +598,14 @@ class hcfxController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', '机种名', '品番', '品名', '需求数量', '类别', '更新日期'];
+		$title[] = ['id', '机种', '托盘型号', '台/托', '更新日期'];
 
 		// 合并Excel的标题和数据为一个整体
-		$data = array_merge($title, $Bpjg_zhongricheng_main);
+		$data = array_merge($title, $Scgl_hcfx_relation);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
-		return Excel::download(new zrcfx_relationExport($data), 'bpjg_zrcfx_relation_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		return Excel::download(new hcfx_relationExport($data), 'scgl_hcfx_relation_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}
 

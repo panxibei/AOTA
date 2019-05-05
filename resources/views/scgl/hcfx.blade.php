@@ -1706,8 +1706,8 @@ var vm_app = new Vue({
 		},
 		
 		
-		// exportData_relation 主表数据导出
-		exportData_relation: function () {
+		// exportData_relation 关系表数据导出
+		exportData_relation () {
 			var _this = this;
 			
 			if (_this.date_filter_relation[0] == '' || _this.date_filter_relation[0] == undefined) {
@@ -1715,10 +1715,10 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			var queryfilter_datefrom = _this.date_filter_relation[0].Format("yyyy-MM-dd");
-			var queryfilter_dateto = _this.date_filter_relation[1].Format("yyyy-MM-dd");
+			var queryfilter_datefrom = _this.date_filter_relation[0].Format("yyyy-MM-dd 00:00:00");
+			var queryfilter_dateto = _this.date_filter_relation[1].Format("yyyy-MM-dd 23:59:59");
 			
-			var url = "{{ route('bpjg.zrcfx.relationexport') }}"
+			var url = "{{ route('scgl.hcfx.relationexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom
 				+ "&queryfilter_dateto=" + queryfilter_dateto;
 				
