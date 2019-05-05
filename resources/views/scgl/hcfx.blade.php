@@ -319,11 +319,11 @@
 					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets1(pagecurrent_result1, pagelast_result1);resultgets2(pagecurrent_result2, pagelast_result2);" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="4">
-					品番&nbsp;&nbsp;
+					<!-- 品番&nbsp;&nbsp; -->
 					<!-- <i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets1(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="4">
-					品名&nbsp;&nbsp;
+					<!-- 品名&nbsp;&nbsp; -->
 					<!-- <i-input v-model.lazy="pinming_filter_result" @on-change="resultgets1(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="9">
@@ -1620,7 +1620,7 @@ var vm_app = new Vue({
 			// date_fenxi_suoshuriqi[0] = datex + '-01 00:00:00';
 			// date_fenxi_suoshuriqi[1] = datex + '-' + days + ' 23:59:59';
 
-			var url = "{{ route('bpjg.zrcfx.zrcfxfunction') }}";
+			var url = "{{ route('scgl.hcfx.zrcfxfunction') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -1639,6 +1639,8 @@ var vm_app = new Vue({
 					// _this.boo_delete_relation = true;
 					_this.tableselect_result1 = [];
 					_this.resultgets1(_this.pagecurrent_result1, _this.pagelast_result1);
+					_this.tableselect_result2 = [];
+					_this.resultgets2(_this.pagecurrent_result2, _this.pagelast_result2);
 				} else {
 					_this.error(false, '失败', '分析数据失败！');
 				}

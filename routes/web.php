@@ -40,10 +40,10 @@ Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','p
 	Route::post('zrcfximport', 'hcfxController@zrcfxImport')->name('scgl.hcfx.zrcfximport');
 	Route::get('resultgets1', 'hcfxController@resultGets1')->name('scgl.hcfx.resultgets1');
 	Route::get('resultgets2', 'hcfxController@resultGets2')->name('scgl.hcfx.resultgets2');
-
-
-
 	Route::get('zrcfxfunction', 'hcfxController@zrcfxFunction')->name('scgl.hcfx.zrcfxfunction');
+
+
+
 	Route::get('resultexport', 'hcfxController@resultExport')->name('scgl.hcfx.resultexport');
 });
 
