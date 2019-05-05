@@ -284,8 +284,6 @@ class hcfxController extends Controller
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
-		// $xianti = $request->input('xianti');
-		// $qufen = $request->input('qufen');
 		$piliangluru = $request->input('piliangluru');
 		$created_at = date('Y-m-d H:i:s');
 		$updated_at = date('Y-m-d H:i:s');
@@ -297,10 +295,8 @@ class hcfxController extends Controller
 			$s[$key]['updated_at'] = $updated_at;
 
 			$s[$key]['jizhongming'] = $value['jizhongming'];
-			$s[$key]['pinfan'] = $value['pinfan'];
-			$s[$key]['pinming'] = $value['pinming'];
-			$s[$key]['xuqiushuliang'] = $value['xuqiushuliang'];
-			$s[$key]['leibie'] = $value['leibie'];
+			$s[$key]['tuopanxinghao'] = $value['tuopanxinghao'];
+			$s[$key]['tai_per_tuo'] = $value['tai_per_tuo'];
 		}
 		// dd($s);
 		
@@ -312,14 +308,14 @@ class hcfxController extends Controller
 			// foreach ($s as $value) {
 				// Bpjg_zhongricheng_main::create($value);
 			// }
-			Bpjg_zhongricheng_relation::insert($s);
+			Scgl_hcfx_relation::insert($s);
 
 			$result = 1;
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			return 'Message: ' .$e->getMessage();
+			// return 'Message: ' .$e->getMessage();
 			return 0;
 		}
 
@@ -383,19 +379,19 @@ class hcfxController extends Controller
 
 
     /**
-     * relationdelete
+     * relationDelete
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function relationdelete(Request $request)
+    public function relationDelete (Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('tableselect_relation');
 
 		try	{
-			$result = Bpjg_zhongricheng_relation::whereIn('id', $id)->delete();
+			$result = Scgl_hcfx_relation::whereIn('id', $id)->delete();
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();

@@ -307,12 +307,12 @@ class zrcfxController extends Controller
 
 
     /**
-     * relationdelete
+     * relationDelete
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function relationdelete(Request $request)
+    public function relationDelete(Request $request)
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 

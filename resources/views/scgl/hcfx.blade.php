@@ -1056,7 +1056,7 @@ var vm_app = new Vue({
 		uploaddisabled: false,
 		
 		// tabs索引
-		currenttabs: 0,
+		currenttabs: 1,
 			
 	},
 	methods: {
@@ -1343,13 +1343,9 @@ var vm_app = new Vue({
 			var _this = this;
 			_this.piliangluru_relation.map(function (v,i) {
 				v.jizhongming = '';
-				v.pinfan = '';
-				v.pinming = '';
 				v.tai_per_tuo = 1;
 				v.tuopanxinghao = '';
 			});
-			
-			// _this.$refs.xianti.focus();
 		},
 		
 
@@ -1365,20 +1361,20 @@ var vm_app = new Vue({
 				// tai_per_tuo: 0,
 				// tuopanxinghao: ''
 				
-				if (v.jizhongming == '' || v.pinfan == '' || v.pinming == ''  || v.tai_per_tuo == '' || v.tuopanxinghao == ''
-					|| v.jizhongming == undefined || v.pinfan == undefined || v.pinming == undefined || v.tai_per_tuo == undefined || v.tuopanxinghao == undefined) {
+				if (v.jizhongming == '' || v.tai_per_tuo == '' || v.tuopanxinghao == ''
+					|| v.jizhongming == undefined || v.tai_per_tuo == undefined || v.tuopanxinghao == undefined) {
 					booFlagOk = false;
 				}
 			});
 			
 			if (booFlagOk == false) {
-				_this.warning(false, '警告', '输入内容为空或不正确2！');
+				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
 			
 			var piliangluru_relation = _this.piliangluru_relation;
 			
-			var url = "{{ route('bpjg.zrcfx.relationcreate') }}";
+			var url = "{{ route('scgl.hcfx.relationcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				piliangluru: piliangluru_relation
@@ -1491,7 +1487,7 @@ var vm_app = new Vue({
 			
 			if (tableselect_relation[0] == undefined) return false;
 
-			var url = "{{ route('bpjg.zrcfx.relationdelete') }}";
+			var url = "{{ route('scgl.hcfx.relationdelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				tableselect_relation: tableselect_relation
