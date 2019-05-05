@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Scgl\Scgl_hcfx_tuopan;
 use App\Models\Scgl\Scgl_hcfx_relation;
+use App\Models\Scgl\Scgl_hcfx_zrcfx;
 
 
 use App\Models\Bpjg\Bpjg_zhongricheng_zrcfx;
@@ -19,8 +20,8 @@ use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Scgl\hcfx_relationImport;
 use App\Exports\Scgl\hcfx_relationExport;
+use App\Imports\Scgl\hcfx_zrcfxImport;
 
-use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Exports\Bpjg\zrcfx_resultExport;
 
 use Illuminate\Support\Facades\Storage;
@@ -449,9 +450,9 @@ class hcfxController extends Controller
 		// 导入excel文件内容
 		try {
 			// 先清空表
-			Bpjg_zhongricheng_zrcfx::truncate();
+			Scgl_hcfx_zrcfx::truncate();
 			
-			$ret = Excel::import(new zrcfx_zrcfxImport, 'excel/'.$filename);
+			$ret = Excel::import(new hcfx_zrcfxImport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
@@ -534,7 +535,7 @@ class hcfxController extends Controller
      */
     public function zrcDownload(Request $request)
     {
-		return Storage::download('download/zrcfx_zrcimport.xlsx', 'MoBan_ZhongRiCheng.xlsx');
+		return Storage::download('download/scgl_hcfx_zrcimport.xlsx', 'MoBan_ScglHcfxZhongRiCheng.xlsx');
 	}
 	
 

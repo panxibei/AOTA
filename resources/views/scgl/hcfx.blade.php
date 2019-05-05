@@ -316,7 +316,7 @@
 				</i-col>
 				<i-col span="4">
 					* 选择月份&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result, pagelast_result);" type="month" size="small" style="width:100px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets(pagecurrent_result1, pagelast_result1);" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="4">
 					品番&nbsp;&nbsp;
@@ -345,13 +345,23 @@
 					&nbsp;
 				</i-col>
 			</i-row>
-			<br>
+			<br><br>
 
 
 			<i-row :gutter="16">
-				<i-col span="24">
-					<i-table ref="table_result" height="650" size="small" border :columns="tablecolumns_result" :data="tabledata_result"></i-table>
-					<br><Page :current="pagecurrent_result" :total="pagetotal_result" :page-size="pagepagesize_result" @on-change="currentpage => oncurrentpagechange_result(currentpage)" show-total show-elevator></Page><br><br>
+				<i-col span="11">
+					<i-table ref="table_result1" height="650" size="small" border :columns="tablecolumns_result1" :data="tabledata_result1"></i-table>
+					<br><Page :current="pagecurrent_result1" :total="pagetotal_result1" :page-size="pagepagesize_result1" @on-change="currentpage => oncurrentpagechange_result1(currentpage)" show-total show-elevator></Page><br><br>
+				</i-col>
+				<i-col span="1">
+				&nbsp;
+				</i-col>
+				<i-col span="11">
+					<i-table ref="table_result2" height="650" size="small" border :columns="tablecolumns_result2" :data="tabledata_result2"></i-table>
+					<br><Page :current="pagecurrent_result2" :total="pagetotal_result2" :page-size="pagepagesize_result2" @on-change="currentpage => oncurrentpagechange_result2(currentpage)" show-total show-elevator></Page><br><br>
+				</i-col>
+				<i-col span="1">
+				&nbsp;
 				</i-col>
 			</i-row>
 
@@ -376,11 +386,17 @@ var vm_app = new Vue({
 		pagepagesize_relation: 10,
 		pagelast_relation: 1,
 
-		//表result分页
-		pagecurrent_result: 1,
-		pagetotal_result: 1,
-		pagepagesize_result: 15,
-		pagelast_result: 1,
+		//表result1分页
+		pagecurrent_result1: 1,
+		pagetotal_result1: 1,
+		pagepagesize_result1: 15,
+		pagelast_result1: 1,
+
+		//表result2分页
+		pagecurrent_result2: 1,
+		pagetotal_result2: 1,
+		pagepagesize_result2: 15,
+		pagelast_result2: 1,
 		
 		// ##########基本变量########
 		pinming: '',
@@ -648,402 +664,157 @@ var vm_app = new Vue({
 		tableselect_relation: [],
 		
 		
-		// 表头 result
-		tablecolumns_result: [
+		// 表头 result1
+		tablecolumns_result1: [
 			{
 				type: 'index',
 				title: '序号',
 				width: 70,
 				align: 'center',
 				indexMethod: (row) => {
-					return row._index + 1 + vm_app.pagepagesize_result * (vm_app.pagecurrent_result - 1)
+					return row._index + 1 + vm_app.pagepagesize_result1 * (vm_app.pagecurrent_result1 - 1)
 				}
 			},
 			{
-				title: '品番',
-				key: 'pinfan',
+				title: '机种',
+				key: 'jizhongming',
 				align: 'center',
-				width: 140,
+				width: 100,
 				// sortable: true
 			},
 			{
-				title: '品名',
-				key: 'pinming',
+				title: '1号-20号产量（计划）',
+				key: 'chanliang',
 				align: 'center',
-				width: 200
+				width: 170
 			},
 			{
-				title: '总数',
-				key: 'zongshu',
+				title: '台/托',
+				key: 'tai_per_tuo',
 				align: 'center',
 				width: 100,
-				className: 'table-info-column',
+				// className: 'table-info-column',
 				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
-						params.row.zongshu ? params.row.zongshu.toLocaleString() : ''
+						params.row.tai_per_tuo ? params.row.tai_per_tuo.toLocaleString() : ''
 					]);
 				}
 			},
 			{
-				title: '1',
-				key: 'd1',
+				title: '理论（托）',
+				key: 'lilun_tuo',
 				align: 'center',
-				width: 80,
+				width: 100,
 				// className: 'table-info-column',
 				render: (h, params) => {
 					return h('div', [
-						params.row.d1 ? params.row.d1.toLocaleString() : ''
+						params.row.lilun_tuo ? params.row.lilun_tuo.toLocaleString() : ''
 					]);
 				}
 			},
 			{
-				title: '2',
-				key: 'd2',
+				title: '理论（托）',
+				key: 'shiji_tuo',
 				align: 'center',
-				width: 80,
+				width: 100,
 				render: (h, params) => {
 					return h('div', [
-						params.row.d2 ? params.row.d2.toLocaleString() : ''
+						params.row.shiji_tuo ? params.row.shiji_tuo.toLocaleString() : ''
 					]);
 				}
 			},
-			{
-				title: '3',
-				key: 'd3',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d3 ? params.row.d3.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '4',
-				key: 'd4',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d4 ? params.row.d4.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '5',
-				key: 'd5',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5 ? params.row.d5.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '6',
-				key: 'd6',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6 ? params.row.d6.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '7',
-				key: 'd7',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7 ? params.row.d7.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '8',
-				key: 'd8',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8 ? params.row.d8.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '9',
-				key: 'd9',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9 ? params.row.d9.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '10',
-				key: 'd10',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10 ? params.row.d10.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '11',
-				key: 'd11',
-				align: 'center',
-				width: 80,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d11 ? params.row.d11.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '12',
-				key: 'd12',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d12 ? params.row.d12.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '13',
-				key: 'd13',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d13 ? params.row.d13.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '14',
-				key: 'd14',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d14 ? params.row.d14.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '15',
-				key: 'd15',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d15 ? params.row.d15.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '16',
-				key: 'd16',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d16 ? params.row.d16.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '17',
-				key: 'd17',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d17 ? params.row.d17.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '18',
-				key: 'd18',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d18 ? params.row.d18.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '19',
-				key: 'd19',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d19 ? params.row.d19.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '20',
-				key: 'd20',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d20 ? params.row.d20.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '21',
-				key: 'd21',
-				align: 'center',
-				width: 80,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d21 ? params.row.d21.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '22',
-				key: 'd22',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d22 ? params.row.d22.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '23',
-				key: 'd23',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d23 ? params.row.d23.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '24',
-				key: 'd24',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d24 ? params.row.d24.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '25',
-				key: 'd25',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d25 ? params.row.d25.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '26',
-				key: 'd26',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d26 ? params.row.d26.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '27',
-				key: 'd27',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d27 ? params.row.d27.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '28',
-				key: 'd28',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d28 ? params.row.d28.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '29',
-				key: 'd29',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d29 ? params.row.d29.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '30',
-				key: 'd30',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d30 ? params.row.d30.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '31',
-				key: 'd31',
-				align: 'center',
-				width: 80,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d31 ? params.row.d31.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: '创建日期',
-				key: 'created_at',
-				align: 'center',
-				width: 160,
-			},
-			{
-				title: '更新日期',
-				key: 'updated_at',
-				align: 'center',
-				width: 160,
-			},
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+			// {
+			// 	title: '更新日期',
+			// 	key: 'updated_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
 		],
-		tabledata_result: [],
-		tableselect_result: [],
+		tabledata_result1: [],
+		tableselect_result1: [],
+		
+		// 表头 result2
+		tablecolumns_result2: [
+			{
+				type: 'index',
+				title: '序号',
+				width: 70,
+				align: 'center',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize_result1 * (vm_app.pagecurrent_result1 - 1)
+				}
+			},
+			{
+				title: '机种',
+				key: 'jizhongming',
+				align: 'center',
+				width: 100,
+				// sortable: true
+			},
+			{
+				title: '21号-31号产量（计划）',
+				key: 'chanliang',
+				align: 'center',
+				width: 170
+			},
+			{
+				title: '台/托',
+				key: 'tai_per_tuo',
+				align: 'center',
+				width: 100,
+				// className: 'table-info-column',
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.tai_per_tuo ? params.row.tai_per_tuo.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: '理论（托）',
+				key: 'lilun_tuo',
+				align: 'center',
+				width: 100,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.lilun_tuo ? params.row.lilun_tuo.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: '理论（托）',
+				key: 'shiji_tuo',
+				align: 'center',
+				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shiji_tuo ? params.row.shiji_tuo.toLocaleString() : ''
+					]);
+				}
+			},
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+			// {
+			// 	title: '更新日期',
+			// 	key: 'updated_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+		],
+		tabledata_result2: [],
+		tableselect_result2: [],
 		
 		// 删除disabled
 		boo_delete_guige: true,
@@ -1056,7 +827,7 @@ var vm_app = new Vue({
 		uploaddisabled: false,
 		
 		// tabs索引
-		currenttabs: 1,
+		currenttabs: 2,
 			
 	},
 	methods: {
@@ -1224,7 +995,7 @@ var vm_app = new Vue({
 			}
 			
 			if (_this.qcdate_filter_result == '' || _this.qcdate_filter_result == undefined) {
-				_this.tabledata_result = [];
+				_this.tabledata_result1 = [];
 				return false;
 			}
 			
@@ -1248,7 +1019,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagepagesize_result,
+					perPage: _this.pagepagesize_result1,
 					page: page,
 					qcdate_filter: datex,
 					// xianti_filter: xianti_filter,
@@ -1268,13 +1039,13 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.pagecurrent_result = response.data.current_page;
-					_this.pagetotal_result = response.data.total;
-					_this.pagelast_result = response.data.last_page
+					_this.pagecurrent_result1 = response.data.current_page;
+					_this.pagetotal_result1 = response.data.total;
+					_this.pagelast_result1 = response.data.last_page
 					
-					_this.tabledata_result = response.data.data;
+					_this.tabledata_result1 = response.data.data;
 				} else {
-					_this.tabledata_result = [];
+					_this.tabledata_result1 = [];
 				}
 				
 			})
@@ -1592,7 +1363,7 @@ var vm_app = new Vue({
 			
 			// return false;
 			
-			var url = "{{ route('bpjg.zrcfx.zrcfximport') }}";
+			var url = "{{ route('scgl.hcfx.zrcfximport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
@@ -1690,7 +1461,7 @@ var vm_app = new Vue({
 		
 		// zrc模板下载
 		download_zrc: function () {
-			var url = "{{ route('bpjg.zrcfx.zrcdownload') }}";
+			var url = "{{ route('scgl.hcfx.zrcdownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
@@ -1801,8 +1572,8 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '分析数据成功！');
 					// _this.boo_delete_relation = true;
-					_this.tableselect_result = [];
-					_this.resultgets(_this.pagecurrent_result, _this.pagelast_result);
+					_this.tableselect_result1 = [];
+					_this.resultgets(_this.pagecurrent_result1, _this.pagelast_result1);
 				} else {
 					_this.error(false, '失败', '分析数据失败！');
 				}
@@ -1825,8 +1596,8 @@ var vm_app = new Vue({
 		
 		
 		// 切换当前页 result
-		oncurrentpagechange_result: function (currentpage) {
-			this.resultgets(currentpage, this.pagelast_result);
+		oncurrentpagechange_result1: function (currentpage) {
+			this.resultgets(currentpage, this.pagelast_result1);
 		},
 		
 		
