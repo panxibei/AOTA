@@ -17,7 +17,8 @@ use App\Models\Admin\Config;
 use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\Bpjg\zrcfx_relationImport;
+use App\Imports\Scgl\hcfx_relationImport;
+
 use App\Imports\Bpjg\zrcfx_zrcfxImport;
 use App\Exports\Bpjg\zrcfx_resultExport;
 use App\Exports\Bpjg\zrcfx_relationExport;
@@ -508,9 +509,9 @@ class hcfxController extends Controller
 		// 导入excel文件内容
 		try {
 			// 先清空表
-			Bpjg_zhongricheng_relation::truncate();
+			Scgl_hcfx_relation::truncate();
 			
-			$ret = Excel::import(new scgl_hcfx_relationimport, 'excel/'.$filename);
+			$ret = Excel::import(new hcfx_relationimport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
@@ -545,7 +546,7 @@ class hcfxController extends Controller
      */
     public function relationDownload(Request $request)
     {
-		return Storage::download('download/scgl_hcfx_relationimport.xlsx', 'MoBan_Relation.xlsx');
+		return Storage::download('download/scgl_hcfx_relationimport.xlsx', 'MoBan_ScglHcfxRelation.xlsx');
 	}
 	
 	

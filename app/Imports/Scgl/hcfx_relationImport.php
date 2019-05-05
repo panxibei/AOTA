@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Imports\Bpjg;
+namespace App\Imports\Scgl;
 
-use App\Models\Bpjg\Bpjg_zhongricheng_relation;
+use App\Models\Scgl\Scgl_hcfx_relation;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 HeadingRowFormatter::default('none');
 
-class zrcfx_relationImport implements ToModel, WithHeadingRow
+class hcfx_relationImport implements ToModel, WithHeadingRow
 {
 	
 	//
@@ -20,7 +20,7 @@ class zrcfx_relationImport implements ToModel, WithHeadingRow
 			// return null;
 		// }
 	
-		return new Bpjg_zhongricheng_relation([
+		return new Scgl_hcfx_relation([
 			// 'riqi' => $row[0],
 			// 'xianti' => $row[1],
 			// 'qufen' => $row[2],
@@ -33,11 +33,9 @@ class zrcfx_relationImport implements ToModel, WithHeadingRow
 			// 'shuliang' => $row[9],
 
 			// 'riqi' => $row['日期'],
-			'jizhongming' => $row['机种名'],
-			'pinfan' => $row['品番'],
-			'pinming' => $row['品名'],
-			'xuqiushuliang' => $row['需求数量'] ?: 0,
-			'leibie' => $row['类别'],
+			'jizhongming' => $row['机种'],
+			'tuopanxinghao' => $row['托盘型号'],
+			'tai_per_tuo' => $row['台/托'] ?? 0,
 			// 'zongshu' => is_null($row['总数']) ? 0 : $row['总数'],
 			// 'zongshu' => 0,
 			// 'shuliang' => is_null($row['数量']) ? 0 : $row['数量'],
