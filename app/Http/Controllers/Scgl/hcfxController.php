@@ -712,12 +712,18 @@ class hcfxController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('suoshuriqi', 'jizhongming', 'chanliang', 'tai_per_tuo', 'lilun_tuo', 'shiji_tuo')
+		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('suoshuriqi as suoshuriqi1', 'jizhongming as jizhongming1', 'chanliang as chanliang1', 'tai_per_tuo as tai_per_tuo1', 'lilun_tuo as lilun_tuo1', 'shiji_tuo as shiji_tuo1')
 			->where('suoshuriqi', $queryfilter)
 			->get()->toArray();
 		// dd($Scgl_hcfx_result1);
 
-        // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
+		$Scgl_hcfx_result2 = Scgl_hcfx_result2::select('suoshuriqi as suoshuriqi2', 'jizhongming as jizhongming2', 'chanliang as chanliang2', 'tai_per_tuo as tai_per_tuo2', 'lilun_tuo as lilun_tuo2', 'shiji_tuo as shiji_tuo2')
+			->where('suoshuriqi', $queryfilter)
+			->get()->toArray();
+		// dd($Scgl_hcfx_result2);
+
+
+		// 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
 		// $cellData = [
             // ['学号','姓名','成绩'],
             // ['10001','AAAAA','199'],
@@ -728,14 +734,30 @@ class hcfxController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）'];
+		// $title1[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）'];
 
 		// 合并Excel的标题和数据为一个整体
-		$data = array_merge($title, $Scgl_hcfx_result1);
+		// $data1 = array_merge($title1, $Scgl_hcfx_result1);
+
+		// $title2[] = ['所属日期', '机种', '21号-31号产量（计划）', '台/托', '理论（托）', '实际（托）'];
+
+		// $dash[] = ['', '', '', '', '', ''];
+
+		// $data = array_merge($title1, $Scgl_hcfx_result1, $dash, $title2, $Scgl_hcfx_result2);
+
+
+		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）', '', '所属日期', '机种', '21号-31号产量（计划）', '台/托', '理论（托）', '实际（托）'];
+
+		$s = [];
+		foreach ($Scgl_hcfx_result1 as $key => $value) {
+			$s[$key] = array_merge($value, [''], $Scgl_hcfx_result2[$key]);
+		}
+		// dd($s);
+		$data = array_merge($title, $s);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
-		return Excel::download(new hcfx_resultExport($data), 'scgl_hcfx_result_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		return Excel::download(new hcfx_resultExport($data, $queryfilter), 'scgl_hcfx_result_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}	
 	
