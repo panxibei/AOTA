@@ -746,11 +746,11 @@ class hcfxController extends Controller
 		// $data = array_merge($title1, $Scgl_hcfx_result1, $dash, $title2, $Scgl_hcfx_result2);
 
 
-		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）', '', '所属日期', '机种', '21号-31号产量（计划）', '台/托', '理论（托）', '实际（托）'];
+		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）', '', '', '所属日期', '机种', '21号-31号产量（计划）', '台/托', '理论（托）', '实际（托）'];
 
 		$s = [];
 		foreach ($Scgl_hcfx_result1 as $key => $value) {
-			$s[$key] = array_merge($value, [''], $Scgl_hcfx_result2[$key]);
+			$s[$key] = array_merge($value, ['', ''], $Scgl_hcfx_result2[$key]);
 		}
 		// dd($s);
 		$data = array_merge($title, $s);

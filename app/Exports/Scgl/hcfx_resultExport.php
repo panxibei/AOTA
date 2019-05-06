@@ -66,7 +66,7 @@ class hcfx_resultExport implements FromCollection, WithStrictNullComparison, Wit
      */
     public function title(): string
     {
-        return $this->suoshuriqi;
+        return '耗材分析（' . $this->suoshuriqi . '）';
     }
 
 
