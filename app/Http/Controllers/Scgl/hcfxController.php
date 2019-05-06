@@ -713,13 +713,13 @@ class hcfxController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$Bpjg_zhongricheng_result = Bpjg_zhongricheng_result::select('id', 'suoshuriqi', 'pinfan', 'pinming', 'zongshu',
+		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('id', 'suoshuriqi', 'pinfan', 'pinming', 'zongshu',
 			'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10',
 			'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20',
 			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31')
 			->where('suoshuriqi', $queryfilter)
 			->get()->toArray();
-		// dd($Bpjg_zhongricheng_result);
+		// dd($Scgl_hcfx_result1);
 
         // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
 		// $cellData = [
@@ -738,7 +738,7 @@ class hcfxController extends Controller
 			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31'];
 
 		// 合并Excel的标题和数据为一个整体
-		$data = array_merge($title, $Bpjg_zhongricheng_result);
+		$data = array_merge($title, $Scgl_hcfx_result1);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));

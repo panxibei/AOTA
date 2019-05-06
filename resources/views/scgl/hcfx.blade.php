@@ -261,7 +261,7 @@
 			<Divider orientation="left">导入、分析及查询导出</Divider>
 
 			<i-row :gutter="16">
-				<i-col span="2">
+				<i-col span="1">
 					&nbsp;
 				</i-col>
 				<i-col span="1">
@@ -294,7 +294,7 @@
 				<i-col span="8">
 					<i-button type="primary" @click="analytics_main()" :loading="analytics_loading" :disabled="analytics_disabled"><Icon type="ios-analytics-outline" v-show="!analytics_loading"></Icon> <span v-if="!analytics_loading">分析数据</span><span v-else>分析数据中...</span></i-button>
 				</i-col>
-				<i-col span="2">
+				<i-col span="3">
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -308,7 +308,7 @@
 			
 			<i-row :gutter="16">
 				<br>
-				<i-col span="2">
+				<i-col span="1">
 					&nbsp;
 				</i-col>
 				<i-col span="1">
@@ -326,14 +326,14 @@
 					<!-- 品名&nbsp;&nbsp; -->
 					<!-- <i-input v-model.lazy="pinming_filter_result" @on-change="resultgets1(pagecurrent_relation, pagelast_relation)" @on-keyup="pinming_filter_result=pinming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
-				<i-col span="9">
+				<i-col span="10">
 				&nbsp;
 				</i-col>
 			</i-row>
 			<br><br>
 			
 			<i-row :gutter="16">
-				<i-col span="2">
+				<i-col span="1">
 					&nbsp;<br>&nbsp;
 					<!--<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">Delete</i-button>&nbsp;<br>&nbsp;-->
 				</i-col>
@@ -341,7 +341,7 @@
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
 					<i-button type="default" size="small" @click="exportData_result()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 				</i-col>
-				<i-col span="18">
+				<i-col span="19">
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -714,7 +714,7 @@ var vm_app = new Vue({
 				}
 			},
 			{
-				title: '理论（托）',
+				title: '实际（托）',
 				key: 'shiji_tuo',
 				align: 'center',
 				width: 100,
@@ -790,7 +790,7 @@ var vm_app = new Vue({
 				}
 			},
 			{
-				title: '理论（托）',
+				title: '实际（托）',
 				key: 'shiji_tuo',
 				align: 'center',
 				width: 100,
@@ -1576,7 +1576,7 @@ var vm_app = new Vue({
 			
 			var datex = _this.qcdate_filter_result.Format("yyyy-MM");
 			
-			var url = "{{ route('bpjg.zrcfx.resultexport') }}"
+			var url = "{{ route('scgl.hcfx.resultexport') }}"
 				+ "?queryfilter=" + datex;
 				
 			// console.log(url);
