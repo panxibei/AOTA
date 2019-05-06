@@ -23,8 +23,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Scgl\hcfx_relationImport;
 use App\Exports\Scgl\hcfx_relationExport;
 use App\Imports\Scgl\hcfx_zrcfxImport;
-
-use App\Exports\Bpjg\zrcfx_resultExport;
+use App\Exports\Scgl\hcfx_resultExport;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -713,10 +712,7 @@ class hcfxController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('id', 'suoshuriqi', 'pinfan', 'pinming', 'zongshu',
-			'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10',
-			'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20',
-			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31')
+		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('suoshuriqi', 'jizhongming', 'chanliang', 'tai_per_tuo', 'lilun_tuo', 'shiji_tuo')
 			->where('suoshuriqi', $queryfilter)
 			->get()->toArray();
 		// dd($Scgl_hcfx_result1);
@@ -732,17 +728,14 @@ class hcfxController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', '所属日期', '品番', '品名', '总数',
-			'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10',
-			'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20',
-			'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30', 'd31'];
+		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $Scgl_hcfx_result1);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
-		return Excel::download(new zrcfx_resultExport($data), 'bpjg_zrcfx_result_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		return Excel::download(new hcfx_resultExport($data), 'scgl_hcfx_result_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}	
 	
