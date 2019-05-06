@@ -2,41 +2,18 @@
 
 namespace App\Exports\Scgl;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Maatwebsite\Excel\Concerns\WithTitle;
-use Illuminate\Support\Collection;
 
-class hcfx_resultExport implements FromCollection, WithStrictNullComparison, WithTitle
+class hcfx_resultExport implements WithMultipleSheets
 {
-	
-	public function __construct($data, $suoshuriqi){
+    use Exportable;
+
+	public function __construct ($data, $suoshuriqi) {
 		$this->data = $data;
 		$this->suoshuriqi = $suoshuriqi;
 	}
 	
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
-    {
-        // return User::all();
-		
-        return new Collection($this->data);
-		
-        // $cellData = [
-            // ['学号','姓名','成绩'],
-            // ['101','AAAAA', $this->id],
-            // ['102','BBBBB','92'],
-            // ['103','CCCCC','95'],
-            // ['104','DDDDD','89'],
-            // ['105','EEEEE','96'],
-        // ];
-		
-        // return new Collection($cellData);
-    }
-
     /**
      * @return array
      */
@@ -47,26 +24,14 @@ class hcfx_resultExport implements FromCollection, WithStrictNullComparison, Wit
         // for ($month = 1; $month <= 12; $month++) {
         //     $sheets[] = new InvoicesPerMonthSheet($this->year, $month);
         // }
-        // $sheets[] = ['2019-10', '2019-11'];
-        $sheets[] = [
-            ['学号','姓名','成绩'],
-            ['101','AAAAA','99'],
-            ['102','BBBBB','92'],
-            ['103','CCCCC','95'],
-            ['104','DDDDD','89'],
-            ['105','EEEEE','96'],
-        ];
 
+        // 1. $sheets[] 有几个，就有几个sheet表单，每个表单的内容为调用各集合收集数据
+        // 2. hcfx_resultExportSheet文件中的title最好是各不相同的文字
+        // $sheets[] = new hcfx_resultExportSheet($this->data, $this->suoshuriqi);
+        // $sheets[] = new hcfx_resultExportSheet($this->data, $this->suoshuriqi);
+        $sheets[] = new hcfx_resultExportSheet($this->data, $this->suoshuriqi);
 
         return $sheets;
-    }
-
-    /**
-     * @return string
-     */
-    public function title(): string
-    {
-        return '耗材分析（' . $this->suoshuriqi . '）';
     }
 
 
