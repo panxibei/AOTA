@@ -473,8 +473,8 @@ class zrcfxController extends Controller
      */
     public function relationDownload(Request $request)
     {
-		return Storage::download('download/bpjg_zrcfx_relationimport.xlsx', 'MoBan_BpjgZrcfxRelation.xlsx');
-	}
+			return Storage::download('download/bpjg_zrcfx_relationimport.xlsx', 'MoBan_BpjgZrcfxRelation.xlsx');
+		}
 	
 	
     /**
