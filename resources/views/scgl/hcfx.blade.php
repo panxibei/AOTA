@@ -28,9 +28,9 @@
 
 <div id="app" v-cloak>
 
-	<Steps :current="4">
-        <Step title="维护托盘规格表" icon="ios-list-box-outline" content="维护托盘规格表。"></Step>
-        <Step title="维护机种/托盘关系表" icon="ios-list-box-outline" content="维护机种/托盘关系表。"></Step>
+	<Steps :current="5">
+        <Step title="维护托盘规格表" icon="ios-list-box-outline" content="维护托盘各种规格。"></Step>
+        <Step title="维护机种/托盘关系表" icon="ios-list-box-outline" content="维护机种与托盘的映射关联。"></Step>
         <Step title="导入中日程表" icon="ios-download-outline" content="可参考模板格式设定数据。"></Step>
         <Step title="分析数据" icon="ios-analytics-outline" content="结果数据按指定月份分析并覆盖。"></Step>
         <Step title="查询导出结果" icon="ios-flag-outline" content="按指定月份查询及导出数据。"></Step>
@@ -135,7 +135,7 @@
 
 			<i-row :gutter="16">
 				<i-col span="3">
-					&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">记入</i-button>
+					&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">新增</i-button>
 					&nbsp;&nbsp;<i-button @click="onclear_relation()">清除</i-button>
 				</i-col>
 				<i-col span="4">
