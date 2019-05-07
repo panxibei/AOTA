@@ -42,9 +42,6 @@ Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','p
 	Route::get('resultgets2', 'hcfxController@resultGets2')->name('scgl.hcfx.resultgets2');
 	Route::get('zrcfxfunction', 'hcfxController@zrcfxFunction')->name('scgl.hcfx.zrcfxfunction');
 	Route::get('resultexport', 'hcfxController@resultExport')->name('scgl.hcfx.resultexport');
-
-
-
 });
 
 // 部品加工课 中日程分析页面
