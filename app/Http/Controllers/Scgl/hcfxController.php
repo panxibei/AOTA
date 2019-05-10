@@ -712,12 +712,12 @@ class hcfxController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('suoshuriqi as suoshuriqi1', 'jizhongming as jizhongming1', 'chanliang as chanliang1', 'tai_per_tuo as tai_per_tuo1', 'lilun_tuo as lilun_tuo1', 'shiji_tuo as shiji_tuo1')
+		$Scgl_hcfx_result1 = Scgl_hcfx_result1::select('suoshuriqi as suoshuriqi1', 'jizhongming as jizhongming1', 'chanliang as chanliang1', 'tuopanxinghao as tuopanxinghao1', 'tai_per_tuo as tai_per_tuo1', 'lilun_tuo as lilun_tuo1', 'shiji_tuo as shiji_tuo1')
 			->where('suoshuriqi', $queryfilter)
 			->get()->toArray();
 		// dd($Scgl_hcfx_result1);
 
-		$Scgl_hcfx_result2 = Scgl_hcfx_result2::select('suoshuriqi as suoshuriqi2', 'jizhongming as jizhongming2', 'chanliang as chanliang2', 'tai_per_tuo as tai_per_tuo2', 'lilun_tuo as lilun_tuo2', 'shiji_tuo as shiji_tuo2')
+		$Scgl_hcfx_result2 = Scgl_hcfx_result2::select('suoshuriqi as suoshuriqi2', 'jizhongming as jizhongming2', 'chanliang as chanliang2', 'tuopanxinghao as tuopanxinghao2', 'tai_per_tuo as tai_per_tuo2', 'lilun_tuo as lilun_tuo2', 'shiji_tuo as shiji_tuo2')
 			->where('suoshuriqi', $queryfilter)
 			->get()->toArray();
 		// dd($Scgl_hcfx_result2);
@@ -746,7 +746,7 @@ class hcfxController extends Controller
 		// $data = array_merge($title1, $Scgl_hcfx_result1, $dash, $title2, $Scgl_hcfx_result2);
 
 
-		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '台/托', '理论（托）', '实际（托）', '', '', '所属日期', '机种', '21号-31号产量（计划）', '台/托', '理论（托）', '实际（托）'];
+		$title[] = ['所属日期', '机种', '1号-20号产量（计划）', '托盘型号', '台/托', '理论（托）', '实际（托）', '', '', '所属日期', '机种', '21号-31号产量（计划）', '托盘型号', '台/托', '理论（托）', '实际（托）'];
 
 		$s = [];
 		foreach ($Scgl_hcfx_result1 as $key => $value) {
@@ -780,7 +780,8 @@ class hcfxController extends Controller
 		$res1 = DB::select('
 			SELECT "' . $suoshuriqi . '" AS suoshuriqi,
 				A.jizhongming,
-				B.tai_per_tuo as tai_per_tuo,
+				B.tuopanxinghao,
+				B.tai_per_tuo,
 				SUM(A.d1+A.d2+A.d3+A.d4+A.d5+A.d6+A.d7+A.d8+A.d9+A.d10+A.d11+A.d12+A.d13+A.d14+A.d15+A.d16+A.d17+A.d18+A.d19+A.d20) AS chanliang,
 				SUM(A.d1+A.d2+A.d3+A.d4+A.d5+A.d6+A.d7+A.d8+A.d9+A.d10+A.d11+A.d12+A.d13+A.d14+A.d15+A.d16+A.d17+A.d18+A.d19+A.d20)/B.tai_per_tuo AS lilun_tuo,
 				CEILING(SUM(A.d1+A.d2+A.d3+A.d4+A.d5+A.d6+A.d7+A.d8+A.d9+A.d10+A.d11+A.d12+A.d13+A.d14+A.d15+A.d16+A.d17+A.d18+A.d19+A.d20)/B.tai_per_tuo) AS shiji_tuo,
@@ -794,7 +795,8 @@ class hcfxController extends Controller
 		$res2 = DB::select('
 			SELECT "' . $suoshuriqi . '" AS suoshuriqi,
 				A.jizhongming,
-				B.tai_per_tuo as tai_per_tuo,
+				B.tuopanxinghao,
+				B.tai_per_tuo,
 				SUM(A.d21+A.d22+A.d23+A.d24+A.d25+A.d26+A.d27+A.d28+A.d29+A.d30+A.d31) AS chanliang,
 				SUM(A.d21+A.d22+A.d23+A.d24+A.d25+A.d26+A.d27+A.d28+A.d29+A.d30+A.d31)/B.tai_per_tuo AS lilun_tuo,
 				CEILING(SUM(A.d21+A.d22+A.d23+A.d24+A.d25+A.d26+A.d27+A.d28+A.d29+A.d30+A.d31)/B.tai_per_tuo) AS shiji_tuo,

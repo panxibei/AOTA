@@ -257,7 +257,7 @@
 		</Tab-pane>
 
 
-		<Tab-pane label="耗材分析">
+		<Tab-pane label="耗材分析（按产量计算托盘数量）">
 		
 			<Divider orientation="left">导入、分析及查询导出</Divider>
 
@@ -609,7 +609,7 @@ var vm_app = new Vue({
 				title: '托盘型号',
 				key: 'tuopanxinghao',
 				align: 'center',
-				width: 160,
+				width: 120,
                 sortable: true,
 			},
 			{
@@ -690,6 +690,13 @@ var vm_app = new Vue({
 				width: 170
 			},
 			{
+				title: '托盘型号',
+				key: 'tuopanxinghao',
+				align: 'center',
+				width: 120,
+				sortable: true,
+			},
+			{
 				title: '台/托',
 				key: 'tai_per_tuo',
 				align: 'center',
@@ -764,6 +771,13 @@ var vm_app = new Vue({
 				key: 'chanliang',
 				align: 'center',
 				width: 170
+			},
+			{
+				title: '托盘型号',
+				key: 'tuopanxinghao',
+				align: 'center',
+				width: 120,
+				sortable: true,
 			},
 			{
 				title: '台/托',
@@ -1446,9 +1460,9 @@ var vm_app = new Vue({
 				}
 
 				if (response.data) {
-					_this.success(false, 'Success', '导入成功！');
+					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '错误', '导入失败！注意内容文本格式并且内容不能为空！');
 				}
 				
 				setTimeout( function () {
@@ -1498,9 +1512,9 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.success(false, 'Success', '导入成功！');
+					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '错误', '导入失败！注意内容文本格式并且内容不能为空！');
 				}
 				
 				setTimeout( function () {
