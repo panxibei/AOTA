@@ -297,7 +297,7 @@ class qcreportController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			return 0;
 		}
 
