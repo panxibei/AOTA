@@ -192,11 +192,19 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 					线体&nbsp;&nbsp;
-					<i-input v-model.lazy="xianti_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+					<i-select v-model.lazy="xianti_filter" clearable style="width:120px"  @on-change="dailyreportgets(pagecurrent, pagelast)" size="small" placeholder="">
+						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+
+					<!-- <i-input v-model.lazy="xianti_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="xianti_filter=xianti_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="4">
 					班次&nbsp;&nbsp;
-					<i-input v-model.lazy="banci_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="banci_filter=banci_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+					<i-select v-model.lazy="banci_filter" clearable style="width:120px" @on-change="dailyreportgets(pagecurrent, pagelast)" size="small" placeholder="">
+						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+
+					<!-- <i-input v-model.lazy="banci_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="banci_filter=banci_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input> -->
 				</i-col>
 				<i-col span="4">
 					机种名&nbsp;&nbsp;
@@ -240,14 +248,9 @@ SMT - PD report
 					</i-select>
 				</i-col>
 				
-				<i-col span="8">
-				&nbsp;
-				</i-col>
-				
-				<i-col span="8">
-					&nbsp;&nbsp;&nbsp;
+				<i-col span="16">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
-					<strong>生产时间：@{{ xiaoji_shengchanshijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ xiaoji_langfeishijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ xiaoji_bupinbuchongshijian.toLocaleString() + '分' }}</strong>&nbsp;&nbsp;
+					<div style="text-align:right"><strong>生产时间：@{{ xiaoji_shengchanshijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ xiaoji_langfeishijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ xiaoji_bupinbuchongshijian.toLocaleString() + '分' }}</strong>&nbsp;&nbsp;</div>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -1573,21 +1576,28 @@ var vm_app = new Vue({
 						&& xianti_filter != '' && xianti_filter != undefined
 						&& banci_filter != '' && banci_filter != undefined) {
 
-					_this.xiaoji_shengchanshijian = 0;
-					_this.xiaoji_langfeishijian = 0;
-					_this.tabledata1.map(function (v, i) {
-						_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
-						_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang);
-					});
-					let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian) / 60;
-					_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian.toFixed(2);
+						_this.xiaoji_shengchanshijian = 0;
+						_this.xiaoji_langfeishijian = 0;
+						_this.tabledata1.map(function (v, i) {
+							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
+							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang);
+						});
+						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian) / 60;
+						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian.toFixed(2);
 
-					console.log('生产时间：' + _this.xiaoji_shengchanshijian);
-					console.log('浪费时间：' + _this.xiaoji_langfeishijian);
-					console.log('部品补充时间：' + _this.xiaoji_bupinbuchongshijian);
+						if (_this.xiaoji_bupinbuchongshijian == 720) {
+							_this.xiaoji_bupinbuchongshijian = 0;
+						}
+
+						// console.log('生产时间：' + _this.xiaoji_shengchanshijian);
+						// console.log('浪费时间：' + _this.xiaoji_langfeishijian);
+						// console.log('部品补充时间：' + _this.xiaoji_bupinbuchongshijian);
+					} else {
+						_this.xiaoji_shengchanshijian = 0;
+						_this.xiaoji_langfeishijian = 0;
+						_this.xiaoji_bupinbuchongshijian = 0;
 					}
 
-				
 				} else {
 					_this.tabledata1 = [];
 					_this.tabledata2 = [];
