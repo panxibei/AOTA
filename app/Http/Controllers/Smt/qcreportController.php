@@ -121,6 +121,90 @@ class qcreportController extends Controller
 		
 		return $dailyreport;
 	}	
+	
+	/**
+	 * qcreportGetsChart1
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportGetsChart1(Request $request)
+	{
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
+		
+		// dd($queryParams);
+		$qcdate_filter = $request->input('qcdate_filter');
+		$xianti_filter = $request->input('xianti_filter');
+		$banci_filter = $request->input('banci_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
+		$pinming_filter = $request->input('pinming_filter');
+		$gongxu_filter = $request->input('gongxu_filter');
+		$buliangneirong_filter = $request->input('buliangneirong_filter');
+		
+		// $usecache = $request->input('usecache');
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		// dd($fullUrl);
+		// dd($queryParams);
+		// dd($qcdate_filter);
+		
+		// 注意$usecache变量的类型
+		// if ($usecache == "false") {
+			// Cache::forget($fullUrl);
+			// Cache::flush();
+		// }
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$dailyreport = Cache::get($fullUrl);    //直接读取cache
+		} else {                                   //如果cache里面没有        
+			// $dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
+			// 	})
+			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+					return $query->whereBetween('jianchariqi', $qcdate_filter);
+				})
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', '=', $xianti_filter);
+				})
+				->when($banci_filter, function ($query) use ($banci_filter) {
+					return $query->where('banci', '=', $banci_filter);
+				})
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
+				->when($pinming_filter, function ($query) use ($pinming_filter) {
+					return $query->where('pinming', '=', $pinming_filter);
+				})
+				->when($gongxu_filter, function ($query) use ($gongxu_filter) {
+					return $query->where('gongxu', '=', $gongxu_filter);
+				})
+				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
+					return $query->whereIn('buliangneirong', $buliangneirong_filter);
+				})
+				->orderBy('jianchariqi', 'asc')
+				// ->get()
+				->groupBy('created_at')
+				->paginate($perPage, ['*'], 'page', $page);
+			
+			Cache::put($fullUrl, $dailyreport, now()->addSeconds(10));
+		}
+		
+		return $dailyreport;
+	}	
 
 	
 	/**

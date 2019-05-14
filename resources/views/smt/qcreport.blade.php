@@ -2342,7 +2342,7 @@ var vm_app = new Vue({
 			
 			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
-			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			var url = "{{ route('smt.qcreport.qcreportgetschart1') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -2406,7 +2406,9 @@ var vm_app = new Vue({
 
 					});
 					// console.log(shuliang);
+					// console.log(bushihejianshuheji);
 
+					// console.log(hejidianshu);
 					// ppm计算
 					hejidianshu.map(function (v,i) {
 
@@ -2418,7 +2420,8 @@ var vm_app = new Vue({
 						if (hejidianshu[i] == 0) {
 							ppm[i] = 0;
 						} else {
-							ppm[i] = (shuliang[i] / hejidianshu[i] * 1000000).toFixed(2);
+							// ppm[i] = (shuliang[i] / hejidianshu[i] * 1000000).toFixed(2);
+							ppm[i] = (bushihejianshuheji[i] / hejidianshu[i] * 1000000).toFixed(2);
 						}
 
 					});
@@ -2442,8 +2445,8 @@ var vm_app = new Vue({
 								}
 							}
 						},
-						// data: bushihejianshuheji
-						data: shuliang
+						data: bushihejianshuheji
+						// data: shuliang
 					},
 					{
 						name: '合计点数',
