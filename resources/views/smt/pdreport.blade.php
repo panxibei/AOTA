@@ -188,7 +188,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="6">
 					* 生产日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="date_filter_pdreport" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="date_filter" :options="date_filter_options" @on-change="dailyreportgets(pagecurrent, pagelast)" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="4">
 					线体&nbsp;&nbsp;
@@ -247,6 +247,7 @@ SMT - PD report
 				<i-col span="8">
 					&nbsp;&nbsp;&nbsp;
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
+					<strong>生产时间：@{{ xiaoji_shengchanshijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ xiaoji_langfeishijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ xiaoji_bupinbuchongshijian.toLocaleString() + '分' }}</strong>&nbsp;&nbsp;
 				</i-col>
 			</i-row>
 			<br><br>
@@ -1081,7 +1082,7 @@ var vm_app = new Vue({
 		boo_update: true,
 
 		// 过滤变量
-		date_filter_pdreport: [],//new Date(),
+		date_filter: [],//new Date(),
 		date_filter_options: {
 			shortcuts: [
 				{
@@ -1150,6 +1151,10 @@ var vm_app = new Vue({
 		xiaoji_chajiandianshu: 0,
 		xiaoji_jiadonglv: 0,
 		hejifen: 0,
+
+		xiaoji_shengchanshijian: 0,
+		xiaoji_langfeishijian: 0,
+		xiaoji_bupinbuchongshijian: 0,
 		
 		//分页
 		pagecurrent: 1,
@@ -1507,18 +1512,21 @@ var vm_app = new Vue({
 				page = 1;
 			}
 
-			var date_filter_pdreport = [];
+			var date_filter = [];
+			var xianti_filter = _this.xianti_filter;
+			var banci_filter = _this.banci_filter;
+			var jizhongming_filter = _this.jizhongming_filter;
 
-			if (_this.date_filter_pdreport[0] == '' || _this.date_filter_pdreport == undefined) {
+			if (_this.date_filter[0] == '' || _this.date_filter == undefined) {
 				_this.tabledata1 = [];
 				_this.tabledata2 = [];
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
 			} else {
-				date_filter_pdreport =  _this.date_filter_pdreport;
+				date_filter =  _this.date_filter;
 			}
-// console.log(date_filter_pdreport);return false;
-			date_filter_pdreport = [date_filter_pdreport[0].Format("yyyy-MM-dd 00:00:00"), date_filter_pdreport[1].Format("yyyy-MM-dd 23:59:59")];
+			// console.log(date_filter);return false;
+			date_filter = [date_filter[0].Format("yyyy-MM-dd 00:00:00"), date_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
 			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -1526,14 +1534,14 @@ var vm_app = new Vue({
 				params: {
 					perPage: _this.pagepagesize,
 					page: page,
-					dailydate_filter : date_filter_pdreport,
-					xianti_filter : _this.xianti_filter,
-					banci_filter : _this.banci_filter,
-					jizhongming_filter: _this.jizhongming_filter,
+					date_filter: date_filter,
+					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
+					jizhongming_filter: jizhongming_filter,
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data);
+				console.log(response.data.data);
 				// return false;
 
 				if (response.data['jwt'] == 'logout') {
@@ -1549,15 +1557,36 @@ var vm_app = new Vue({
 					_this.tabledata1 = response.data.data;
 					_this.tabledata2 = response.data.data;
 					
-					// 合计
-					_this.xiaoji_chajiandianshu = 0;
-					_this.xiaoji_jiadonglv = 0;
-					// _this.hejifen = 0;
-					for (var i in _this.tabledata1) {
-						_this.xiaoji_chajiandianshu += _this.tabledata1[i].chajiandianshu;
-						_this.xiaoji_jiadonglv += _this.tabledata1[i].jiadonglv;
+					// 合计 暂未用于显示
+					// _this.xiaoji_chajiandianshu = 0;
+					// _this.xiaoji_jiadonglv = 0;
+
+					// for (var i in _this.tabledata1) {
+					// 	_this.xiaoji_chajiandianshu += _this.tabledata1[i].chajiandianshu;
+					// 	_this.xiaoji_jiadonglv += _this.tabledata1[i].jiadonglv;
+					// }
+					// _this.hejifen = 720 * _this.xiaoji_jiadonglv;
+
+					// 计算 部品补充时间 = 一个班次12小时 - 机种生产时间 - 浪费时间
+					// console.log(date_filter);
+					if (date_filter[0].substring(0,10) == date_filter[1].substring(0,10)
+						&& xianti_filter != '' && xianti_filter != undefined
+						&& banci_filter != '' && banci_filter != undefined) {
+
+					_this.xiaoji_shengchanshijian = 0;
+					_this.xiaoji_langfeishijian = 0;
+					_this.tabledata1.map(function (v, i) {
+						_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
+						_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang);
+					});
+					let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian) / 60;
+					_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian.toFixed(2);
+
+					console.log('生产时间：' + _this.xiaoji_shengchanshijian);
+					console.log('浪费时间：' + _this.xiaoji_langfeishijian);
+					console.log('部品补充时间：' + _this.xiaoji_bupinbuchongshijian);
 					}
-					_this.hejifen = 720 * _this.xiaoji_jiadonglv;
+
 				
 				} else {
 					_this.tabledata1 = [];
@@ -1648,13 +1677,13 @@ var vm_app = new Vue({
 		exportData_pdreport: function () {
 			var _this = this;
 			
-			if (_this.date_filter_pdreport[0] == '' || _this.date_filter_pdreport[0] == undefined) {
+			if (_this.date_filter[0] == '' || _this.date_filter[0] == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
 			}
 			
-			var queryfilter_datefrom = _this.date_filter_pdreport[0].Format("yyyy-MM-dd 00:00:00");
-			var queryfilter_dateto = _this.date_filter_pdreport[1].Format("yyyy-MM-dd 23:59:59");
+			var queryfilter_datefrom = _this.date_filter[0].Format("yyyy-MM-dd 00:00:00");
+			var queryfilter_dateto = _this.date_filter[1].Format("yyyy-MM-dd 23:59:59");
 			
 			var url = "{{ route('smt.pdreport.pdreportexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom

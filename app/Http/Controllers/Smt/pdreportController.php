@@ -335,7 +335,7 @@ class pdreportController extends Controller
 		$perPage = $queryParams['perPage'] ?? 10000;
 		$page = $queryParams['page'] ?? 1;
 		
-		$dailydate_filter = $request->input('dailydate_filter');
+		$date_filter = $request->input('date_filter');
 		$xianti_filter = $request->input('xianti_filter');
 		$banci_filter = $request->input('banci_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
@@ -353,8 +353,8 @@ class pdreportController extends Controller
 		if (Cache::has($fullUrl)) {
 			$result = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			$result = Smt_pdreport::when($dailydate_filter, function ($query) use ($dailydate_filter) {
-					return $query->whereBetween('shengchanriqi', $dailydate_filter);
+			$result = Smt_pdreport::when($date_filter, function ($query) use ($date_filter) {
+					return $query->whereBetween('shengchanriqi', $date_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
 					return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
