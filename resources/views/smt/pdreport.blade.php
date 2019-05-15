@@ -149,12 +149,14 @@ SMT - PD report
 					<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
-					9.部品补充&nbsp;&nbsp;
-					<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number>
+				&nbsp;
+					<!-- 9.部品补充&nbsp;&nbsp;
+					<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number> -->
 				</i-col>
 				<i-col span="4">
-					10.试作&nbsp;&nbsp;
-					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
+				&nbsp;
+					<!-- 10.试作&nbsp;&nbsp;
+					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number> -->
 				</i-col>
 				<i-col span="4">
 				</i-col>
@@ -224,8 +226,11 @@ SMT - PD report
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
 					<i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 				</i-col>
-				<i-col span="18">
+				<i-col span="2">
 					&nbsp;
+				</i-col>
+				<i-col span="16">
+				<font color="#ff9900">* 注意：同时查询当天日期、线体和班次，可显示部品补充时间。</font>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -885,40 +890,40 @@ var vm_app = new Vue({
 							}
 						]
 					},
-					{
-						title: '9',
-						align: 'center',
-						children: [
-							{
-								title: '部品补充',
-								key: 'bupinbuchong',
-								align: 'center',
-								width: 80,
-								renderHeader: (h, params) => {
-									return h('div', [
-										h('span', {
-										}, '部品'),
-										h('br', {
-										}, ''),
-										h('span', {
-										}, '补充')
-									]);
-								}
-							}
-						]
-					},
-					{
-						title: '10',
-						align: 'center',
-						children: [
-							{
-								title: '试作',
-								key: 'shizuo',
-								align: 'center',
-								width: 80
-							}
-						]
-					},
+					// {
+					// 	title: '9',
+					// 	align: 'center',
+					// 	children: [
+					// 		{
+					// 			title: '部品补充',
+					// 			key: 'bupinbuchong',
+					// 			align: 'center',
+					// 			width: 80,
+					// 			renderHeader: (h, params) => {
+					// 				return h('div', [
+					// 					h('span', {
+					// 					}, '部品'),
+					// 					h('br', {
+					// 					}, ''),
+					// 					h('span', {
+					// 					}, '补充')
+					// 				]);
+					// 			}
+					// 		}
+					// 	]
+					// },
+					// {
+					// 	title: '10',
+					// 	align: 'center',
+					// 	children: [
+					// 		{
+					// 			title: '试作',
+					// 			key: 'shizuo',
+					// 			align: 'center',
+					// 			width: 80
+					// 		}
+					// 	]
+					// },
 					{
 						title: '记载事项<br>查看说明',
 						key: 'jizaishixiang',
@@ -1544,7 +1549,7 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				console.log(response.data.data);
+				// console.log(response.data.data);
 				// return false;
 
 				if (response.data['jwt'] == 'logout') {
