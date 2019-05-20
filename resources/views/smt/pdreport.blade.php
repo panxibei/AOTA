@@ -1512,7 +1512,7 @@ var vm_app = new Vue({
 		},
 
 		// dailyreport列表
-		dailyreportgets: function(page, last_page){
+		dailyreportgets (page, last_page){
 			var _this = this;
 			
 			if (page > last_page) {
