@@ -188,52 +188,7 @@ var vm_app = new Vue({
 		},
 		
 		
-		// qcreport列表
-		qcreportgets: function(){
-			var _this = this;
-			var qcdate_filter = [];
 
-			for (var i in _this.qcdate_filter) {
-				if (typeof(_this.qcdate_filter[i])!='string') {
-					qcdate_filter.push(_this.qcdate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.qcdate_filter[i] == '') {
-					qcdate_filter.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					qcdate_filter.push(_this.qcdate_filter[i]);
-				}
-			}
-			
-			var xianti_filter = _this.xianti_filter;
-			var buliangneirong_filter = _this.buliangneirong_filter;
-
-			var url = "{{ route('smt.qcreport.qcreportgets') }}";
-			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
-			axios.get(url,{
-				params: {
-					qcdate_filter: qcdate_filter,
-					xianti_filter: xianti_filter,
-					buliangneirong_filter: buliangneirong_filter
-				}
-			})
-			.then(function (response) {
-				if (response.data) {
-					_this.tabledata1 = response.data.data;
-				} else {
-					_this.tabledata1 = [];
-				}
-				
-				// 合计
-				_this.buliangjianshuxiaoji = 0;
-				for (var i in _this.tabledata1) {
-					_this.buliangjianshuxiaoji += _this.tabledata1[i].shuliang;
-				}
-				
-			})
-			.catch(function (error) {
-				_this.loadingbarerror();
-				_this.error(false, 'Error', error);
-			})
-		},		
 		
 
 		
@@ -247,7 +202,6 @@ var vm_app = new Vue({
 	mounted: function () {
 		// var _this = this;
 		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
-		// _this.qcreportgets(1, 1); // page: 1, last_page: 1
 	}
 })
 </script>

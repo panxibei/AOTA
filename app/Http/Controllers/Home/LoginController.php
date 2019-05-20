@@ -20,9 +20,19 @@ class LoginController extends Controller
 	 */
 	public function index()
 	{
-	$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+		// 获取JSON格式的jwt-auth用户响应
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+		if (! sizeof($user)) {
+			// 无有效用户登录，则认证失败，退回登录界面
+		} else {
+			// 如果是已经登录，则跳转至门户页面
+			return redirect()->route('portal');
+		}
 
-			return view('home.login', $config);
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+
+		return view('home.login', $config);
 	}
 
 	public function checklogin(Request $request)
