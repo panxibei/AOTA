@@ -255,7 +255,7 @@ SMT - PD report
 				
 				<i-col span="16">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
-					<div style="text-align:right"><strong>生产时间：@{{ xiaoji_shengchanshijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ xiaoji_langfeishijian.toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ xiaoji_bupinbuchongshijian.toLocaleString() + '分' }}</strong>&nbsp;&nbsp;</div>
+					<div style="text-align:right"><strong>生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(2).toLocaleString() + '分' }}</strong>&nbsp;&nbsp;</div>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -1160,6 +1160,7 @@ var vm_app = new Vue({
 		xiaoji_jiadonglv: 0,
 		hejifen: 0,
 
+		// 单位秒
 		xiaoji_shengchanshijian: 0,
 		xiaoji_langfeishijian: 0,
 		xiaoji_bupinbuchongshijian: 0,
@@ -1587,10 +1588,10 @@ var vm_app = new Vue({
 							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
 							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang);
 						});
-						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian) / 60;
-						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian.toFixed(2);
+						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
+						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian;
 
-						if (_this.xiaoji_bupinbuchongshijian == 720) {
+						if (_this.xiaoji_bupinbuchongshijian == 43200) {
 							_this.xiaoji_bupinbuchongshijian = 0;
 						}
 
