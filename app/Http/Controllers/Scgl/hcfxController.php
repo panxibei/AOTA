@@ -779,7 +779,7 @@ class hcfxController extends Controller
 
 		$res1 = DB::select('
 			SELECT "' . $suoshuriqi . '" AS suoshuriqi,
-				A.jizhongming,
+				LEFT(A.jizhongming, 7) AS jizhongming,
 				B.tuopanxinghao,
 				B.tai_per_tuo,
 				SUM(A.d1+A.d2+A.d3+A.d4+A.d5+A.d6+A.d7+A.d8+A.d9+A.d10+A.d11+A.d12+A.d13+A.d14+A.d15+A.d16+A.d17+A.d18+A.d19+A.d20) AS chanliang,
@@ -788,13 +788,13 @@ class hcfxController extends Controller
 				"' . $created_at . '" AS created_at, "' . $updated_at . '" AS updated_at 
 			FROM scgl_hcfx_zrcfxs AS A LEFT JOIN scgl_hcfx_relations AS B
 			ON A.jizhongming=B.jizhongming
-			GROUP BY A.jizhongming
+			GROUP BY LEFT(A.jizhongming, 7)
 		');
 		// dd($res1);
 
 		$res2 = DB::select('
 			SELECT "' . $suoshuriqi . '" AS suoshuriqi,
-				A.jizhongming,
+				LEFT(A.jizhongming, 7) AS jizhongming,
 				B.tuopanxinghao,
 				B.tai_per_tuo,
 				SUM(A.d21+A.d22+A.d23+A.d24+A.d25+A.d26+A.d27+A.d28+A.d29+A.d30+A.d31) AS chanliang,
@@ -803,7 +803,7 @@ class hcfxController extends Controller
 				"' . $created_at . '" AS created_at, "' . $updated_at . '" AS updated_at 
 			FROM scgl_hcfx_zrcfxs AS A LEFT JOIN scgl_hcfx_relations AS B
 			ON A.jizhongming=B.jizhongming
-			GROUP BY A.jizhongming
+			GROUP BY LEFT(A.jizhongming, 7)
 		');
 		// dd($res2);
 		
