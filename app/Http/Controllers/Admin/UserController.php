@@ -73,7 +73,7 @@ class UserController extends Controller
 		$queryfilter_email = $request->input('queryfilter_email');
 		$queryfilter_loginip = $request->input('queryfilter_loginip');
 
-		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ttl', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})

@@ -225,6 +225,12 @@ var vm_app = new Vue({
 				width: 180
 			},
 			{
+				title: 'login TTL',
+				key: 'login_ttl',
+				align: 'center',
+				width: 100
+			},
+			{
 				title: 'login IP',
 				key: 'login_ip',
 				width: 130
