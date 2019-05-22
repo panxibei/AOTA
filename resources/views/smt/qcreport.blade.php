@@ -443,11 +443,11 @@ var vm_app = new Vue({
 		// 批量录入
 		piliangluru: [
 			{
-				jianchajileixing: undefined,
-				buliangneirong: undefined,
-				weihao: undefined,
+				jianchajileixing: '',
+				buliangneirong: '',
+				weihao: '',
 				shuliang: '',
-				jianchazhe: undefined
+				jianchazhe: ''
 			},
 		],
 		piliangluru_keep: false,
@@ -1559,20 +1559,20 @@ var vm_app = new Vue({
 			
 			if (_this.piliangluru_keep) {
 				_this.piliangluru.map(function (v,i) {
-					v.jianchajileixing = undefined;
-					v.buliangneirong = undefined;
-					v.weihao = undefined;
+					v.jianchajileixing = '';
+					v.buliangneirong = '';
+					v.weihao = '';
 					v.shuliang = '';
-					v.jianchazhe = undefined;
+					v.jianchazhe = '';
 				});
 			} else {
 				_this.piliangluru = [
 					{
-						jianchajileixing: undefined,
-						buliangneirong: undefined,
-						weihao: undefined,
+						jianchajileixing: '',
+						buliangneirong: '',
+						weihao: '',
 						shuliang: '',
-						jianchazhe: undefined,
+						jianchazhe: '',
 					}
 				];
 				_this.piliangluruxiang = 1;
@@ -1584,25 +1584,6 @@ var vm_app = new Vue({
 		// oncreate
 		oncreate: function () {
 			var _this = this;
-
-			for (var v of _this.piliangluru) {
-				// console.log(v.jianchajileixing == '' || v.jianchajileixing == undefined && v.buliangneirong == '' || v.buliangneirong == undefined && v.weihao == '' || v.weihao == undefined  && v.shuliang == '' || v.shuliang == undefined && v.jianchazhe == '' || v.jianchazhe == undefined
-				// 	|| v.jianchajileixing != undefined
-				// 		&& v.buliangneirong != undefined
-				// 		&& v.weihao != undefined
-				// 		&& v.shuliang != null
-				// 		&& v.jianchazhe != undefined);
-				// console.log(v.jianchazhe == '');
-				// console.log(v.jianchazhe == undefined);
-				console.log(v.jianchajileixing == undefined && v.buliangneirong == undefined &&  v.weihao == '' || v.weihao == undefined  && v.shuliang == '' || v.shuliang == undefined && v.jianchazhe == undefined);
-				console.log(v.jianchajileixing != undefined && v.buliangneirong != undefined &&  v.weihao != '' || v.weihao != undefined  && v.shuliang != '' || v.shuliang != undefined && v.jianchazhe != undefined);
-			}
-			return false;
-
-
-
-
-
 
 			var saomiao = _this.saomiao;
 			var jianchariqi = _this.jianchariqi;
@@ -1621,27 +1602,42 @@ var vm_app = new Vue({
 			}
 			
 			// 其他循环不支持跳出
-			var flag = false;
+			var flag = true;
 			for (var v of _this.piliangluru) {
-				// if (v.jianchajileixing == '' || v.buliangneirong == '' || v.weihao == ''  || v.shuliang == '' || v.jianchazhe == ''
-					// || v.jianchajileixing == undefined || v.buliangneirong == undefined || v.weihao == undefined || v.shuliang == undefined || v.jianchazhe == undefined) {
-					// flag = false;
-					// break;
-				// }
-				if (v.jianchajileixing == undefined && v.buliangneirong == undefined && v.weihao == undefined  && v.shuliang == '' || v.shuliang == undefined && v.jianchazhe == undefined
-					|| v.jianchajileixing != undefined
-						&& v.buliangneirong != undefined
-						&& v.weihao != undefined
-						&& v.shuliang != null
-						&& v.jianchazhe != undefined) {
-					flag = true;
-				} else {
+				if (v.jianchajileixing != '' && v.jianchajileixing != undefined
+					&& v.buliangneirong != '' && v.buliangneirong != undefined
+					&& v.weihao != '' && v.weihao != undefined
+					&& v.shuliang != '' && v.shuliang != undefined
+					&& v.jianchazhe != '' && v.jianchazhe != undefined) {
+					// console.log('所有OK');
+					// flag = true;
+					continue;
+				}
+
+				if (v.jianchajileixing != '' && v.jianchajileixing != undefined) {
+					// console.log('jianchajileixing');
+					flag = false;
+					break;
+				} else if (v.buliangneirong != '' && v.buliangneirong != undefined) {
+					// console.log('buliangneirong');
+					flag = false;
+					break;
+				} else if (v.weihao != '' && v.weihao != undefined) {
+					// console.log('weihao');
+					flag = false;
+					break;
+				} else if (v.shuliang != '' && v.shuliang != undefined) {
+					// console.log('shuliang');
+					flag = false;
+					break;
+				} else if (v.jianchazhe != '' && v.jianchazhe != undefined) {
+					// console.log('jianchazhe');
 					flag = false;
 					break;
 				}
 			}
-			console.log('flag: ' + flag);return false;
-			
+			// console.log('flag: ' + flag);return false;
+
 			if (flag == false) {
 				_this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
 				return false;
