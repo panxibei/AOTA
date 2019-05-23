@@ -279,7 +279,7 @@ class qcreportController extends Controller
 			$xianti = $res['xianti'];
 			$banci = $res['banci'];
 
-			$result = compact('dianmei', 'xianti', 'banci');
+			$result = compact('dianmei', 'xianti', 'banci', 'lotshu');
 			
 		}
 		catch (\Exception $e) {

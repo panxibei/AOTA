@@ -455,6 +455,7 @@ var vm_app = new Vue({
 		// 扫描
 		// saomiao: 'MRAP808A/5283600121-51/MAIN/900',
 		saomiao: '',
+		lotshu: '',
 		
 		// 批量录入项
 		piliangluruxiang: 1,
@@ -1593,6 +1594,7 @@ var vm_app = new Vue({
 			var dianmei = _this.dianmei;
 			var meishu = _this.meishu;
 			
+			// 基本信息不能为空
 			if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
 				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
 				|| dianmei == '' || dianmei == undefined || dianmei == 0
@@ -1600,10 +1602,19 @@ var vm_app = new Vue({
 				_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
 				return false;
 			}
+
+			// 枚数不大于LOT数
+			if (_this.meishu > _this.lotshu) {
+				_this.warning(false, '警告', '枚数不可大于LOT数！');
+				return false;
+			}
 			
+			// 批量信息录入判定
 			// 其他循环不支持跳出
 			var flag = true;
 			for (var v of _this.piliangluru) {
+
+				// 全部为空，则OK
 				if (v.jianchajileixing != '' && v.jianchajileixing != undefined
 					&& v.buliangneirong != '' && v.buliangneirong != undefined
 					&& v.weihao != '' && v.weihao != undefined
@@ -1614,6 +1625,7 @@ var vm_app = new Vue({
 					continue;
 				}
 
+				// 任何一行记录，只要有一项填写，就必须都填写
 				if (v.jianchajileixing != '' && v.jianchajileixing != undefined) {
 					// console.log('jianchajileixing');
 					flag = false;
@@ -2982,6 +2994,7 @@ var vm_app = new Vue({
 					return false;
 				}
 				
+				_this.lotshu = response.data.lotshu;
 				_this.xianti = response.data.xianti;
 				_this.banci = response.data.banci;
 				_this.dianmei = response.data.dianmei;
