@@ -432,7 +432,7 @@ class qcreportController extends Controller
 		if ($updated_at != $res_updated_at) {
 			return 0;
 		}
-		
+
 		// 尝试更新
 		try	{
 			DB::beginTransaction();

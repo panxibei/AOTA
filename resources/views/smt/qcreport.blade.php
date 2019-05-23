@@ -273,7 +273,7 @@ SMT(QC report) -
 						</i-col>
 					</i-row>
 
-					<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="工程内不良记录编辑" width="540">
+					<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 工程内不良记录" width="540">
 						<div style="text-align:left">
 							<p>
 								机种名：@{{ jizhongming_edit }}
@@ -292,7 +292,7 @@ SMT(QC report) -
 							<!--<span v-for="(item, index) in piliangbianji">-->
 							<p>
 								枚数&nbsp;&nbsp;
-								<Input-number v-model.lazy="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
+								<Input-number v-model="meishu_edit" :min="1" size="small" readonly style="width: 80px"></Input-number>
 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 							
@@ -362,7 +362,8 @@ SMT(QC report) -
 							&nbsp;
 						
 							<p>
-							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 的内容。
+							※ 检查枚数不可修改，新检查不良必须另外追加记录。<br>
+							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
 							</p>
 						
 						</div>	
@@ -3070,6 +3071,12 @@ var vm_app = new Vue({
 			hejidianshu = dianmei * meishu;
 			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
 			ppm = bushihejianshuheji / hejidianshu * 1000000;
+
+			// 不良检查件数不可大于检查枚数
+			if (bushihejianshuheji > meishu) {
+				_this.warning(false, '警告', '保存失败！数量不正确，不良合计件数不可大于检查枚数！');
+				return false;
+			}
 			
 			// console.log(buliangneirong);
 			// return false;
