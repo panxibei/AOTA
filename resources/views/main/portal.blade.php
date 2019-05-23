@@ -125,17 +125,17 @@ var vm_app = new Vue({
 			{
 				name: 'Mpoint',
 				url: "{{ route('smt.pdreport.mpoint') }}", //'http://172.22.15.199:8888/smt/mpoint',
-				percent: 85,
+				percent: 95,
 			},
 			{
 				name: '生产日报',
 				url: "{{ route('smt.pdreport.index') }}",
-				percent: 75,
+				percent: 80,
 			},
 			{
 				name: '品质日报',
 				url: "{{ route('smt.qcreport.index') }}",
-				percent: 90,
+				percent: 95,
 			},
 		],
 
@@ -151,7 +151,7 @@ var vm_app = new Vue({
 			{
 				name: '耗材分析',
 				url: "{{ route('scgl.hcfx.index') }}",
-				percent: 30,
+				percent: 60,
 			},
 		],
 		
