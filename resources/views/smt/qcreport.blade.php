@@ -40,7 +40,7 @@ SMT(QC report) -
 				</i-col>
 				<i-col span="3">
 					* 枚数&nbsp;&nbsp;
-					<Input-number v-model.lazy="meishu" :min="1" style="width: 80px"></Input-number>
+					<Input-number v-model.lazy="meishu" :min="1" :max="meishu_max" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="5">
 					&nbsp;
@@ -476,6 +476,7 @@ var vm_app = new Vue({
 		
 		// 枚数
 		meishu: '',
+		meishu_max: '',
 		
 		// 检查机类型
 		option_jianchajileixing: [
@@ -1557,6 +1558,7 @@ var vm_app = new Vue({
 			_this.gongxu = '';
 			_this.dianmei = '';
 			_this.meishu = '';
+			_this.meishu_max = '';
 			
 			if (_this.piliangluru_keep) {
 				_this.piliangluru.map(function (v,i) {
@@ -1654,6 +1656,17 @@ var vm_app = new Vue({
 				_this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
 				return false;
 			}
+
+			// 不良数量不可大于检查枚数
+			var shuliang_tmp = 0;
+			for (var v of _this.piliangluru) {
+				shuliang_tmp += v.shuliang;
+			}
+			if (shuliang_tmp > _this.meishu) {
+				_this.warning(false, '警告', '批量录入的不良数量不可大于检查枚数！');
+				return false;
+			}
+			// console.log(shuliang_tmp);return false;
 			
 			var piliangluru = _this.piliangluru;
 			var tableselect1 = _this.tableselect1;
@@ -2995,6 +3008,8 @@ var vm_app = new Vue({
 				}
 				
 				_this.lotshu = response.data.lotshu;
+				_this.meishu_max = response.data.lotshu;
+
 				_this.xianti = response.data.xianti;
 				_this.banci = response.data.banci;
 				_this.dianmei = response.data.dianmei;
