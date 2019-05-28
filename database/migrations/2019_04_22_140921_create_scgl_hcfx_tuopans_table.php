@@ -19,6 +19,7 @@ class CreateScglHcfxTuopansTable extends Migration
             $table->string('daima', 20)->comment('代码');
             $table->string('guige')->comment('规格');
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 
