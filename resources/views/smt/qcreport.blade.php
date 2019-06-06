@@ -2815,7 +2815,6 @@ var vm_app = new Vue({
 					// return false;
 
 					console.log(chartdata3);
-					var arr_tmp = [];
 
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
@@ -2935,7 +2934,7 @@ var vm_app = new Vue({
 						}
 
 
-						arr_tmp.push(v);
+						// arr_tmp.push(v);
 
 // console.log(v.created_at);
 						// for (var ii=0;ii<arr_tmp.length;ii++) {
@@ -2950,6 +2949,31 @@ var vm_app = new Vue({
 						
 					});
 					// console.log(_this.chart3_option_series_data_hejidianshu);
+
+
+
+					var arr_tmp = [];
+					for (var ii=0, arr_tmp=[chartdata3[0]];ii<chartdata3.length;ii++) {
+
+						for (var jj=0;jj<arr_tmp.length;jj++) {
+							console.log(chartdata3[ii]['created_at'] + ' --- ' + arr_tmp[jj]['created_at']);
+							if (chartdata3[ii]['created_at']==arr_tmp[jj]['created_at']) {
+								// break;
+							} else {
+								arr_tmp.push(chartdata3[ii]);
+								break;
+							}
+
+						}
+
+
+						
+
+
+					}
+
+
+
 
 
 					// var arr = chartdata3;
