@@ -2785,7 +2785,8 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					var chartdata3 = response.data.data;			
+					var chartdata3 = response.data.data;
+					// console.log(chartdata3);			
 			
 					_this.chart3_option_series_data = [
 						[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -2812,6 +2813,8 @@ var vm_app = new Vue({
 					// console.log(last_date_range);
 					// console.log(current_date_range);
 					// return false;
+
+					// console.log(chartdata3);
 					
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
@@ -2870,9 +2873,10 @@ var vm_app = new Vue({
 						}
 					
 						// 按不良内容汇总数量，共24种
-						if (i > 0 && i < 24) {
-							// var riqi = new Date(v.jianchariqi);
-							var riqi = new Date(v.created_at);
+						if (i >= 0 && i < 24) {
+							// 按检查日期分类
+							var riqi = new Date(v.jianchariqi);
+							// var riqi = new Date(v.created_at);
 							// var riqi = v.jianchariqi.split('-');
 
 							// 日期在去年的，统一保存到下标为0的数组中
@@ -2914,10 +2918,15 @@ var vm_app = new Vue({
 							}
 								
 							// i为不良内容分类，j为月份
-							_this.chart3_option_series_data[i][j] += v.shuliang;
+							// console.log(v.shuliang);
+							if (v.shuliang != null) {
+								_this.chart3_option_series_data[i][j] += v.shuliang;
+							}
 							
 							// 每月份的汇总
-							_this.chart3_option_series_data_huizong[j] += v.shuliang;
+							if (v.shuliang != null) {
+								_this.chart3_option_series_data_huizong[j] += v.shuliang;
+							}
 							
 							// 合计点数之和，用于计算总的PPM
 							_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
