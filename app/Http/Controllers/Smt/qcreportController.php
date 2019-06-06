@@ -341,6 +341,7 @@ class qcreportController extends Controller
 
 
 		$p = [];
+		// 如果批量不良录入为空
 		if (empty($piliangluru)) {
 			$s['bushihejianshuheji'] = 0;
 			$s['ppm'] = 0;
@@ -367,9 +368,6 @@ class qcreportController extends Controller
 			// }
 			// dd($piliangluru);
 			
-			if ($piliangluru) {
-
-			}
 			foreach ($piliangluru as $value) {
 				$p[] = array_merge($value, $s);
 			}
@@ -379,27 +377,26 @@ class qcreportController extends Controller
 		// dd($p);
 		
 		// 写入数据库
-		$result = 0;
 		try	{
 			DB::beginTransaction();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
 			foreach ($p as $value) {
-				$result = Smt_qcreport::create($value);
+				Smt_qcreport::create($value);
 			}
 
-			// $result = 1;
+			$result = 1;
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			return 0;
 		}
 
 		DB::commit();
 		Cache::flush();
-		dd($result);
+		// dd($result);
 		return $result;		
 	}
 
