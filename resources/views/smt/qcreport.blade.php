@@ -292,7 +292,7 @@ SMT(QC report) -
 							<!--<span v-for="(item, index) in piliangbianji">-->
 							<p>
 								枚数&nbsp;&nbsp;
-								<Input-number v-model="meishu_edit" :min="1" size="small" readonly style="width: 80px"></Input-number>
+								<Input-number v-model="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 							
@@ -362,7 +362,6 @@ SMT(QC report) -
 							&nbsp;
 						
 							<p>
-							※ 检查枚数不可修改，新检查不良必须另外追加记录。<br>
 							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
 							</p>
 						
@@ -1598,19 +1597,19 @@ var vm_app = new Vue({
 			var meishu = _this.meishu;
 			
 			// 基本信息不能为空
-			if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
-				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
-				|| dianmei == '' || dianmei == undefined || dianmei == 0
-				|| meishu == '' || meishu == undefined || meishu == 0) {
-				_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
-				return false;
-			}
+			// if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
+			// 	|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
+			// 	|| dianmei == '' || dianmei == undefined || dianmei == 0
+			// 	|| meishu == '' || meishu == undefined || meishu == 0) {
+			// 	_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
+			// 	return false;
+			// }
 
 			// 枚数不大于LOT数
-			if (_this.meishu > _this.lotshu) {
-				_this.warning(false, '警告', '枚数不可大于LOT数！');
-				return false;
-			}
+			// if (_this.meishu > _this.lotshu) {
+			// 	_this.warning(false, '警告', '枚数不可大于LOT数！');
+			// 	return false;
+			// }
 			
 			// 批量信息录入判定
 			// 其他循环不支持跳出
@@ -1658,17 +1657,28 @@ var vm_app = new Vue({
 				return false;
 			}
 
-			// 不良数量不可大于检查枚数
-			var shuliang_tmp = 0;
-			for (var v of _this.piliangluru) {
-				shuliang_tmp += v.shuliang;
-			}
-			if (shuliang_tmp > _this.meishu) {
-				_this.warning(false, '警告', '批量录入的不良数量不可大于检查枚数！');
-				return false;
-			}
+			// 不良数量不可大于检查枚数（作废）
+			// var shuliang_tmp = 0;
+			// for (var v of _this.piliangluru) {
+			// 	shuliang_tmp += v.shuliang;
+			// }
+			// if (shuliang_tmp > _this.meishu) {
+			// 	_this.warning(false, '警告', '批量录入的不良数量不可大于检查枚数！');
+			// 	return false;
+			// }
 			// console.log(shuliang_tmp);return false;
-			
+
+			// 删除空json节点
+			var piliangluru_tmp = [];
+			for (var v of _this.piliangluru) {
+				if (v.jianchajileixing == '' || v.jianchajileixing == undefined) {
+					piliangluru_tmp.push(v);
+				}
+
+			}
+			console.log(piliangluru_tmp);
+			console.log(_this.piliangluru);return false;
+
 			var piliangluru = _this.piliangluru;
 			var tableselect1 = _this.tableselect1;
 
