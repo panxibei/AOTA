@@ -2814,8 +2814,9 @@ var vm_app = new Vue({
 					// console.log(current_date_range);
 					// return false;
 
-					// console.log(chartdata3);
-					
+					console.log(chartdata3);
+					var arr_tmp = [];
+
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
 						{
@@ -2932,8 +2933,42 @@ var vm_app = new Vue({
 							_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
 							
 						}
+
+
+						arr_tmp.push(v);
+
+// console.log(v.created_at);
+						// for (var ii=0;ii<arr_tmp.length;ii++) {
+						// 	console.log(arr_tmp[ii]['created_at']);
+
+						// 	if (arr_tmp[ii]['created_at'] == v.created_at) {
+						// 		arr_tmp[ii].push(v);
+						// 	}
+						// };
+
+
 						
 					});
+					// console.log(_this.chart3_option_series_data_hejidianshu);
+
+
+					// var arr = chartdata3;
+					// var arr_tmp = [];
+					// arr.map(function (v,k) {
+
+					// 	if (arr_tmp[k]['created_at'] != v.created_at) {
+					// 		arr_tmp[k] = v;
+					// 	}
+
+
+
+					// });
+					console.log(arr_tmp);
+
+
+
+
+
 					
 					// ppm计算
 					_this.chart3_option_series_data_huizong.map(function (v,i) {
