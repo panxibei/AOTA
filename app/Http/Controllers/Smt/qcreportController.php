@@ -339,44 +339,56 @@ class qcreportController extends Controller
 		
 		$s['bushihejianshuheji'] = 0;
 
-		foreach ($piliangluru as $value) {
 
-			if ($value['shuliang'] != 0) {
-				$s['bushihejianshuheji'] += $value['shuliang'];
-			}
-		}
-
-		if ($s['bushihejianshuheji'] == 0) {
-			$s['ppm'] = 0;
-		} else {
-			$s['ppm'] = $s['bushihejianshuheji'] / $s['hejidianshu'] * 1000000;
-		}
-
-		// dd($s);
-		
-		// 不良内容为一维数组，字符串化
-		// foreach ($piliangluru as $key => $value) {
-			// $piliangluru[$key]['buliangneirong'] = implode(',', $value['buliangneirong']);
-		// }
-		// dd($piliangluru);
-		
 		$p = [];
-		foreach ($piliangluru as $value) {
-			$p[] = array_merge($value, $s);
+		if (empty($piliangluru)) {
+			$s['bushihejianshuheji'] = 0;
+			$s['ppm'] = 0;
+			$p[] = $s;
+
+		} else {
+			foreach ($piliangluru as $value) {
+				if ($value['shuliang'] != 0) {
+					$s['bushihejianshuheji'] += $value['shuliang'];
+				}
+			}
+
+			if ($s['bushihejianshuheji'] == 0) {
+				$s['ppm'] = 0;
+			} else {
+				$s['ppm'] = $s['bushihejianshuheji'] / $s['hejidianshu'] * 1000000;
+			}
+
+			// dd($s);
+			
+			// 不良内容为一维数组，字符串化
+			// foreach ($piliangluru as $key => $value) {
+				// $piliangluru[$key]['buliangneirong'] = implode(',', $value['buliangneirong']);
+			// }
+			// dd($piliangluru);
+			
+			if ($piliangluru) {
+
+			}
+			foreach ($piliangluru as $value) {
+				$p[] = array_merge($value, $s);
+			}
+
 		}
 
 		// dd($p);
 		
 		// 写入数据库
+		$result = 0;
 		try	{
 			DB::beginTransaction();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
 			foreach ($p as $value) {
-				Smt_qcreport::create($value);
+				$result = Smt_qcreport::create($value);
 			}
 
-			$result = 1;
+			// $result = 1;
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
@@ -387,6 +399,7 @@ class qcreportController extends Controller
 
 		DB::commit();
 		Cache::flush();
+		dd($result);
 		return $result;		
 	}
 

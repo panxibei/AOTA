@@ -1597,19 +1597,19 @@ var vm_app = new Vue({
 			var meishu = _this.meishu;
 			
 			// 基本信息不能为空
-			// if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
-			// 	|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
-			// 	|| dianmei == '' || dianmei == undefined || dianmei == 0
-			// 	|| meishu == '' || meishu == undefined || meishu == 0) {
-			// 	_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
-			// 	return false;
-			// }
+			if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
+				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
+				|| dianmei == '' || dianmei == undefined || dianmei == 0
+				|| meishu == '' || meishu == undefined || meishu == 0) {
+				_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
+				return false;
+			}
 
 			// 枚数不大于LOT数
-			// if (_this.meishu > _this.lotshu) {
-			// 	_this.warning(false, '警告', '枚数不可大于LOT数！');
-			// 	return false;
-			// }
+			if (_this.meishu > _this.lotshu) {
+				_this.warning(false, '警告', '枚数不可大于LOT数！');
+				return false;
+			}
 			
 			// 批量信息录入判定
 			// 其他循环不支持跳出
@@ -1672,14 +1672,16 @@ var vm_app = new Vue({
 			var piliangluru_tmp = [];
 			for (var v of _this.piliangluru) {
 				if (v.jianchajileixing == '' || v.jianchajileixing == undefined) {
+					
+				} else {
 					piliangluru_tmp.push(v);
 				}
 
 			}
-			console.log(piliangluru_tmp);
-			console.log(_this.piliangluru);return false;
+			// console.log(piliangluru_tmp);
+			// console.log(_this.piliangluru);return false;
 
-			var piliangluru = _this.piliangluru;
+			var piliangluru = piliangluru_tmp;
 			var tableselect1 = _this.tableselect1;
 
 			var url = "{{ route('smt.qcreport.qcreportcreate') }}";
@@ -1695,8 +1697,8 @@ var vm_app = new Vue({
 				piliangluru: piliangluru
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
