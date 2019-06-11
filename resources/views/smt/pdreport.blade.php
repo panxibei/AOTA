@@ -152,8 +152,8 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 				&nbsp;
-					<!-- 9.部品补充&nbsp;&nbsp;
-					<Input-number v-model.lazy="bupinbuchong" :min="1" size="small" style="width: 80px"></Input-number> -->
+					9.新机种生产时间&nbsp;&nbsp;
+					<Input-number v-model.lazy="xinjizhongshengchanshijian" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 				&nbsp;
@@ -494,7 +494,7 @@ var vm_app = new Vue({
 		bupinanpaidengdai: '',
 		dingqidianjian: '',
 		guzhang: '',
-		bupinbuchong: '',
+		xinjizhongshengchanshijian: '',
 		shizuo: '',
 		jizaishixiang: '',
 		
@@ -906,28 +906,28 @@ var vm_app = new Vue({
 							}
 						]
 					},
-					// {
-					// 	title: '9',
-					// 	align: 'center',
-					// 	children: [
-					// 		{
-					// 			title: '部品补充',
-					// 			key: 'bupinbuchong',
-					// 			align: 'center',
-					// 			width: 80,
-					// 			renderHeader: (h, params) => {
-					// 				return h('div', [
-					// 					h('span', {
-					// 					}, '部品'),
-					// 					h('br', {
-					// 					}, ''),
-					// 					h('span', {
-					// 					}, '补充')
-					// 				]);
-					// 			}
-					// 		}
-					// 	]
-					// },
+					{
+						title: '9',
+						align: 'center',
+						children: [
+							{
+								title: '新机种生产时间',
+								key: 'xinjizhongshengchanshijian',
+								align: 'center',
+								width: 90,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '新机种'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '生产时间')
+									]);
+								}
+							}
+						]
+					},
 					// {
 					// 	title: '10',
 					// 	align: 'center',
@@ -1389,7 +1389,7 @@ var vm_app = new Vue({
 			_this.bupinanpaidengdai = '';
 			_this.dingqidianjian = '';
 			_this.guzhang = '';
-			_this.bupinbuchong = '';
+			_this.xinjizhongshengchanshijian = '';
 			_this.shizuo = '';
 			_this.jizaishixiang = '';
 		},
@@ -1419,7 +1419,7 @@ var vm_app = new Vue({
 			var bupinanpaidengdai = _this.bupinanpaidengdai;
 			var dingqidianjian = _this.dingqidianjian;
 			var guzhang = _this.guzhang;
-			var bupinbuchong = _this.bupinbuchong;
+			var xinjizhongshengchanshijian = _this.xinjizhongshengchanshijian;
 			var shizuo = _this.shizuo;
 			var jizaishixiang = _this.jizaishixiang;
 
@@ -1461,7 +1461,7 @@ var vm_app = new Vue({
 				bupinanpaidengdai: bupinanpaidengdai,
 				dingqidianjian: dingqidianjian,
 				guzhang: guzhang,
-				bupinbuchong: bupinbuchong,
+				xinjizhongshengchanshijian: xinjizhongshengchanshijian,
 				shizuo: shizuo,
 				jizaishixiang: jizaishixiang,
 			})
@@ -1605,7 +1605,7 @@ var vm_app = new Vue({
 						_this.xiaoji_langfeishijian = 0;
 						_this.tabledata1.map(function (v, i) {
 							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
-							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang);
+							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.xinjizhongshengchanshijian);
 						});
 						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
 						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian;
