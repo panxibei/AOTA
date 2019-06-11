@@ -3166,24 +3166,24 @@ var vm_app = new Vue({
 			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
 			ppm = bushihejianshuheji / hejidianshu * 1000000;
 
-			// 不良检查件数不可大于检查枚数
-			if (bushihejianshuheji > meishu) {
-				_this.warning(false, '警告', '保存失败！数量不正确，不良合计件数不可大于检查枚数！');
-				return false;
-			}
+			// 不良检查件数不可大于检查枚数（无此逻辑关系，作废）
+			// if (bushihejianshuheji > meishu) {
+			// 	_this.warning(false, '警告', '保存失败！数量不正确，不良合计件数不可大于检查枚数！');
+			// 	return false;
+			// }
 			
 			// console.log(buliangneirong);
 			// return false;
 			
 			// 数量为0时，清空不良内容、位号和数量
-			if (shuliang[1] == 0) {
+			if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
 				buliangneirong = '';
 				weihao = '';
 				shuliang[1] = '';
-			} else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
-				|| weihao == '' || weihao == null || weihao == undefined) {
-				_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
-				return false;
+			// } else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
+			// 	|| weihao == '' || weihao == null || weihao == undefined) {
+			// 	_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
+			// 	return false;
 			}
 			
 			var url = "{{ route('smt.qcreport.qcreportupdate') }}";
