@@ -2814,6 +2814,7 @@ var vm_app = new Vue({
 					// console.log(current_date_range);
 					// return false;
 
+					console.log('原始：');
 					console.log(chartdata3);
 
 					chartdata3.map(function (v,k) {
@@ -2933,60 +2934,26 @@ var vm_app = new Vue({
 							
 						}
 
-
-						// arr_tmp.push(v);
-
-// console.log(v.created_at);
-						// for (var ii=0;ii<arr_tmp.length;ii++) {
-						// 	console.log(arr_tmp[ii]['created_at']);
-
-						// 	if (arr_tmp[ii]['created_at'] == v.created_at) {
-						// 		arr_tmp[ii].push(v);
-						// 	}
-						// };
-
-
-						
 					});
 					// console.log(_this.chart3_option_series_data_hejidianshu);
-
 
 
 					var arr_tmp = [];
 					for (var ii=0, arr_tmp=[chartdata3[0]];ii<chartdata3.length;ii++) {
 
-						for (var jj=0;jj<arr_tmp.length;jj++) {
+						for (var jj=0, flag=true;jj<arr_tmp.length;jj++) {
 							console.log(chartdata3[ii]['created_at'] + ' --- ' + arr_tmp[jj]['created_at']);
 							if (chartdata3[ii]['created_at']==arr_tmp[jj]['created_at']) {
-								// break;
-							} else {
-								arr_tmp.push(chartdata3[ii]);
-								break;
+								flag=false;break;
 							}
-
 						}
 
-
-						
-
-
+						if (flag) {
+							arr_tmp.push(chartdata3[ii]);
+						}
 					}
 
-
-
-
-
-					// var arr = chartdata3;
-					// var arr_tmp = [];
-					// arr.map(function (v,k) {
-
-					// 	if (arr_tmp[k]['created_at'] != v.created_at) {
-					// 		arr_tmp[k] = v;
-					// 	}
-
-
-
-					// });
+					console.log('结果：');
 					console.log(arr_tmp);
 
 
