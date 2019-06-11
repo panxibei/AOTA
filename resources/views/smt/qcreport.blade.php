@@ -2814,8 +2814,8 @@ var vm_app = new Vue({
 					// console.log(current_date_range);
 					// return false;
 
-					console.log('原始：');
-					console.log(chartdata3);
+					// console.log('原始：');
+					// console.log(chartdata3);
 
 					chartdata3.map(function (v,k) {
 						switch(v.buliangneirong)
@@ -2929,8 +2929,8 @@ var vm_app = new Vue({
 								_this.chart3_option_series_data_huizong[j] += v.shuliang;
 							}
 							
-							// 合计点数之和，用于计算总的PPM
-							_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
+							// 合计点数之和，用于计算总的PPM（此处计算会有重复，故作废）
+							// _this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
 							
 						}
 
@@ -2938,11 +2938,12 @@ var vm_app = new Vue({
 					// console.log(_this.chart3_option_series_data_hejidianshu);
 
 
+					// 筛选相同录入的记录，统一基本录入信息项
 					var arr_tmp = [];
 					for (var ii=0, arr_tmp=[chartdata3[0]];ii<chartdata3.length;ii++) {
 
 						for (var jj=0, flag=true;jj<arr_tmp.length;jj++) {
-							console.log(chartdata3[ii]['created_at'] + ' --- ' + arr_tmp[jj]['created_at']);
+							// console.log(chartdata3[ii]['created_at'] + ' --- ' + arr_tmp[jj]['created_at']);
 							if (chartdata3[ii]['created_at']==arr_tmp[jj]['created_at']) {
 								flag=false;break;
 							}
@@ -2953,11 +2954,57 @@ var vm_app = new Vue({
 						}
 					}
 
-					console.log('结果：');
-					console.log(arr_tmp);
+					// console.log('结果：');
+					// console.log(arr_tmp);
 
+					arr_tmp.map(function (v,k) {
+						// 合计点数之和，用于计算总的PPM
 
+						// 按检查日期分类
+						var riqi = new Date(v.jianchariqi);
 
+						// 日期在去年的，统一保存到下标为0的数组中
+						if (riqi >= last_date_range[0] && riqi <= last_date_range[1]) {
+							j = 0;
+						
+						// 日期在今年的，按月份保存
+						} else if (riqi >= current_date_range[0] && riqi <= current_date_range[1]) {
+							// console.log(riqi.Format('MM'));
+							switch(riqi.Format('MM')) //月份
+							{
+								case '01':
+									j = 10;break;
+								case '02':
+									j = 11;break;
+								case '03':
+									j = 12;break;
+								case '04':
+									j = 1;break; // 注意0下标
+								case '05':
+									j = 2;break;
+								case '06':
+									j = 3;break;
+								case '07':
+									j = 4;break;
+								case '08':
+									j = 5;break;
+								case '09':
+									j = 6;break;
+								case '10':
+									j = 7;break;
+								case '11':
+									j = 8;break;
+								case '12':
+									j = 9;break;
+								default:
+									
+							}
+						}
+						// console.log(v.hejidianshu);
+						_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
+
+					});
+					// console.log(_this.chart3_option_series_data_hejidianshu);
 
 
 					
