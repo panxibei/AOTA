@@ -98,6 +98,8 @@ SMT - PD report
 					<Input-number v-model.lazy="meishu" :min="1" size="small" style="width: 120px" placeholder="数字大于0"></Input-number>
 				</i-col>
 				<i-col span="16">
+					* 手动生产时间&nbsp;&nbsp;
+					<Input-number v-model.lazy="shoudongshengchanshijian" :min="1" size="small" style="width: 120px" placeholder="数字大于0"></Input-number>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -472,6 +474,9 @@ var vm_app = new Vue({
 		//枚数
 		meishu: '',
 		
+		//手动生产时间
+		shoudongshengchanshijian: '',
+		
 		//台数
 		taishu: '',
 		
@@ -660,6 +665,17 @@ var vm_app = new Vue({
 						render: (h, params) => {
 							return h('div', [
 								params.row.meishu.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '手动生产时间',
+						key: 'shoudongshengchanshijian',
+						align: 'center',
+						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.shoudongshengchanshijian.toLocaleString()
 							]);
 						}
 					},
@@ -1361,6 +1377,7 @@ var vm_app = new Vue({
 			_this.lotshu = '';
 			_this.meimiao = '';
 			_this.meishu = '';
+			_this.shoudongshengchanshijian = '';
 			_this.taishu = '';
 			_this.select_gongxu = '';
 			_this.xinchan = '';
@@ -1391,6 +1408,7 @@ var vm_app = new Vue({
 			var gongxu = _this.select_gongxu;
 			var meimiao = _this.meimiao;
 			var meishu = _this.meishu;
+			var shoudongshengchanshijian = _this.shoudongshengchanshijian;
 
 			var xinchan = _this.xinchan;
 			var liangchan = _this.liangchan;
@@ -1405,8 +1423,8 @@ var vm_app = new Vue({
 			var shizuo = _this.shizuo;
 			var jizaishixiang = _this.jizaishixiang;
 
-			if (shengchanriqi == '' || xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || meishu == '' || gongxu == ''
-				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || meishu == undefined || gongxu == undefined) {
+			if (shengchanriqi == '' || xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || meishu == '' || shoudongshengchanshijian == '' || gongxu == ''
+				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || meishu == undefined || shoudongshengchanshijian == undefined || gongxu == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
@@ -1433,6 +1451,7 @@ var vm_app = new Vue({
 				gongxu: gongxu,
 				meimiao: meimiao,
 				meishu: meishu,
+				shoudongshengchanshijian: shoudongshengchanshijian,
 				xinchan: xinchan,
 				liangchan: liangchan,
 				dengdaibupin: dengdaibupin,

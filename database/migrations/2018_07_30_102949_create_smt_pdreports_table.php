@@ -26,6 +26,7 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('dianmei')->unsigned();
 			$table->integer('meimiao')->unsigned();
 			$table->integer('meishu')->unsigned();
+			$table->integer('shoudongshengchanshijian')->unsigned();
 			$table->integer('taishu')->unsigned();
 			$table->integer('lotcan')->unsigned();
 			$table->integer('chajiandianshu')->unsigned();
