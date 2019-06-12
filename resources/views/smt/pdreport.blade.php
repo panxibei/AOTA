@@ -672,7 +672,17 @@ var vm_app = new Vue({
 						title: '手动生产时间',
 						key: 'shoudongshengchanshijian',
 						align: 'center',
-						width: 80,
+						width: 100,
+						renderHeader: (h, params) => {
+							return h('div', [
+								h('span', {
+								}, '手动'),
+								h('br', {
+								}, ''),
+								h('span', {
+								}, '生产时间')
+							]);
+						},
 						render: (h, params) => {
 							return h('div', [
 								params.row.shoudongshengchanshijian.toLocaleString()
