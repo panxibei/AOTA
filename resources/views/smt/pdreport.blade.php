@@ -472,7 +472,7 @@ var vm_app = new Vue({
 		meimiao: '',
 		
 		//枚数
-		meishu: '',
+		// meishu: '',
 		
 		//手动生产时间
 		shoudongshengchanshijian: '',
@@ -1376,7 +1376,7 @@ var vm_app = new Vue({
 			_this.select_pinming = '';
 			_this.lotshu = '';
 			_this.meimiao = '';
-			_this.meishu = '';
+			// _this.meishu = '';
 			_this.shoudongshengchanshijian = '';
 			_this.taishu = '';
 			_this.select_gongxu = '';
