@@ -8,8 +8,8 @@ use DB;
 class Smt_pdreport extends Model
 {
 	protected $fillable = [
-        'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'taishu', 'lotcan', 'chajiandianshu', 'jiadonglv',
-		'xinchan', 'dengdaibupin', 'liangchan', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'bupinbuchong', 'shizuo', 'jizaishixiang', 'dandangzhe', 'querenzhe',
+        'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shoudongshengchanshijian', 'taishu', 'lotcan', 'chajiandianshu', 'jiadonglv',
+		'xinchan', 'dengdaibupin', 'liangchan', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'xinjizhongshengchanshijian', 'shizuo', 'jizaishixiang', 'dandangzhe', 'querenzhe',
     ];
 	
     //批量更新

@@ -241,7 +241,7 @@ class pdreportController extends Controller
 			'pinming',
 			'lotshu',
 			'meimiao',
-			'meishu',
+			'taishu',
 			'shoudongshengchanshijian',
 			'gongxu',
 			'xinchan',
@@ -270,9 +270,12 @@ class pdreportController extends Controller
 		if ($t == null) return 0;
 		
 		$dianmei = $t->diantai * $t->pinban;
-		$taishu = $dailyreport['meishu'] * $t->pinban;
-		$chajiandianshu = $t->diantai * $dailyreport['meishu'];
-		$jiadonglv = $dailyreport['meishu'] * $dailyreport['meimiao'] / 43200;
+		// $taishu = $dailyreport['meishu'] * $t->pinban;
+		$meishu = ceil($dailyreport['taishu'] / $t->pinban);
+		// $chajiandianshu = $t->diantai * $dailyreport['meishu'];
+		$chajiandianshu = $t->diantai * $meishu;
+		// $jiadonglv = $dailyreport['meishu'] * $dailyreport['meimiao'] / 43200;
+		$jiadonglv = $meishu * $dailyreport['meimiao'] / 43200;
 
 		// 写入数据库
 		try	{
@@ -286,13 +289,12 @@ class pdreportController extends Controller
 				'pinming'		=> $dailyreport['pinming'],
 				'lotshu'		=> $dailyreport['lotshu'],
 				'meimiao'		=> $dailyreport['meimiao'],
-				'meishu'		=> $dailyreport['meishu'],
+				'meishu'		=> $meishu,
 				'shoudongshengchanshijian'		=> $dailyreport['shoudongshengchanshijian'],
 				'gongxu'		=> $dailyreport['gongxu'],
 				'dianmei'		=> $dianmei,
 				'meimiao'		=> $dailyreport['meimiao'],
-				'meishu'		=> $dailyreport['meishu'],
-				'taishu'		=> $taishu,
+				'taishu'		=> $dailyreport['taishu'],
 				'lotcan'		=> 0,
 				'chajiandianshu'=> $chajiandianshu,
 				'jiadonglv'		=> $jiadonglv,
