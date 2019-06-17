@@ -1440,7 +1440,8 @@ var vm_app = new Vue({
 			}
 
 			// 正则判断spno（10位数字 + 横杠 + 一位或两位数字）
-			var pattern = /^\d{10}-\d{1,2}$/;
+			// var pattern = /^\d{10}-\d{1,2}$/;
+			var pattern = /^\d{10}-[0-9a-zA-Z]{1,2}$/;
 			// console.log(pattern.test(spno));
 			// return false;
 			if (! pattern.test(spno)) {
