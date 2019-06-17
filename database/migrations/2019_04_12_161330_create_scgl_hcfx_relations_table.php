@@ -19,6 +19,7 @@ class CreateScglHcfxRelationsTable extends Migration
             $table->string('tuopanxinghao', 50)->comment('托盘型号');
             $table->integer('tai_per_tuo')->unsigned()->comment('台/托');
             $table->timestamps();
+            $table->index('jizhongming');
             $table->engine = 'InnoDB';
         });
     }

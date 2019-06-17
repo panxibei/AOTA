@@ -47,7 +47,8 @@ class CreateBpjgZhongrichengZrcfxsTable extends Migration
 			$table->integer('d29')->nullable()->default(0)->unsigned()->comment('29号数量');
 			$table->integer('d30')->nullable()->default(0)->unsigned()->comment('30号数量');
 			$table->integer('d31')->nullable()->default(0)->unsigned()->comment('31号数量');
-            $table->timestamps();
+			$table->timestamps();
+			$table->index('jizhongming');
 			$table->engine = 'InnoDB';
         });
     }
