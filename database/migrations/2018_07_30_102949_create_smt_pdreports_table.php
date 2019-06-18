@@ -45,7 +45,10 @@ class CreateSmtPdreportsTable extends Migration
 			$table->text('jizaishixiang')->nullable();
 			$table->string('dandangzhe', 20)->nullable();
 			$table->string('querenzhe', 20)->nullable();
-            $table->timestamps();
+			$table->timestamps();
+			$table->index('shengchanriqi');
+			$table->index('xianti');
+			$table->index('banci');
 			$table->engine = 'InnoDB';
         });
     }

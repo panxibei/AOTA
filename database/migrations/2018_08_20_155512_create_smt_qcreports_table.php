@@ -35,7 +35,10 @@ class CreateSmtQcreportsTable extends Migration
 			$table->integer('shuliang')->unsigned()->nullable();
 			$table->string('jianchajileixing', 20)->nullable();
 			$table->string('jianchazhe', 20)->nullable();
-            $table->timestamps();
+			$table->timestamps();
+			$table->index('jianchariqi');
+			$table->index('xianti');
+			$table->index('created_at');
 			$table->engine = 'InnoDB';
 		});
     }
