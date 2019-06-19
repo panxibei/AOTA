@@ -16,7 +16,7 @@ class CreateScglConfigsTable extends Migration
         Schema::create('scgl_configs', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('title', 100);
-			$table->string('name', 100);
+			$table->string('name', 100)->unique();
 			$table->text('value')->nullable();
             $table->timestamps();
 			$table->engine = 'InnoDB';

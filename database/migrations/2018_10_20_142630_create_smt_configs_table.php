@@ -16,7 +16,7 @@ class CreateSmtConfigsTable extends Migration
         Schema::create('smt_configs', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('title', 100);
-			$table->string('name', 100);
+			$table->string('name', 100)->unique();
             $table->text('value')->nullable();
             $table->string('suoshu')->comment('配置所属哪个页面');
             $table->timestamps();
