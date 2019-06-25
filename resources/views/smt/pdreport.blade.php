@@ -1654,7 +1654,7 @@ var vm_app = new Vue({
 		
 		// 担当者变更
 		dandangzhechange: function (value) {
-			if (value == undefined ) return false;
+			if (value == undefined) return false;
 			var _this = this;
 			var tableselect = _this.tableselect;
 			

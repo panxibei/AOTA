@@ -404,7 +404,7 @@ class pdreportController extends Controller
 	 */
 	public function dandangzheChange(Request $request)
 	{
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$dailyreport = $request->only('id', 'dandangzhe');
 		// dd($dailyreport['id']);
