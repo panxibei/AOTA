@@ -369,7 +369,7 @@ class pdreportController extends Controller
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				})
-				->orderBy('shengchanriqi', 'asc')
+				// ->orderBy('shengchanriqi', 'asc')
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 		
