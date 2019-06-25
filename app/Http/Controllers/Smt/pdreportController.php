@@ -423,7 +423,6 @@ class pdreportController extends Controller
 				
 			// 批量更新
 			app(Smt_pdreport::class)->updateBatch($data);
-			
 			$result = 1;
 		}
 		catch (\Exception $e) {
@@ -442,7 +441,7 @@ class pdreportController extends Controller
 	 */
 	public function querenzheChange(Request $request)
 	{
-		if (! $request->isMethod('post') || ! $request->ajax()) { return null; }
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$dailyreport = $request->only('id', 'querenzhe');
 		// dd($dailyreport['id']);

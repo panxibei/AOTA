@@ -1680,7 +1680,7 @@ var vm_app = new Vue({
 				}
 			})
 			.catch(function (error) {
-				console.log(error);
+				// console.log(error);
 				_this.error(false, '错误', '更新失败！');
 			})			
 		},
@@ -1713,7 +1713,7 @@ var vm_app = new Vue({
 				}
 			})
 			.catch(function (error) {
-				console.log(error);
+				// console.log(error);
 				_this.error(false, '错误', '更新失败！');
 			})			
 		},

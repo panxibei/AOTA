@@ -48,7 +48,7 @@ class Smt_pdreport extends Model
             // 传入预处理sql语句和对应绑定数据
             return DB::update($updateSql, $bindings);
         } catch (\Exception $e) {
-            dd('Message: ' .$e->getMessage());
+            // dd('Message: ' .$e->getMessage());
             return false;
         }
     }
