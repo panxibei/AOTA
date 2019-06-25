@@ -1657,7 +1657,7 @@ var vm_app = new Vue({
 			if (value == undefined) return false;
 			var _this = this;
 			var tableselect = _this.tableselect;
-			console.log(tableselect);return false;
+			// console.log(tableselect);return false;
 			if (tableselect[0] == undefined) return false;
 			
 			var url = "{{ route('smt.pdreport.dandangzhechange') }}";

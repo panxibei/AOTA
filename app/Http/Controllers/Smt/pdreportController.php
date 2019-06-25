@@ -412,7 +412,7 @@ class pdreportController extends Controller
 			$data[$key]['id'] = $value;
 			$data[$key]['dandangzhe'] = $dailyreport['dandangzhe'];
 		}
-		// dd($data);
+		dd($data);
 
 		try	{
 			// $result = Smt_pdreport::where('id', $dailyreport['id'])
