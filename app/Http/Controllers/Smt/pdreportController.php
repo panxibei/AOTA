@@ -356,8 +356,9 @@ class pdreportController extends Controller
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl)) {
 			$result = Cache::get($fullUrl);    //直接读取cache
-		} else {                                   //如果cache里面没有        
-			$result = Smt_pdreport::when($date_filter, function ($query) use ($date_filter) {
+		} else {                                   //如果cache里面没有
+			// 分页结果
+			$result['paginate'] = Smt_pdreport::when($date_filter, function ($query) use ($date_filter) {
 					return $query->whereBetween('shengchanriqi', $date_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
@@ -372,6 +373,23 @@ class pdreportController extends Controller
 				// ->orderBy('shengchanriqi', 'asc')
 				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
+			
+			// 总记录结果，包含全部分页，用于真正地计算汇总
+			$result['total'] = Smt_pdreport::when($date_filter, function ($query) use ($date_filter) {
+					return $query->whereBetween('shengchanriqi', $date_filter);
+				})
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
+				})
+				->when($banci_filter, function ($query) use ($banci_filter) {
+					return $query->where('banci', 'like', '%'.$banci_filter.'%');
+				})
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
+				// ->orderBy('shengchanriqi', 'asc')
+				->orderBy('created_at', 'asc')
+				->get();
 		
 			Cache::put($fullUrl, $result, now()->addSeconds(10));
 		}

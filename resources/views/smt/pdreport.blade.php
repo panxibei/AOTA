@@ -257,7 +257,7 @@ SMT - PD report
 				
 				<i-col span="16">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
-					<div style="text-align:right"><strong>生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(2).toLocaleString() + '分' }}</strong>&nbsp;&nbsp;</div>
+					<div style="text-align:right"><strong>枚数小计：@{{ xiaoji_meishu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(2).toLocaleString() + '分' }}</strong>&nbsp;&nbsp;</div>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -279,7 +279,7 @@ SMT - PD report
 			</Modal>
 
 			<br>
-			<i-table height="400" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
+			<i-table height="350" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
 			<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
 
 		</Tab-pane>
@@ -426,29 +426,37 @@ var vm_app = new Vue({
 		banci: '',
 		select_banci: '',
 		option_banci: [
+			// {
+			// 	value: 'A-1',
+			// 	label: 'A-1'
+			// },
+			// {
+			// 	value: 'A-2',
+			// 	label: 'A-2'
+			// },
+			// {
+			// 	value: 'A-3',
+			// 	label: 'A-3'
+			// },
+			// {
+			// 	value: 'B-1',
+			// 	label: 'B-1'
+			// },
+			// {
+			// 	value: 'B-2',
+			// 	label: 'B-2'
+			// },
+			// {
+			// 	value: 'B-3',
+			// 	label: 'B-3'
+			// }
 			{
-				value: 'A-1',
-				label: 'A-1'
+				value: 'A',
+				label: 'A'
 			},
 			{
-				value: 'A-2',
-				label: 'A-2'
-			},
-			{
-				value: 'A-3',
-				label: 'A-3'
-			},
-			{
-				value: 'B-1',
-				label: 'B-1'
-			},
-			{
-				value: 'B-2',
-				label: 'B-2'
-			},
-			{
-				value: 'B-3',
-				label: 'B-3'
+				value: 'B',
+				label: 'B'
 			}
 		],
 		
@@ -1181,8 +1189,9 @@ var vm_app = new Vue({
 		banci_filter: '',
 		jizhongming_filter: '',
 		
-		//
+		// 小计
 		xiaoji_chajiandianshu: 0,
+		xiaoji_meishu: 0,
 		xiaoji_jiadonglv: 0,
 		hejifen: 0,
 
@@ -1190,11 +1199,12 @@ var vm_app = new Vue({
 		xiaoji_shengchanshijian: 0,
 		xiaoji_langfeishijian: 0,
 		xiaoji_bupinbuchongshijian: 0,
+
 		
 		//分页
 		pagecurrent: 1,
 		pagetotal: 1,
-		pagepagesize: 10,
+		pagepagesize: 5,
 		pagelast: 1,
 
 		// tabs索引
@@ -1589,12 +1599,17 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.pagecurrent = response.data.current_page;
-					_this.pagetotal = response.data.total;
-					_this.pagelast = response.data.last_page
+// console.log(response.data);
+// return false;
+
+					_this.pagecurrent = response.data.paginate.current_page;
+					_this.pagetotal = response.data.paginate.total;
+					_this.pagelast = response.data.paginate.last_page
 					
-					_this.tabledata1 = response.data.data;
-					_this.tabledata2 = response.data.data;
+					_this.tabledata1 = response.data.paginate.data;
+					_this.tabledata2 = response.data.paginate.data;
+
+					var tabledata_total = response.data.total;
 					
 					// 合计 暂未用于显示
 					// _this.xiaoji_chajiandianshu = 0;
@@ -1614,9 +1629,15 @@ var vm_app = new Vue({
 
 						_this.xiaoji_shengchanshijian = 0;
 						_this.xiaoji_langfeishijian = 0;
-						_this.tabledata1.map(function (v, i) {
+						_this.xiaoji_chajiandianshu = 0;
+						_this.xiaoji_meishu = 0;
+
+						// console.log(tabledata_total);
+						tabledata_total.map(function (v, i) {
 							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
 							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.xinjizhongshengchanshijian);
+							_this.xiaoji_chajiandianshu += v.chajiandianshu;
+							_this.xiaoji_meishu += v.meishu;
 						});
 						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
 						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian;
@@ -1632,6 +1653,8 @@ var vm_app = new Vue({
 						_this.xiaoji_shengchanshijian = 0;
 						_this.xiaoji_langfeishijian = 0;
 						_this.xiaoji_bupinbuchongshijian = 0;
+						_this.xiaoji_chajiandianshu = 0;
+						_this.xiaoji_meishu = 0;
 					}
 
 				} else {
