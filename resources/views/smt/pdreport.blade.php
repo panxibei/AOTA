@@ -205,7 +205,7 @@ SMT - PD report
 				<i-col span="4">
 					班次&nbsp;&nbsp;
 					<i-select v-model.lazy="banci_filter" clearable style="width:120px" @on-change="dailyreportgets(pagecurrent, pagelast)" size="small" placeholder="">
-						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						<i-option v-for="item in option_banci_filter" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 
 					<!-- <i-input v-model.lazy="banci_filter" @on-change="dailyreportgets(pagecurrent, pagelast)" @on-keyup="banci_filter=banci_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input> -->
@@ -426,37 +426,29 @@ var vm_app = new Vue({
 		banci: '',
 		select_banci: '',
 		option_banci: [
-			// {
-			// 	value: 'A-1',
-			// 	label: 'A-1'
-			// },
-			// {
-			// 	value: 'A-2',
-			// 	label: 'A-2'
-			// },
-			// {
-			// 	value: 'A-3',
-			// 	label: 'A-3'
-			// },
-			// {
-			// 	value: 'B-1',
-			// 	label: 'B-1'
-			// },
-			// {
-			// 	value: 'B-2',
-			// 	label: 'B-2'
-			// },
-			// {
-			// 	value: 'B-3',
-			// 	label: 'B-3'
-			// }
 			{
-				value: 'A',
-				label: 'A'
+				value: 'A-1',
+				label: 'A-1'
 			},
 			{
-				value: 'B',
-				label: 'B'
+				value: 'A-2',
+				label: 'A-2'
+			},
+			{
+				value: 'A-3',
+				label: 'A-3'
+			},
+			{
+				value: 'B-1',
+				label: 'B-1'
+			},
+			{
+				value: 'B-2',
+				label: 'B-2'
+			},
+			{
+				value: 'B-3',
+				label: 'B-3'
 			}
 		],
 		
@@ -531,7 +523,7 @@ var vm_app = new Vue({
 				title: '生产日期',
 				key: 'shengchanriqi',
 				align: 'center',
-				width: 120,
+				width: 100,
 				render: (h, params) => {
 					return h('div', [
 						params.row.shengchanriqi.substring(0,10)
@@ -550,49 +542,49 @@ var vm_app = new Vue({
 				title: '班次',
 				key: 'banci',
 				align: 'center',
-				width: 80,
-				filters: [
-					{
-						label: 'A-1',
-						value: 'A-1'
-					},
-					{
-						label: 'A-2',
-						value: 'A-2'
-					},
-					{
-						label: 'A-3',
-						value: 'A-3'
-					},
-					{
-						label: 'B-1',
-						value: 'B-1'
-					},
-					{
-						label: 'B-2',
-						value: 'B-2'
-					},
-					{
-						label: 'B-3',
-						value: 'B-3'
-					}
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					if (value === 'A-1') {
-						return row.banci === 'A-1';
-					} else if (value === 'A-2') {
-						return row.banci === 'A-2';
-					} else if (value === 'A-3') {
-						return row.banci === 'A-3';
-					} else if (value === 'B-1') {
-						return row.banci === 'B-1';
-					} else if (value === 'B-2') {
-						return row.banci === 'B-2';
-					} else if (value === 'B-3') {
-						return row.banci === 'B-3';
-					}
-				}
+				width: 70,
+				// filters: [
+				// 	{
+				// 		label: 'A-1',
+				// 		value: 'A-1'
+				// 	},
+				// 	{
+				// 		label: 'A-2',
+				// 		value: 'A-2'
+				// 	},
+				// 	{
+				// 		label: 'A-3',
+				// 		value: 'A-3'
+				// 	},
+				// 	{
+				// 		label: 'B-1',
+				// 		value: 'B-1'
+				// 	},
+				// 	{
+				// 		label: 'B-2',
+				// 		value: 'B-2'
+				// 	},
+				// 	{
+				// 		label: 'B-3',
+				// 		value: 'B-3'
+				// 	}
+				// ],
+				// filterMultiple: false,
+				// filterMethod: function (value, row) {
+				// 	if (value === 'A-1') {
+				// 		return row.banci === 'A-1';
+				// 	} else if (value === 'A-2') {
+				// 		return row.banci === 'A-2';
+				// 	} else if (value === 'A-3') {
+				// 		return row.banci === 'A-3';
+				// 	} else if (value === 'B-1') {
+				// 		return row.banci === 'B-1';
+				// 	} else if (value === 'B-2') {
+				// 		return row.banci === 'B-2';
+				// 	} else if (value === 'B-3') {
+				// 		return row.banci === 'B-3';
+				// 	}
+				// }
 			},
 			// 3
 			{
@@ -603,29 +595,33 @@ var vm_app = new Vue({
 						title: '机种名',
 						key: 'jizhongming',
 						align: 'center',
-						width: 120,
+						width: 100,
 						sortable: true
 					},
 					{
 						title: 'SP NO.',
 						key: 'spno',
 						align: 'center',
-						width: 140,
+						width: 130,
 						// sortable: true
 					},
 					{
 						title: '品名',
 						key: 'pinming',
 						align: 'center',
-						width: 100,
+						width: 80,
 						// sortable: true
 					},
 					{
 						title: 'LOT数',
 						key: 'lotshu',
 						align: 'center',
-						width: 100,
-						// sortable: true
+						width: 70,
+						render: (h, params) => {
+							return h('div', [
+								params.row.lotshu.toLocaleString()
+							]);
+						}
 					}
 
 				]
@@ -645,7 +641,7 @@ var vm_app = new Vue({
 						title: '点/枚',
 						key: 'dianmei',
 						align: 'center',
-						width: 100,
+						width: 70,
 						render: (h, params) => {
 							return h('div', [
 								params.row.dianmei.toLocaleString()
@@ -680,7 +676,7 @@ var vm_app = new Vue({
 						title: '手动生产时间',
 						key: 'shoudongshengchanshijian',
 						align: 'center',
-						width: 100,
+						width: 90,
 						renderHeader: (h, params) => {
 							return h('div', [
 								h('span', {
@@ -701,7 +697,7 @@ var vm_app = new Vue({
 						title: '台数',
 						key: 'taishu',
 						align: 'center',
-						width: 80,
+						width: 70,
 						render: (h, params) => {
 							return h('div', [
 								params.row.taishu.toLocaleString()
@@ -712,14 +708,29 @@ var vm_app = new Vue({
 						title: 'LOT残',
 						key: 'lotcan',
 						align: 'center',
-						width: 80
+						width: 70,
+						render: (h, params) => {
+							return h('div', [
+								params.row.lotcan.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '插件点数',
 						key: 'chajiandianshu',
 						align: 'center',
-						width: 100,
+						width: 80,
 						className: 'table-info-column',
+						renderHeader: (h, params) => {
+							return h('div', [
+								h('span', {
+								}, '插件'),
+								h('br', {
+								}, ''),
+								h('span', {
+								}, '点数')
+							]);
+						},
 						render: (h, params) => {
 							return h('div', [
 								params.row.chajiandianshu.toLocaleString()
@@ -730,7 +741,7 @@ var vm_app = new Vue({
 						title: '稼动率',
 						key: 'jiadonglv',
 						align: 'center',
-						width: 100,
+						width: 80,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -962,7 +973,7 @@ var vm_app = new Vue({
 						title: '记载事项<br>查看说明',
 						key: 'jizaishixiang',
 						align: 'center',
-						width: 140,
+						width: 110,
 						renderHeader: (h, params) => {
 							return h('div', [
 								h('span', {
@@ -1030,16 +1041,22 @@ var vm_app = new Vue({
 						width: 50
 					},
 					{
+						title: '录入者',
+						key: 'luruzhe',
+						align: 'center',
+						width: 80
+					},
+					{
 						title: '担当者',
 						key: 'dandangzhe',
 						align: 'center',
-						width: 100
+						width: 80
 					},
 					{
 						title: '确认者',
 						key: 'querenzhe',
 						align: 'center',
-						width: 100
+						width: 80
 					}
 				]
 			}
@@ -1187,6 +1204,16 @@ var vm_app = new Vue({
 		},		
 		xianti_filter: '',
 		banci_filter: '',
+		option_banci_filter: [
+			{
+				value: 'A',
+				label: 'A'
+			},
+			{
+				value: 'B',
+				label: 'B'
+			}
+		],
 		jizhongming_filter: '',
 		
 		// 小计
@@ -1487,6 +1514,9 @@ var vm_app = new Vue({
 				jizaishixiang: jizaishixiang,
 			})
 			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
 				if (response.data) {
 					_this.clear();
 					_this.success(false, '成功', '记入成功！');
@@ -1599,8 +1629,8 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-// console.log(response.data);
-// return false;
+					// console.log(response.data);
+					// return false;
 
 					_this.pagecurrent = response.data.paginate.current_page;
 					_this.pagetotal = response.data.paginate.total;

@@ -277,6 +277,17 @@ class pdreportController extends Controller
 		// $jiadonglv = $dailyreport['meishu'] * $dailyreport['meimiao'] / 43200;
 		$jiadonglv = $meishu * $dailyreport['meimiao'] / 43200;
 
+		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+		$user_tmp = explode(' ', $user['displayname']);
+
+		if (sizeof($user_tmp)>1) {
+			$luruzhe = $user_tmp[0] . $user_tmp[1];
+		} else {
+			$luruzhe = $user['displayname'];
+		}
+
 		// 写入数据库
 		try	{
 			// $result = DB::table('dailyreports')->insert([
@@ -311,6 +322,7 @@ class pdreportController extends Controller
 				'xinjizhongshengchanshijian'				=> $dailyreport['xinjizhongshengchanshijian'],
 				'shizuo'					=> $dailyreport['shizuo'],
 				'jizaishixiang'				=> $dailyreport['jizaishixiang'],
+				'luruzhe'					=> $luruzhe,
 			]);
 			$result = 1;
 		}
