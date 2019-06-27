@@ -13,7 +13,7 @@ SMT(QC report) -
       list-style:none;
       text-Align: center;
       padding: 9px;
-      border-bottom:1px solid #ccc;
+      border-bottom:1px solid #E8EAEC;
       overflow-x: hidden;
 }
 .subCol>ul>li:last-child{
@@ -716,7 +716,7 @@ var vm_app = new Vue({
 					]);
 				},
 				fixed: 'right'
-			},			
+			},
  			{
 				title: '检查日期',
 				key: 'jianchariqi',
@@ -1044,23 +1044,164 @@ var vm_app = new Vue({
 				width: 120
 			},
 			{
-				title: '创建日期',
-				key: 'created_at',
-				align: 'center',
-				width: 160,
+				title: '不良编号',
+				key: 'buliangxinxi',
+				align:'center',
+				width: 60,
+				render: (h, params) => {
+					return h('div', {
+						attrs: {
+							class:'subCol'
+						},
+					}, [
+					h('ul', params.row.buliangxinxi.map(item => {
+						return h('li', {
+						}, item.id)
+					}))
+				]);
+				}
 			},
 			{
-				title: '更新日期',
-				key: 'updated_at',
-				align: 'center',
-				width: 160,
+				title: '不良内容',
+				key: 'buliangxinxi',
+				align:'center',
+				width: 120,
+				render: (h, params) => {
+					return h('div', {
+						attrs: {
+							class:'subCol'
+						},
+					}, [
+					h('ul', params.row.buliangxinxi.map(item => {
+						return h('li', {
+						}, item.buliangneirong)
+					}))
+				]);
+				}
 			},
+			{
+				title: '位号',
+				key: 'buliangxinxi',
+				align:'center',
+				width: 120,
+				render: (h, params) => {
+					return h('div', {
+						attrs: {
+							class:'subCol'
+						},
+					}, [
+					h('ul', params.row.buliangxinxi.map(item => {
+						return h('li', {
+						}, item.weihao)
+					}))
+				]);
+				}
+			},
+			{
+				title: '数量',
+				key: 'buliangxinxi',
+				align:'center',
+				width: 120,
+				render: (h, params) => {
+					return h('div', {
+						attrs: {
+							class:'subCol'
+						},
+					}, [
+					h('ul', params.row.buliangxinxi.map(item => {
+						return h('li', {
+						}, item.shuliang)
+					}))
+				]);
+				}
+			},
+			{
+				title: '检查机类型',
+				key: 'buliangxinxi',
+				align:'center',
+				width: 120,
+				render: (h, params) => {
+					return h('div', {
+						attrs: {
+							class:'subCol'
+						},
+					}, [
+					h('ul', params.row.buliangxinxi.map(item => {
+						return h('li', {
+						}, item.jianchajileixing)
+					}))
+				]);
+				}
+			},
+			{
+				title: '检查者',
+				key: 'buliangxinxi',
+				align:'center',
+				width: 120,
+				render: (h, params) => {
+					return h('div', {
+						attrs: {
+							class:'subCol'
+						},
+					}, [
+					h('ul', params.row.buliangxinxi.map(item => {
+						return h('li', {
+						}, item.jianchazhe)
+					}))
+				]);
+				}
+			},
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+			// {
+			// 	title: '更新日期',
+			// 	key: 'updated_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
 		],
 		tabledata1: [],
 		tableselect1: [],
 		
 // ------------------------------------------------------------------
 tablecolumns2:[
+	{
+		type: 'selection',
+		width: 50,
+		align: 'center',
+		fixed: 'left'
+	},
+	{
+		title: '操作',
+		key: 'action',
+		align: 'center',
+		width: 70,
+		render: (h, params) => {
+			return h('div', [
+				h('Button', {
+					props: {
+						type: 'info',
+						size: 'small'
+					},
+					style: {
+						marginRight: '5px'
+					},
+					on: {
+						click: () => {
+							vm_app.qcreport_edit(params.row)
+						}
+					}
+				}, '编辑')
+			]);
+		},
+		fixed: 'right'
+	},
+
+
 	    {title:'年级',key:'grade_name',align:'center'},
         {title:'班级',key:'class_name',align:'center'},
         {title:'日期',key:'date',align:'center'},
@@ -1176,42 +1317,73 @@ tablecolumns2:[
         },
 
       ],
-tabledata2: [{
-	list: [
-		{
-			"time_period_name": "上午上学",
-			"normal_amount": 0,
-			"be_late_amount": 1,
-			"leave_early_amount": 0,
-			"not_attendance_amount": 0
-		},
-		{
-			"time_period_name": "下午上学",
-			"normal_amount": 0,
-			"be_late_amount": 0,
-			"leave_early_amount": 0,
-			"not_attendance_amount": 1
-		},
-		{
-			"time_period_name": "下午放学",
-			"normal_amount": 0,
-			"be_late_amount": 0,
-			"leave_early_amount": 0,
-			"not_attendance_amount": 1
-		},
-		{
-			"time_period_name": "上午放学",
-			"normal_amount": 0,
-			"be_late_amount": 0,
-			"leave_early_amount": 1,
-			"not_attendance_amount": 0
-		}
+tabledata2: [
+	{
+		list: [
+			{
+				"time_period_name": "上午上学",
+				"normal_amount": 10,
+				"be_late_amount": 1,
+				"leave_early_amount": 0,
+				"not_attendance_amount": 0
+			},
+			{
+				"time_period_name": "下午上学",
+				"normal_amount": 0,
+				"be_late_amount": 0,
+				"leave_early_amount": 0,
+				"not_attendance_amount": 1
+			},
+			{
+				"time_period_name": "下午放学",
+				"normal_amount": 0,
+				"be_late_amount": 0,
+				"leave_early_amount": 0,
+				"not_attendance_amount": 1
+			},
+			{
+				"time_period_name": "上午放学",
+				"normal_amount": 0,
+				"be_late_amount": 0,
+				"leave_early_amount": 1,
+				"not_attendance_amount": 0
+			}
 		],
 		grade_name: "幼儿园托儿班",
 		class_name: "幼儿园托儿班2班",
 		date: "2019-02-14",
 		student_name: "刘小明",
-	}],
+	},
+	{
+		list: [
+			{
+				"time_period_name": "上午学",
+				"normal_amount": 10,
+				"be_late_amount": 1,
+				"leave_early_amount": 0,
+				"not_attendance_amount": 0
+			},
+			{
+				"time_period_name": "下午学",
+				"normal_amount": 0,
+				"be_late_amount": 0,
+				"leave_early_amount": 0,
+				"not_attendance_amount": 1
+			},
+			{
+				"time_period_name": "下午放学",
+				"normal_amount": 0,
+				"be_late_amount": 0,
+				"leave_early_amount": 0,
+				"not_attendance_amount": 1
+			},
+		],
+		grade_name: "幼儿园托儿班2",
+		class_name: "幼儿园托儿班2班2",
+		date: "2019-12-12",
+		student_name: "刘小明2",
+	}
+],
 // ----------------------------------------------------
 		
 		// 日期范围过滤
