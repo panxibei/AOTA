@@ -387,6 +387,104 @@ SMT(QC report) -
 						</div>	
 					</Modal>
 
+					<!-- 子编辑窗口 -->
+					<Modal v-model="modal_qcreport_edit_sub" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 不良信息" width="540">
+						<div style="text-align:left">
+							<p>
+								创建时间：@{{ created_at_edit }}
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								更新时间：@{{ updated_at_edit }}
+							
+							</p><br>
+
+							<p>
+								机种名：@{{ jizhongming_edit }}
+							
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								品名：@{{ pinming_edit }}
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								工序：@{{ gongxu_edit }}
+							
+							</p>
+							
+							<Divider></Divider>
+
+							<!--<span v-for="(item, index) in piliangbianji">-->
+							<p>
+								检查机类型&nbsp;&nbsp;
+								<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
+									<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+								</i-select>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+
+								不良内容&nbsp;&nbsp;
+								<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
+									<Option-group label="****** 印刷系 ******">
+										<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 装着系 ******">
+										<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 异物系 ******">
+										<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 人系 ******">
+										<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 部品系 ******">
+										<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 其他 ******">
+										<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+								</i-select>
+
+								
+							</p><br>
+							
+							<p>
+								位号&nbsp;&nbsp;
+								<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								数量&nbsp;&nbsp;
+								<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								检查者&nbsp;&nbsp;
+								<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
+									<Option-group label="*** 一组 ***">
+										<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="*** 二组 ***">
+										<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="*** 三组 ***">
+										<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+								</i-select>
+
+
+							</p><br>
+							<!--</span>-->
+							
+							&nbsp;
+						
+							<p>
+							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
+							</p>
+						
+						</div>	
+					</Modal>
+
 				</Tab-pane>
 
 				<Tab-pane label="图表 - 工程内不良记录（PPM）">
@@ -1151,6 +1249,43 @@ var vm_app = new Vue({
 				]);
 				}
 			},
+			{
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+						h('ul', params.row.buliangxinxi.map(item => {
+							return h('li', {
+							}, [
+								h('Button', {
+									props: {
+										type: 'info',
+										size: 'small'
+									},
+									style: {
+										marginRight: '5px'
+									},
+									on: {
+										click: () => {
+											console.log(params.row.id);
+											console.log(item.id);
+											vm_app.qcreport_edit_sub(params.row, item)
+										}
+									}
+								}, '编辑')
+							])
+						}))
+					]);
+				},
+			},
+
+
 			// {
 			// 	title: '创建日期',
 			// 	key: 'created_at',
@@ -1593,8 +1728,12 @@ tabledata2: [
 		
 		// 编辑
 		modal_qcreport_edit: false,
+		modal_qcreport_edit_sub: false,
 		id_edit: '',
+		subid_edit: '',
 		jizhongming_edit: '',
+		pinming_edit: '',
+		gongxu_edit: '',
 		created_at_edit: '',
 		updated_at_edit: '',
 		jianchajileixing_edit: '',
@@ -3462,7 +3601,7 @@ tabledata2: [
 		},
 		
 		
-		// 编辑前查看
+		// 主编辑前查看
 		qcreport_edit: function (row) {
 			var _this = this;
 			
@@ -3483,6 +3622,37 @@ tabledata2: [
 			_this.ppm_edit = row.ppm;
 
 			_this.modal_qcreport_edit = true;
+		},
+		
+		
+		// 子编辑前查看
+		qcreport_edit_sub: function (row, subrow) {
+			var _this = this;
+			
+			_this.id_edit = row.id;
+			_this.subid_edit = subrow.id;
+
+			_this.jizhongming_edit = row.jizhongming;
+			_this.pinming_edit = row.pinming;
+			_this.gongxu_edit = row.gongxu;
+
+			_this.created_at_edit = row.created_at;
+			_this.updated_at_edit = row.updated_at;
+
+			_this.jianchajileixing_edit = subrow.jianchajileixing;
+			_this.buliangneirong_edit = subrow.buliangneirong;
+			_this.weihao_edit = subrow.weihao;
+			_this.shuliang_edit[0] = subrow.shuliang;
+			_this.shuliang_edit[1] = subrow.shuliang;
+			_this.jianchazhe_edit = subrow.jianchazhe;
+
+			// _this.dianmei_edit = row.dianmei;
+			// _this.meishu_edit = row.meishu;
+			// _this.hejidianshu_edit = row.hejidianshu;
+			// _this.bushihejianshuheji_edit = row.bushihejianshuheji;
+			// _this.ppm_edit = row.ppm;
+
+			_this.modal_qcreport_edit_sub = true;
 		},
 		
 		
