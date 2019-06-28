@@ -412,17 +412,17 @@ class qcreportController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('id');
-		$jizhongming = $request->input('jizhongming');
+		// $jizhongming = $request->input('jizhongming');
 		$created_at = $request->input('created_at');
 		$updated_at = $request->input('updated_at');
-		$jianchajileixing = $request->input('jianchajileixing');
-		$buliangneirong = $request->input('buliangneirong');
-		$weihao = $request->input('weihao');
-		$shuliang = $request->input('shuliang');
-		$jianchazhe = $request->input('jianchazhe');
+		// $jianchajileixing = $request->input('jianchajileixing');
+		// $buliangneirong = $request->input('buliangneirong');
+		// $weihao = $request->input('weihao');
+		// $shuliang = $request->input('shuliang');
+		// $jianchazhe = $request->input('jianchazhe');
 		$meishu = $request->input('meishu');
 		$hejidianshu = $request->input('hejidianshu');
-		$bushihejianshuheji = $request->input('bushihejianshuheji');
+		// $bushihejianshuheji = $request->input('bushihejianshuheji');
 		$ppm = $request->input('ppm');
 
 		// dd($id);
@@ -448,18 +448,9 @@ class qcreportController extends Controller
 			DB::beginTransaction();
 			$result = Smt_qcreport::where('id', $id)
 				->update([
-					'jizhongming'		=> $jizhongming,
-					'jianchajileixing'	=> $jianchajileixing,
-					'buliangneirong'	=> $buliangneirong,
-					'weihao'			=> $weihao,
-					'shuliang'			=> $shuliang,
-					'jianchazhe'		=> $jianchazhe,
-				]);
-			$result = Smt_qcreport::where('created_at', $created_at)
-				->update([
 					'meishu'				=> $meishu,
 					'hejidianshu'			=> $hejidianshu,
-					'bushihejianshuheji'	=> $bushihejianshuheji,
+					// 'bushihejianshuheji'	=> $bushihejianshuheji,
 					'ppm'					=> $ppm,
 				]);
 			$result = 1;

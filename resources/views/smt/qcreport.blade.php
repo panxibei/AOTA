@@ -294,20 +294,30 @@ SMT(QC report) -
 
 					<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 工程内不良记录" width="540">
 						<div style="text-align:left">
-							<p>
-								机种名：@{{ jizhongming_edit }}
-							
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
+						<p>
 								创建时间：@{{ created_at_edit }}
 								
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								
 								更新时间：@{{ updated_at_edit }}
 							
-							</p>
-							<br>
+							</p><br>
+
+							<p>
+								机种名：@{{ jizhongming_edit }}
 							
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								品名：@{{ pinming_edit }}
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								工序：@{{ gongxu_edit }}
+							
+							</p>
+							
+							<Divider></Divider>
+									
 							<!--<span v-for="(item, index) in piliangbianji">-->
 							<p>
 								枚数&nbsp;&nbsp;
@@ -315,74 +325,10 @@ SMT(QC report) -
 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 							
-								检查机类型&nbsp;&nbsp;
-								<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
-									<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-								</i-select>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								检查者&nbsp;&nbsp;
-								<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
-									<Option-group label="*** 一组 ***">
-										<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="*** 二组 ***">
-										<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="*** 三组 ***">
-										<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-								</i-select>
-							</p>
-							<br>
-							
-							<p>
-								不良内容&nbsp;&nbsp;
-								<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
-									<Option-group label="****** 印刷系 ******">
-										<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 装着系 ******">
-										<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 异物系 ******">
-										<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 人系 ******">
-										<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 部品系 ******">
-										<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 其他 ******">
-										<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-								</i-select>
-							</p>
-							<br>
-
-							<p>
-								位号&nbsp;&nbsp;
-								<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								数量&nbsp;&nbsp;
-								<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-
-							</p>
-							<br>
+							</p><br>
 							<!--</span>-->
 							
 							&nbsp;
-						
-							<p>
-							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
-							</p>
 						
 						</div>	
 					</Modal>
@@ -3619,14 +3565,18 @@ tabledata2: [
 			
 			_this.id_edit = row.id;
 			_this.jizhongming_edit = row.jizhongming;
+			_this.pinming_edit = row.pinming;
+			_this.gongxu_edit = row.gongxu;
+			
 			_this.created_at_edit = row.created_at;
 			_this.updated_at_edit = row.updated_at;
-			_this.jianchajileixing_edit = row.jianchajileixing;
-			_this.buliangneirong_edit = row.buliangneirong;
-			_this.weihao_edit = row.weihao;
-			_this.shuliang_edit[0] = row.shuliang;
-			_this.shuliang_edit[1] = row.shuliang;
-			_this.jianchazhe_edit = row.jianchazhe;
+
+			// _this.jianchajileixing_edit = row.jianchajileixing;
+			// _this.buliangneirong_edit = row.buliangneirong;
+			// _this.weihao_edit = row.weihao;
+			// _this.shuliang_edit[0] = row.shuliang;
+			// _this.shuliang_edit[1] = row.shuliang;
+			// _this.jianchazhe_edit = row.jianchazhe;
 			_this.dianmei_edit = row.dianmei;
 			_this.meishu_edit = row.meishu;
 			_this.hejidianshu_edit = row.hejidianshu;
@@ -3673,14 +3623,14 @@ tabledata2: [
 			var _this = this;
 			
 			var id = _this.id_edit;
-			var jizhongming = _this.jizhongming_edit;
+			// var jizhongming = _this.jizhongming_edit;
 			var created_at = _this.created_at_edit;
 			var updated_at = _this.updated_at_edit;
-			var jianchajileixing = _this.jianchajileixing_edit;
-			var buliangneirong = _this.buliangneirong_edit;
-			var weihao = _this.weihao_edit;
-			var shuliang = _this.shuliang_edit;
-			var jianchazhe = _this.jianchazhe_edit;
+			// var jianchajileixing = _this.jianchajileixing_edit;
+			// var buliangneirong = _this.buliangneirong_edit;
+			// var weihao = _this.weihao_edit;
+			// var shuliang = _this.shuliang_edit;
+			// var jianchazhe = _this.jianchazhe_edit;
 			var dianmei = _this.dianmei_edit;
 			var meishu = _this.meishu_edit;
 			var hejidianshu = _this.hejidianshu_edit;
@@ -3689,7 +3639,7 @@ tabledata2: [
 
 			// 重新计算枚数、合计点数、不良件数合计和PPM
 			hejidianshu = dianmei * meishu;
-			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
+			// bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
 			ppm = bushihejianshuheji / hejidianshu * 1000000;
 
 			// 不良检查件数不可大于检查枚数（无此逻辑关系，作废）
@@ -3701,32 +3651,21 @@ tabledata2: [
 			// console.log(buliangneirong);
 			// return false;
 			
-			// 数量为0时，清空不良内容、位号和数量
-			if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
-				buliangneirong = '';
-				weihao = '';
-				shuliang[1] = '';
-			// } else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
-			// 	|| weihao == '' || weihao == null || weihao == undefined) {
-			// 	_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
-			// 	return false;
-			}
-			
 			var url = "{{ route('smt.qcreport.qcreportupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: id,
-				jizhongming: jizhongming,
+				// jizhongming: jizhongming,
 				created_at: created_at,
 				updated_at: updated_at,
-				jianchajileixing: jianchajileixing,
-				buliangneirong: buliangneirong,
-				weihao: weihao,
-				shuliang: shuliang[1],
-				jianchazhe: jianchazhe,
+				// jianchajileixing: jianchajileixing,
+				// buliangneirong: buliangneirong,
+				// weihao: weihao,
+				// shuliang: shuliang[1],
+				// jianchazhe: jianchazhe,
 				meishu: meishu,
 				hejidianshu: hejidianshu,
-				bushihejianshuheji: bushihejianshuheji,
+				// bushihejianshuheji: bushihejianshuheji,
 				ppm: ppm
 			})
 			.then(function (response) {
