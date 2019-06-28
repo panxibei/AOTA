@@ -1286,8 +1286,6 @@ var vm_app = new Vue({
 										},
 										on: {
 											click: () => {
-												console.log(params.row.id);
-												console.log(item.id);
 												vm_app.qcreport_edit_sub(params.row, item)
 											}
 										}
@@ -3770,9 +3768,9 @@ tabledata2: [
 			var id = _this.id_edit;
 			var subid = _this.subid_edit;
 
-			var jizhongming = _this.jizhongming_edit;
-			var pinming = _this.pinming_edit;
-			var gongxu = _this.gongxu_edit;
+			// var jizhongming = _this.jizhongming_edit;
+			// var pinming = _this.pinming_edit;
+			// var gongxu = _this.gongxu_edit;
 			var created_at = _this.created_at_edit;
 			var updated_at = _this.updated_at_edit;
 
@@ -3793,15 +3791,6 @@ tabledata2: [
 			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
 			ppm = bushihejianshuheji / hejidianshu * 1000000;
 
-			// 不良检查件数不可大于检查枚数（无此逻辑关系，作废）
-			// if (bushihejianshuheji > meishu) {
-			// 	_this.warning(false, '警告', '保存失败！数量不正确，不良合计件数不可大于检查枚数！');
-			// 	return false;
-			// }
-			
-			// console.log(buliangneirong);
-			// return false;
-			
 			// 数量为0时，清空不良内容、位号和数量
 			if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
 				buliangneirong = '';
@@ -3818,7 +3807,7 @@ tabledata2: [
 			axios.post(url, {
 				id: id,
 				subid: subid,
-				jizhongming: jizhongming,
+				// jizhongming: jizhongming,
 				created_at: created_at,
 				updated_at: updated_at,
 				jianchajileixing: jianchajileixing,
@@ -3832,8 +3821,8 @@ tabledata2: [
 				ppm: ppm
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();

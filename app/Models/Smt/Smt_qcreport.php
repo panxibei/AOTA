@@ -19,7 +19,6 @@ class Smt_qcreport extends Model
      * @var array
      */
     protected $casts = [
-        // 'application' => 'array',
         'buliangxinxi' => 'array',
     ];
 

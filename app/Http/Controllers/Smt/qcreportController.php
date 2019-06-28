@@ -487,9 +487,14 @@ class qcreportController extends Controller
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('id');
-		$jizhongming = $request->input('jizhongming');
+		$subid = $request->input('subid');
+
+		// $jizhongming = $request->input('jizhongming');
+		// $pinming = $request->input('pinming');
+		// $gongxu = $request->input('gongxu');
 		$created_at = $request->input('created_at');
 		$updated_at = $request->input('updated_at');
+
 		$jianchajileixing = $request->input('jianchajileixing');
 		$buliangneirong = $request->input('buliangneirong');
 		$weihao = $request->input('weihao');
@@ -505,7 +510,7 @@ class qcreportController extends Controller
 		
 		// 判断如果不是最新的记录，不可被编辑
 		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Smt_qcreport::select('updated_at')
+		$res = Smt_qcreport::select('updated_at', 'buliangxinxi')
 			->where('id', $id)
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
@@ -518,30 +523,57 @@ class qcreportController extends Controller
 			return 0;
 		}
 
+		// 获取json数据 buliangxinxi，修改对应subid项内容
+		$json = $res['buliangxinxi'];
+		$arr_tmp = [];
+
+		foreach ($json as $key => $value) {
+			if ($value['id'] == $subid) {
+				$value['jianchajileixing']	= $jianchajileixing;
+				$value['buliangneirong']	= $buliangneirong;
+				$value['weihao']			= $weihao;
+				$value['shuliang']			= $shuliang;
+				$value['jianchazhe']		= $jianchazhe;
+			}
+			array_push($arr_tmp, $value);
+		}
+		$buliangxinxi =  json_encode(
+			$arr_tmp, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+		);
+		// dd($buliangxinxi);
+
 		// 尝试更新
 		try	{
 			DB::beginTransaction();
+			// $result = Smt_qcreport::where('id', $id)
+			// 	->update([
+			// 		'jizhongming'		=> $jizhongming,
+			// 		'jianchajileixing'	=> $jianchajileixing,
+			// 		'buliangneirong'	=> $buliangneirong,
+			// 		'weihao'			=> $weihao,
+			// 		'shuliang'			=> $shuliang,
+			// 		'jianchazhe'		=> $jianchazhe,
+			// 	]);
+			// $result = Smt_qcreport::where('created_at', $created_at)
+			// 	->update([
+			// 		'meishu'				=> $meishu,
+			// 		'hejidianshu'			=> $hejidianshu,
+			// 		'bushihejianshuheji'	=> $bushihejianshuheji,
+			// 		'ppm'					=> $ppm,
+			// 	]);
 			$result = Smt_qcreport::where('id', $id)
-				->update([
-					'jizhongming'		=> $jizhongming,
-					'jianchajileixing'	=> $jianchajileixing,
-					'buliangneirong'	=> $buliangneirong,
-					'weihao'			=> $weihao,
-					'shuliang'			=> $shuliang,
-					'jianchazhe'		=> $jianchazhe,
-				]);
-			$result = Smt_qcreport::where('created_at', $created_at)
 				->update([
 					'meishu'				=> $meishu,
 					'hejidianshu'			=> $hejidianshu,
 					'bushihejianshuheji'	=> $bushihejianshuheji,
 					'ppm'					=> $ppm,
+					'buliangxinxi'			=> $buliangxinxi,
 				]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
 			DB::rollBack();
-			// echo 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		DB::commit();
