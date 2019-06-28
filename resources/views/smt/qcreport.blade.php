@@ -763,7 +763,7 @@ var vm_app = new Vue({
 				title: '检查日期',
 				key: 'jianchariqi',
 				align: 'center',
-				width: 120,
+				width: 90,
 				render: (h, params) => {
 					return h('div', [
 						params.row.jianchariqi.substring(0,10)
@@ -846,7 +846,7 @@ var vm_app = new Vue({
 				title: '班次',
 				key: 'banci',
 				align: 'center',
-				width: 80,
+				width: 60,
 				// filters: [
 					// {
 						// label: 'A-1',
@@ -894,34 +894,34 @@ var vm_app = new Vue({
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
-				width: 120,
+				width: 110,
 				// sortable: true
 			},
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
-				width: 100,
+				width: 80,
 				// sortable: true
 			},
 			{
 				title: '工序',
 				key: 'gongxu',
 				align: 'center',
-				width: 80
+				width: 50
 			},
 			{
 				title: 'SP NO.',
 				key: 'spno',
 				align: 'center',
-				width: 140,
+				width: 110,
 				// sortable: true
 			},
 			{
 				title: 'LOT数',
 				key: 'lotshu',
 				align: 'center',
-				width: 100,
+				width: 80,
 				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
@@ -933,7 +933,7 @@ var vm_app = new Vue({
 				title: '点/枚',
 				key: 'dianmei',
 				align: 'center',
-				width: 80,
+				width: 70,
 				render: (h, params) => {
 					return h('div', [
 						params.row.dianmei.toLocaleString()
@@ -944,7 +944,7 @@ var vm_app = new Vue({
 				title: '枚数',
 				key: 'meishu',
 				align: 'center',
-				width: 80,
+				width: 70,
 				render: (h, params) => {
 					return h('div', [
 						params.row.meishu.toLocaleString()
@@ -955,7 +955,7 @@ var vm_app = new Vue({
 				title: '合计点数',
 				key: 'hejidianshu',
 				align: 'center',
-				width: 100,
+				width: 90,
 				render: (h, params) => {
 					return h('div', [
 						// parseFloat(params.row.hejidianshu * 100) + '%'
@@ -967,13 +967,13 @@ var vm_app = new Vue({
 				title: '不适合件数合计',
 				key: 'bushihejianshuheji',
 				align: 'center',
-				width: 100
+				width: 70
 			},
 			{
 				title: 'PPM',
 				key: 'ppm',
 				align: 'center',
-				width: 100
+				width: 90
 			},
 			// {
 			// 	title: '不良内容',
@@ -1089,7 +1089,7 @@ var vm_app = new Vue({
 				title: '编号',
 				key: 'buliangxinxi',
 				align:'center',
-				width: 60,
+				width: 50,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
@@ -1109,7 +1109,7 @@ var vm_app = new Vue({
 				title: '不良内容',
 				key: 'buliangxinxi',
 				align:'center',
-				width: 120,
+				width: 170,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
@@ -1129,7 +1129,7 @@ var vm_app = new Vue({
 				title: '位号',
 				key: 'buliangxinxi',
 				align:'center',
-				width: 120,
+				width: 80,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
@@ -1149,7 +1149,7 @@ var vm_app = new Vue({
 				title: '数量',
 				key: 'buliangxinxi',
 				align:'center',
-				width: 120,
+				width: 70,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
@@ -1169,7 +1169,7 @@ var vm_app = new Vue({
 				title: '检查机类型',
 				key: 'buliangxinxi',
 				align:'center',
-				width: 120,
+				width: 80,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
@@ -1189,7 +1189,7 @@ var vm_app = new Vue({
 				title: '检查者',
 				key: 'buliangxinxi',
 				align:'center',
-				width: 120,
+				width: 90,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
