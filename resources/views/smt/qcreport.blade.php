@@ -1147,16 +1147,18 @@ var vm_app = new Vue({
 				align:'center',
 				width: 60,
 				render: (h, params) => {
-					return h('div', {
-						attrs: {
-							class:'subCol'
-						},
-					}, [
-					h('ul', params.row.buliangxinxi.map(item => {
-						return h('li', {
-						}, item.id)
-					}))
-				]);
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, item.id)
+							}))
+						]);
+					}
 				}
 			},
 			{
@@ -1165,16 +1167,18 @@ var vm_app = new Vue({
 				align:'center',
 				width: 120,
 				render: (h, params) => {
-					return h('div', {
-						attrs: {
-							class:'subCol'
-						},
-					}, [
-					h('ul', params.row.buliangxinxi.map(item => {
-						return h('li', {
-						}, item.buliangneirong)
-					}))
-				]);
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, item.buliangneirong)
+							}))
+						]);
+					}
 				}
 			},
 			{
@@ -1183,16 +1187,18 @@ var vm_app = new Vue({
 				align:'center',
 				width: 120,
 				render: (h, params) => {
-					return h('div', {
-						attrs: {
-							class:'subCol'
-						},
-					}, [
-					h('ul', params.row.buliangxinxi.map(item => {
-						return h('li', {
-						}, item.weihao)
-					}))
-				]);
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, item.weihao)
+							}))
+						]);
+					}
 				}
 			},
 			{
@@ -1201,16 +1207,18 @@ var vm_app = new Vue({
 				align:'center',
 				width: 120,
 				render: (h, params) => {
-					return h('div', {
-						attrs: {
-							class:'subCol'
-						},
-					}, [
-					h('ul', params.row.buliangxinxi.map(item => {
-						return h('li', {
-						}, item.shuliang)
-					}))
-				]);
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, item.shuliang)
+							}))
+						]);
+					}
 				}
 			},
 			{
@@ -1219,16 +1227,18 @@ var vm_app = new Vue({
 				align:'center',
 				width: 120,
 				render: (h, params) => {
-					return h('div', {
-						attrs: {
-							class:'subCol'
-						},
-					}, [
-					h('ul', params.row.buliangxinxi.map(item => {
-						return h('li', {
-						}, item.jianchajileixing)
-					}))
-				]);
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, item.jianchajileixing)
+							}))
+						]);
+					}
 				}
 			},
 			{
@@ -1237,16 +1247,18 @@ var vm_app = new Vue({
 				align:'center',
 				width: 120,
 				render: (h, params) => {
-					return h('div', {
-						attrs: {
-							class:'subCol'
-						},
-					}, [
-					h('ul', params.row.buliangxinxi.map(item => {
-						return h('li', {
-						}, item.jianchazhe)
-					}))
-				]);
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+							attrs: {
+								class:'subCol'
+							},
+						}, [
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, item.jianchazhe)
+							}))
+						]);
+					}
 				}
 			},
 			{
@@ -1255,33 +1267,35 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 70,
 				render: (h, params) => {
-					return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-						h('ul', params.row.buliangxinxi.map(item => {
-							return h('li', {
+					if (params.row.buliangxinxi!=undefined) {
+						return h('div', {
+								attrs: {
+									class:'subCol'
+								},
 							}, [
-								h('Button', {
-									props: {
-										type: 'info',
-										size: 'small'
-									},
-									style: {
-										marginRight: '5px'
-									},
-									on: {
-										click: () => {
-											console.log(params.row.id);
-											console.log(item.id);
-											vm_app.qcreport_edit_sub(params.row, item)
+							h('ul', params.row.buliangxinxi.map(item => {
+								return h('li', {
+								}, [
+									h('Button', {
+										props: {
+											type: 'info',
+											size: 'small'
+										},
+										style: {
+											marginRight: '5px'
+										},
+										on: {
+											click: () => {
+												console.log(params.row.id);
+												console.log(item.id);
+												vm_app.qcreport_edit_sub(params.row, item)
+											}
 										}
-									}
-								}, '编辑')
-							])
-						}))
-					]);
+									}, '编辑')
+								])
+							}))
+						]);
+					}
 				},
 			},
 
