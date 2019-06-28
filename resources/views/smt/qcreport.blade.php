@@ -914,7 +914,7 @@ var vm_app = new Vue({
 				title: 'SP NO.',
 				key: 'spno',
 				align: 'center',
-				width: 110,
+				width: 130,
 				// sortable: true
 			},
 			{
@@ -1209,7 +1209,7 @@ var vm_app = new Vue({
 				title: '操作',
 				key: 'action',
 				align: 'center',
-				width: 70,
+				width: 110,
 				render: (h, params) => {
 					if (params.row.buliangxinxi!=undefined) {
 						return h('div', {
@@ -1222,7 +1222,7 @@ var vm_app = new Vue({
 								}, [
 									h('Button', {
 										props: {
-											type: 'info',
+											type: 'default',
 											size: 'small'
 										},
 										style: {
@@ -1233,7 +1233,21 @@ var vm_app = new Vue({
 												vm_app.qcreport_edit_sub(params.row, item)
 											}
 										}
-									}, '编辑')
+									}, '编辑'),
+									h('Button', {
+										props: {
+											type: 'warning',
+											size: 'small'
+										},
+										style: {
+											marginRight: '5px'
+										},
+										on: {
+											click: () => {
+												vm_app.qcreport_edit_sub(params.row, item)
+											}
+										}
+									}, '删除')
 								])
 							}))
 						]);
