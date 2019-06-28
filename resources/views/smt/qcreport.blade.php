@@ -388,7 +388,7 @@ SMT(QC report) -
 					</Modal>
 
 					<!-- 子编辑窗口 -->
-					<Modal v-model="modal_qcreport_edit_sub" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 不良信息" width="540">
+					<Modal v-model="modal_qcreport_edit_sub" @on-ok="qcreport_edit_sub_ok" ok-text="保存" title="编辑 - 不良信息" width="540">
 						<div style="text-align:left">
 							<p>
 								创建时间：@{{ created_at_edit }}
@@ -3660,17 +3660,17 @@ tabledata2: [
 			_this.shuliang_edit[1] = subrow.shuliang;
 			_this.jianchazhe_edit = subrow.jianchazhe;
 
-			// _this.dianmei_edit = row.dianmei;
-			// _this.meishu_edit = row.meishu;
-			// _this.hejidianshu_edit = row.hejidianshu;
-			// _this.bushihejianshuheji_edit = row.bushihejianshuheji;
-			// _this.ppm_edit = row.ppm;
+			_this.dianmei_edit = row.dianmei;
+			_this.meishu_edit = row.meishu;
+			_this.hejidianshu_edit = row.hejidianshu;
+			_this.bushihejianshuheji_edit = row.bushihejianshuheji;
+			_this.ppm_edit = row.ppm;
 
 			_this.modal_qcreport_edit_sub = true;
 		},
 		
 		
-		// 编辑后保存
+		// 主编辑后保存
 		qcreport_edit_ok: function () {
 			var _this = this;
 			
@@ -3746,6 +3746,107 @@ tabledata2: [
 					_this.success(false, '成功', '更新成功！');
 					
 					_this.id_edit = '';
+					_this.jizhongming_edit = '';
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
+					_this.jianchajileixing_edit = '';
+					_this.buliangneirong_edit = '';
+					_this.weihao_edit = '';
+					_this.shuliang_edit = [0, 0];
+					_this.jianchazhe_edit = '';
+				} else {
+					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '更新失败！');
+			})			
+		},
+		
+		// 子编辑后保存
+		qcreport_edit_sub_ok () {
+			var _this = this;
+			
+			var id = _this.id_edit;
+			var subid = _this.subid_edit;
+
+			var jizhongming = _this.jizhongming_edit;
+			var pinming = _this.pinming_edit;
+			var gongxu = _this.gongxu_edit;
+			var created_at = _this.created_at_edit;
+			var updated_at = _this.updated_at_edit;
+
+			var jianchajileixing = _this.jianchajileixing_edit;
+			var buliangneirong = _this.buliangneirong_edit;
+			var weihao = _this.weihao_edit;
+			var shuliang = _this.shuliang_edit;
+			var jianchazhe = _this.jianchazhe_edit;
+
+			var dianmei = _this.dianmei_edit;
+			var meishu = _this.meishu_edit;
+			var hejidianshu = _this.hejidianshu_edit;
+			var bushihejianshuheji = _this.bushihejianshuheji_edit;
+			var ppm = _this.ppm_edit;
+
+			// 重新计算枚数、合计点数、不良件数合计和PPM
+			hejidianshu = dianmei * meishu;
+			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
+			ppm = bushihejianshuheji / hejidianshu * 1000000;
+
+			// 不良检查件数不可大于检查枚数（无此逻辑关系，作废）
+			// if (bushihejianshuheji > meishu) {
+			// 	_this.warning(false, '警告', '保存失败！数量不正确，不良合计件数不可大于检查枚数！');
+			// 	return false;
+			// }
+			
+			// console.log(buliangneirong);
+			// return false;
+			
+			// 数量为0时，清空不良内容、位号和数量
+			if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
+				buliangneirong = '';
+				weihao = '';
+				shuliang[1] = '';
+			// } else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
+			// 	|| weihao == '' || weihao == null || weihao == undefined) {
+			// 	_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
+			// 	return false;
+			}
+			
+			var url = "{{ route('smt.qcreport.qcreportupdatesub') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				id: id,
+				subid: subid,
+				jizhongming: jizhongming,
+				created_at: created_at,
+				updated_at: updated_at,
+				jianchajileixing: jianchajileixing,
+				buliangneirong: buliangneirong,
+				weihao: weihao,
+				shuliang: shuliang[1],
+				jianchazhe: jianchazhe,
+				meishu: meishu,
+				hejidianshu: hejidianshu,
+				bushihejianshuheji: bushihejianshuheji,
+				ppm: ppm
+			})
+			.then(function (response) {
+				console.log(response.data);
+				return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+				
+				if (response.data) {
+					_this.success(false, '成功', '更新成功！');
+					
+					_this.id_edit = '';
+					_this.subid_edit = '';
 					_this.jizhongming_edit = '';
 					_this.created_at_edit = '';
 					_this.updated_at_edit = '';
