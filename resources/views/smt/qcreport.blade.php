@@ -1031,11 +1031,11 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 100
 			},
-			{
-				title: '不良内容',
-				key: 'buliangneirong',
-				align: 'center',
-				width: 160,
+			// {
+			// 	title: '不良内容',
+			// 	key: 'buliangneirong',
+			// 	align: 'center',
+			// 	width: 160,
 				// filters: [
 					// {value: '连焊', label: '连焊'}, 
 					// {value: '引脚焊锡量少', label: '引脚焊锡量少'},
@@ -1116,33 +1116,33 @@ var vm_app = new Vue({
 					// }
 					// return result;
 				// }
-			},
+			// },
+			// {
+			// 	title: '位号',
+			// 	key: 'weihao',
+			// 	align: 'center',
+			// 	width: 120
+			// },
+			// {
+			// 	title: '数量',
+			// 	key: 'shuliang',
+			// 	align: 'center',
+			// 	width: 80
+			// },
+			// {
+			// 	title: '检查机类型',
+			// 	key: 'jianchajileixing',
+			// 	align: 'center',
+			// 	width: 120
+			// },
+			// {
+			// 	title: '检查者',
+			// 	key: 'jianchazhe',
+			// 	align: 'center',
+			// 	width: 120
+			// },
 			{
-				title: '位号',
-				key: 'weihao',
-				align: 'center',
-				width: 120
-			},
-			{
-				title: '数量',
-				key: 'shuliang',
-				align: 'center',
-				width: 80
-			},
-			{
-				title: '检查机类型',
-				key: 'jianchajileixing',
-				align: 'center',
-				width: 120
-			},
-			{
-				title: '检查者',
-				key: 'jianchazhe',
-				align: 'center',
-				width: 120
-			},
-			{
-				title: '不良编号',
+				title: '编号',
 				key: 'buliangxinxi',
 				align:'center',
 				width: 60,
