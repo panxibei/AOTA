@@ -55,21 +55,33 @@ class qcreportController extends Controller
 
 		$perPage = $queryParams['perPage'] ?? 10000;
 		$page = $queryParams['page'] ?? 1;
-		
 
-		// $d = Smt_qcreport::where('test->weihao','AAAA')->get();
-		// $d = Smt_qcreport::whereJsonContains('test->weihao','AAA')->get();
-		$d = Smt_qcreport::whereRaw('JSON_CONTAINS(buliangxinxi->"$**.weihao", \'["BBB"]\')')->get()->toArray();
-		dd($d);
-
-		dd($queryParams);
+		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		$xianti_filter = $request->input('xianti_filter');
 		$banci_filter = $request->input('banci_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
 		$pinming_filter = $request->input('pinming_filter');
 		$gongxu_filter = $request->input('gongxu_filter');
-		$buliangneirong_filter = $request->input('buliangneirong_filter');
+
+		$buliangneirong_filter_tmp = $request->input('buliangneirong_filter');
+		$buliangneirong_filter = '';
+
+		if (!empty($buliangneirong_filter_tmp)) {
+
+			foreach ($buliangneirong_filter_tmp as $value) {
+				$buliangneirong_filter .= '"' . $value . '",';
+			}
+			$buliangneirong_filter = substr($buliangneirong_filter, 0, strlen($buliangneirong_filter)-1);
+			// dd($buliangneirong_filter);
+		}
+
+		// $d = Smt_qcreport::where('test->weihao','AAAA')->get();
+		// $d = Smt_qcreport::whereJsonContains('test->weihao','AAA')->get();
+		// $d = Smt_qcreport::whereRaw('JSON_CONTAINS(buliangxinxi->"$[*].weihao", \'["BBB"]\')')->get()->toArray();
+		// dd($buliangneirong_filter);
+		// $d = Smt_qcreport::whereRaw('JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'[' . $buliangneirong_filter . ']\')')->get()->toArray();
+		// dd($d);
 		
 		// $usecache = $request->input('usecache');
 		
@@ -117,7 +129,9 @@ class qcreportController extends Controller
 					return $query->where('gongxu', '=', $gongxu_filter);
 				})
 				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
-					return $query->whereIn('buliangneirong', $buliangneirong_filter);
+					// return $query->whereIn('buliangneirong', $buliangneirong_filter);
+					// return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.weihao", \'["BBB"]\')');
+					return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'[' . $buliangneirong_filter . ']\')');
 				})
 				->orderBy('jianchariqi', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
