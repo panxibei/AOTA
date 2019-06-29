@@ -56,7 +56,13 @@ class qcreportController extends Controller
 		$perPage = $queryParams['perPage'] ?? 10000;
 		$page = $queryParams['page'] ?? 1;
 		
-		// dd($queryParams);
+
+		// $d = Smt_qcreport::where('test->weihao','AAAA')->get();
+		// $d = Smt_qcreport::whereJsonContains('test->weihao','AAA')->get();
+		$d = Smt_qcreport::whereRaw('JSON_CONTAINS(buliangxinxi->"$**.weihao", \'["BBB"]\')')->get()->toArray();
+		dd($d);
+
+		dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		$xianti_filter = $request->input('xianti_filter');
 		$banci_filter = $request->input('banci_filter');
