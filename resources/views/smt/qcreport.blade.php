@@ -734,31 +734,31 @@ var vm_app = new Vue({
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
 			},
-			{
-				title: '操作',
-				key: 'action',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						h('Button', {
-							props: {
-								type: 'info',
-								size: 'small'
-							},
-							style: {
-								marginRight: '5px'
-							},
-							on: {
-								click: () => {
-									vm_app.qcreport_edit(params.row)
-								}
-							}
-						}, '编辑')
-					]);
-				},
-				fixed: 'right'
-			},
+			// {
+			// 	title: '操作',
+			// 	key: 'action',
+			// 	align: 'center',
+			// 	width: 70,
+			// 	render: (h, params) => {
+			// 		return h('div', [
+			// 			h('Button', {
+			// 				props: {
+			// 					type: 'info',
+			// 					size: 'small'
+			// 				},
+			// 				style: {
+			// 					marginRight: '5px'
+			// 				},
+			// 				on: {
+			// 					click: () => {
+			// 						vm_app.qcreport_edit(params.row)
+			// 					}
+			// 				}
+			// 			}, '编辑')
+			// 		]);
+			// 	},
+			// 	fixed: 'right'
+			// },
  			{
 				title: '检查日期',
 				key: 'jianchariqi',
@@ -1086,176 +1086,206 @@ var vm_app = new Vue({
 			// 	width: 120
 			// },
 			{
-				title: '编号',
-				key: 'buliangxinxi',
-				align:'center',
-				width: 50,
-				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, item.id)
-							}))
-						]);
-					}
-				}
+				title: '不良信息',
+				align: 'center',
+				children: [
+					{
+						title: '编号',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 50,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.id)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '不良内容',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 170,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.buliangneirong)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '位号',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 80,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.weihao)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '数量',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 70,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.shuliang)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '检查机类型',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 80,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.jianchajileixing)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '检查者',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 90,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.jianchazhe)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '操作',
+						key: 'action',
+						align: 'center',
+						width: 110,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined) {
+								return h('div', {
+										attrs: {
+											class:'subCol'
+										},
+									}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, [
+											h('Button', {
+												props: {
+													type: 'default',
+													size: 'small'
+												},
+												style: {
+													marginRight: '5px'
+												},
+												on: {
+													click: () => {
+														vm_app.qcreport_edit_sub(params.row, item)
+													}
+												}
+											}, '编辑'),
+											h('Button', {
+												props: {
+													type: 'warning',
+													size: 'small'
+												},
+												style: {
+													marginRight: '5px'
+												},
+												on: {
+													click: () => {
+														vm_app.qcreport_edit_sub(params.row, item)
+													}
+												}
+											}, '删除')
+										])
+									}))
+								]);
+							}
+						},
+					},
+				]
 			},
-			{
-				title: '不良内容',
-				key: 'buliangxinxi',
-				align:'center',
-				width: 170,
-				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, item.buliangneirong)
-							}))
-						]);
-					}
-				}
-			},
-			{
-				title: '位号',
-				key: 'buliangxinxi',
-				align:'center',
-				width: 80,
-				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, item.weihao)
-							}))
-						]);
-					}
-				}
-			},
-			{
-				title: '数量',
-				key: 'buliangxinxi',
-				align:'center',
-				width: 70,
-				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, item.shuliang)
-							}))
-						]);
-					}
-				}
-			},
-			{
-				title: '检查机类型',
-				key: 'buliangxinxi',
-				align:'center',
-				width: 80,
-				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, item.jianchajileixing)
-							}))
-						]);
-					}
-				}
-			},
-			{
-				title: '检查者',
-				key: 'buliangxinxi',
-				align:'center',
-				width: 90,
-				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-							attrs: {
-								class:'subCol'
-							},
-						}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, item.jianchazhe)
-							}))
-						]);
-					}
-				}
-			},
+
 			{
 				title: '操作',
 				key: 'action',
 				align: 'center',
-				width: 110,
+				width: 70,
 				render: (h, params) => {
-					if (params.row.buliangxinxi!=undefined) {
-						return h('div', {
-								attrs: {
-									class:'subCol'
-								},
-							}, [
-							h('ul', params.row.buliangxinxi.map(item => {
-								return h('li', {
-								}, [
-									h('Button', {
-										props: {
-											type: 'default',
-											size: 'small'
-										},
-										style: {
-											marginRight: '5px'
-										},
-										on: {
-											click: () => {
-												vm_app.qcreport_edit_sub(params.row, item)
-											}
-										}
-									}, '编辑'),
-									h('Button', {
-										props: {
-											type: 'warning',
-											size: 'small'
-										},
-										style: {
-											marginRight: '5px'
-										},
-										on: {
-											click: () => {
-												vm_app.qcreport_edit_sub(params.row, item)
-											}
-										}
-									}, '删除')
-								])
-							}))
-						]);
-					}
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.qcreport_edit(params.row)
+								}
+							}
+						}, '编辑')
+					]);
 				},
+				fixed: 'right'
 			},
-
-
 			// {
 			// 	title: '创建日期',
 			// 	key: 'created_at',
