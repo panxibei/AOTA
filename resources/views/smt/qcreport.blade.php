@@ -1095,7 +1095,7 @@ var vm_app = new Vue({
 						align:'center',
 						width: 50,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 									attrs: {
 										class:'subCol'
@@ -1115,7 +1115,7 @@ var vm_app = new Vue({
 						align:'center',
 						width: 170,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 									attrs: {
 										class:'subCol'
@@ -1135,7 +1135,7 @@ var vm_app = new Vue({
 						align:'center',
 						width: 80,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 									attrs: {
 										class:'subCol'
@@ -1155,7 +1155,7 @@ var vm_app = new Vue({
 						align:'center',
 						width: 70,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 									attrs: {
 										class:'subCol'
@@ -1175,7 +1175,7 @@ var vm_app = new Vue({
 						align:'center',
 						width: 80,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 									attrs: {
 										class:'subCol'
@@ -1195,7 +1195,7 @@ var vm_app = new Vue({
 						align:'center',
 						width: 90,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 									attrs: {
 										class:'subCol'
@@ -1215,7 +1215,7 @@ var vm_app = new Vue({
 						align: 'center',
 						width: 110,
 						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined) {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
 										attrs: {
 											class:'subCol'
@@ -1265,7 +1265,7 @@ var vm_app = new Vue({
 				title: '操作',
 				key: 'action',
 				align: 'center',
-				width: 70,
+				width: 130,
 				render: (h, params) => {
 					return h('div', [
 						h('Button', {
@@ -1281,7 +1281,21 @@ var vm_app = new Vue({
 									vm_app.qcreport_edit(params.row)
 								}
 							}
-						}, '编辑')
+						}, '编辑'),
+						h('Button', {
+							props: {
+								type: 'default',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.qcreport_edit(params.row)
+								}
+							}
+						}, '追加'),
 					]);
 				},
 				fixed: 'right'
