@@ -480,7 +480,7 @@ class qcreportController extends Controller
 		}
 		catch (\Exception $e) {
 			DB::rollBack();
-			// echo 'Message: ' .$e->getMessage();
+			dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		DB::commit();
