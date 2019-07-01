@@ -65,24 +65,6 @@ class qcreportController extends Controller
 		$gongxu_filter = $request->input('gongxu_filter');
 
 		$buliangneirong_filter = $request->input('buliangneirong_filter');
-		// $buliangneirong_filter = '';
-
-		// $buliangneirong_filter = $buliangneirong_filter_tmp;
-
-		// if (!empty($buliangneirong_filter_tmp)) {
-
-		// 	foreach ($buliangneirong_filter_tmp as $value) {
-		// 		$buliangneirong_filter .= '"' . $value . '",';
-		// 	}
-		// 	$buliangneirong_filter = substr($buliangneirong_filter, 0, strlen($buliangneirong_filter)-1);
-		// }
-
-		// $d = Smt_qcreport::where('test->weihao','AAAA')->get();
-		// $d = Smt_qcreport::whereJsonContains('test->weihao','AAA')->get();
-		// $d = Smt_qcreport::whereRaw('JSON_CONTAINS(buliangxinxi->"$[*].weihao", \'["BBB"]\')')->get()->toArray();
-		// dd($buliangneirong_filter);
-		// $d = Smt_qcreport::whereRaw('JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'[' . $buliangneirong_filter . ']\')')->get()->toArray();
-		// dd($d);
 		
 		// $usecache = $request->input('usecache');
 		
@@ -378,7 +360,7 @@ class qcreportController extends Controller
 		if (empty($piliangluru)) {
 			$s['bushihejianshuheji'] = 0;
 			$s['ppm'] = 0;
-			$p[] = $s;
+			// $p[] = $s;
 
 		} else {
 			foreach ($piliangluru as $value) {
@@ -395,18 +377,21 @@ class qcreportController extends Controller
 
 			// dd($s);
 			
-			// 不良内容为一维数组，字符串化
-			// foreach ($piliangluru as $key => $value) {
-				// $piliangluru[$key]['buliangneirong'] = implode(',', $value['buliangneirong']);
+			// foreach ($piliangluru as $value) {
+			// 	$p[] = array_merge($value, $s);
 			// }
-			// dd($piliangluru);
-			
-			foreach ($piliangluru as $value) {
-				$p[] = array_merge($value, $s);
-			}
 
 		}
 
+		if (!empty($piliangluru)) {
+			// 	$s['buliangxinxi'] =  json_encode(
+			// 		$piliangluru, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+			// 	);
+			$s['buliangxinxi'] = $piliangluru;
+		}
+
+		// dd($piliangluru);
+		// dd($s);
 		// dd($p);
 		
 		// 写入数据库
@@ -414,9 +399,9 @@ class qcreportController extends Controller
 			DB::beginTransaction();
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
-			foreach ($p as $value) {
-				Smt_qcreport::create($value);
-			}
+			// foreach ($p as $value) {
+				Smt_qcreport::create($s);
+			// }
 
 			$result = 1;
 		}
@@ -429,7 +414,7 @@ class qcreportController extends Controller
 
 		DB::commit();
 		Cache::flush();
-		// dd($result);
+		dd($result);
 		return $result;		
 	}
 
