@@ -30,11 +30,12 @@ class CreateSmtQcreportsTable extends Migration
 			$table->integer('bushihejianshuheji')->default(0)->unsigned();
 			$table->float('ppm')->default(0);
 			
-			$table->string('buliangneirong', 50)->nullable();
-			$table->string('weihao', 50)->nullable();
-			$table->integer('shuliang')->unsigned()->nullable();
-			$table->string('jianchajileixing', 20)->nullable();
-			$table->string('jianchazhe', 20)->nullable();
+			$table->json('buliangxinxi')->nullable();
+			// $table->string('buliangneirong', 50)->nullable();
+			// $table->string('weihao', 50)->nullable();
+			// $table->integer('shuliang')->unsigned()->nullable();
+			// $table->string('jianchajileixing', 20)->nullable();
+			// $table->string('jianchazhe', 20)->nullable();
 			$table->timestamps();
 			$table->index('jianchariqi');
 			$table->index('xianti');

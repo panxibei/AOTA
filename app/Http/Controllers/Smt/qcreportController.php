@@ -387,6 +387,13 @@ class qcreportController extends Controller
 			// 	$s['buliangxinxi'] =  json_encode(
 			// 		$piliangluru, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 			// 	);
+
+			$i = 1;
+			foreach ($piliangluru as $key => $value) {
+				$piliangluru[$key]['id'] = $i;
+				$i++;
+			}
+
 			$s['buliangxinxi'] = $piliangluru;
 		}
 
@@ -414,7 +421,7 @@ class qcreportController extends Controller
 
 		DB::commit();
 		Cache::flush();
-		dd($result);
+		// dd($result);
 		return $result;		
 	}
 
