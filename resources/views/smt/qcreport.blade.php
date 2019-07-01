@@ -429,6 +429,100 @@ SMT(QC report) -
 						</div>	
 					</Modal>
 
+					<!-- 不良追加窗口 -->
+					<Modal v-model="modal_qcreport_append" @on-ok="qcreport_append_ok" ok-text="追加" title="追加 - 不良信息" width="540">
+						<div style="text-align:left">
+							<p>
+								创建时间：@{{ created_at_append }}
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								更新时间：@{{ updated_at_append }}
+							
+							</p><br>
+
+							<p>
+								机种名：@{{ jizhongming_append }}
+							
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								品名：@{{ pinming_append }}
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								工序：@{{ gongxu_append }}
+							
+							</p>
+							
+							<Divider></Divider>
+
+							<!--<span v-for="(item, index) in piliangbianji">-->
+							<p>
+								检查机类型&nbsp;&nbsp;
+								<i-select v-model.lazy="jianchajileixing_append" size="small" clearable style="width:120px" placeholder="">
+									<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+								</i-select>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+
+								不良内容&nbsp;&nbsp;
+								<i-select v-model.lazy="buliangneirong_append" size="small" clearable style="width:200px" placeholder="例：部品不良">
+									<Option-group label="****** 印刷系 ******">
+										<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 装着系 ******">
+										<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 异物系 ******">
+										<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 人系 ******">
+										<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 部品系 ******">
+										<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="****** 其他 ******">
+										<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+								</i-select>
+
+								
+							</p><br>
+							
+							<p>
+								位号&nbsp;&nbsp;
+								<i-input v-model.lazy="weihao_append" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								数量&nbsp;&nbsp;
+								<Input-number v-model.lazy="shuliang_append[1]" :min="0" size="small" style="width: 80px"></Input-number>
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								
+								检查者&nbsp;&nbsp;
+								<i-select v-model.lazy="jianchazhe_append" size="small" clearable style="width:100px" placeholder="">
+									<Option-group label="*** 一组 ***">
+										<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="*** 二组 ***">
+										<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+									<Option-group label="*** 三组 ***">
+										<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+									</Option-group>
+								</i-select>
+
+
+							</p><br>
+							<!--</span>-->
+							
+							&nbsp;
+						
+						</div>	
+					</Modal>
+
 				</Tab-pane>
 
 				<Tab-pane label="图表 - 工程内不良记录（PPM）">
@@ -1292,7 +1386,7 @@ var vm_app = new Vue({
 							},
 							on: {
 								click: () => {
-									vm_app.qcreport_edit(params.row)
+									vm_app.qcreport_append(params.row)
 								}
 							}
 						}, '追加'),
@@ -1543,6 +1637,20 @@ var vm_app = new Vue({
 		bushihejianshuheji_edit: '',
 		ppm_edit: '',
 		
+		// 追加
+		modal_qcreport_append: false,
+		id_append: '',
+		jizhongming_append: '',
+		pinming_append: '',
+		gongxu_append: '',
+		created_at_append: '',
+		updated_at_append: '',
+		jianchajileixing_append: '',
+		buliangneirong_append: '',
+		weihao_append: '',
+		shuliang_append: [0, 0], //第一下标为原始值，第二下标为变化值
+		jianchazhe_append: '',
+
 		// tabs索引
 		currenttabs: 0,
 		currentsubtabs: 0,
@@ -1864,7 +1972,7 @@ var vm_app = new Vue({
 		},
 		
 		// oncreate
-		oncreate: function () {
+		oncreate () {
 			var _this = this;
 
 			var saomiao = _this.saomiao;
@@ -3628,6 +3736,110 @@ var vm_app = new Vue({
 			.catch(function (error) {
 				_this.error(false, '错误', '更新失败！');
 			})			
+		},
+
+
+		// 不良追加前查看
+		qcreport_append (row) {
+			var _this = this;
+			_this.id_append = row.id;
+			_this.jizhongming_append = row.jizhongming;
+			_this.pinming_append = row.pinming;
+			_this.gongxu_append = row.gongxu;
+			_this.created_at_append = row.created_at;
+			_this.updated_at_append = row.updated_at;
+
+			_this.jianchajileixing_append = row.jianchajileixing;
+			_this.buliangneirong_append = row.buliangneirong;
+			_this.weihao_append = row.weihao;
+			_this.shuliang_append[0] = row.shuliang;
+			_this.shuliang_append[1] = row.shuliang;
+			_this.jianchazhe_append = row.jianchazhe;
+
+			_this.modal_qcreport_append = true;
+
+		},
+
+		// 不良追加保存
+		qcreport_append_ok () {
+			var _this = this;
+			
+			var flag = true;
+
+			// 任何一行记录，只要有一项填写，就必须都填写
+			if (_this.jianchajileixing_append != '' && _this.jianchajileixing_append != undefined) {
+				flag = false;
+			} else if (_this.buliangneirong_append != '' && _this.buliangneirong_append != undefined) {
+				flag = false;
+			} else if (_this.weihao_append != '' && _this.weihao_append != undefined) {
+				flag = false;
+			} else if (_this.shuliang_append != '' && _this.shuliang_append != undefined) {
+				flag = false;
+			} else if (_this.jianchazhe_append != '' && _this.jianchazhe_append != undefined) {
+				flag = false;
+			}
+
+			if (flag == false) {
+				_this.warning(false, '警告', '不良内容为空或不正确！');
+				return false;
+			}
+
+
+			// 删除空json节点
+			var piliangluru_tmp = [];
+			for (var v of _this.piliangluru) {
+				if (v.jianchajileixing == '' || v.jianchajileixing == undefined) {
+					
+				} else {
+					piliangluru_tmp.push(v);
+				}
+
+			}
+			// console.log(piliangluru_tmp);
+			// console.log(_this.piliangluru);return false;
+
+			var piliangluru = piliangluru_tmp;
+			var tableselect1 = _this.tableselect1;
+
+			var url = "{{ route('smt.qcreport.qcreportcreate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				saomiao: saomiao,
+				jianchariqi: jianchariqi.Format("yyyy-MM-dd 00:00:00"),
+				xianti: xianti,
+				banci: banci,
+				gongxu: gongxu,
+				dianmei: dianmei,
+				meishu: meishu,
+				piliangluru: piliangluru
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.onclear();
+					_this.success(false, '成功', '记入成功！');
+
+					_this.boo_delete = true;
+					_this.tableselect1 = [];
+
+					if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
+						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+					}
+
+				} else {
+					_this.error(false, '失败', '记入失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '记入失败！');
+			})
 		},
 
 			
