@@ -64,17 +64,18 @@ class qcreportController extends Controller
 		$pinming_filter = $request->input('pinming_filter');
 		$gongxu_filter = $request->input('gongxu_filter');
 
-		$buliangneirong_filter_tmp = $request->input('buliangneirong_filter');
-		$buliangneirong_filter = '';
+		$buliangneirong_filter = $request->input('buliangneirong_filter');
+		// $buliangneirong_filter = '';
 
-		if (!empty($buliangneirong_filter_tmp)) {
+		// $buliangneirong_filter = $buliangneirong_filter_tmp;
 
-			foreach ($buliangneirong_filter_tmp as $value) {
-				$buliangneirong_filter .= '"' . $value . '",';
-			}
-			$buliangneirong_filter = substr($buliangneirong_filter, 0, strlen($buliangneirong_filter)-1);
-			// dd($buliangneirong_filter);
-		}
+		// if (!empty($buliangneirong_filter_tmp)) {
+
+		// 	foreach ($buliangneirong_filter_tmp as $value) {
+		// 		$buliangneirong_filter .= '"' . $value . '",';
+		// 	}
+		// 	$buliangneirong_filter = substr($buliangneirong_filter, 0, strlen($buliangneirong_filter)-1);
+		// }
 
 		// $d = Smt_qcreport::where('test->weihao','AAAA')->get();
 		// $d = Smt_qcreport::whereJsonContains('test->weihao','AAA')->get();
@@ -131,7 +132,19 @@ class qcreportController extends Controller
 				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
 					// return $query->whereIn('buliangneirong', $buliangneirong_filter);
 					// return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.weihao", \'["BBB"]\')');
-					return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'[' . $buliangneirong_filter . ']\')');
+					// return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'[' . $buliangneirong_filter . ']\')');
+					
+					// 不良内容按or查询
+					// if (!empty($buliangneirong_filter)) {
+						$sql = '';
+						foreach ($buliangneirong_filter as $value) {
+							$sql .= ' JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'["' . $value . '"]\')' . ' or';
+						}
+						$sql = substr($sql, 0, strlen($sql)-3);
+					// }
+					// dd($sql);
+					
+					return $query->whereRaw($sql);
 				})
 				->orderBy('jianchariqi', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
