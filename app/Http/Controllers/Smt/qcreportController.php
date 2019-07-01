@@ -425,6 +425,69 @@ class qcreportController extends Controller
 		return $result;		
 	}
 
+	
+	/**
+	 * qcreportAppend
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportAppend(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+		
+		$id = $request->input('id');
+		$jianchajileixing = $request->input('jianchajileixing');
+		$buliangneirong = $request->input('buliangneirong');
+		$weihao = $request->input('weihao');
+		$shuliang = $request->input('shuliang');
+		$jianchazhe = $request->input('jianchazhe');
+		$count_of_buliangxinxi_append = $request->input('count_of_buliangxinxi_append');
+
+		$a['jianchajileixing'] = $jianchajileixing;
+		$a['buliangneirong'] = $buliangneirong;
+		$a['weihao'] = $weihao;
+		$a['shuliang'] = $shuliang;
+		$a['jianchazhe'] = $jianchazhe;
+
+		// dd($a);
+		// dd($count_of_buliangxinxi_append);
+
+		$count_of_buliangxinxi_append++;
+		$buliangxinxi = '"id":' . $count_of_buliangxinxi_append . ',';
+		foreach ($a as $key => $value) {
+			if ($key == 'shuliang') {
+				$buliangxinxi .= '"'. $key . '":' . $value . ',';
+			} else {
+				$buliangxinxi .= '"'. $key . '":"' . $value . '",';
+			}
+		}
+		$buliangxinxi = substr($buliangxinxi, 0, strlen($buliangxinxi)-1);
+		// dd($buliangxinxi);
+
+		// $sql = 'JSON_MERGE(buliangxinxi, '[{"id":3, "weihao":"ZZZ", "shuliang":5, "jianchazhe":"黎小娟", "buliangneirong":"CHIP部品横立", "jianchajileixing":"AOI-2"}]')';
+		$sql = 'JSON_MERGE(buliangxinxi, \'[{' . $buliangxinxi . '}]\')';
+		// dd($sql);
+
+		// 尝试更新（追加json）
+		try	{
+			DB::beginTransaction();
+			$result = Smt_qcreport::where('id', $id)
+				->update([
+					'buliangxinxi'	=> $sql,
+				]);
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			DB::rollBack();
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		DB::commit();
+		Cache::flush();
+		dd($result);
+		return $result;
+	}
 
 	/**
 	 * qcreportUpdate

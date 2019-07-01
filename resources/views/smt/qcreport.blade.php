@@ -492,12 +492,12 @@ SMT(QC report) -
 							
 							<p>
 								位号&nbsp;&nbsp;
-								<i-input v-model.lazy="weihao_append" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+								<i-input v-model.lazy="weihao_append" @on-keyup="weihao_append=weihao_append.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								
 								数量&nbsp;&nbsp;
-								<Input-number v-model.lazy="shuliang_append[1]" :min="0" size="small" style="width: 80px"></Input-number>
+								<Input-number v-model.lazy="shuliang_append[1]" :min="1" size="small" style="width: 80px"></Input-number>
 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								
@@ -1650,6 +1650,7 @@ var vm_app = new Vue({
 		weihao_append: '',
 		shuliang_append: [0, 0], //第一下标为原始值，第二下标为变化值
 		jianchazhe_append: '',
+		count_of_buliangxinxi_append: 0,
 
 		// tabs索引
 		currenttabs: 0,
@@ -3756,6 +3757,12 @@ var vm_app = new Vue({
 			_this.shuliang_append[1] = row.shuliang;
 			_this.jianchazhe_append = row.jianchazhe;
 
+			if (row.buliangxinxi != null) {
+				_this.count_of_buliangxinxi_append = row.buliangxinxi.length;
+			} else {
+				_this.count_of_buliangxinxi_append = 0;
+			}
+
 			_this.modal_qcreport_append = true;
 
 		},
@@ -3763,19 +3770,29 @@ var vm_app = new Vue({
 		// 不良追加保存
 		qcreport_append_ok () {
 			var _this = this;
+
+			var id = _this.id_append;
+			var jianchajileixing = _this.jianchajileixing_append;
+			var buliangneirong = _this.buliangneirong_append;
+			var weihao = _this.weihao_append;
+			var shuliang = _this.shuliang_append[1];
+			var jianchazhe = _this.jianchazhe_append;
+			var count_of_buliangxinxi_append = _this.count_of_buliangxinxi_append;
+
+
 			
+			// 任何一行记录，只要有一项填写，就必须都填写
 			var flag = true;
 
-			// 任何一行记录，只要有一项填写，就必须都填写
-			if (_this.jianchajileixing_append != '' && _this.jianchajileixing_append != undefined) {
+			if (jianchajileixing == '' || jianchajileixing == undefined) {
 				flag = false;
-			} else if (_this.buliangneirong_append != '' && _this.buliangneirong_append != undefined) {
+			} else if (buliangneirong == '' || buliangneirong == undefined) {
 				flag = false;
-			} else if (_this.weihao_append != '' && _this.weihao_append != undefined) {
+			} else if (weihao == '' || weihao == undefined) {
 				flag = false;
-			} else if (_this.shuliang_append != '' && _this.shuliang_append != undefined) {
+			} else if (shuliang == '' || shuliang == undefined) {
 				flag = false;
-			} else if (_this.jianchazhe_append != '' && _this.jianchazhe_append != undefined) {
+			} else if (jianchazhe == '' || jianchazhe == undefined) {
 				flag = false;
 			}
 
@@ -3784,38 +3801,20 @@ var vm_app = new Vue({
 				return false;
 			}
 
-
-			// 删除空json节点
-			var piliangluru_tmp = [];
-			for (var v of _this.piliangluru) {
-				if (v.jianchajileixing == '' || v.jianchajileixing == undefined) {
-					
-				} else {
-					piliangluru_tmp.push(v);
-				}
-
-			}
-			// console.log(piliangluru_tmp);
-			// console.log(_this.piliangluru);return false;
-
-			var piliangluru = piliangluru_tmp;
-			var tableselect1 = _this.tableselect1;
-
-			var url = "{{ route('smt.qcreport.qcreportcreate') }}";
+			var url = "{{ route('smt.qcreport.qcreportappend') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				saomiao: saomiao,
-				jianchariqi: jianchariqi.Format("yyyy-MM-dd 00:00:00"),
-				xianti: xianti,
-				banci: banci,
-				gongxu: gongxu,
-				dianmei: dianmei,
-				meishu: meishu,
-				piliangluru: piliangluru
+				id: id,
+				jianchajileixing: jianchajileixing,
+				buliangneirong: buliangneirong,
+				weihao: weihao,
+				shuliang: shuliang,
+				jianchazhe: jianchazhe,
+				count_of_buliangxinxi_append: count_of_buliangxinxi_append,
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();

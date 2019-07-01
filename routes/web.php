@@ -79,6 +79,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::get('bulianggets', 'qcreportController@buliangGets')->name('smt.qcreport.bulianggets');
 	Route::get('getsaomiao', 'qcreportController@getSaomiao')->name('smt.qcreport.getsaomiao');
 	Route::post('qcreportcreate', 'qcreportController@qcreportCreate')->name('smt.qcreport.qcreportcreate');
+	Route::post('qcreportappend', 'qcreportController@qcreportAppend')->name('smt.qcreport.qcreportappend');
 	Route::post('qcreportupdate', 'qcreportController@qcreportUpdate')->name('smt.qcreport.qcreportupdate');
 	Route::post('qcreportupdatesub', 'qcreportController@qcreportUpdateSub')->name('smt.qcreport.qcreportupdatesub');
 	Route::post('qcreportdelete', 'qcreportController@qcreportDelete')->name('smt.qcreport.qcreportdelete');
