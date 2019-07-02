@@ -3778,8 +3778,6 @@ var vm_app = new Vue({
 			var shuliang = _this.shuliang_append[1];
 			var jianchazhe = _this.jianchazhe_append;
 			var count_of_buliangxinxi_append = _this.count_of_buliangxinxi_append;
-
-
 			
 			// 任何一行记录，只要有一项填写，就必须都填写
 			var flag = true;
@@ -3813,8 +3811,8 @@ var vm_app = new Vue({
 				count_of_buliangxinxi_append: count_of_buliangxinxi_append,
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
@@ -3822,22 +3820,17 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.onclear();
-					_this.success(false, '成功', '记入成功！');
-
-					_this.boo_delete = true;
-					_this.tableselect1 = [];
-
-					if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
+					_this.success(false, '成功', '追加成功！');
+					// if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
 						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
-					}
+					// }
 
 				} else {
-					_this.error(false, '失败', '记入失败！');
+					_this.error(false, '失败', '追加失败！');
 				}
 			})
 			.catch(function (error) {
-				_this.error(false, '错误', '记入失败！');
+				_this.error(false, '错误', '追加失败！');
 			})
 		},
 

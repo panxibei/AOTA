@@ -453,6 +453,17 @@ class qcreportController extends Controller
 		// dd($a);
 		// dd($count_of_buliangxinxi_append);
 
+		// 获取不良件数与合计点数
+		$bupin = Smt_qcreport::select('hejidianshu', 'bushihejianshuheji')
+			->where('id', $id)
+			->first();
+
+		$hejidianshu = $bupin['hejidianshu'];
+		$bushihejianshuheji = $bupin['bushihejianshuheji'];
+		$bushihejianshuheji += $shuliang;
+		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
+
+		// 确认json id
 		$count_of_buliangxinxi_append++;
 		$buliangxinxi = '"id":' . $count_of_buliangxinxi_append . ',';
 		foreach ($a as $key => $value) {
@@ -465,17 +476,26 @@ class qcreportController extends Controller
 		$buliangxinxi = substr($buliangxinxi, 0, strlen($buliangxinxi)-1);
 		// dd($buliangxinxi);
 
-		// $sql = 'JSON_MERGE(buliangxinxi, '[{"id":3, "weihao":"ZZZ", "shuliang":5, "jianchazhe":"黎小娟", "buliangneirong":"CHIP部品横立", "jianchajileixing":"AOI-2"}]')';
-		$sql = 'JSON_MERGE(buliangxinxi, \'[{' . $buliangxinxi . '}]\')';
+		if ($count_of_buliangxinxi_append == 1) {
+			$sql = '\'[{' . $buliangxinxi . '}]\'';
+		} else {
+			// $sql = 'JSON_MERGE(buliangxinxi, '[{"id":3, "weihao":"ZZZ", "shuliang":5, "jianchazhe":"黎小娟", "buliangneirong":"CHIP部品横立", "jianchajileixing":"AOI-2"}]')';
+			$sql = 'JSON_MERGE(buliangxinxi, \'[{' . $buliangxinxi . '}]\')';
+		}
 		// dd($sql);
+
+		$nowtime = date("Y-m-d H:i:s",time());
 
 		// 尝试更新（追加json）
 		try	{
 			DB::beginTransaction();
-			$result = Smt_qcreport::where('id', $id)
-				->update([
-					'buliangxinxi'	=> $sql,
-				]);
+			// $result = Smt_qcreport::where('id', $id)
+			// 	->update([
+			// 		'buliangxinxi'	=> $sql,
+			// 		'updated_at' => '2019-07-01 16:41:11',
+			// 	]);
+
+			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
@@ -485,7 +505,7 @@ class qcreportController extends Controller
 		}
 		DB::commit();
 		Cache::flush();
-		dd($result);
+		// dd($result);
 		return $result;
 	}
 
