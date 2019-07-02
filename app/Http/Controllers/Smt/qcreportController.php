@@ -464,8 +464,9 @@ class qcreportController extends Controller
 		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
 
 		// 确认json id
-		$count_of_buliangxinxi_append++;
-		$buliangxinxi = '"id":' . $count_of_buliangxinxi_append . ',';
+		// $count_of_buliangxinxi_append++;
+		$buliangxinxi = '';
+		// $buliangxinxi = '"id":' . $count_of_buliangxinxi_append . ',';
 		foreach ($a as $key => $value) {
 			if ($key == 'shuliang') {
 				$buliangxinxi .= '"'. $key . '":' . $value . ',';
@@ -476,7 +477,7 @@ class qcreportController extends Controller
 		$buliangxinxi = substr($buliangxinxi, 0, strlen($buliangxinxi)-1);
 		// dd($buliangxinxi);
 
-		if ($count_of_buliangxinxi_append == 1) {
+		if ($count_of_buliangxinxi_append == 0) {
 			$sql = '\'[{' . $buliangxinxi . '}]\'';
 		} else {
 			// $sql = 'JSON_MERGE(buliangxinxi, '[{"id":3, "weihao":"ZZZ", "shuliang":5, "jianchazhe":"黎小娟", "buliangneirong":"CHIP部品横立", "jianchajileixing":"AOI-2"}]')';

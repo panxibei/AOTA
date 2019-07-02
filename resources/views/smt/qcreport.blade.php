@@ -15,6 +15,7 @@ SMT(QC report) -
       padding: 9px;
       border-bottom:1px solid #E8EAEC;
       overflow-x: hidden;
+	  line-height: 2.2;
 }
 .subCol>ul>li:last-child{
   border-bottom: none
@@ -3751,12 +3752,12 @@ var vm_app = new Vue({
 			_this.created_at_append = row.created_at;
 			_this.updated_at_append = row.updated_at;
 
-			_this.jianchajileixing_append = row.jianchajileixing;
-			_this.buliangneirong_append = row.buliangneirong;
-			_this.weihao_append = row.weihao;
-			_this.shuliang_append[0] = row.shuliang;
-			_this.shuliang_append[1] = row.shuliang;
-			_this.jianchazhe_append = row.jianchazhe;
+			// _this.jianchajileixing_append = row.jianchajileixing;
+			// _this.buliangneirong_append = row.buliangneirong;
+			// _this.weihao_append = row.weihao;
+			// _this.shuliang_append[0] = row.shuliang;
+			// _this.shuliang_append[1] = row.shuliang;
+			// _this.jianchazhe_append = row.jianchazhe;
 
 			if (row.buliangxinxi != null) {
 				_this.count_of_buliangxinxi_append = row.buliangxinxi.length;
@@ -3821,6 +3822,15 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
+					_this.id_append = '';
+					_this.jianchajileixing_append = '';
+					_this.buliangneirong_append = '';
+					_this.weihao_append = '';
+					_this.created_at_append = '';
+					_this.updated_at_append = '';
+					_this.shuliang_append = [0, 0];
+					_this.jianchazhe_append = '';
+
 					_this.success(false, '成功', '追加成功！');
 					// if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
 						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
