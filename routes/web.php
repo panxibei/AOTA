@@ -83,6 +83,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::post('qcreportupdate', 'qcreportController@qcreportUpdate')->name('smt.qcreport.qcreportupdate');
 	Route::post('qcreportupdatesub', 'qcreportController@qcreportUpdateSub')->name('smt.qcreport.qcreportupdatesub');
 	Route::post('qcreportdelete', 'qcreportController@qcreportDelete')->name('smt.qcreport.qcreportdelete');
+	Route::post('qcreportremovesub', 'qcreportController@qcreportRemoveSub')->name('smt.qcreport.qcreportremovesub');
 	Route::get('qcreportexport', 'qcreportController@qcreportExport')->name('smt.qcreport.qcreportexport');
 	Route::post('qcreportimport', 'qcreportController@qcreportImport')->name('smt.qcreport.qcreportimport');
 	Route::get('chart1', 'qcreportController@chart1')->name('smt.qcreport.chart1');

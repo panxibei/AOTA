@@ -708,6 +708,37 @@ class qcreportController extends Controller
 
 	}
 
+	/**
+	 * qcreportRemoveSub
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportRemoveSub(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$id = $request->input('id');
+		$subid = $request->input('subid');
+		$subid--;
+
+		$sql = 'JSON_REMOVE(buliangxinxi, \'$[' . $subid . ']\')';
+		// dd($sql);
+
+		try	{
+			// UPDATE t_json SET info = json_remove(info,'$.ip');
+			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ' where id = ?', [$id]);
+		}
+		catch (\Exception $e) {
+			dd('Message: ' .$e->getMessage());
+			$result = 0;
+		}
+		
+		Cache::flush();
+		// dd($result);
+		return $result;
+	}
+
 
 	/**
 	 * qcreportExport

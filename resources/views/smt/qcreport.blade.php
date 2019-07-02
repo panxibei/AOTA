@@ -1195,9 +1195,10 @@ var vm_app = new Vue({
 										class:'subCol'
 									},
 								}, [
-									h('ul', params.row.buliangxinxi.map(item => {
+									h('ul', params.row.buliangxinxi.map((item, index) => {
 										return h('li', {
-										}, item.id)
+										// }, item.id)
+										}, index)
 									}))
 								]);
 							}
@@ -1342,7 +1343,7 @@ var vm_app = new Vue({
 												},
 												on: {
 													click: () => {
-														vm_app.qcreport_edit_sub(params.row, item)
+														vm_app.qcreport_remove_sub(params.row, item)
 													}
 												}
 											}, '删除')
@@ -3831,6 +3832,47 @@ var vm_app = new Vue({
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '追加失败！');
+			})
+		},
+
+		// 不良内容删除
+		qcreport_remove_sub (row, subrow) {
+			var _this = this;
+
+			var id = row.id;
+			var subid = subrow.id;
+
+			if (id == undefined || subid == undefined) {
+				_this.warning(false, '警告', '不良内容选择不正确！');
+				return false;
+			}
+
+			var url = "{{ route('smt.qcreport.qcreportremovesub') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				id: id,
+				subid: subid,
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, '成功', '删除成功！');
+					// if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
+						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+					// }
+				} else {
+					_this.error(false, '失败', '删除失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '删除失败！');
 			})
 		},
 
