@@ -627,58 +627,57 @@ class qcreportController extends Controller
 		$json = $res['buliangxinxi'];
 		$arr_tmp = [];
 
-		foreach ($json as $key => $value) {
-			if ($value['id'] == $subid) {
-				$value['jianchajileixing']	= $jianchajileixing;
-				$value['buliangneirong']	= $buliangneirong;
-				$value['weihao']			= $weihao;
-				$value['shuliang']			= $shuliang;
-				$value['jianchazhe']		= $jianchazhe;
-			}
-			array_push($arr_tmp, $value);
-		}
-		$buliangxinxi =  json_encode(
-			$arr_tmp, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-		);
+		// foreach ($json as $key => $value) {
+		// 	if ($value['id'] == $subid) {
+		// 		$value['jianchajileixing']	= $jianchajileixing;
+		// 		$value['buliangneirong']	= $buliangneirong;
+		// 		$value['weihao']			= $weihao;
+		// 		$value['shuliang']			= $shuliang;
+		// 		$value['jianchazhe']		= $jianchazhe;
+		// 	}
+		// 	array_push($arr_tmp, $value);
+		// }
+		// $buliangxinxi =  json_encode(
+		// 	$arr_tmp, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+		// );
 		// dd($buliangxinxi);
 
-		// 尝试更新
+		//----------------------------
+
+		$buliangxinxi = '"jianchajileixing":"' . $jianchajileixing . '",';
+		$buliangxinxi .= '"buliangneirong":"' . $buliangneirong . '",';
+		$buliangxinxi .= '"weihao":"' . $weihao . '",';
+		$buliangxinxi .= '"shuliang":"' . $shuliang . '",';
+		$buliangxinxi .= '"jianchazhe":"' . $jianchazhe . '"';
+
+		$sql = 'JSON_SET(buliangxinxi->$['. $subid . '], \'[{' . $buliangxinxi . '}]\')';
+		// dd($sql);
+
+		$nowtime = date("Y-m-d H:i:s",time());
+
+		// 尝试更新json
 		try	{
 			DB::beginTransaction();
+
 			// $result = Smt_qcreport::where('id', $id)
-			// 	->update([
-			// 		'jizhongming'		=> $jizhongming,
-			// 		'jianchajileixing'	=> $jianchajileixing,
-			// 		'buliangneirong'	=> $buliangneirong,
-			// 		'weihao'			=> $weihao,
-			// 		'shuliang'			=> $shuliang,
-			// 		'jianchazhe'		=> $jianchazhe,
-			// 	]);
-			// $result = Smt_qcreport::where('created_at', $created_at)
 			// 	->update([
 			// 		'meishu'				=> $meishu,
 			// 		'hejidianshu'			=> $hejidianshu,
 			// 		'bushihejianshuheji'	=> $bushihejianshuheji,
 			// 		'ppm'					=> $ppm,
+			// 		'buliangxinxi'			=> $buliangxinxi,
 			// 	]);
-			$result = Smt_qcreport::where('id', $id)
-				->update([
-					'meishu'				=> $meishu,
-					'hejidianshu'			=> $hejidianshu,
-					'bushihejianshuheji'	=> $bushihejianshuheji,
-					'ppm'					=> $ppm,
-					'buliangxinxi'			=> $buliangxinxi,
-				]);
+			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
 			DB::rollBack();
-			// dd('Message: ' .$e->getMessage());
+			dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		DB::commit();
 		Cache::flush();
-		// dd($result);
+		dd($result);
 		return $result;
 
 	}

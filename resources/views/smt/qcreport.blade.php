@@ -1330,7 +1330,7 @@ var vm_app = new Vue({
 												},
 												on: {
 													click: () => {
-														vm_app.qcreport_edit_sub(params.row, item)
+														vm_app.qcreport_edit_sub(params.row, item, index)
 													}
 												}
 											}, '编辑'),
@@ -3537,11 +3537,11 @@ var vm_app = new Vue({
 		
 		
 		// 子编辑前查看
-		qcreport_edit_sub: function (row, subrow) {
+		qcreport_edit_sub (row, subrow, index) {
 			var _this = this;
 			
 			_this.id_edit = row.id;
-			_this.subid_edit = subrow.id;
+			_this.subid_edit = index;
 
 			_this.jizhongming_edit = row.jizhongming;
 			_this.pinming_edit = row.pinming;
@@ -3709,8 +3709,8 @@ var vm_app = new Vue({
 				ppm: ppm
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
