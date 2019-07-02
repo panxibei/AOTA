@@ -1198,7 +1198,7 @@ var vm_app = new Vue({
 									h('ul', params.row.buliangxinxi.map((item, index) => {
 										return h('li', {
 										// }, item.id)
-										}, index)
+										}, ++index)
 									}))
 								]);
 							}
@@ -1316,7 +1316,7 @@ var vm_app = new Vue({
 											class:'subCol'
 										},
 									}, [
-									h('ul', params.row.buliangxinxi.map(item => {
+									h('ul', params.row.buliangxinxi.map((item, index) => {
 										return h('li', {
 										}, [
 											h('Button', {
@@ -1343,7 +1343,7 @@ var vm_app = new Vue({
 												},
 												on: {
 													click: () => {
-														vm_app.qcreport_remove_sub(params.row, item)
+														vm_app.qcreport_remove_sub(params.row, item, index)
 													}
 												}
 											}, '删除')
@@ -3836,11 +3836,12 @@ var vm_app = new Vue({
 		},
 
 		// 不良内容删除
-		qcreport_remove_sub (row, subrow) {
+		qcreport_remove_sub (row, item, index) {
 			var _this = this;
 
 			var id = row.id;
-			var subid = subrow.id;
+			var subid = index;
+			var shuliang = item.shuliang;
 
 			if (id == undefined || subid == undefined) {
 				_this.warning(false, '警告', '不良内容选择不正确！');
@@ -3852,6 +3853,7 @@ var vm_app = new Vue({
 			axios.post(url, {
 				id: id,
 				subid: subid,
+				shuliang: shuliang,
 			})
 			.then(function (response) {
 				// console.log(response.data);

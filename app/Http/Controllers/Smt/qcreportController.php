@@ -720,14 +720,29 @@ class qcreportController extends Controller
 
 		$id = $request->input('id');
 		$subid = $request->input('subid');
-		$subid--;
+		$shuliang = $request->input('shuliang');
 
 		$sql = 'JSON_REMOVE(buliangxinxi, \'$[' . $subid . ']\')';
 		// dd($sql);
 
+		// 获取合计点数和不良数量
+		$res = Smt_qcreport::select('hejidianshu', 'bushihejianshuheji')
+			->where('id', $id)
+			->first();
+		
+		$hejidianshu = $res['hejidianshu'];
+		$bushihejianshuheji = $res['bushihejianshuheji'] - $shuliang;
+		if ($bushihejianshuheji == 0) {
+			$ppm = 0;
+		} else {
+			$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
+		}
+
+		$nowtime = date("Y-m-d H:i:s",time());
+
 		try	{
 			// UPDATE t_json SET info = json_remove(info,'$.ip');
-			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ' where id = ?', [$id]);
+			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
 		}
 		catch (\Exception $e) {
 			dd('Message: ' .$e->getMessage());
