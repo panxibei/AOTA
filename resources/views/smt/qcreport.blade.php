@@ -400,7 +400,7 @@ SMT(QC report) -
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								
 								数量&nbsp;&nbsp;
-								<Input-number v-model.lazy="shuliang_edit[1]" :min="0" size="small" style="width: 80px"></Input-number>
+								<Input-number v-model.lazy="shuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
 
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								
@@ -423,9 +423,9 @@ SMT(QC report) -
 							
 							&nbsp;
 						
-							<p>
+							<!-- <p>
 							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
-							</p>
+							</p> -->
 						
 						</div>	
 					</Modal>
