@@ -21,7 +21,7 @@ class CreateBpjgZhongrichengRelationsTable extends Migration
 			$table->integer('xuqiushuliang')->default(0)->unsigned()->comment('需求数量');
 			$table->string('leibie', 20)->comment('分类，冲压或成型');
             $table->timestamps();
-            $table->index('jizhongming');
+            $table->unique(['jizhongming', 'pinfan', 'pinming']);
 			$table->engine = 'InnoDB';
         });
     }

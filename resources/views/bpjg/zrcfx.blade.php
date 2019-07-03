@@ -1198,7 +1198,7 @@ var vm_app = new Vue({
 		
 
 		// oncreate_relation
-		oncreate_relation: function () {
+		oncreate_relation () {
 			var _this = this;
 
 			var booFlagOk = true;
@@ -1216,7 +1216,7 @@ var vm_app = new Vue({
 			});
 			
 			if (booFlagOk == false) {
-				_this.warning(false, '警告', '输入内容为空或不正确2！');
+				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
 			
@@ -1248,7 +1248,6 @@ var vm_app = new Vue({
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '记入失败！');
-				// console.log(error);
 			})
 		},
 		

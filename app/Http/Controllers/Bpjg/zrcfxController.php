@@ -204,15 +204,23 @@ class zrcfxController extends Controller
     {
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
-		// $xianti = $request->input('xianti');
-		// $qufen = $request->input('qufen');
 		$piliangluru = $request->input('piliangluru');
 		$created_at = date('Y-m-d H:i:s');
 		$updated_at = date('Y-m-d H:i:s');
 
+		$s = [];
 		foreach ($piliangluru as $key => $value) {
-			// $s[$key]['xianti'] = $xianti;
-			// $s[$key]['qufen'] = $qufen;
+
+			// 测试是否符合三字段唯一
+			$res = Bpjg_zhongricheng_relation::select('id')
+				->where('jizhongming', $value['jizhongming'])
+				->where('pinfan', $value['pinfan'])
+				->where('pinming', $value['pinming'])
+				->first();
+			
+			if ($res != null) continue;
+			// dd($res . $key);
+
 			$s[$key]['created_at'] = $created_at;
 			$s[$key]['updated_at'] = $updated_at;
 
@@ -222,7 +230,8 @@ class zrcfxController extends Controller
 			$s[$key]['xuqiushuliang'] = $value['xuqiushuliang'];
 			$s[$key]['leibie'] = $value['leibie'];
 		}
-		// dd($s);
+		if (empty($s)) return 0;
+		// dd(empty($s));
 		
 		// 写入数据库
 		try	{
@@ -239,7 +248,7 @@ class zrcfxController extends Controller
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
-			return 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
 			return 0;
 		}
 
