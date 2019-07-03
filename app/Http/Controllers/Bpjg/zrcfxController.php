@@ -510,7 +510,7 @@ class zrcfxController extends Controller
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
 		$Bpjg_zhongricheng_main = Bpjg_zhongricheng_relation::select('id', 'jizhongming', 'pinfan', 'pinming', 'xuqiushuliang', 'leibie', 'updated_at')
-			->whereBetween('updated_at', [$queryfilter_datefrom, $queryfilter_dateto])
+			->whereBetween('updated_at', [$queryfilter_datefrom . ' 00:00:00', $queryfilter_dateto . ' 23:59:59'])
 			->get()->toArray();
 		// dd($Bpjg_zhongricheng_main);
 
