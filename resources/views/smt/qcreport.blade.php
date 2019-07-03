@@ -3655,39 +3655,17 @@ var vm_app = new Vue({
 			
 			var id = _this.id_edit;
 			var subid = _this.subid_edit;
-
-			// var jizhongming = _this.jizhongming_edit;
-			// var pinming = _this.pinming_edit;
-			// var gongxu = _this.gongxu_edit;
-			var created_at = _this.created_at_edit;
 			var updated_at = _this.updated_at_edit;
-
 			var jianchajileixing = _this.jianchajileixing_edit;
 			var buliangneirong = _this.buliangneirong_edit;
 			var weihao = _this.weihao_edit;
 			var shuliang = _this.shuliang_edit;
 			var jianchazhe = _this.jianchazhe_edit;
 
-			var dianmei = _this.dianmei_edit;
-			var meishu = _this.meishu_edit;
-			var hejidianshu = _this.hejidianshu_edit;
-			var bushihejianshuheji = _this.bushihejianshuheji_edit;
-			var ppm = _this.ppm_edit;
-
-			// 重新计算枚数、合计点数、不良件数合计和PPM
-			hejidianshu = dianmei * meishu;
-			bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
-			ppm = bushihejianshuheji / hejidianshu * 1000000;
-
 			// 数量为0时，清空不良内容、位号和数量
 			if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
-				buliangneirong = '';
-				weihao = '';
-				shuliang[1] = '';
-			// } else if (buliangneirong == '' || buliangneirong == null || buliangneirong == undefined
-			// 	|| weihao == '' || weihao == null || weihao == undefined) {
-			// 	_this.warning(false, '警告', '[不良内容] 或 [位号] 不能为空！');
-			// 	return false;
+				_this.warning(false, '警告', '[数量] 不能为空！');
+				return false;
 			}
 			
 			var url = "{{ route('smt.qcreport.qcreportupdatesub') }}";
@@ -3695,22 +3673,16 @@ var vm_app = new Vue({
 			axios.post(url, {
 				id: id,
 				subid: subid,
-				// jizhongming: jizhongming,
-				created_at: created_at,
 				updated_at: updated_at,
 				jianchajileixing: jianchajileixing,
 				buliangneirong: buliangneirong,
 				weihao: weihao,
-				shuliang: shuliang[1],
+				shuliang: shuliang,
 				jianchazhe: jianchazhe,
-				meishu: meishu,
-				hejidianshu: hejidianshu,
-				bushihejianshuheji: bushihejianshuheji,
-				ppm: ppm
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();

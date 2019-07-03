@@ -589,10 +589,6 @@ class qcreportController extends Controller
 		$id = $request->input('id');
 		$subid = $request->input('subid');
 
-		// $jizhongming = $request->input('jizhongming');
-		// $pinming = $request->input('pinming');
-		// $gongxu = $request->input('gongxu');
-		$created_at = $request->input('created_at');
 		$updated_at = $request->input('updated_at');
 
 		$jianchajileixing = $request->input('jianchajileixing');
@@ -600,57 +596,27 @@ class qcreportController extends Controller
 		$weihao = $request->input('weihao');
 		$shuliang = $request->input('shuliang');
 		$jianchazhe = $request->input('jianchazhe');
-		$meishu = $request->input('meishu');
-		$hejidianshu = $request->input('hejidianshu');
-		$bushihejianshuheji = $request->input('bushihejianshuheji');
-		$ppm = $request->input('ppm');
 
-		// dd($id);
-		// dd($updated_at);
-		
 		// 判断如果不是最新的记录，不可被编辑
 		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Smt_qcreport::select('updated_at', 'buliangxinxi')
+		$res = Smt_qcreport::select('updated_at', 'hejidianshu', 'bushihejianshuheji')
 			->where('id', $id)
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
-
-		// dd($updated_at . ' | ' . $res_updated_at);
-		// dd(gettype($updated_at) . ' | ' . gettype($res_updated_at));
-		// dd($updated_at != $res_updated_at);
 		
-		if ($updated_at != $res_updated_at) {
-			return 0;
-		}
-
+		if ($updated_at != $res_updated_at) return 0;
+		
 		// 获取json数据 buliangxinxi，修改对应subid项内容
-		$json = $res['buliangxinxi'];
-		$arr_tmp = [];
+		$hejidianshu = $res['hejidianshu'];
+		$bushihejianshuheji = $res['bushihejianshuheji'] + $shuliang[1] - $shuliang[0];
+		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
 
-		// foreach ($json as $key => $value) {
-		// 	if ($value['id'] == $subid) {
-		// 		$value['jianchajileixing']	= $jianchajileixing;
-		// 		$value['buliangneirong']	= $buliangneirong;
-		// 		$value['weihao']			= $weihao;
-		// 		$value['shuliang']			= $shuliang;
-		// 		$value['jianchazhe']		= $jianchazhe;
-		// 	}
-		// 	array_push($arr_tmp, $value);
-		// }
-		// $buliangxinxi =  json_encode(
-		// 	$arr_tmp, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-		// );
-		// dd($buliangxinxi);
-
-		//----------------------------
-
-		$buliangxinxi = '"jianchajileixing":"' . $jianchajileixing . '",';
-		$buliangxinxi .= '"buliangneirong":"' . $buliangneirong . '",';
-		$buliangxinxi .= '"weihao":"' . $weihao . '",';
-		$buliangxinxi .= '"shuliang":"' . $shuliang . '",';
-		$buliangxinxi .= '"jianchazhe":"' . $jianchazhe . '"';
-
-		$sql = 'JSON_SET(buliangxinxi->$['. $subid . '], \'[{' . $buliangxinxi . '}]\')';
+		$sql = 'JSON_REPLACE(buliangxinxi, ';
+		$sql .= '\'$[' . $subid . '].jianchajileixing\', "' . $jianchajileixing . '", ';
+		$sql .= '\'$[' . $subid . '].buliangneirong\', "' . $buliangneirong . '", ';
+		$sql .= '\'$[' . $subid . '].weihao\', "' . $weihao . '", ';
+		$sql .= '\'$[' . $subid . '].shuliang\', ' . $shuliang[1] . ', ';
+		$sql .= '\'$[' . $subid . '].jianchazhe\', "' . $jianchazhe . '")';
 		// dd($sql);
 
 		$nowtime = date("Y-m-d H:i:s",time());
@@ -659,25 +625,17 @@ class qcreportController extends Controller
 		try	{
 			DB::beginTransaction();
 
-			// $result = Smt_qcreport::where('id', $id)
-			// 	->update([
-			// 		'meishu'				=> $meishu,
-			// 		'hejidianshu'			=> $hejidianshu,
-			// 		'bushihejianshuheji'	=> $bushihejianshuheji,
-			// 		'ppm'					=> $ppm,
-			// 		'buliangxinxi'			=> $buliangxinxi,
-			// 	]);
 			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
 			DB::rollBack();
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		DB::commit();
 		Cache::flush();
-		dd($result);
+		// dd($result);
 		return $result;
 
 	}
