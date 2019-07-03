@@ -2989,7 +2989,7 @@ var vm_app = new Vue({
 			
 			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			
-			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			var url = "{{ route('smt.qcreport.qcreportgetschart2') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -3005,13 +3005,15 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				// console.log(response.data);return false;
+
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;
 				}
 				
 				if (response.data) {
-					var chartdata2 = response.data.data;			
+					var chartdata2 = response.data;			
 			
 					chartdata2.map(function (v,j) {
 						switch(v.buliangneirong)
