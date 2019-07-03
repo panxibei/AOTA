@@ -210,7 +210,7 @@ class qcreportController extends Controller
 				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
 					return $query->whereIn('buliangneirong', $buliangneirong_filter);
 				})
-				->orderBy('jianchariqi', 'asc')
+				->orderBy('jianchariqi', 'desc')
 				// ->get()
 				->groupBy('created_at')
 				->paginate($perPage, ['*'], 'page', $page);

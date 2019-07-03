@@ -526,9 +526,9 @@ SMT(QC report) -
 
 				</Tab-pane>
 
-				<Tab-pane label="图表 - 工程内不良记录（PPM）">
+				<Tab-pane label="图表1 - 工程内不良记录（PPM）">
 
-					<i-button @click="onchart1()" type="info" size="small">刷新图表 ↘</i-button>
+					<i-button @click="onchart1()" type="info" size="small">刷新图表1 ↘</i-button>
 					<!--
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<Upload
@@ -548,9 +548,9 @@ SMT(QC report) -
 
 				</Tab-pane>
 
-				<Tab-pane label="图表 - 按不良内容统计不良占有率">
+				<Tab-pane label="图表2 - 按不良内容统计不良占有率">
 
-					<i-button @click="onchart2()" type="info" size="small">刷新图表 ↘</i-button>
+					<i-button @click="onchart2()" type="info" size="small">刷新图表2 ↘</i-button>
 					<br><br>
 					<i-row :gutter="16">
 						<i-col span="24">
@@ -560,9 +560,9 @@ SMT(QC report) -
 
 				</Tab-pane>
 
-				<Tab-pane label="图表 - 按月份对比不良率和PPM">
+				<Tab-pane label="图表3 - 按月份对比不良率和PPM">
 
-					<i-button @click="onchart3()" type="info" size="small">刷新图表 ↘</i-button>
+					<i-button @click="onchart3()" type="info" size="small">刷新图表3 ↘</i-button>
 					<br><br>
 					<i-row :gutter="16">
 						<i-col span="24">
@@ -2224,7 +2224,7 @@ var vm_app = new Vue({
 		},
 
 		// echarts public function 显示用的公共函数
-		chart1_function: function () {
+		chart1_function () {
 			// 路径配置
 			require.config({
 				paths: {
@@ -2754,9 +2754,8 @@ var vm_app = new Vue({
 		},
 		
 		
-		
 		// ajax返回后显示图表
-		onchart1: function () {
+		onchart1 () {
 			var _this = this;
 			
 			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter[1] == '') {
@@ -2868,7 +2867,6 @@ var vm_app = new Vue({
 					// ppm计算
 					hejidianshu.map(function (v,i) {
 
-					
 						// ppm[i] += v.ppm;
 						// hejidianshu[i] += v.hejidianshu;
 						// bushihejianshuheji[i] += v.bushihejianshuheji;
