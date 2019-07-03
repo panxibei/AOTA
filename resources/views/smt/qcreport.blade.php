@@ -858,7 +858,7 @@ var vm_app = new Vue({
 				title: '检查日期',
 				key: 'jianchariqi',
 				align: 'center',
-				width: 90,
+				width: 100,
 				render: (h, params) => {
 					return h('div', [
 						params.row.jianchariqi.substring(0,10)
@@ -1612,7 +1612,7 @@ var vm_app = new Vue({
 		//分页
 		pagecurrent: 1,
 		pagetotal: 1,
-		pagepagesize: 10,
+		pagepagesize: 5,
 		pagelast: 1,
 		
 		file: null,
