@@ -20,12 +20,12 @@ class qcreportExport implements FromCollection, WithStrictNullComparison, Should
         return new Collection($this->data);
 		
         // $cellData = [
-            // ['学号','姓名','成绩'],
-            // ['101','AAAAA', $this->id],
-            // ['102','BBBBB','92'],
-            // ['103','CCCCC','95'],
-            // ['104','DDDDD','89'],
-            // ['105','EEEEE','96'],
+        //     ['学号','姓名','成绩'],
+        //     ['101','AAAAA', 'qq'],
+        //     [null,'BBBBB','92'],
+        //     ['103','CCCCC','95'],
+        //     ['104','DDDDD','89'],
+        //     ['105','EEEEE','96'],
         // ];
 		
         // return new Collection($cellData);

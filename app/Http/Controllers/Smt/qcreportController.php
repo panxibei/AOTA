@@ -871,6 +871,24 @@ class qcreportController extends Controller
 		$qcreport = [];
 		$arr = [];
 		$tmp = $res;
+		$tmp_empty = [
+			'jianchariqi' => null,
+			'xianti' => null,
+			'banci' => null,
+			'jizhongming' => null,
+			'pinming' => null,
+			'gongxu' => null,
+			'spno' => null,
+			'lotshu' => null,
+			'dianmei' => null,
+			'meishu' => null,
+			'hejidianshu' => null,
+			'bushihejianshuheji' => null,
+			'ppm' => null,
+			'created_at' => null,
+			'updated_at' => null,
+
+		];
 		if (!empty($res)) {
 			foreach ($res as $key=>$value) {
 				if (!empty($value['buliangxinxi'])) {
@@ -882,7 +900,12 @@ class qcreportController extends Controller
 						$arr['jianchazhe'] = $v['jianchazhe'];
 
 						unset($tmp[$key]['buliangxinxi']);
-						array_push($qcreport, array_merge($tmp[$key], $arr));
+
+						if ($k==0) {
+							array_push($qcreport, array_merge($tmp[$key], $arr));
+						} else {
+							array_push($qcreport, array_merge($tmp_empty, $arr));
+						}
 								
 					}
 				}
