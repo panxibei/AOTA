@@ -4,9 +4,10 @@ namespace App\Exports\Smt;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Support\Collection;
 
-class qcreportExport implements FromCollection, WithStrictNullComparison
+class qcreportExport implements FromCollection, WithStrictNullComparison, ShouldAutoSize
 {
 	public function __construct($data){
 		$this->data = $data;

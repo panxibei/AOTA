@@ -4,9 +4,10 @@ namespace App\Exports\Bpjg;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Support\Collection;
 
-class zrcfx_resultExport implements FromCollection, WithStrictNullComparison
+class zrcfx_resultExport implements FromCollection, WithStrictNullComparison, ShouldAutoSize
 {
 	
 	public function __construct($data){

@@ -4,8 +4,9 @@ namespace App\Exports\Scgl;
 
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class hcfx_resultExport implements WithMultipleSheets
+class hcfx_resultExport implements WithMultipleSheets, ShouldAutoSize
 {
     use Exportable;
 

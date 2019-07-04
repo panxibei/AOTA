@@ -4,9 +4,10 @@ namespace App\Exports\Scgl;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Support\Collection;
 
-class hcfx_relationExport implements FromCollection, WithStrictNullComparison
+class hcfx_relationExport implements FromCollection, WithStrictNullComparison, ShouldAutoSize
 {
 	
 	public function __construct($data){
