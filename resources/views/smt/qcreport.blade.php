@@ -2166,7 +2166,7 @@ var vm_app = new Vue({
 
 
 		// exportData_db 当前表数据导出
-		exportData_db: function () {
+		exportData_db () {
 			var _this = this;
 			
 			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter == undefined) {

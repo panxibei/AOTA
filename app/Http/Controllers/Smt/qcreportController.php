@@ -857,10 +857,39 @@ class qcreportController extends Controller
 		// 	'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
 		// 	->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
 		// 	->get()->toArray();
-		$qcreport = Smt_qcreport::select(DB::raw('LEFT(jianchariqi, 10)'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
-			'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
+		// $res = Smt_qcreport::select(DB::raw('LEFT(jianchariqi, 10)'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+		$res = Smt_qcreport::select('jianchariqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+			'buliangxinxi', 'created_at', 'updated_at')
 			->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
+		
+		// foreach ($res as $key=>$value) {
+		// 	unset($res[$key]['buliangxinxi']);
+		// }
+		// dd($res);
+
+		$qcreport = [];
+		$arr = [];
+		$tmp = $res;
+		if (!empty($res)) {
+			foreach ($res as $key=>$value) {
+				if (!empty($value['buliangxinxi'])) {
+					foreach ($value['buliangxinxi'] as $k=>$v) {
+						$arr['buliangneirong'] = $v['buliangneirong'];
+						$arr['weihao'] = $v['weihao'];
+						$arr['shuliang'] = $v['shuliang'];
+						$arr['jianchajileixing'] = $v['jianchajileixing'];
+						$arr['jianchazhe'] = $v['jianchazhe'];
+
+						unset($tmp[$key]['buliangxinxi']);
+						array_push($qcreport, array_merge($tmp[$key], $arr));
+								
+					}
+				}
+
+
+			}
+		}
 		// dd($qcreport);
 		
 
@@ -879,7 +908,7 @@ class qcreportController extends Controller
 		// $title[] = ['检查日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
 		// 	'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
 		$title[] = ['检查日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
-			'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
+			'创建日期', '更新日期', '不良内容', '位号', '数量', '检查机类型', '检查者'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $qcreport);
