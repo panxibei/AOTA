@@ -3,11 +3,10 @@
 namespace App\Exports\Smt;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-// use App\Models\Smt\Smt_qcreport;
-
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Illuminate\Support\Collection;
 
-class qcreportExport implements FromCollection
+class qcreportExport implements FromCollection, WithStrictNullComparison
 {
 	public function __construct($data){
 		$this->data = $data;
