@@ -88,12 +88,12 @@ class qcreportController extends Controller
 		
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl)) {
-			$dailyreport = Cache::get($fullUrl);    //直接读取cache
+			$qcreport = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			// $dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+			// $qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
 			// 	})
-			$dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+			$qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 					return $query->whereBetween('jianchariqi', $qcdate_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
@@ -131,10 +131,10 @@ class qcreportController extends Controller
 				->orderBy('jianchariqi', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $dailyreport, now()->addSeconds(10));
+			Cache::put($fullUrl, $qcreport, now()->addSeconds(10));
 		}
 		
-		return $dailyreport;
+		return $qcreport;
 	}	
 	
 	/**
@@ -294,7 +294,15 @@ class qcreportController extends Controller
 					return $query->where('gongxu', '=', $gongxu_filter);
 				})
 				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
-					return $query->whereIn('buliangneirong', $buliangneirong_filter);
+					// return $query->whereIn('buliangneirong', $buliangneirong_filter);
+					// 不良内容按or查询
+					$sql = '';
+					foreach ($buliangneirong_filter as $value) {
+						$sql .= ' JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'["' . $value . '"]\')' . ' or';
+					}
+					$sql = substr($sql, 0, strlen($sql)-3);
+					
+					return $query->whereRaw($sql);
 				})
 				->orderBy('jianchariqi', 'desc')
 				// ->get()
