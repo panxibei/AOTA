@@ -314,9 +314,13 @@ class qcreportController extends Controller
 		}
 
 		$result = [];
-		foreach ($chart2 as $key => $value) {
-			foreach ($value['buliangxinxi'] as $k => $v) {
-				array_push($result, $v);
+		if (!empty($chart2)) {
+			foreach ($chart2 as $key => $value) {
+				if (!empty($value['buliangxinxi'])) {
+					foreach ($value['buliangxinxi'] as $k => $v) {
+						array_push($result, $v);
+					}
+				}
 			}
 		}
 
