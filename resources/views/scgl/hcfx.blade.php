@@ -320,8 +320,8 @@
 					<Date-picker v-model.lazy="qcdate_filter_result" @on-change="resultgets1(pagecurrent_result1, pagelast_result1);resultgets2(pagecurrent_result2, pagelast_result2);" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="4">
-					<!-- 品番&nbsp;&nbsp; -->
-					<!-- <i-input v-model.lazy="pinfan_filter_result" @on-change="resultgets1(pagecurrent_relation, pagelast_relation)" @on-keyup="pinfan_filter_result=pinfan_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input> -->
+					机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming_filter_result" @on-change="resultgets1(pagecurrent_result1, pagelast_result1);resultgets2(pagecurrent_result2, pagelast_result2);" @on-keyup="jizhongming_filter_result=jizhongming_filter_result.toUpperCase()" placeholder="" size="small" clearable style="width: 120px"></i-input>
 				</i-col>
 				<i-col span="4">
 					<!-- 品名&nbsp;&nbsp; -->
@@ -485,6 +485,7 @@ var vm_app = new Vue({
 		},
 
 		qcdate_filter_result: '', //new Date(),
+		jizhongming_filter_result: '',
 		date_fenxi_suoshuriqi: '', //new Date(),
 		
 		// 机种名
@@ -1026,7 +1027,7 @@ var vm_app = new Vue({
 			
 			// var xianti_filter = _this.xianti_filter;
 			// var jizhongming_filter_relation = _this.jizhongming_filter_relation;
-			// var pinfan_filter = _this.pinfan_filter_result;
+			var jizhongming_filter = _this.jizhongming_filter_result;
 			// var pinming_filter = _this.pinming_filter_result;
 			// var tuopanxinghao_filter = _this.tuopanxinghao_filter;
 
@@ -1037,7 +1038,7 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize_result1,
 					page: page,
 					qcdate_filter: datex,
-					// pinfan_filter: pinfan_filter,
+					jizhongming_filter: jizhongming_filter,
 					// pinming_filter: pinming_filter,
 				}
 			})
@@ -1094,7 +1095,7 @@ var vm_app = new Vue({
 			
 			// var xianti_filter = _this.xianti_filter;
 			// var jizhongming_filter_relation = _this.jizhongming_filter_relation;
-			// var pinfan_filter = _this.pinfan_filter_result;
+			var jizhongming_filter = _this.jizhongming_filter_result;
 			// var pinming_filter = _this.pinming_filter_result;
 			// var tuopanxinghao_filter = _this.tuopanxinghao_filter;
 
@@ -1105,7 +1106,7 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize_result2,
 					page: page,
 					qcdate_filter: datex,
-					// pinfan_filter: pinfan_filter,
+					jizhongming_filter: jizhongming_filter,
 					// pinming_filter: pinming_filter,
 				}
 			})

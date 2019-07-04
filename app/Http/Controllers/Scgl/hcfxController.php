@@ -170,7 +170,7 @@ class hcfxController extends Controller
 
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
-		// $jizhongming_filter = $request->input('jizhongming_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
 		// $pinfan_filter = $request->input('pinfan_filter');
 		// $pinming_filter = $request->input('pinming_filter');
 		// $leibie_filter = $request->input('leibie_filter');
@@ -203,9 +203,9 @@ class hcfxController extends Controller
 					// return $query->whereBetween('updated_at', $qcdate_filter);
 					return $query->where('suoshuriqi', $qcdate_filter);
 				})
-				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
-				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
-				// })
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
 				// ->when($pinfan_filter, function ($query) use ($pinfan_filter) {
 				// 	return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
 				// })
@@ -243,7 +243,7 @@ class hcfxController extends Controller
 
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
-		// $jizhongming_filter = $request->input('jizhongming_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
 		// $pinfan_filter = $request->input('pinfan_filter');
 		// $pinming_filter = $request->input('pinming_filter');
 		// $leibie_filter = $request->input('leibie_filter');
@@ -276,9 +276,9 @@ class hcfxController extends Controller
 					// return $query->whereBetween('updated_at', $qcdate_filter);
 					return $query->where('suoshuriqi', $qcdate_filter);
 				})
-				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
-				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
-				// })
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
 				// ->when($pinfan_filter, function ($query) use ($pinfan_filter) {
 				// 	return $query->where('pinfan', 'like', '%'.$pinfan_filter.'%');
 				// })
