@@ -2330,27 +2330,27 @@ var vm_app = new Vue({
 							subtext: vm_app.qcdate_filter[0].Format('yyyy-MM-dd') + ' - ' + vm_app.qcdate_filter[1].Format('yyyy-MM-dd'),
 							x:'center'
 						},
-						tooltip : {
+						tooltip: {
 							trigger: 'item',
 							formatter: "{a} <br/>{b} : {c} ({d}%)"
 						},
 						legend: {
-							orient : 'vertical',
-							x : 'left',
+							orient: 'vertical',
+							x: 'left',
 							// data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
 							data: vm_app.chart2_option_legend_data
 						},
 						toolbox: {
-							show : true,
-							feature : {
-								mark : {show: true},
-								dataView : {show: true, readOnly: false},
+							show: true,
+							feature: {
+								mark: {show: true},
+								dataView: {show: true, readOnly: false},
 								// magicType : {
 									// show: true, 
 									// type: ['pie', 'funnel']
 								// },
-								restore : {show: true},
-								saveAsImage : {show: true}
+								restore: {show: true},
+								saveAsImage: {show: true}
 							}
 						},
 						calculable : true,
@@ -2360,19 +2360,20 @@ var vm_app = new Vue({
 								name: vm_app.chart2_option_title_text_huizong,
 								type:'pie',
 								selectedMode: 'multiple',
-								radius : [0, 70],
-								center : ['50%', '66%'],
+								radius: [0, 70],
+								center: ['50%', '66%'],
 								
-								itemStyle : {
-									normal : {
-										label : {
-											position : 'inner',
-											formatter : function (params) {                         
+								itemStyle: {
+									normal: {
+										label: {
+											position: 'inner',
+											distance: 0.6,
+											formatter: function (params) {                         
 												return (params.percent - 0).toFixed(0) + '%'
 											}
 										},
-										labelLine : {
-											show : false
+										labelLine: {
+											show: false
 										}
 									},
 									emphasis: {
@@ -3075,45 +3076,83 @@ var vm_app = new Vue({
 						shuliang_huizong[j] += v.shuliang;
 					});
 					
-					var data = 
-					[
-						{value: shuliang[0], name:'连焊'},
-						{value: shuliang[1], name:'引脚焊锡量少'},
-						{value: shuliang[2], name:'CHIP部品焊锡少'},
-						{value: shuliang[3], name:'焊锡球'},
-						{value: shuliang[4], name:'1005部品浮起.竖立'},
-						{value: shuliang[5], name:'CHIP部品横立'},
-						{value: shuliang[6], name:'部品浮起.竖立'},
-						{value: shuliang[7], name:'欠品'},
-						{value: shuliang[8], name:'焊锡未熔解'},
-						{value: shuliang[9], name:'位置偏移'},
-						{value: shuliang[10], name:'部品打反'},
-						{value: shuliang[11], name:'部品错误'},
-						{value: shuliang[12], name:'多余部品'},
-						{value: shuliang[13], name:'异物'},
-						{value: shuliang[14], name:'极性错误'},
-						{value: shuliang[15], name:'炉后部品破损'},
-						{value: shuliang[16], name:'引脚弯曲'},
-						{value: shuliang[17], name:'基板/部品变形后引脚浮起'},
-						{value: shuliang[18], name:'引脚不上锡'},
-						{value: shuliang[19], name:'基板不上锡'},
-						{value: shuliang[20], name:'CHIP部品不上锡'},
-						{value: shuliang[21], name:'基板不良'},
-						{value: shuliang[22], name:'部品不良'},
-						{value: shuliang[23], name:'其他'},
-					];
+					// var data = 
+					// [
+					// 	{value: shuliang[0], name:'连焊'},
+					// 	{value: shuliang[1], name:'引脚焊锡量少'},
+					// 	{value: shuliang[2], name:'CHIP部品焊锡少'},
+					// 	{value: shuliang[3], name:'焊锡球'},
+					// 	{value: shuliang[4], name:'1005部品浮起.竖立'},
+					// 	{value: shuliang[5], name:'CHIP部品横立'},
+					// 	{value: shuliang[6], name:'部品浮起.竖立'},
+					// 	{value: shuliang[7], name:'欠品'},
+					// 	{value: shuliang[8], name:'焊锡未熔解'},
+					// 	{value: shuliang[9], name:'位置偏移'},
+					// 	{value: shuliang[10], name:'部品打反'},
+					// 	{value: shuliang[11], name:'部品错误'},
+					// 	{value: shuliang[12], name:'多余部品'},
+					// 	{value: shuliang[13], name:'异物'},
+					// 	{value: shuliang[14], name:'极性错误'},
+					// 	{value: shuliang[15], name:'炉后部品破损'},
+					// 	{value: shuliang[16], name:'引脚弯曲'},
+					// 	{value: shuliang[17], name:'基板/部品变形后引脚浮起'},
+					// 	{value: shuliang[18], name:'引脚不上锡'},
+					// 	{value: shuliang[19], name:'基板不上锡'},
+					// 	{value: shuliang[20], name:'CHIP部品不上锡'},
+					// 	{value: shuliang[21], name:'基板不良'},
+					// 	{value: shuliang[22], name:'部品不良'},
+					// 	{value: shuliang[23], name:'其他'},
+					// ];
 
-					var data_huizong = 
-					[
-						{value: shuliang_huizong[0], name:'印刷系'},
-						{value: shuliang_huizong[1], name:'装着系'},
-						{value: shuliang_huizong[2], name:'异物系'},
-						{value: shuliang_huizong[3], name:'人系'},
-						{value: shuliang_huizong[4], name:'部品系'},
-						{value: shuliang_huizong[5], name:'其他系'},
-					];
+					var data = [];
+
+					if (shuliang[0]!=0) {data.push({value: shuliang[0], name:'连焊'});}
+					if (shuliang[1]!=0) {data.push({value: shuliang[1], name:'引脚焊锡量少'});}
+					if (shuliang[2]!=0) {data.push({value: shuliang[2], name:'CHIP部品焊锡少'});}
+					if (shuliang[3]!=0) {data.push({value: shuliang[3], name:'焊锡球'});}
+					if (shuliang[4]!=0) {data.push({value: shuliang[4], name:'1005部品浮起.竖立'});}
+					if (shuliang[5]!=0) {data.push({value: shuliang[5], name:'CHIP部品横立'});}
+					if (shuliang[6]!=0) {data.push({value: shuliang[6], name:'部品浮起.竖立'});}
+					if (shuliang[7]!=0) {data.push({value: shuliang[7], name:'欠品'});}
+					if (shuliang[8]!=0) {data.push({value: shuliang[8], name:'焊锡未熔解'});}
+					if (shuliang[9]!=0) {data.push({value: shuliang[9], name:'位置偏移'});}
+					if (shuliang[10]!=0) {data.push({value: shuliang[10], name:'部品打反'});}
+					if (shuliang[11]!=0) {data.push({value: shuliang[11], name:'部品错误'});}
+					if (shuliang[12]!=0) {data.push({value: shuliang[12], name:'多余部品'});}
+					if (shuliang[13]!=0) {data.push({value: shuliang[13], name:'异物'});}
+					if (shuliang[14]!=0) {data.push({value: shuliang[14], name:'极性错误'});}
+					if (shuliang[15]!=0) {data.push({value: shuliang[15], name:'炉后部品破损'});}
+					if (shuliang[16]!=0) {data.push({value: shuliang[16], name:'引脚弯曲'});}
+					if (shuliang[17]!=0) {data.push({value: shuliang[17], name:'基板/部品变形后引脚浮起'});}
+					if (shuliang[18]!=0) {data.push({value: shuliang[18], name:'引脚不上锡'});}
+					if (shuliang[19]!=0) {data.push({value: shuliang[19], name:'基板不上锡'});}
+					if (shuliang[20]!=0) {data.push({value: shuliang[20], name:'CHIP部品不上锡'});}
+					if (shuliang[21]!=0) {data.push({value: shuliang[21], name:'基板不良'});}
+					if (shuliang[22]!=0) {data.push({value: shuliang[22], name:'部品不良'});}
+					if (shuliang[23]!=0) {data.push({value: shuliang[23], name:'其他'});}
+
+					// console.log(data);return false;
 					
-					// console.log(data);
+					// var data_huizong = 
+					// [
+					// 	{value: shuliang_huizong[0], name:'印刷系'},
+					// 	{value: shuliang_huizong[1], name:'装着系'},
+					// 	{value: shuliang_huizong[2], name:'异物系'},
+					// 	{value: shuliang_huizong[3], name:'人系'},
+					// 	{value: shuliang_huizong[4], name:'部品系'},
+					// 	{value: shuliang_huizong[5], name:'其他系'},
+					// ];
+
+					var data_huizong = [];
+					if (shuliang_huizong[0]!=0) {data_huizong.push({value: shuliang_huizong[0], name:'印刷系'});}
+					if (shuliang_huizong[1]!=0) {data_huizong.push({value: shuliang_huizong[1], name:'装着系'});}
+					if (shuliang_huizong[2]!=0) {data_huizong.push({value: shuliang_huizong[2], name:'异物系'});}
+					if (shuliang_huizong[3]!=0) {data_huizong.push({value: shuliang_huizong[3], name:'人系'});}
+					if (shuliang_huizong[4]!=0) {data_huizong.push({value: shuliang_huizong[4], name:'部品系'});}
+					if (shuliang_huizong[5]!=0) {data_huizong.push({value: shuliang_huizong[5], name:'其他系'});}
+					
+					// console.log(data_huizong);return false;
+
 					_this.chart2_option_series_data = data;
 					_this.chart2_option_series_data_huizong = data_huizong;
 					_this.chart2_function();
