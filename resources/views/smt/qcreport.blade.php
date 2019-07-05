@@ -572,6 +572,16 @@ SMT(QC report) -
 
 				</Tab-pane>
 
+				<Tab-pane label="按线体统计点数和不良件数以及PPM">
+
+					<i-row :gutter="16">
+						<i-col span="24">
+							<i-table ref="table2" height="460" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
+						</i-col>
+					</i-row>
+
+				</Tab-pane>
+
 			</Tabs>
 
 
@@ -1411,6 +1421,364 @@ var vm_app = new Vue({
 		],
 		tabledata1: [],
 		tableselect1: [],
+		
+		// 表头2
+		tablecolumns2: [
+			{
+				type: 'selection',
+				width: 50,
+				align: 'center',
+				fixed: 'left'
+			},
+			{
+				type: 'index',
+				align: 'center',
+				width: 70,
+				align: 'center',
+				fixed: 'left',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
+				}
+			},
+ 			{
+				title: '检查日期',
+				key: 'jianchariqi',
+				align: 'center',
+				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.jianchariqi.substring(0,10)
+					]);
+				}
+			},
+			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 80,
+			},
+			{
+				title: '班次',
+				key: 'banci',
+				align: 'center',
+				width: 60,
+			},
+			{
+				title: '机种名',
+				key: 'jizhongming',
+				align: 'center',
+				width: 110,
+				// sortable: true
+			},
+			{
+				title: '品名',
+				key: 'pinming',
+				align: 'center',
+				width: 80,
+				// sortable: true
+			},
+			{
+				title: '工序',
+				key: 'gongxu',
+				align: 'center',
+				width: 50
+			},
+			{
+				title: 'SP NO.',
+				key: 'spno',
+				align: 'center',
+				width: 130,
+				// sortable: true
+			},
+			{
+				title: 'LOT数',
+				key: 'lotshu',
+				align: 'center',
+				width: 80,
+				// sortable: true,
+				render: (h, params) => {
+					return h('div', [
+						params.row.lotshu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '点/枚',
+				key: 'dianmei',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.dianmei.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '枚数',
+				key: 'meishu',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.meishu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '合计点数',
+				key: 'hejidianshu',
+				align: 'center',
+				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						// parseFloat(params.row.hejidianshu * 100) + '%'
+						params.row.hejidianshu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '不适合件数合计',
+				key: 'bushihejianshuheji',
+				align: 'center',
+				width: 70
+			},
+			{
+				title: 'PPM',
+				key: 'ppm',
+				align: 'center',
+				width: 90
+			},
+			{
+				title: '不良信息',
+				align: 'center',
+				children: [
+					{
+						title: '编号',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 50,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map((item, index) => {
+										return h('li', {
+										// }, item.id)
+										}, ++index)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '不良内容',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 170,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.buliangneirong)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '位号',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 80,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.weihao)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '数量',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 70,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.shuliang)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '检查机类型',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 80,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.jianchajileixing)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '检查者',
+						key: 'buliangxinxi',
+						align:'center',
+						width: 90,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+									attrs: {
+										class:'subCol'
+									},
+								}, [
+									h('ul', params.row.buliangxinxi.map(item => {
+										return h('li', {
+										}, item.jianchazhe)
+									}))
+								]);
+							}
+						}
+					},
+					{
+						title: '操作',
+						key: 'action',
+						align: 'center',
+						width: 110,
+						render: (h, params) => {
+							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
+								return h('div', {
+										attrs: {
+											class:'subCol'
+										},
+									}, [
+									h('ul', params.row.buliangxinxi.map((item, index) => {
+										return h('li', {
+										}, [
+											h('Button', {
+												props: {
+													type: 'default',
+													size: 'small'
+												},
+												style: {
+													marginRight: '5px'
+												},
+												on: {
+													click: () => {
+														vm_app.qcreport_edit_sub(params.row, item, index)
+													}
+												}
+											}, '编辑'),
+											h('Button', {
+												props: {
+													type: 'warning',
+													size: 'small'
+												},
+												style: {
+													marginRight: '5px'
+												},
+												on: {
+													click: () => {
+														vm_app.qcreport_remove_sub(params.row, item, index)
+													}
+												}
+											}, '删除')
+										])
+									}))
+								]);
+							}
+						},
+					},
+				]
+			},
+
+			{
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 130,
+				render: (h, params) => {
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.qcreport_edit(params.row)
+								}
+							}
+						}, '编辑'),
+						h('Button', {
+							props: {
+								type: 'default',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.qcreport_append(params.row)
+								}
+							}
+						}, '追加'),
+					]);
+				},
+				fixed: 'right'
+			},
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+			// {
+			// 	title: '更新日期',
+			// 	key: 'updated_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// },
+		],
+		tabledata2: [],
+		tableselect2: [],
 		
 		
 		// 日期范围过滤
