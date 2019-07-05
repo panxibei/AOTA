@@ -575,6 +575,27 @@ SMT(QC report) -
 				<Tab-pane label="按线体统计点数和不良件数以及PPM">
 
 					<i-row :gutter="16">
+						<br>
+						<i-col span="2">
+							&nbsp;
+						</i-col>
+						<i-col span="3">
+							查询：&nbsp;&nbsp;
+							<Date-picker v-model.lazy="tongji_date_filter" @on-change="tongjigets(tongji_date_filter)" type="year" size="small" style="width:100px"></Date-picker>
+						</i-col>
+						<i-col span="1">
+							&nbsp;
+						</i-col>
+						<i-col span="18">
+							导出：
+							&nbsp;&nbsp;
+							<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+						</i-col>
+					</i-row>
+
+					&nbsp;
+					<i-row :gutter="16">
+						<br>
 						<i-col span="24">
 							<i-table ref="table2" height="460" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
 						</i-col>
@@ -839,31 +860,6 @@ var vm_app = new Vue({
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
 			},
-			// {
-			// 	title: '操作',
-			// 	key: 'action',
-			// 	align: 'center',
-			// 	width: 70,
-			// 	render: (h, params) => {
-			// 		return h('div', [
-			// 			h('Button', {
-			// 				props: {
-			// 					type: 'info',
-			// 					size: 'small'
-			// 				},
-			// 				style: {
-			// 					marginRight: '5px'
-			// 				},
-			// 				on: {
-			// 					click: () => {
-			// 						vm_app.qcreport_edit(params.row)
-			// 					}
-			// 				}
-			// 			}, '编辑')
-			// 		]);
-			// 	},
-			// 	fixed: 'right'
-			// },
  			{
 				title: '检查日期',
 				key: 'jianchariqi',
@@ -1424,22 +1420,6 @@ var vm_app = new Vue({
 		
 		// 表头2
 		tablecolumns2: [
-			{
-				type: 'selection',
-				width: 50,
-				align: 'center',
-				fixed: 'left'
-			},
-			{
-				type: 'index',
-				align: 'center',
-				width: 70,
-				align: 'center',
-				fixed: 'left',
-				indexMethod: (row) => {
-					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
-				}
-			},
  			{
 				title: '检查日期',
 				key: 'jianchariqi',
@@ -1452,330 +1432,293 @@ var vm_app = new Vue({
 				}
 			},
 			{
-				title: '线体',
-				key: 'xianti',
+				title: 'SMT-1',
 				align: 'center',
-				width: 80,
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu1',
+						align: 'center',
+						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu1.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu1',
+						align: 'center',
+						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu1.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: 'PPM',
+						key: 'ppm1',
+						align: 'center',
+						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm1.toLocaleString()
+							]);
+						}
+					},
+				]
 			},
 			{
-				title: '班次',
-				key: 'banci',
+				title: 'SMT-2',
 				align: 'center',
-				width: 60,
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu2',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu2',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm2',
+						align: 'center',
+						width: 80,
+					},
+				]
 			},
 			{
-				title: '机种名',
-				key: 'jizhongming',
+				title: 'SMT-3',
 				align: 'center',
-				width: 110,
-				// sortable: true
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu3',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu3',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm3',
+						align: 'center',
+						width: 80,
+					},
+				]
 			},
 			{
-				title: '品名',
-				key: 'pinming',
+				title: 'SMT-4',
 				align: 'center',
-				width: 80,
-				// sortable: true
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu4',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu4',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm4',
+						align: 'center',
+						width: 80,
+					},
+				]
 			},
 			{
-				title: '工序',
-				key: 'gongxu',
+				title: 'SMT-5',
 				align: 'center',
-				width: 50
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu5',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu5',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm5',
+						align: 'center',
+						width: 80,
+					},
+				]
 			},
 			{
-				title: 'SP NO.',
-				key: 'spno',
+				title: 'SMT-6',
 				align: 'center',
-				width: 130,
-				// sortable: true
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu6',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu6',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm6',
+						align: 'center',
+						width: 80,
+					},
+				]
 			},
 			{
-				title: 'LOT数',
-				key: 'lotshu',
+				title: 'SMT-7',
 				align: 'center',
-				width: 80,
-				// sortable: true,
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu7',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu7',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm7',
+						align: 'center',
+						width: 80,
+					},
+				]
+			},
+			{
+				title: 'SMT-8',
+				align: 'center',
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu8',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu8',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm8',
+						align: 'center',
+						width: 80,
+					},
+				]
+			},
+			{
+				title: 'SMT-9',
+				align: 'center',
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu9',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu9',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm9',
+						align: 'center',
+						width: 80,
+					},
+				]
+			},
+			{
+				title: 'SMT-10',
+				align: 'center',
+				children: [
+					{
+						title: '合计点数',
+						key: 'hejidianshu10',
+						align: 'center',
+						width: 100,
+					},
+					{
+						title: '不良件数',
+						key: 'buliangjianshu10',
+						align: 'center',
+						width: 90,
+					},
+					{
+						title: 'PPM',
+						key: 'ppm10',
+						align: 'center',
+						width: 80,
+					},
+				]
+			},
+			{
+				title: '合计点数求和',
+				key: 'hejidianshuqiuhe',
+				align: 'center',
+				width: 100,
 				render: (h, params) => {
 					return h('div', [
-						params.row.lotshu.toLocaleString()
+						params.row.hejidianshuqiuhe.toLocaleString()
 					]);
 				}
 			},
 			{
-				title: '点/枚',
-				key: 'dianmei',
+				title: '不良件数求知',
+				key: 'buliangjianshuqiuhe',
 				align: 'center',
-				width: 70,
+				width: 100,
 				render: (h, params) => {
 					return h('div', [
-						params.row.dianmei.toLocaleString()
+						params.row.buliangjianshuqiuhe.toLocaleString()
 					]);
 				}
-			},
-			{
-				title: '枚数',
-				key: 'meishu',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.meishu.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '合计点数',
-				key: 'hejidianshu',
-				align: 'center',
-				width: 90,
-				render: (h, params) => {
-					return h('div', [
-						// parseFloat(params.row.hejidianshu * 100) + '%'
-						params.row.hejidianshu.toLocaleString()
-					]);
-				}
-			},
-			{
-				title: '不适合件数合计',
-				key: 'bushihejianshuheji',
-				align: 'center',
-				width: 70
 			},
 			{
 				title: 'PPM',
 				key: 'ppm',
 				align: 'center',
-				width: 90
-			},
-			{
-				title: '不良信息',
-				align: 'center',
-				children: [
-					{
-						title: '编号',
-						key: 'buliangxinxi',
-						align:'center',
-						width: 50,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-									attrs: {
-										class:'subCol'
-									},
-								}, [
-									h('ul', params.row.buliangxinxi.map((item, index) => {
-										return h('li', {
-										// }, item.id)
-										}, ++index)
-									}))
-								]);
-							}
-						}
-					},
-					{
-						title: '不良内容',
-						key: 'buliangxinxi',
-						align:'center',
-						width: 170,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-									attrs: {
-										class:'subCol'
-									},
-								}, [
-									h('ul', params.row.buliangxinxi.map(item => {
-										return h('li', {
-										}, item.buliangneirong)
-									}))
-								]);
-							}
-						}
-					},
-					{
-						title: '位号',
-						key: 'buliangxinxi',
-						align:'center',
-						width: 80,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-									attrs: {
-										class:'subCol'
-									},
-								}, [
-									h('ul', params.row.buliangxinxi.map(item => {
-										return h('li', {
-										}, item.weihao)
-									}))
-								]);
-							}
-						}
-					},
-					{
-						title: '数量',
-						key: 'buliangxinxi',
-						align:'center',
-						width: 70,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-									attrs: {
-										class:'subCol'
-									},
-								}, [
-									h('ul', params.row.buliangxinxi.map(item => {
-										return h('li', {
-										}, item.shuliang)
-									}))
-								]);
-							}
-						}
-					},
-					{
-						title: '检查机类型',
-						key: 'buliangxinxi',
-						align:'center',
-						width: 80,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-									attrs: {
-										class:'subCol'
-									},
-								}, [
-									h('ul', params.row.buliangxinxi.map(item => {
-										return h('li', {
-										}, item.jianchajileixing)
-									}))
-								]);
-							}
-						}
-					},
-					{
-						title: '检查者',
-						key: 'buliangxinxi',
-						align:'center',
-						width: 90,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-									attrs: {
-										class:'subCol'
-									},
-								}, [
-									h('ul', params.row.buliangxinxi.map(item => {
-										return h('li', {
-										}, item.jianchazhe)
-									}))
-								]);
-							}
-						}
-					},
-					{
-						title: '操作',
-						key: 'action',
-						align: 'center',
-						width: 110,
-						render: (h, params) => {
-							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
-								return h('div', {
-										attrs: {
-											class:'subCol'
-										},
-									}, [
-									h('ul', params.row.buliangxinxi.map((item, index) => {
-										return h('li', {
-										}, [
-											h('Button', {
-												props: {
-													type: 'default',
-													size: 'small'
-												},
-												style: {
-													marginRight: '5px'
-												},
-												on: {
-													click: () => {
-														vm_app.qcreport_edit_sub(params.row, item, index)
-													}
-												}
-											}, '编辑'),
-											h('Button', {
-												props: {
-													type: 'warning',
-													size: 'small'
-												},
-												style: {
-													marginRight: '5px'
-												},
-												on: {
-													click: () => {
-														vm_app.qcreport_remove_sub(params.row, item, index)
-													}
-												}
-											}, '删除')
-										])
-									}))
-								]);
-							}
-						},
-					},
-				]
-			},
-
-			{
-				title: '操作',
-				key: 'action',
-				align: 'center',
-				width: 130,
+				width: 100,
 				render: (h, params) => {
 					return h('div', [
-						h('Button', {
-							props: {
-								type: 'info',
-								size: 'small'
-							},
-							style: {
-								marginRight: '5px'
-							},
-							on: {
-								click: () => {
-									vm_app.qcreport_edit(params.row)
-								}
-							}
-						}, '编辑'),
-						h('Button', {
-							props: {
-								type: 'default',
-								size: 'small'
-							},
-							style: {
-								marginRight: '5px'
-							},
-							on: {
-								click: () => {
-									vm_app.qcreport_append(params.row)
-								}
-							}
-						}, '追加'),
+						params.row.ppm.toLocaleString()
 					]);
-				},
-				fixed: 'right'
+				}
 			},
-			// {
-			// 	title: '创建日期',
-			// 	key: 'created_at',
-			// 	align: 'center',
-			// 	width: 160,
-			// },
-			// {
-			// 	title: '更新日期',
-			// 	key: 'updated_at',
-			// 	align: 'center',
-			// 	width: 160,
-			// },
 		],
 		tabledata2: [],
 		tableselect2: [],
@@ -1870,6 +1813,9 @@ var vm_app = new Vue({
 		
 		// 不良件数小计
 		buliangjianshuheji: 0,
+
+		// 统计日期过滤（年）
+		tongji_date_filter: '',
 		
 		
 		// echarts ajax使用 这个才是实际使用的
@@ -4241,6 +4187,142 @@ var vm_app = new Vue({
 			})
 		},
 
+		
+		// 统计列表查询
+		tongjigets (year) {
+			var _this = this;
+			
+			var year = [year.Format("yyyy-01-01 00:00:00"), year.Format("yyyy-12-31 23:59:59")];
+			// console.log(year);return false;
+
+			var url = "{{ route('smt.qcreport.tongjigets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					tongji_date_filter: year,
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data);return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+
+					var tongji = response.data;
+					
+
+					var res = [
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+						['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+					];
+					var r = [];
+
+					tongji.map(function (v,k) {
+						switch(v.xianti.trim())
+						{
+							case 'SMT-1':
+								i = 0;break;
+							case 'SMT-2':
+								i = 1;break;
+							case 'SMT-3':
+								i = 2;break;
+							case 'SMT-4':
+								i = 3;break;
+							case 'SMT-5':
+								i = 4;break;
+							case 'SMT-6':
+								i = 5;break;
+							case 'SMT-7':
+								i = 6;break;
+							case 'SMT-8':
+								i = 7;break;
+							case 'SMT-9':
+								i = 8;break;
+							case 'SMT-10':
+								i = 9;break;
+							default:
+						}
+
+						// 按检查日期分类
+						// var riqi = new Date(v.jianchariqi);
+						// console.log(v.jianchariqi.substring(5,7));
+						switch(v.jianchariqi.substring(5,7)) //月份
+						{
+							case '01':
+								j = 0;break;
+							case '02':
+								j = 1;break;
+							case '03':
+								j = 2;break;
+							case '04':
+								j = 3;break; // 注意0下标
+							case '05':
+								j = 4;break;
+							case '06':
+								j = 5;break;
+							case '07':
+								j = 6;break;
+							case '08':
+								j = 7;break;
+							case '09':
+								j = 8;break;
+							case '10':
+								j = 9;break;
+							case '11':
+								j = 10;break;
+							case '12':
+								j = 11;break;
+							default:
+								
+						}
+
+						r[j][i] = v.hejidianshu;
+
+					
+						// hejidianshu[i] += v.hejidianshu;
+						// bushihejianshuheji[i] += v.bushihejianshuheji;
+						// shuliang[i] += v.shuliang;
+
+
+					});
+
+					console.log(r);return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+					// console.log(_this.tabledata1);
+					
+				}
+				
+			})
+			.catch(function (error) {
+			})
+		},
 			
 	},
 	mounted () {

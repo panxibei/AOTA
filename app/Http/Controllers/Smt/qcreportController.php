@@ -1267,7 +1267,49 @@ class qcreportController extends Controller
 	}
 	
 	
-	
+		
+	/**
+	 * tongjiGets
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function tongjiGets(Request $request)
+	{
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+
+		$tongji_date_filter = $request->input('tongji_date_filter');
+		
+		// $usecache = $request->input('usecache');
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$tongji = Cache::get($fullUrl);    //直接读取cache
+		} else {                                   //如果cache里面没有        
+			$tongji = Smt_qcreport::select('jianchariqi', 'xianti', 'hejidianshu', 'bushihejianshuheji')
+				->when($tongji_date_filter, function ($query) use ($tongji_date_filter) {
+					return $query->whereBetween('jianchariqi', $tongji_date_filter);
+				})
+				->orderBy('jianchariqi', 'asc')
+				->get()->toArray();
+			
+			Cache::put($fullUrl, $tongji, now()->addSeconds(10));
+		}
+		
+		// dd($tongji);
+		return $tongji;
+	}
 	
 	
 	

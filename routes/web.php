@@ -92,6 +92,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
 	// Route::get('chart3', 'qcreportController@chart3')->name('smt.qcreport.chart3');
 	Route::get('getdianmei', 'qcreportController@getDianmei')->name('smt.qcreport.getdianmei');
+	Route::get('tongjigets', 'qcreportController@tongjiGets')->name('smt.qcreport.tongjigets');
 });
 
 
