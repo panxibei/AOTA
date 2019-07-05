@@ -3208,7 +3208,7 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				console.log(response.data);return false;
+				// console.log(response.data);return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
@@ -3216,7 +3216,7 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					var chartdata3 = response.data.data;
+					var chartdata3 = response.data;
 					// console.log(chartdata3);			
 			
 					_this.chart3_option_series_data = [
@@ -3232,7 +3232,7 @@ var vm_app = new Vue({
 					_this.chart3_option_series_data_hejidianshu = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 					
 					_this.chart3_option_series_data_ppm = [0,0,0,0,0,0,0,0,0,0,0,0,0];
-			
+
 					// 去年和今年的日期范围
 					var dd = new Date();
 					var current_year = dd.getFullYear();
@@ -3246,9 +3246,9 @@ var vm_app = new Vue({
 					// return false;
 
 					// console.log('原始：');
-					// console.log(chartdata3);
+					// console.log(chartdata3);return false;
 
-					chartdata3.map(function (v,k) {
+					chartdata3.buliangxinxi.map(function (v,k) {
 						switch(v.buliangneirong)
 						{
 							case '连焊':
@@ -3301,7 +3301,6 @@ var vm_app = new Vue({
 								i = 23;break;
 							default:
 								i = 24;	
-							  
 						}
 					
 						// 按不良内容汇总数量，共24种
@@ -3350,45 +3349,22 @@ var vm_app = new Vue({
 							}
 								
 							// i为不良内容分类，j为月份
-							// console.log(v.shuliang);
+							// console.log(v.shuliang + '|' + i + '|' + j);
 							if (v.shuliang != null) {
 								_this.chart3_option_series_data[i][j] += v.shuliang;
-							}
 							
-							// 每月份的汇总
-							if (v.shuliang != null) {
+								// 每月份的汇总
 								_this.chart3_option_series_data_huizong[j] += v.shuliang;
 							}
-							
-							// 合计点数之和，用于计算总的PPM（此处计算会有重复，故作废）
-							// _this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
 							
 						}
 
 					});
-					// console.log(_this.chart3_option_series_data_hejidianshu);
+					// console.log(_this.chart3_option_series_data);return false;
+					// console.log(_this.chart3_option_series_data_huizong);return false;
+					// _this.chart3_function();return false;
 
-
-					// 筛选相同录入的记录，统一基本录入信息项
-					var arr_tmp = [];
-					for (var ii=0, arr_tmp=[chartdata3[0]];ii<chartdata3.length;ii++) {
-
-						for (var jj=0, flag=true;jj<arr_tmp.length;jj++) {
-							// console.log(chartdata3[ii]['created_at'] + ' --- ' + arr_tmp[jj]['created_at']);
-							if (chartdata3[ii]['created_at']==arr_tmp[jj]['created_at']) {
-								flag=false;break;
-							}
-						}
-
-						if (flag) {
-							arr_tmp.push(chartdata3[ii]);
-						}
-					}
-
-					// console.log('结果：');
-					// console.log(arr_tmp);
-
-					arr_tmp.map(function (v,k) {
+					chartdata3.jibenxinxi.map(function (v,k) {
 						// 合计点数之和，用于计算总的PPM
 
 						// 按检查日期分类
@@ -3400,7 +3376,6 @@ var vm_app = new Vue({
 						
 						// 日期在今年的，按月份保存
 						} else if (riqi >= current_date_range[0] && riqi <= current_date_range[1]) {
-							// console.log(riqi.Format('MM'));
 							switch(riqi.Format('MM')) //月份
 							{
 								case '01':
@@ -3435,10 +3410,8 @@ var vm_app = new Vue({
 						_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
 
 					});
-					// console.log(_this.chart3_option_series_data_hejidianshu);
+					// console.log(_this.chart3_option_series_data_hejidianshu);return false;
 
-
-					
 					// ppm计算
 					_this.chart3_option_series_data_huizong.map(function (v,i) {
 						if (_this.chart3_option_series_data_hejidianshu[i] == 0) {
@@ -3458,7 +3431,6 @@ var vm_app = new Vue({
 			})
 
 		},
-		
 		
 		
 		// upload

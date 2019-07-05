@@ -363,23 +363,10 @@ class qcreportController extends Controller
 
 		$fullUrl = sha1("{$url}?{$queryString}");
 		
-		// dd($fullUrl);
-		// dd($queryParams);
-		// dd($qcdate_filter);
-		
-		// 注意$usecache变量的类型
-		// if ($usecache == "false") {
-			// Cache::forget($fullUrl);
-			// Cache::flush();
-		// }
-		
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl)) {
 			$chart3 = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			// $dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
-			// 	})
 			$chart3 = Smt_qcreport::select('jianchariqi', 'hejidianshu', 'bushihejianshuheji', 'buliangxinxi')
 				->when($qcdate_filter, function ($query) use ($qcdate_filter) {
 					return $query->whereBetween('jianchariqi', $qcdate_filter);
@@ -411,9 +398,6 @@ class qcreportController extends Controller
 					return $query->whereRaw($sql);
 				})
 				->orderBy('jianchariqi', 'desc')
-				// ->get()
-				// ->groupBy('created_at')
-				// ->paginate($perPage, ['*'], 'page', $page);
 				->get()->toArray();
 			
 			Cache::put($fullUrl, $chart3, now()->addSeconds(10));
@@ -421,46 +405,35 @@ class qcreportController extends Controller
 
 		$result_jibenxinxi = [];
 		$result_buliangxinxi = [];
-		// if (!empty($chart3)) {
-		// 	foreach ($chart3 as $key => $value) {
-		// 		if (!empty($value['buliangxinxi'])) {
-		// 			foreach ($value['buliangxinxi'] as $k => $v) {
-		// 				array_push($result, $v);
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-		$tmp = $chart3;
-		// dd($chart3);
 
 		if (!empty($chart3)) {
 			foreach ($chart3 as $key=>$value) {
 				if (!empty($value['buliangxinxi'])) {
 					foreach ($value['buliangxinxi'] as $k=>$v) {
 
-						// unset($tmp[$key]['buliangxinxi']);
+						// 不良信息
+						$b['jianchariqi'] = $value['jianchariqi'];
+						$b['buliangneirong'] = $v['buliangneirong'];
+						$b['weihao'] = $v['weihao'];
+						$b['shuliang'] = $v['shuliang'];
+						$b['jianchajileixing'] = $v['jianchajileixing'];
+						$b['jianchazhe'] = $v['jianchazhe'];
 
-						// array_push($result_buliangxinxi, array_merge($tmp[$key], $v));
-
-						$result_buliangxinxi[$k]['jianchariqi'] = $value['jianchariqi'];
-						$result_buliangxinxi[$k]['buliangneirong'] = $v['buliangneirong'];
-						$result_buliangxinxi[$k]['weihao'] = $v['weihao'];
-						$result_buliangxinxi[$k]['shuliang'] = $v['shuliang'];
-						$result_buliangxinxi[$k]['jianchajileixing'] = $v['jianchajileixing'];
-						$result_buliangxinxi[$k]['jianchazhe'] = $v['jianchazhe'];
-								
+						array_push($result_buliangxinxi, $b);
 					}
 				}
 
-
+				// 基本机种信息
+				$result_jibenxinxi[$key]['jianchariqi'] = $value['jianchariqi'];
+				$result_jibenxinxi[$key]['hejidianshu'] = $value['hejidianshu'];
+				$result_jibenxinxi[$key]['bushihejianshuheji'] = $value['bushihejianshuheji'];
 			}
 		}
 
-		$result['result_jibenxinxi'] = $result_jibenxinxi;
-		$result['result_buliangxinxi'] = $result_buliangxinxi;
+		$result['jibenxinxi'] = $result_jibenxinxi;
+		$result['buliangxinxi'] = $result_buliangxinxi;
 
-		dd($result);
+		// dd($result);
 		return $result;
 	}
 
