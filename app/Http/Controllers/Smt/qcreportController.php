@@ -328,6 +328,142 @@ class qcreportController extends Controller
 		return $result;
 	}	
 
+	/**
+	 * qcreportGetsChart3
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function qcreportGetsChart3(Request $request)
+	{
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+
+		$perPage = $queryParams['perPage'] ?? 10000;
+		$page = $queryParams['page'] ?? 1;
+		
+		// dd($queryParams);
+		$qcdate_filter = $request->input('qcdate_filter');
+		$xianti_filter = $request->input('xianti_filter');
+		$banci_filter = $request->input('banci_filter');
+		$jizhongming_filter = $request->input('jizhongming_filter');
+		$pinming_filter = $request->input('pinming_filter');
+		$gongxu_filter = $request->input('gongxu_filter');
+		$buliangneirong_filter = $request->input('buliangneirong_filter');
+		
+		// $usecache = $request->input('usecache');
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		// dd($fullUrl);
+		// dd($queryParams);
+		// dd($qcdate_filter);
+		
+		// 注意$usecache变量的类型
+		// if ($usecache == "false") {
+			// Cache::forget($fullUrl);
+			// Cache::flush();
+		// }
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$chart3 = Cache::get($fullUrl);    //直接读取cache
+		} else {                                   //如果cache里面没有        
+			// $dailyreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
+			// 	})
+			$chart3 = Smt_qcreport::select('jianchariqi', 'hejidianshu', 'bushihejianshuheji', 'buliangxinxi')
+				->when($qcdate_filter, function ($query) use ($qcdate_filter) {
+					return $query->whereBetween('jianchariqi', $qcdate_filter);
+				})
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', '=', $xianti_filter);
+				})
+				->when($banci_filter, function ($query) use ($banci_filter) {
+					return $query->where('banci', '=', $banci_filter);
+				})
+				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				})
+				->when($pinming_filter, function ($query) use ($pinming_filter) {
+					return $query->where('pinming', '=', $pinming_filter);
+				})
+				->when($gongxu_filter, function ($query) use ($gongxu_filter) {
+					return $query->where('gongxu', '=', $gongxu_filter);
+				})
+				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
+					// return $query->whereIn('buliangneirong', $buliangneirong_filter);
+					// 不良内容按or查询
+					$sql = '';
+					foreach ($buliangneirong_filter as $value) {
+						$sql .= ' JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'["' . $value . '"]\')' . ' or';
+					}
+					$sql = substr($sql, 0, strlen($sql)-3);
+					
+					return $query->whereRaw($sql);
+				})
+				->orderBy('jianchariqi', 'desc')
+				// ->get()
+				// ->groupBy('created_at')
+				// ->paginate($perPage, ['*'], 'page', $page);
+				->get()->toArray();
+			
+			Cache::put($fullUrl, $chart3, now()->addSeconds(10));
+		}
+
+		$result_jibenxinxi = [];
+		$result_buliangxinxi = [];
+		// if (!empty($chart3)) {
+		// 	foreach ($chart3 as $key => $value) {
+		// 		if (!empty($value['buliangxinxi'])) {
+		// 			foreach ($value['buliangxinxi'] as $k => $v) {
+		// 				array_push($result, $v);
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		$tmp = $chart3;
+		// dd($chart3);
+
+		if (!empty($chart3)) {
+			foreach ($chart3 as $key=>$value) {
+				if (!empty($value['buliangxinxi'])) {
+					foreach ($value['buliangxinxi'] as $k=>$v) {
+
+						// unset($tmp[$key]['buliangxinxi']);
+
+						// array_push($result_buliangxinxi, array_merge($tmp[$key], $v));
+
+						$result_buliangxinxi[$k]['jianchariqi'] = $value['jianchariqi'];
+						$result_buliangxinxi[$k]['buliangneirong'] = $v['buliangneirong'];
+						$result_buliangxinxi[$k]['weihao'] = $v['weihao'];
+						$result_buliangxinxi[$k]['shuliang'] = $v['shuliang'];
+						$result_buliangxinxi[$k]['jianchajileixing'] = $v['jianchajileixing'];
+						$result_buliangxinxi[$k]['jianchazhe'] = $v['jianchazhe'];
+								
+					}
+				}
+
+
+			}
+		}
+
+		$result['result_jibenxinxi'] = $result_jibenxinxi;
+		$result['result_buliangxinxi'] = $result_buliangxinxi;
+
+		dd($result);
+		return $result;
+	}
+
 	
 	/**
 	 * buliangGets 暂未使用

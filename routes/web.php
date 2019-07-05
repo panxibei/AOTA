@@ -77,6 +77,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::get('qcreportgets', 'qcreportController@qcreportGets')->name('smt.qcreport.qcreportgets');
 	Route::get('qcreportgetschart1', 'qcreportController@qcreportGetsChart1')->name('smt.qcreport.qcreportgetschart1');
 	Route::get('qcreportgetschart2', 'qcreportController@qcreportGetsChart2')->name('smt.qcreport.qcreportgetschart2');
+	Route::get('qcreportgetschart3', 'qcreportController@qcreportGetsChart3')->name('smt.qcreport.qcreportgetschart3');
 	Route::get('bulianggets', 'qcreportController@buliangGets')->name('smt.qcreport.bulianggets');
 	Route::get('getsaomiao', 'qcreportController@getSaomiao')->name('smt.qcreport.getsaomiao');
 	Route::post('qcreportcreate', 'qcreportController@qcreportCreate')->name('smt.qcreport.qcreportcreate');
@@ -89,6 +90,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::post('qcreportimport', 'qcreportController@qcreportImport')->name('smt.qcreport.qcreportimport');
 	Route::get('chart1', 'qcreportController@chart1')->name('smt.qcreport.chart1');
 	Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
+	// Route::get('chart3', 'qcreportController@chart3')->name('smt.qcreport.chart3');
 	Route::get('getdianmei', 'qcreportController@getDianmei')->name('smt.qcreport.getdianmei');
 });
 

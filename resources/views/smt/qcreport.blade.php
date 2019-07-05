@@ -2951,7 +2951,7 @@ var vm_app = new Vue({
 		},
 		
 		
-		onchart2: function () {
+		onchart2 () {
 			var _this = this;
 			
 			if (_this.qcdate_filter[0] == '' || _this.qcdate_filter[1] == '') {
@@ -3168,7 +3168,7 @@ var vm_app = new Vue({
 		},		
 		
 		
-		onchart3: function () {
+		onchart3 () {
 			var _this = this;
 
 			// 2018-12-31
@@ -3192,7 +3192,7 @@ var vm_app = new Vue({
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 			
-			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			var url = "{{ route('smt.qcreport.qcreportgetschart3') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -3208,6 +3208,8 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
+				console.log(response.data);return false;
+
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;
