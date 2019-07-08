@@ -1479,18 +1479,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu2',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu2.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu2',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu2.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm2',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm2.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1503,18 +1518,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu3',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu3.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu3',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu3.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm3',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm3.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1527,18 +1557,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu4',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu4.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu4',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu4.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm4',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm4.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1551,18 +1596,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu5',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu5.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu5',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu5.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm5',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm5.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1575,18 +1635,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu6',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu6.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu6',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu6.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm6',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm6.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1599,18 +1674,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu7',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu7.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu7',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu7.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm7',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm7.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1623,18 +1713,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu8',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu8.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu8',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu8.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm8',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm8.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1647,18 +1752,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu9',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu9.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu9',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu9.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm9',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm9.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1671,18 +1791,33 @@ var vm_app = new Vue({
 						key: 'hejidianshu10',
 						align: 'center',
 						width: 100,
+						render: (h, params) => {
+							return h('div', [
+								params.row.hejidianshu10.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: '不良件数',
 						key: 'buliangjianshu10',
 						align: 'center',
 						width: 90,
+						render: (h, params) => {
+							return h('div', [
+								params.row.buliangjianshu10.toLocaleString()
+							]);
+						}
 					},
 					{
 						title: 'PPM',
 						key: 'ppm10',
 						align: 'center',
 						width: 80,
+						render: (h, params) => {
+							return h('div', [
+								params.row.ppm10.toLocaleString()
+							]);
+						}
 					},
 				]
 			},
@@ -1691,6 +1826,16 @@ var vm_app = new Vue({
 				key: 'hejidianshuqiuhe',
 				align: 'center',
 				width: 100,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, '合计点数'),
+						h('br', {
+						}, ''),
+						h('span', {
+						}, '求和')
+					]);
+				},
 				render: (h, params) => {
 					return h('div', [
 						params.row.hejidianshuqiuhe.toLocaleString()
@@ -1702,6 +1847,16 @@ var vm_app = new Vue({
 				key: 'buliangjianshuqiuhe',
 				align: 'center',
 				width: 100,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, '不良件数'),
+						h('br', {
+						}, ''),
+						h('span', {
+						}, '求和')
+					]);
+				},
 				render: (h, params) => {
 					return h('div', [
 						params.row.buliangjianshuqiuhe.toLocaleString()
@@ -4466,56 +4621,48 @@ var vm_app = new Vue({
 							case 'SMT-1':
 								if (v.hejidianshu!=undefined) {res[i].hejidianshu1 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu1 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-2':
-							if (v.hejidianshu!=undefined) {res[i].hejidianshu2 += v.hejidianshu;}
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu2 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu2 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-3':
-							if (v.hejidianshu!=undefined) {res[i].hejidianshu3 += v.hejidianshu;}
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu3 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu3 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-4':
-							if (v.hejidianshu!=undefined) {res[i].hejidianshu4 += v.hejidianshu;}
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu4 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu4 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-5':
-							if (v.hejidianshu!=undefined) {res[i].hejidianshu5 += v.hejidianshu;}
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu5 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu5 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-6':
-							if (v.hejidianshu!=undefined) {res[i].hejidianshu6 += v.hejidianshu;}
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu6 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu6 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-7':
 								if (v.hejidianshu!=undefined) {res[i].hejidianshu7 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu7 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-8':
 							if (v.hejidianshu!=undefined) {res[i].hejidianshu8 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu8 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-9':
 								if (v.hejidianshu!=undefined) {res[i].hejidianshu9 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu9 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							case 'SMT-10':
 								if (v.hejidianshu!=undefined) {res[i].hejidianshu10 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu10 += v.bushihejianshuheji;}
-								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
 								break;
 							default:
 						}
 					});
+
+
 					// console.log(res);return false;
 
 
@@ -4523,7 +4670,6 @@ var vm_app = new Vue({
 					for(var j=0;j<12;j++) {
 						res[12].hejidianshu1 += res[j].hejidianshu1;
 						res[12].buliangjianshu1 += res[j].buliangjianshu1;
-
 						res[12].hejidianshu2 += res[j].hejidianshu2;
 						res[12].buliangjianshu2 += res[j].buliangjianshu2;
 						res[12].hejidianshu3 += res[j].hejidianshu3;
@@ -4550,10 +4696,22 @@ var vm_app = new Vue({
 					
 						res[12].hejidianshuqiuhe += res[j].hejidianshuqiuhe;
 						res[12].buliangjianshuqiuhe += res[j].buliangjianshuqiuhe;
-					
+
+						// 各项PPM计算
+						res[j].ppm1 = res[j].buliangjianshu1 > 0 ? (res[j].buliangjianshu1 / res[j].hejidianshu1 * 1000000).toFixed(2) : 0;
+						res[j].ppm2 = res[j].buliangjianshu2 > 0 ? (res[j].buliangjianshu2 / res[j].hejidianshu2 * 1000000).toFixed(2) : 0;
+						res[j].ppm3 = res[j].buliangjianshu3 > 0 ? (res[j].buliangjianshu3 / res[j].hejidianshu3 * 1000000).toFixed(2) : 0;
+						res[j].ppm4 = res[j].buliangjianshu4 > 0 ? (res[j].buliangjianshu4 / res[j].hejidianshu4 * 1000000).toFixed(2) : 0;
+						res[j].ppm5 = res[j].buliangjianshu5 > 0 ? (res[j].buliangjianshu5 / res[j].hejidianshu5 * 1000000).toFixed(2) : 0;
+						res[j].ppm6 = res[j].buliangjianshu6 > 0 ? (res[j].buliangjianshu6 / res[j].hejidianshu6 * 1000000).toFixed(2) : 0;
+						res[j].ppm7 = res[j].buliangjianshu7 > 0 ? (res[j].buliangjianshu7 / res[j].hejidianshu7 * 1000000).toFixed(2) : 0;
+						res[j].ppm8 = res[j].buliangjianshu8 > 0 ? (res[j].buliangjianshu8 / res[j].hejidianshu8 * 1000000).toFixed(2) : 0;
+						res[j].ppm9 = res[j].buliangjianshu9 > 0 ? (res[j].buliangjianshu9 / res[j].hejidianshu9 * 1000000).toFixed(2) : 0;
+						res[j].ppm10 = res[j].buliangjianshu10 > 0 ? (res[j].buliangjianshu10 / res[j].hejidianshu10 * 1000000).toFixed(2) : 0;
+
 					}
 
-					// 各项ppm计算
+					// 合计项ppm计算
 					res[12].ppm1 = res[12].buliangjianshu1 > 0 ? (res[12].buliangjianshu1 / res[12].hejidianshu1 * 1000000).toFixed(2) : 0;
 					res[12].ppm2 = res[12].buliangjianshu2 > 0 ? (res[12].buliangjianshu2 / res[12].hejidianshu2 * 1000000).toFixed(2) : 0;
 					res[12].ppm3 = res[12].buliangjianshu3 > 0 ? (res[12].buliangjianshu3 / res[12].hejidianshu3 * 1000000).toFixed(2) : 0;
