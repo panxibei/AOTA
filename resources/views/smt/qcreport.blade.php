@@ -4421,8 +4421,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 					];
@@ -4522,6 +4520,56 @@ var vm_app = new Vue({
 						}
 					});
 					// console.log(res);return false;
+
+
+					// 汇总 按相同月份不同线体求和（纵向）
+					for(var j=0;j<12;j++) {
+						res[12].hejidianshu1 += res[j].hejidianshu1;
+						res[12].buliangjianshu1 += res[j].buliangjianshu1;
+
+						res[12].hejidianshu2 += res[j].hejidianshu2;
+						res[12].buliangjianshu2 += res[j].buliangjianshu2;
+						res[12].hejidianshu3 += res[j].hejidianshu3;
+						res[12].buliangjianshu3 += res[j].buliangjianshu3;
+						res[12].hejidianshu4 += res[j].hejidianshu4;
+						res[12].buliangjianshu4 += res[j].buliangjianshu4;
+						res[12].hejidianshu5 += res[j].hejidianshu5;
+						res[12].buliangjianshu5 += res[j].buliangjianshu5;
+						res[12].hejidianshu6 += res[j].hejidianshu6;
+						res[12].buliangjianshu6 += res[j].buliangjianshu6;
+						res[12].hejidianshu7 += res[j].hejidianshu7;
+						res[12].buliangjianshu7 += res[j].buliangjianshu7;
+						res[12].hejidianshu8 += res[j].hejidianshu8;
+						res[12].buliangjianshu8 += res[j].buliangjianshu8;
+						res[12].hejidianshu9 += res[j].hejidianshu9;
+						res[12].buliangjianshu9 += res[j].buliangjianshu9;
+						res[12].hejidianshu10 += res[j].hejidianshu10;
+						res[12].buliangjianshu10 += res[j].buliangjianshu10;
+					}
+
+					// 汇总 按相同线体不同月份求和（横向）
+					for(var j=0;j<12;j++) {
+						res[j].hejidianshuqiuhe = res[j].hejidianshu1 + res[j].hejidianshu2 + res[j].hejidianshu3 + res[j].hejidianshu4 + res[j].hejidianshu5 + res[j].hejidianshu6 + res[j].hejidianshu7 + res[j].hejidianshu8 + res[j].hejidianshu9 + res[j].hejidianshu10;
+						res[j].buliangjianshuqiuhe = res[j].buliangjianshu1 + res[j].buliangjianshu2 + res[j].buliangjianshu3 + res[j].buliangjianshu4 + res[j].buliangjianshu5 + res[j].buliangjianshu6 + res[j].buliangjianshu7 + res[j].buliangjianshu8 + res[j].buliangjianshu9 + res[j].buliangjianshu10
+						res[j].ppm = res[j].buliangjianshuqiuhe > 0 ? (res[j].buliangjianshuqiuhe / res[j].hejidianshuqiuhe * 1000000).toFixed(2) : 0;
+					}
+
+					// 合计中ppm计算
+					res[12].ppm1 = res[12].buliangjianshu1 > 0 ? (res[12].buliangjianshu1 / res[12].hejidianshu1 * 1000000).toFixed(2) : 0;
+					res[12].ppm2 = res[12].buliangjianshu2 > 0 ? (res[12].buliangjianshu2 / res[12].hejidianshu2 * 1000000).toFixed(2) : 0;
+					res[12].ppm3 = res[12].buliangjianshu3 > 0 ? (res[12].buliangjianshu3 / res[12].hejidianshu3 * 1000000).toFixed(2) : 0;
+					res[12].ppm4 = res[12].buliangjianshu4 > 0 ? (res[12].buliangjianshu4 / res[12].hejidianshu4 * 1000000).toFixed(2) : 0;
+					res[12].ppm5 = res[12].buliangjianshu5 > 0 ? (res[12].buliangjianshu5 / res[12].hejidianshu5 * 1000000).toFixed(2) : 0;
+					res[12].ppm6 = res[12].buliangjianshu6 > 0 ? (res[12].buliangjianshu6 / res[12].hejidianshu6 * 1000000).toFixed(2) : 0;
+					res[12].ppm7 = res[12].buliangjianshu7 > 0 ? (res[12].buliangjianshu7 / res[12].hejidianshu7 * 1000000).toFixed(2) : 0;
+					res[12].ppm8 = res[12].buliangjianshu8 > 0 ? (res[12].buliangjianshu8 / res[12].hejidianshu8 * 1000000).toFixed(2) : 0;
+					res[12].ppm9 = res[12].buliangjianshu9 > 0 ? (res[12].buliangjianshu9 / res[12].hejidianshu9 * 1000000).toFixed(2) : 0;
+					res[12].ppm10 = res[12].buliangjianshu10 > 0 ? (res[12].buliangjianshu10 / res[12].hejidianshu10 * 1000000).toFixed(2) : 0;
+					
+					
+					
+					res[12].ppm = res[12].buliangjianshuqiuhe > 0 ? (res[12].buliangjianshuqiuhe / res[12].hejidianshuqiuhe * 1000000).toFixed(2) : 0;
+
 
 					_this.tabledata2 = res;
 
