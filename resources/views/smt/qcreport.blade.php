@@ -4192,14 +4192,15 @@ var vm_app = new Vue({
 		tongjigets (year) {
 			var _this = this;
 			
-			var year = [year.Format("yyyy-01-01 00:00:00"), year.Format("yyyy-12-31 23:59:59")];
+			var myyear = year.Format("yyyy");
+			var tongji_date_filter = [year.Format("yyyy-01-01 00:00:00"), year.Format("yyyy-12-31 23:59:59")];
 			// console.log(year);return false;
 
 			var url = "{{ route('smt.qcreport.tongjigets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					tongji_date_filter: year,
+					tongji_date_filter: tongji_date_filter,
 				}
 			})
 			.then(function (response) {
@@ -4216,48 +4217,219 @@ var vm_app = new Vue({
 					
 
 					var res = [
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						{
+							'jianchariqi': myyear+'-01',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-02',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-03',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-04',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-05',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-06',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-07',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-08',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-09',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-10',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-11',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': myyear+'-12',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
+						{
+							'jianchariqi': '合计',
+							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
+							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
+							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
+							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
+							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
+							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
+							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
+							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
+							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
+							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
+							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
+							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
+							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
+						},
 					];
 					var r = [];
+					var i = 0; // 月份
 
 					tongji.map(function (v,k) {
-						switch(v.xianti.trim())
-						{
-							case 'SMT-1':
-								i = 0;break;
-							case 'SMT-2':
-								i = 1;break;
-							case 'SMT-3':
-								i = 2;break;
-							case 'SMT-4':
-								i = 3;break;
-							case 'SMT-5':
-								i = 4;break;
-							case 'SMT-6':
-								i = 5;break;
-							case 'SMT-7':
-								i = 6;break;
-							case 'SMT-8':
-								i = 7;break;
-							case 'SMT-9':
-								i = 8;break;
-							case 'SMT-10':
-								i = 9;break;
-							default:
-						}
-
 						// 按检查日期分类
 						// var riqi = new Date(v.jianchariqi);
 						// console.log(v.jianchariqi.substring(5,7));
@@ -4265,42 +4437,101 @@ var vm_app = new Vue({
 						switch(riqi) //月份
 						{
 							case '01':
-								j = 0;break;
+								i = 0;break;
 							case '02':
-								j = 1;break;
+								i = 1;break;
 							case '03':
-								j = 2;break;
+								i = 2;break;
 							case '04':
-								j = 3;break; // 注意0下标
+								i = 3;break;
 							case '05':
-								j = 4;break;
+								i = 4;break;
 							case '06':
-								j = 5;break;
+								i = 5;break;
 							case '07':
-								j = 6;break;
+								i = 6;break;
 							case '08':
-								j = 7;break;
+								i = 7;break;
 							case '09':
-								j = 8;break;
+								i = 8;break;
 							case '10':
-								j = 9;break;
+								i = 9;break;
 							case '11':
-								j = 10;break;
+								i = 10;break;
 							case '12':
-								j = 11;break;
+								i = 11;break;
 							default:
 								
 						}
-						res[j][i] += v.hejidianshu;
-					
-						// hejidianshu[i] += v.hejidianshu;
-						// bushihejianshuheji[i] += v.bushihejianshuheji;
-						// shuliang[i] += v.shuliang;
+						// console.log(i);
+						// console.log(v.xianti.trim());
 
-
+						switch(v.xianti.trim())
+						{
+							case 'SMT-1':
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu1 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu1 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-2':
+							if (v.hejidianshu!=undefined) {res[i].hejidianshu2 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu2 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-3':
+							if (v.hejidianshu!=undefined) {res[i].hejidianshu3 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu3 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-4':
+							if (v.hejidianshu!=undefined) {res[i].hejidianshu4 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu4 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-5':
+							if (v.hejidianshu!=undefined) {res[i].hejidianshu5 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu5 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-6':
+							if (v.hejidianshu!=undefined) {res[i].hejidianshu6 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu6 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-7':
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu7 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu7 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-8':
+							if (v.hejidianshu!=undefined) {res[i].hejidianshu8 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu8 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-9':
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu9 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu9 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							case 'SMT-10':
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu10 += v.hejidianshu;}
+								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu10 += v.bushihejianshuheji;}
+								res[i].ppm7 = (v.bushihejianshuheji /  v.hejidianshu * 10000000).toFixed(2);
+								break;
+							default:
+						}
 					});
+					// console.log(res);return false;
 
-					console.log(res);return false;
+					_this.tabledata2 = res;
+
+
+
+
+
+
+
+
 
 
 
