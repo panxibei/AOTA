@@ -4346,6 +4346,11 @@ var vm_app = new Vue({
 		// 统计列表查询
 		tongjigets (year) {
 			var _this = this;
+
+			if (year == undefined || year == '') {
+				_this.tabledata2 = [];
+				return false;
+			}
 			
 			var myyear = year.Format("yyyy");
 			var tongji_date_filter = [year.Format("yyyy-01-01 00:00:00"), year.Format("yyyy-12-31 23:59:59")];
