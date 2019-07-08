@@ -589,7 +589,7 @@ SMT(QC report) -
 						<i-col span="18">
 							导出：
 							&nbsp;&nbsp;
-							<i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+							<i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
 						</i-col>
 					</i-row>
 
@@ -4212,10 +4212,8 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-
 					var tongji = response.data;
 					
-
 					var res = [
 						{
 							'jianchariqi': myyear+'-01',
@@ -4424,7 +4422,6 @@ var vm_app = new Vue({
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 					];
-					var r = [];
 					var i = 0; // 月份
 
 					tongji.map(function (v,k) {
@@ -4545,16 +4542,18 @@ var vm_app = new Vue({
 						res[12].buliangjianshu9 += res[j].buliangjianshu9;
 						res[12].hejidianshu10 += res[j].hejidianshu10;
 						res[12].buliangjianshu10 += res[j].buliangjianshu10;
-					}
 
-					// 汇总 按相同线体不同月份求和（横向）
-					for(var j=0;j<12;j++) {
+						// 汇总 按相同线体不同月份求和（横向）
 						res[j].hejidianshuqiuhe = res[j].hejidianshu1 + res[j].hejidianshu2 + res[j].hejidianshu3 + res[j].hejidianshu4 + res[j].hejidianshu5 + res[j].hejidianshu6 + res[j].hejidianshu7 + res[j].hejidianshu8 + res[j].hejidianshu9 + res[j].hejidianshu10;
 						res[j].buliangjianshuqiuhe = res[j].buliangjianshu1 + res[j].buliangjianshu2 + res[j].buliangjianshu3 + res[j].buliangjianshu4 + res[j].buliangjianshu5 + res[j].buliangjianshu6 + res[j].buliangjianshu7 + res[j].buliangjianshu8 + res[j].buliangjianshu9 + res[j].buliangjianshu10
 						res[j].ppm = res[j].buliangjianshuqiuhe > 0 ? (res[j].buliangjianshuqiuhe / res[j].hejidianshuqiuhe * 1000000).toFixed(2) : 0;
+					
+						res[12].hejidianshuqiuhe += res[j].hejidianshuqiuhe;
+						res[12].buliangjianshuqiuhe += res[j].buliangjianshuqiuhe;
+					
 					}
 
-					// 合计中ppm计算
+					// 各项ppm计算
 					res[12].ppm1 = res[12].buliangjianshu1 > 0 ? (res[12].buliangjianshu1 / res[12].hejidianshu1 * 1000000).toFixed(2) : 0;
 					res[12].ppm2 = res[12].buliangjianshu2 > 0 ? (res[12].buliangjianshu2 / res[12].hejidianshu2 * 1000000).toFixed(2) : 0;
 					res[12].ppm3 = res[12].buliangjianshu3 > 0 ? (res[12].buliangjianshu3 / res[12].hejidianshu3 * 1000000).toFixed(2) : 0;
@@ -4566,40 +4565,23 @@ var vm_app = new Vue({
 					res[12].ppm9 = res[12].buliangjianshu9 > 0 ? (res[12].buliangjianshu9 / res[12].hejidianshu9 * 1000000).toFixed(2) : 0;
 					res[12].ppm10 = res[12].buliangjianshu10 > 0 ? (res[12].buliangjianshu10 / res[12].hejidianshu10 * 1000000).toFixed(2) : 0;
 					
-					
-					
 					res[12].ppm = res[12].buliangjianshuqiuhe > 0 ? (res[12].buliangjianshuqiuhe / res[12].hejidianshuqiuhe * 1000000).toFixed(2) : 0;
 
-
 					_this.tabledata2 = res;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-					// console.log(_this.tabledata1);
 					
 				}
 				
 			})
 			.catch(function (error) {
 			})
+		},
+
+		exportData_tongji () {
+			var _this = this;
+
+			_this.$refs.table2.exportCsv({
+				filename: '插件点数及不良件数统计' + new Date().Format("yyyyMMddhhmmss")
+			});
 		},
 			
 	},
