@@ -4387,8 +4387,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4403,8 +4401,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4419,8 +4415,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4435,8 +4429,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4451,8 +4443,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4467,8 +4457,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4483,8 +4471,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4499,8 +4485,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4515,8 +4499,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4531,8 +4513,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4547,8 +4527,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4563,8 +4541,6 @@ var vm_app = new Vue({
 							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
 							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
 							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshu11': 0, 'buliangjianshu11': 0, 'ppm11': 0,
-							'hejidianshu12': 0, 'buliangjianshu12': 0, 'ppm12': 0,
 							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
 						},
 						{
@@ -4588,7 +4564,7 @@ var vm_app = new Vue({
 						// 按检查日期分类
 						// var riqi = new Date(v.jianchariqi);
 						// console.log(v.jianchariqi.substring(5,7));
-						var riqi = v.jianchariqi.substring(5,7);
+						let riqi = v.jianchariqi.substring(5,7);
 						switch(riqi) //月份
 						{
 							case '01':
@@ -4652,7 +4628,7 @@ var vm_app = new Vue({
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu7 += v.bushihejianshuheji;}
 								break;
 							case 'SMT-8':
-							if (v.hejidianshu!=undefined) {res[i].hejidianshu8 += v.hejidianshu;}
+								if (v.hejidianshu!=undefined) {res[i].hejidianshu8 += v.hejidianshu;}
 								if (v.bushihejianshuheji!=undefined) {res[i].buliangjianshu8 += v.bushihejianshuheji;}
 								break;
 							case 'SMT-9':
@@ -4732,6 +4708,8 @@ var vm_app = new Vue({
 
 					_this.tabledata2 = res;
 					
+				} else {
+					_this.tabledata2 = [];
 				}
 				
 			})
