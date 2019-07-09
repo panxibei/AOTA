@@ -263,7 +263,7 @@ SMT(QC report) -
 			<br><br><br>
 
 			<Tabs type="card" v-model="currentsubtabs" :animated="false">
-				<Tab-pane label="品质管理日报">
+				<Tab-pane label="品质管理日报查询表">
 
 					<i-row :gutter="16">
 						<br>
@@ -4746,7 +4746,6 @@ var vm_app = new Vue({
 
 			_this.$refs.table2.exportCsv({
 				filename: '插件点数及不良件数统计' + new Date().Format("yyyyMMddhhmmss"),
-				original: false,
 				// columns: this.tablecolumns2,
 				// data: this.tabledata2,
 
