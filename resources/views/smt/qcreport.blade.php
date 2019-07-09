@@ -4721,44 +4721,28 @@ var vm_app = new Vue({
 			var _this = this;
 
 			var tabledata = this.tabledata2;
-			var titledata = [
-				// {
-				// 	jianchariqi: '检查日期',
-				// 	hejidianshu1: '合计点数', buliangjianshu1: '不良件数', ppm1: '你好！',
-				// 	hejidianshu2: '合计点数', buliangjianshu2: '不良件数', ppm2: 'PPM',
-				// 	hejidianshu3: '合计点数', buliangjianshu3: '不良件数', ppm3: 'PPM',
-				// 	hejidianshu4: '合计点数', buliangjianshu4: '不良件数', ppm4: 'PPM',
-				// 	hejidianshu5: '合计点数', buliangjianshu5: '不良件数', ppm5: 'PPM',
-				// 	hejidianshu6: '合计点数', buliangjianshu6: '不良件数', ppm6: 'PPM',
-				// 	hejidianshu7: '合计点数', buliangjianshu7: '不良件数', ppm7: 'PPM',
-				// 	hejidianshu8: '合计点数', buliangjianshu8: '不良件数', ppm8: 'PPM',
-				// 	hejidianshu9: '合计点数', buliangjianshu9: '不良件数', ppm9: 'PPM',
-				// 	hejidianshu10:'合计点数', buliangjianshu10:'不良件数',ppm10: 'PPM',
-				// 	hejidianshuqiuhe: '合计点数', buliangjianshuqiuhe: '不良件数', ppm: 'PPM',
-				// },
+			// 第二行title
+			var titledata = 
 				{
-							'jianchariqi': '-11',
-							'hejidianshu1': 0, 'buliangjianshu1': 0, 'ppm1': 0,
-							'hejidianshu2': 0, 'buliangjianshu2': 0, 'ppm2': 0,
-							'hejidianshu3': 0, 'buliangjianshu3': 0,  'ppm3': 0,
-							'hejidianshu4': 0, 'buliangjianshu4': 0, 'ppm4': 0,
-							'hejidianshu5': 0, 'buliangjianshu5': 0, 'ppm5': 0,
-							'hejidianshu6': 0, 'buliangjianshu6': 0, 'ppm6': 0,
-							'hejidianshu7': 0, 'buliangjianshu7': 0, 'ppm7': 0,
-							'hejidianshu8': 0, 'buliangjianshu8': 0, 'ppm8': 0,
-							'hejidianshu9': 0, 'buliangjianshu9': 0, 'ppm9': 0,
-							'hejidianshu10': 0, 'buliangjianshu10': 0, 'ppm10': 0,
-							'hejidianshuqiuhe': 0, 'buliangjianshuqiuhe': 0, 'ppm': 0,
-						},
-
-
-			];
+					jianchariqi: '检查日期',
+					hejidianshu1: '合计点数', buliangjianshu1: '不良件数', ppm1: 'PPM',
+					hejidianshu2: '合计点数', buliangjianshu2: '不良件数', ppm2: 'PPM',
+					hejidianshu3: '合计点数', buliangjianshu3: '不良件数', ppm3: 'PPM',
+					hejidianshu4: '合计点数', buliangjianshu4: '不良件数', ppm4: 'PPM',
+					hejidianshu5: '合计点数', buliangjianshu5: '不良件数', ppm5: 'PPM',
+					hejidianshu6: '合计点数', buliangjianshu6: '不良件数', ppm6: 'PPM',
+					hejidianshu7: '合计点数', buliangjianshu7: '不良件数', ppm7: 'PPM',
+					hejidianshu8: '合计点数', buliangjianshu8: '不良件数', ppm8: 'PPM',
+					hejidianshu9: '合计点数', buliangjianshu9: '不良件数', ppm9: 'PPM',
+					hejidianshu10:'合计点数', buliangjianshu10:'不良件数',ppm10: 'PPM',
+					hejidianshuqiuhe: '合计点数求和', buliangjianshuqiuhe: '不良件数求和', ppm: 'PPM',
+				};
 
 			var finaldata = [];
 			finaldata.push(titledata);
-			finaldata.push(tabledata);
-
-			// console.log(finaldata);return false;
+			for (let n = 0, l = tabledata.length; n < l; n++) {
+				finaldata.push(tabledata[n]);
+			}
 
 			_this.$refs.table2.exportCsv({
 				filename: '插件点数及不良件数统计' + new Date().Format("yyyyMMddhhmmss"),
@@ -4767,20 +4751,20 @@ var vm_app = new Vue({
 				// data: this.tabledata2,
 
 				columns: [
-					{title: '检查日期', key: 'jianchariqi'},
+					{title: '', key: 'jianchariqi'},
 					// {title: 'SMT-1'}, {title: ''}, {title: ''}, {title: 'SMT-2'}, {title: ''}, {title: ''}, {title: 'SMT-3'}, {title: ''}, {title: ''}, {title: 'SMT-4'}, {title: ''}, {title: ''}, {title: 'SMT-5'}, {title: ''}, {title: ''},
 					// {title: 'SMT-6'}, {title: ''}, {title: ''}, {title: 'SMT-7'}, {title: ''}, {title: ''}, {title: 'SMT-8'}, {title: ''}, {title: ''}, {title: 'SMT-9'}, {title: ''}, {title: ''}, {title: 'SMT-10'}, {title: ''}, {title: ''},
 					// {title: '\r\n'},
-					{title: '合计点数', key: 'hejidianshu1'}, {title: '不良件数', key: 'buliangjianshu1'}, {title: 'PPM'}, {title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'}, {title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'},
-					{title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'}, {title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'}, {title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'},
-					{title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'}, {title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'}, {title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'},
-					{title: '合计点数'}, {title: '不良件数'}, {title: 'PPM'},
-					{title: '合计点数求和'}, {title: '不良件数求和'}, {title: 'PPM'},
+					{title: 'SMT-1', key: 'hejidianshu1'}, {title: '', key: 'buliangjianshu1'}, {title: '', key: 'ppm1'}, {title: 'SMT-2', key: 'hejidianshu2'}, {title: '', key: 'buliangjianshu2'}, {title: '', key: 'ppm2'},{title: 'SMT-3', key: 'hejidianshu3'}, {title: '', key: 'buliangjianshu3'}, {title: '', key: 'ppm3'},
+					{title: 'SMT-4', key: 'hejidianshu4'}, {title: '', key: 'buliangjianshu4'}, {title: '', key: 'ppm4'}, {title: 'SMT-4', key: 'hejidianshu5'}, {title: '', key: 'buliangjianshu5'}, {title: '', key: 'ppm5'},{title: 'SMT-6', key: 'hejidianshu6'}, {title: '', key: 'buliangjianshu6'}, {title: '', key: 'ppm6'},
+					{title: 'SMT-7', key: 'hejidianshu7'}, {title: '', key: 'buliangjianshu7'}, {title: '', key: 'ppm7'}, {title: 'SMT-8', key: 'hejidianshu8'}, {title: '', key: 'buliangjianshu8'}, {title: '', key: 'ppm8'},{title: 'SMT-9', key: 'hejidianshu9'}, {title: '', key: 'buliangjianshu9'}, {title: '', key: 'ppm9'},
+					{title: 'SMT-10', key: 'hejidianshu10'}, {title: '', key: 'buliangjianshu10'}, {title: '', key: 'ppm10'},
+					{title: '', key: 'hejidianshuqiuhe'}, {title: '', key: 'buliangjianshuqiuhe'}, {title: '', key: 'ppm'},
 					// {title: '\r\n'}, {title: '\r\n'},
 				],
 				// data: [{'aaa': '111'}, {'bbb': '222'}, {'ccc': '333'}, {'ddd': '444'}],
 				// data: this.tabledata2,
-				data: titledata,
+				data: finaldata,
 			});
 		},
 			
