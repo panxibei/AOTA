@@ -16,7 +16,7 @@ class CreateSmtQcreportsTable extends Migration
         Schema::create('smt_qcreports', function (Blueprint $table) {
             $table->increments('id');
 			// $table->integer('dr_id')->unsigned();
-			$table->timestamp('jianchariqi');
+			$table->dateTime('jianchariqi');
 			$table->string('xianti', 20);
 			$table->string('banci', 20);
 			$table->string('jizhongming', 50);

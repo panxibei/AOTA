@@ -15,7 +15,7 @@ class CreateSmtPdreportsTable extends Migration
     {
         Schema::create('smt_pdreports', function (Blueprint $table) {
 			$table->increments('id');
-			$table->timestamp('shengchanriqi');
+			$table->dateTime('shengchanriqi');
 			$table->string('xianti', 20);
 			$table->string('banci', 20);
 			$table->string('jizhongming', 50);
