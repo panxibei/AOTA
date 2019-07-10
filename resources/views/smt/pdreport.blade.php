@@ -741,7 +741,7 @@ var vm_app = new Vue({
 						title: '稼动率',
 						key: 'jiadonglv',
 						align: 'center',
-						width: 80,
+						width: 60,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -754,18 +754,12 @@ var vm_app = new Vue({
 					}
 				]
 			},
-			
-			// 1
 			// {
 			// 	title: '创建日期',
 			// 	key: 'created_at',
 			// 	align: 'center',
 			// 	width: 160,
 			// }
-
-			
-			
-
 		],
 		tabledata1: [],
 
@@ -799,13 +793,13 @@ var vm_app = new Vue({
 										title: '新产',
 										key: 'xinchan',
 										align: 'center',
-										width: 80
+										width: 70
 									},
 									{
 										title: '量产',
 										key: 'liangchan',
 										align: 'center',
-										width: 80
+										width: 70
 									}
 								]
 							}
@@ -819,7 +813,7 @@ var vm_app = new Vue({
 								title: '等待部品',
 								key: 'dengdaibupin',
 								align: 'center',
-								width: 80,
+								width: 70,
 								renderHeader: (h, params) => {
 									return h('div', [
 										h('span', {
@@ -841,7 +835,7 @@ var vm_app = new Vue({
 								title: '无计划',
 								key: 'wujihua',
 								align: 'center',
-								width: 80
+								width: 70
 							}
 						]
 					},
@@ -853,17 +847,17 @@ var vm_app = new Vue({
 								title: '前后工程等待',
 								key: 'qianhougongchengdengdai',
 								align: 'center',
-								width: 80,
-								renderHeader: (h, params) => {
-									return h('div', [
-										h('span', {
-										}, '前后工'),
-										h('br', {
-										}, ''),
-										h('span', {
-										}, '程等待')
-									]);
-								}
+								width: 70,
+								// renderHeader: (h, params) => {
+								// 	return h('div', [
+								// 		h('span', {
+								// 		}, '前后工'),
+								// 		h('br', {
+								// 		}, ''),
+								// 		h('span', {
+								// 		}, '程等待')
+								// 	]);
+								// }
 							}
 						]
 					},
@@ -875,7 +869,7 @@ var vm_app = new Vue({
 								title: '无部品',
 								key: 'wubupin',
 								align: 'center',
-								width: 80
+								width: 70
 							}
 						]
 					},
@@ -887,17 +881,17 @@ var vm_app = new Vue({
 								title: '部品安排等待',
 								key: 'bupinanpaidengdai',
 								align: 'center',
-								width: 80,
-								renderHeader: (h, params) => {
-									return h('div', [
-										h('span', {
-										}, '部品安'),
-										h('br', {
-										}, ''),
-										h('span', {
-										}, '排等待')
-									]);
-								}
+								width: 70,
+								// renderHeader: (h, params) => {
+								// 	return h('div', [
+								// 		h('span', {
+								// 		}, '部品安'),
+								// 		h('br', {
+								// 		}, ''),
+								// 		h('span', {
+								// 		}, '排等待')
+								// 	]);
+								// }
 							}
 						]
 					},
@@ -909,17 +903,17 @@ var vm_app = new Vue({
 								title: '定期点检',
 								key: 'dingqidianjian',
 								align: 'center',
-								width: 80,
-								renderHeader: (h, params) => {
-									return h('div', [
-										h('span', {
-										}, '定期'),
-										h('br', {
-										}, ''),
-										h('span', {
-										}, '点检')
-									]);
-								}
+								width: 70,
+								// renderHeader: (h, params) => {
+								// 	return h('div', [
+								// 		h('span', {
+								// 		}, '定期'),
+								// 		h('br', {
+								// 		}, ''),
+								// 		h('span', {
+								// 		}, '点检')
+								// 	]);
+								// }
 							}
 						]
 					},
@@ -931,7 +925,7 @@ var vm_app = new Vue({
 								title: '故障',
 								key: 'guzhang',
 								align: 'center',
-								width: 80
+								width: 70
 							}
 						]
 					},
@@ -943,17 +937,17 @@ var vm_app = new Vue({
 								title: '新机种生产时间',
 								key: 'xinjizhongshengchanshijian',
 								align: 'center',
-								width: 90,
-								renderHeader: (h, params) => {
-									return h('div', [
-										h('span', {
-										}, '新机种'),
-										h('br', {
-										}, ''),
-										h('span', {
-										}, '生产时间')
-									]);
-								}
+								width: 70,
+								// renderHeader: (h, params) => {
+								// 	return h('div', [
+								// 		h('span', {
+								// 		}, '新机种'),
+								// 		h('br', {
+								// 		}, ''),
+								// 		h('span', {
+								// 		}, '生产时间')
+								// 	]);
+								// }
 							}
 						]
 					},
@@ -996,27 +990,40 @@ var vm_app = new Vue({
 							]);
 						},
 						render: (h, params) => {
-							return h('div', [
-								h('Button', {
-									props: {
-										type: 'text',
-										size: 'small'
-									},
-									on: {
-										click: () => {
-											// vm_app.viewmpoint(params.row)
-											let jizaishixiang_detail = params.row.jizaishixiang || '无内容'
-											vm_app.jizaishixiang_detail = jizaishixiang_detail
+							if (params.row.jizaishixiang) {
+								return h('div', [
+									h('Button', {
+										props: {
+											type: 'text',
+											size: 'small'
+										},
+										on: {
+											click: () => {
+												// vm_app.viewmpoint(params.row)
+												let jizaishixiang_detail = params.row.jizaishixiang || '无内容'
+												vm_app.jizaishixiang_detail = jizaishixiang_detail
 
-											vm_app.modal_jizhaishixiang_detail = true
+												vm_app.modal_jizhaishixiang_detail = true
+											}
 										}
-									}
-								}, [
-									h('span', {
-									}, params.row.jizaishixiang ? params.row.jizaishixiang.substr(0, 6) + '...' : '无内容'),
-								]),
-								
-							]);
+									}, [
+										// h('span', {
+										// }, params.row.jizaishixiang ? params.row.jizaishixiang.substr(0, 6) + '...' : '无内容'),
+										h('span', {
+										}, [
+											h('Tooltip', {
+												props: {
+													content: params.row.jizaishixiang,
+													placement: 'top',
+													// disabled: params.row.jizaishixiang ? false : true
+												}
+											// }, params.row.jizaishixiang ? params.row.jizaishixiang.substr(0, 6) + '...' : '')
+											}, params.row.jizaishixiang.substr(0, 6) + ' ...')
+										])
+									]),
+									
+								]);
+							}
 						},
 					}
 				]
