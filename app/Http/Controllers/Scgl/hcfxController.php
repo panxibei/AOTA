@@ -361,8 +361,16 @@ class hcfxController extends Controller
 		$updated_at = date('Y-m-d H:i:s');
 
 		foreach ($piliangluru as $key => $value) {
-			// $s[$key]['xianti'] = $xianti;
-			// $s[$key]['qufen'] = $qufen;
+
+			// 测试是否符合三字段唯一
+			$res = Scgl_hcfx_relation::select('id')
+				->where('jizhongming', $value['jizhongming'])
+				->where('tuopanxinghao', $value['tuopanxinghao'])
+				->where('tai_per_tuo', $value['tai_per_tuo'])
+				->first();
+			
+			if ($res != null) continue;
+
 			$s[$key]['created_at'] = $created_at;
 			$s[$key]['updated_at'] = $updated_at;
 
@@ -370,6 +378,7 @@ class hcfxController extends Controller
 			$s[$key]['tuopanxinghao'] = $value['tuopanxinghao'];
 			$s[$key]['tai_per_tuo'] = $value['tai_per_tuo'];
 		}
+		if (empty($s)) return 0;
 		// dd($s);
 		
 		// 写入数据库
