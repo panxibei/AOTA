@@ -937,17 +937,17 @@ var vm_app = new Vue({
 								title: '新机种生产时间',
 								key: 'xinjizhongshengchanshijian',
 								align: 'center',
-								width: 70,
-								// renderHeader: (h, params) => {
-								// 	return h('div', [
-								// 		h('span', {
-								// 		}, '新机种'),
-								// 		h('br', {
-								// 		}, ''),
-								// 		h('span', {
-								// 		}, '生产时间')
-								// 	]);
-								// }
+								width: 90,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '新机种'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '生产时间')
+									]);
+								}
 							}
 						]
 					},
@@ -1636,8 +1636,6 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					// console.log(response.data);
-					// return false;
 
 					_this.pagecurrent = response.data.paginate.current_page;
 					_this.pagetotal = response.data.paginate.total;
@@ -1703,7 +1701,7 @@ var vm_app = new Vue({
 				_this.boo_delete = true;
 				_this.disabled_dandangzhe = true;
 				_this.disabled_querenzhe = true;
-				_this.select_dandangzhezhe = '';
+				_this.select_dandangzhe = '';
 				_this.select_querenzhe = '';
 				
 			})
@@ -1746,7 +1744,7 @@ var vm_app = new Vue({
 		},
 
 		// 确认者变更
-		querenzhechange: function (value) {
+		querenzhechange (value) {
 			if (value == undefined ) return false;
 			var _this = this;
 			var tableselect = _this.tableselect;
@@ -1757,7 +1755,7 @@ var vm_app = new Vue({
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url,{
 				id: tableselect,
-				querenzhe : value
+				querenzhe: value
 			})
 			.then(function (response) {
 				if (response.data) {
