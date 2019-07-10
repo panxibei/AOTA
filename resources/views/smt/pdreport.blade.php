@@ -847,7 +847,7 @@ var vm_app = new Vue({
 								title: '前后工程等待',
 								key: 'qianhougongchengdengdai',
 								align: 'center',
-								width: 70,
+								width: 80,
 								// renderHeader: (h, params) => {
 								// 	return h('div', [
 								// 		h('span', {
@@ -881,7 +881,7 @@ var vm_app = new Vue({
 								title: '部品安排等待',
 								key: 'bupinanpaidengdai',
 								align: 'center',
-								width: 70,
+								width: 80,
 								// renderHeader: (h, params) => {
 								// 	return h('div', [
 								// 		h('span', {
