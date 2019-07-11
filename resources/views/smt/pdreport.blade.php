@@ -41,7 +41,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="2">
 					<Upload
-						:before-upload="uploadstart_relation"
+						:before-upload="uploadstart_plan"
 						:show-upload-list="false"
 						:format="['xls','xlsx']"
 						:on-format-error="handleFormatError"
@@ -51,7 +51,7 @@ SMT - PD report
 					</Upload>
 				</i-col>
 				<i-col span="2">
-					<i-button @click="download_relation()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
+					<i-button @click="download_plan()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 				</i-col>
 				<i-col span="15">
 					&nbsp;
@@ -2123,7 +2123,7 @@ var vm_app = new Vue({
 			this.file = file;
 			return false;
 		},
-		uploadstart_zrcfx: function (file) {
+		uploadstart_plan: function (file) {
 			var _this = this;
 			_this.file = file;
 			_this.uploaddisabled = true;
@@ -2136,59 +2136,7 @@ var vm_app = new Vue({
 			
 			// return false;
 			
-			var url = "{{ route('bpjg.zrcfx.zrcfximport') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-			axios({
-				url: url,
-				method: 'post',
-				data: formData,
-				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
-				contentType: false, // 告诉axios不要去设置Content-Type请求头
-			})
-			.then(function (response) {
-				if (response.data['jwt'] == 'logout') {
-					_this.alert_logout();
-					return false;
-				}
-
-				if (response.data) {
-					_this.success(false, 'Success', '导入成功！');
-				} else {
-					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
-				}
-				
-				setTimeout( function () {
-					_this.file = null;
-					_this.loadingStatus = false;
-					_this.uploaddisabled = false;
-				}, 1000);
-				
-			})
-			.catch(function (error) {
-				_this.error(false, 'Error', error);
-				setTimeout( function () {
-					_this.file = null;
-					_this.loadingStatus = false;
-					_this.uploaddisabled = false;
-				}, 1000);
-				
-			})
-		},
-		uploadstart_relation: function (file) {
-			var _this = this;
-			_this.file = file;
-			_this.uploaddisabled = true;
-			_this.loadingStatus = true;
-
-			let formData = new FormData()
-			// formData.append('file',e.target.files[0])
-			formData.append('myfile',_this.file)
-			// console.log(formData.get('file'));
-			
-			// return false;
-			
-			var url = "{{ route('bpjg.zrcfx.relationimport') }}";
+			var url = "{{ route('smt.pdreport.pdplanimport') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
@@ -2232,8 +2180,8 @@ var vm_app = new Vue({
 		},
 
 		// relation模板下载
-		download_relation: function () {
-			var url = "{{ route('bpjg.zrcfx.relationdownload') }}";
+		download_plan: function () {
+			var url = "{{ route('smt.pdreport.pdplandownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);

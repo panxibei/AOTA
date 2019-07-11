@@ -106,6 +106,8 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::post('dailyreportdelete', 'pdreportController@dailyreportDelete')->name('smt.pdreport.dailyreportdelete');
 	Route::post('dandangzhechange', 'pdreportController@dandangzheChange')->name('smt.pdreport.dandangzhechange');
 	Route::post('querenzhechange', 'pdreportController@querenzheChange')->name('smt.pdreport.querenzhechange');
+	Route::post('pdplanimport', 'pdreportController@pdplanImport')->name('smt.pdreport.pdplanimport');
+	Route::get('pdplandownload', 'pdreportController@pdplanDownload')->name('smt.pdreport.pdplandownload');
 });
 
 

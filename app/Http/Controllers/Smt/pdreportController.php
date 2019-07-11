@@ -8,12 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Config;
 use App\Models\Smt\Smt_mpoint;
 use App\Models\Smt\Smt_pdreport;
+use App\Models\Smt\Smt_pdplan;
 use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\mpointExport;
 use App\Exports\Smt\pdreportExport;
 use App\Imports\Smt\mpointImport;
+use App\Imports\Smt\pdplanImport;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -626,6 +628,79 @@ class pdreportController extends Controller
 		return Excel::download(new pdreportExport($data), 'smt_pdreport_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}
+
+	/**
+     * pdplanImport
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pdplanImport(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		// 接收文件
+		$fileCharater = $request->file('myfile');
+		// dd($fileCharater);
+ 
+		if ($fileCharater->isValid()) { //括号里面的是必须加的哦
+			//如果括号里面的不加上的话，下面的方法也无法调用的
+
+			//获取文件的扩展名 
+			$ext = $fileCharater->extension();
+			// dd($ext);
+			if ($ext != 'xls' && $ext != 'xlsx') {
+				return 0;
+			}
+
+			//获取文件的绝对路径
+			// $path = $fileCharater->path();
+			// dd($path);
+
+			//定义文件名
+			// $filename = date('Y-m-d-h-i-s').'.'.$ext;
+			$filename = 'pdplanimport.'.$ext;
+			// dd($filename);
+
+			//存储文件。使用 storeAs 方法，它接受路径、文件名和磁盘名作为其参数
+			// $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
+			$fileCharater->storeAs('excel', $filename);
+			// dd($filename);
+		} else {
+			return 0;
+		}
+		
+		// 导入excel文件内容
+		try {
+			// 先清空表
+			Smt_pdplan::truncate();
+			
+			$ret = Excel::import(new pdplanImport, 'excel/'.$filename);
+			// dd($ret);
+			$result = 1;
+		} catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
+			$result = 0;
+		} finally {
+			Storage::delete('excel/'.$filename);
+		}
+
+		return $result;
+	}
+
+		
+    /**
+     * pdplanDownload 导入模板下载
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pdplanDownload(Request $request)
+    {
+		return Storage::download('download/smt_pdplanimport.xlsx', 'MoBan_SmtPdPlan.xlsx');
+	}
+
 
 	
 }
