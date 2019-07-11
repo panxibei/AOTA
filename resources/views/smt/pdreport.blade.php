@@ -29,6 +29,45 @@ SMT - PD report
 <div id="app" v-cloak>
 
 	<Tabs type="card" v-model="currenttabs" :animated="false">
+		<Tab-pane label="生产计划导入">
+
+			<i-row :gutter="16">
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="3">
+					<Upload
+						:before-upload="uploadstart_relation"
+						:show-upload-list="false"
+						:format="['xls','xlsx']"
+						:on-format-error="handleFormatError"
+						:max-size="2048"
+						action="/">
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '导入生产计划' }}</i-button>
+					</Upload>
+				</i-col>
+				<i-col span="2">
+					<i-button @click="download_relation()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
+				</i-col>
+				<i-col span="18">
+					&nbsp;
+				</i-col>
+			</i-row>
+
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="23">
+					<font color="#ff9900">* 注意：生产计划中，相同日期的内容数据会被覆盖！！</font>
+				</i-col>
+			</i-row>
+
+
+		</Tab-pane>
+
 		<Tab-pane label="生产信息录入">
 
 			<Divider orientation="left">生产基本信息</Divider>
@@ -1242,7 +1281,13 @@ var vm_app = new Vue({
 		pagelast: 1,
 
 		// tabs索引
-		currenttabs: 0,
+		currenttabs: 1,
+
+		// 上传，批量导入
+		file: null,
+		loadingStatus: false,
+		uploaddisabled: false,
+
 
 			
 	},
@@ -1798,7 +1843,143 @@ var vm_app = new Vue({
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
-		},		
+		},
+		
+
+		// upload function
+		handleFormatError (file) {
+			this.$Notice.warning({
+				title: 'The file format is incorrect',
+				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
+			});
+		},
+		handleMaxSize (file) {
+			this.$Notice.warning({
+				title: 'Exceeding file size limit',
+				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
+			});
+		},
+		handleUpload: function (file) {
+			this.file = file;
+			return false;
+		},
+		uploadstart_zrcfx: function (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('bpjg.zrcfx.zrcfximport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				if (response.data) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+		},
+		uploadstart_relation: function (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('bpjg.zrcfx.relationimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, 'Success', '导入成功！');
+				} else {
+					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+			})
+		},
+		uploadcancel: function () {
+			this.file = null;
+			// this.loadingStatus = false;
+		},
+
+		// relation模板下载
+		download_relation: function () {
+			var url = "{{ route('bpjg.zrcfx.relationdownload') }}";
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},
+
+
 		
 	},
 	mounted () {
