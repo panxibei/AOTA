@@ -1,6 +1,6 @@
 <?php
-
-namespace App\Imports;
+// 此模块未使用
+namespace App\Imports\Smt;
 
 use App\Models\Smt\Smt_qcreport;
 // use Illuminate\Support\Collection;
