@@ -15,7 +15,8 @@ class CreateSmtPdplansTable extends Migration
     {
         Schema::create('smt_pdplans', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('suoshuriqi', 50)->comment('所属日期');
+            $table->string('suoshuyuefen')->comment('所属月份');
+            // $table->integer('suoshuriqi')->comment('所属日期');
             $table->string('xianti', 20)->comment('线体');
 			$table->string('jizhongming', 50)->comment('机种名');
 			$table->string('spno', 50)->comment('SP NO.');

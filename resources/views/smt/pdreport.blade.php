@@ -36,7 +36,7 @@ SMT - PD report
 					&nbsp;
 				</i-col>
 				<i-col span="4">
-					* 选择月份&nbsp;&nbsp;
+					查询： 选择月份&nbsp;&nbsp;
 					<Date-picker v-model.lazy="date_plan_suoshuriqi" type="month" size="small" style="width:100px"></Date-picker>
 				</i-col>
 				<i-col span="2">
@@ -1194,247 +1194,736 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 50,
 				align: 'center',
-				// fixed: 'left',
+				fixed: 'left',
 			},
 			{
-				title: '生产日期',
+				title: '所属月份',
 				key: 'shengchanriqi',
 				align: 'center',
-				width: 100,
-				render: (h, params) => {
-					return h('div', [
-						params.row.shengchanriqi.substring(0,10)
-					]);
-				}
+				width: 70,
+				fixed: 'left',
+				// render: (h, params) => {
+				// 	return h('div', [
+				// 		params.row.shengchanriqi.substring(0,10)
+				// 	]);
+				// }
 			},
 			{
 				title: '线体',
 				key: 'xianti',
 				align: 'center',
-				width: 80
+				width: 80,
+				fixed: 'left',
 			},
 			{
-				title: '班次',
-				key: 'banci',
+				title: '机种名',
+				key: 'jizhongming',
+				align: 'center',
+				width: 100,
+				fixed: 'left',
+			},
+			{
+				title: 'SP NO',
+				key: 'spno',
+				align: 'center',
+				width: 130,
+				fixed: 'left',
+			},
+			{
+				title: '品名',
+				key: 'pinming',
+				align: 'center',
+				width: 80,
+				fixed: 'left',
+			},
+			{
+				title: '工序',
+				key: 'gongxu',
+				align: 'center',
+				width: 60,
+				fixed: 'left',
+			},
+			{
+				title: 'LOT数',
+				key: 'lotshu',
 				align: 'center',
 				width: 70,
-				// filters: [
-				// 	{
-				// 		label: 'A-1',
-				// 		value: 'A-1'
-				// 	},
-				// 	{
-				// 		label: 'A-2',
-				// 		value: 'A-2'
-				// 	},
-				// 	{
-				// 		label: 'A-3',
-				// 		value: 'A-3'
-				// 	},
-				// 	{
-				// 		label: 'B-1',
-				// 		value: 'B-1'
-				// 	},
-				// 	{
-				// 		label: 'B-2',
-				// 		value: 'B-2'
-				// 	},
-				// 	{
-				// 		label: 'B-3',
-				// 		value: 'B-3'
-				// 	}
-				// ],
-				// filterMultiple: false,
-				// filterMethod: function (value, row) {
-				// 	if (value === 'A-1') {
-				// 		return row.banci === 'A-1';
-				// 	} else if (value === 'A-2') {
-				// 		return row.banci === 'A-2';
-				// 	} else if (value === 'A-3') {
-				// 		return row.banci === 'A-3';
-				// 	} else if (value === 'B-1') {
-				// 		return row.banci === 'B-1';
-				// 	} else if (value === 'B-2') {
-				// 		return row.banci === 'B-2';
-				// 	} else if (value === 'B-3') {
-				// 		return row.banci === 'B-3';
-				// 	}
-				// }
+				fixed: 'left',
+				render: (h, params) => {
+					return h('div', [
+						params.row.lotshu.toLocaleString()
+					]);
+				}
 			},
-			// 3
 			{
-				title: '机种信息',
+				title: 'd1-A',
+				key: 'd1_A',
 				align: 'center',
-				children: [
-					{
-						title: '机种名',
-						key: 'jizhongming',
-						align: 'center',
-						width: 100,
-						sortable: true
-					},
-					{
-						title: 'SP NO.',
-						key: 'spno',
-						align: 'center',
-						width: 130,
-						// sortable: true
-					},
-					{
-						title: '品名',
-						key: 'pinming',
-						align: 'center',
-						width: 80,
-						// sortable: true
-					},
-					{
-						title: 'LOT数',
-						key: 'lotshu',
-						align: 'center',
-						width: 70,
-						render: (h, params) => {
-							return h('div', [
-								params.row.lotshu.toLocaleString()
-							]);
-						}
-					}
+				width: 70,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d1_A ? params.row.d1_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd1-B',
+				key: 'd1_B',
+				align: 'center',
+				width: 70,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d1_B ? params.row.d1_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd2-A',
+				key: 'd2_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d2_A ? params.row.d2_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd2-B',
+				key: 'd2_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d2_B ? params.row.d2_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd3-A',
+				key: 'd3_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d3_A ? params.row.d3_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd3-B',
+				key: 'd3_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d3_B ? params.row.d3_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd4-A',
+				key: 'd4_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d4_A ? params.row.d4_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd4-B',
+				key: 'd4_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d4_B ? params.row.d4_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd5-A',
+				key: 'd5_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5_A ? params.row.d5_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd5-B',
+				key: 'd5_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5_B ? params.row.d5_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd6-A',
+				key: 'd6_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6_A ? params.row.d6_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd6-B',
+				key: 'd6_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6_B ? params.row.d6_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd7-A',
+				key: 'd7_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7_A ? params.row.d7_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd7-B',
+				key: 'd7_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7_B ? params.row.d7_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd8-A',
+				key: 'd8_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8_A ? params.row.d8_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd8-B',
+				key: 'd8_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8_B ? params.row.d8_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd9-A',
+				key: 'd9_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9_A ? params.row.d9_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd9-B',
+				key: 'd9_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9_B ? params.row.d9_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd10-A',
+				key: 'd10_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10_A ? params.row.d10_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd10-B',
+				key: 'd10_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10_B ? params.row.d10_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd11-A',
+				key: 'd11_A',
+				align: 'center',
+				width: 70,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d11_A ? params.row.d11_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd11-B',
+				key: 'd11_B',
+				align: 'center',
+				width: 70,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d11_B ? params.row.d11_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd12-A',
+				key: 'd12_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d12_A ? params.row.d12_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd12-B',
+				key: 'd12_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d12_B ? params.row.d12_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd13-A',
+				key: 'd13_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d13_A ? params.row.d13_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd13-B',
+				key: 'd13_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d13_B ? params.row.d13_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd14-A',
+				key: 'd14_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d14_A ? params.row.d14_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd14-B',
+				key: 'd14_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d14_B ? params.row.d14_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd5-A',
+				key: 'd5_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5_A ? params.row.d5_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd5-B',
+				key: 'd5_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5_B ? params.row.d5_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd6-A',
+				key: 'd6_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6_A ? params.row.d6_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd6-B',
+				key: 'd6_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6_B ? params.row.d6_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd7-A',
+				key: 'd7_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7_A ? params.row.d7_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd7-B',
+				key: 'd7_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7_B ? params.row.d7_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd8-A',
+				key: 'd8_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8_A ? params.row.d8_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd8-B',
+				key: 'd8_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8_B ? params.row.d8_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd9-A',
+				key: 'd9_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9_A ? params.row.d9_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd9-B',
+				key: 'd9_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9_B ? params.row.d9_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd10-A',
+				key: 'd10_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10_A ? params.row.d10_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd10-B',
+				key: 'd10_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10_B ? params.row.d10_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd1-A',
+				key: 'd1_A',
+				align: 'center',
+				width: 70,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d1_A ? params.row.d1_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd1-B',
+				key: 'd1_B',
+				align: 'center',
+				width: 70,
+				// className: 'table-info-column',
+				render: (h, params) => {
+					return h('div', [
+						params.row.d1_B ? params.row.d1_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd2-A',
+				key: 'd2_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d2_A ? params.row.d2_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd2-B',
+				key: 'd2_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d2_B ? params.row.d2_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd3-A',
+				key: 'd3_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d3_A ? params.row.d3_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd3-B',
+				key: 'd3_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d3_B ? params.row.d3_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd4-A',
+				key: 'd4_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d4_A ? params.row.d4_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd4-B',
+				key: 'd4_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d4_B ? params.row.d4_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd5-A',
+				key: 'd5_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5_A ? params.row.d5_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd5-B',
+				key: 'd5_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d5_B ? params.row.d5_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd6-A',
+				key: 'd6_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6_A ? params.row.d6_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd6-B',
+				key: 'd6_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d6_B ? params.row.d6_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd7-A',
+				key: 'd7_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7_A ? params.row.d7_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd7-B',
+				key: 'd7_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d7_B ? params.row.d7_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd8-A',
+				key: 'd8_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8_A ? params.row.d8_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd8-B',
+				key: 'd8_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d8_B ? params.row.d8_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd9-A',
+				key: 'd9_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9_A ? params.row.d9_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd9-B',
+				key: 'd9_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d9_B ? params.row.d9_B.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd10-A',
+				key: 'd10_A',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10_A ? params.row.d10_A.toLocaleString() : ''
+					]);
+				}
+			},
+			{
+				title: 'd10-B',
+				key: 'd10_B',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						params.row.d10_B ? params.row.d10_B.toLocaleString() : ''
+					]);
+				}
+			},
 
-				]
-			},
-			// 4
-			{
-				title: '程序',
-				align: 'center',
-				children: [
-					{
-						title: '工序',
-						key: 'gongxu',
-						align: 'center',
-						width: 60
-					},
-					{
-						title: '点/枚',
-						key: 'dianmei',
-						align: 'center',
-						width: 70,
-						render: (h, params) => {
-							return h('div', [
-								params.row.dianmei.toLocaleString()
-							]);
-						}
-					}
-				]
-			},
-			// 5
-			{
-				title: '生产预定及实际',
-				align: 'center',
-				children: [
-					{
-						title: '枚/秒',
-						key: 'meimiao',
-						align: 'center',
-						width: 60
-					},
-					{
-						title: '枚数',
-						key: 'meishu',
-						align: 'center',
-						width: 60,
-						render: (h, params) => {
-							return h('div', [
-								params.row.meishu.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '手动生产时间',
-						key: 'shoudongshengchanshijian',
-						align: 'center',
-						width: 90,
-						renderHeader: (h, params) => {
-							return h('div', [
-								h('span', {
-								}, '手动'),
-								h('br', {
-								}, ''),
-								h('span', {
-								}, '生产时间')
-							]);
-						},
-						render: (h, params) => {
-							return h('div', [
-								params.row.shoudongshengchanshijian.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '台数',
-						key: 'taishu',
-						align: 'center',
-						width: 70,
-						render: (h, params) => {
-							return h('div', [
-								params.row.taishu.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: 'LOT残',
-						key: 'lotcan',
-						align: 'center',
-						width: 70,
-						render: (h, params) => {
-							return h('div', [
-								params.row.lotcan.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '插件点数',
-						key: 'chajiandianshu',
-						align: 'center',
-						width: 80,
-						className: 'table-info-column',
-						renderHeader: (h, params) => {
-							return h('div', [
-								h('span', {
-								}, '插件'),
-								h('br', {
-								}, ''),
-								h('span', {
-								}, '点数')
-							]);
-						},
-						render: (h, params) => {
-							return h('div', [
-								params.row.chajiandianshu.toLocaleString()
-							]);
-						}
-					},
-					{
-						title: '稼动率',
-						key: 'jiadonglv',
-						align: 'center',
-						width: 60,
-						className: 'table-info-column',
-						render: (h, params) => {
-							return h('div', [
-								// parseFloat(params.row.jiadonglv * 100) + '%'
-								// (params.row.jiadonglv * 100) + '%'
-								// params.row.jiadonglv * 100
-								Math.round(params.row.jiadonglv*100) + '%'
-							]);
-						}
-					}
-				]
-			},
-			// {
-			// 	title: '创建日期',
-			// 	key: 'created_at',
-			// 	align: 'center',
-			// 	width: 160,
-			// }
+
+
 		],
 		tabledata_plan: [],
 		
