@@ -36,19 +36,19 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 线体&nbsp;&nbsp;
-					<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="请选择">
+					<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
 					* 班次&nbsp;&nbsp;
-					<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="请选择">
+					<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
 					* 生产日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px" placeholder="请选择"></Date-picker>
+					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="12">
 					&nbsp;
@@ -60,25 +60,25 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder="例：MRAP808A"></i-input>
+					<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 					* SP NO.&nbsp;&nbsp;
-					<i-input v-model.lazy="spno" size="small" clearable style="width: 120px" placeholder="例：5283600121-51"></i-input>
+					<i-input v-model.lazy="spno" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 					* 品名&nbsp;&nbsp;
-					<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="请选择">
+					<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
 					* LOT数&nbsp;&nbsp;
-					<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px" placeholder="数字大于0"></Input-number>
+					<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="4">
 					* 工序&nbsp;&nbsp;
-					<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="请选择">
+					<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
@@ -91,15 +91,15 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 枚/秒&nbsp;&nbsp;
-					<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px" placeholder="数字大于0"></Input-number>
+					<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="4">
 					* 台数&nbsp;&nbsp;
-					<Input-number v-model.lazy="taishu" :min="1" size="small" style="width: 120px" placeholder="数字大于0"></Input-number>
+					<Input-number v-model.lazy="taishu" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="16">
-					* 手动生产时间&nbsp;&nbsp;
-					<Input-number v-model.lazy="shoudongshengchanshijian" :min="1" size="small" style="width: 120px" placeholder="数字大于0"></Input-number>
+					* 手动生产时间（分）&nbsp;&nbsp;
+					<Input-number v-model.lazy="shoudongshengchanshijian" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 			</i-row>
 			<br><br>
