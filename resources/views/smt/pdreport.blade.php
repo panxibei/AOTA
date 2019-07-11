@@ -35,7 +35,11 @@ SMT - PD report
 				<i-col span="1">
 					&nbsp;
 				</i-col>
-				<i-col span="3">
+				<i-col span="4">
+					* 选择月份&nbsp;&nbsp;
+					<Date-picker v-model.lazy="date_plan_suoshuriqi" type="month" size="small" style="width:100px"></Date-picker>
+				</i-col>
+				<i-col span="2">
 					<Upload
 						:before-upload="uploadstart_relation"
 						:show-upload-list="false"
@@ -43,17 +47,16 @@ SMT - PD report
 						:on-format-error="handleFormatError"
 						:max-size="2048"
 						action="/">
-						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled">@{{ loadingStatus ? '上传中...' : '导入生产计划' }}</i-button>
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '导入生产计划' }}</i-button>
 					</Upload>
 				</i-col>
 				<i-col span="2">
 					<i-button @click="download_relation()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 				</i-col>
-				<i-col span="18">
+				<i-col span="15">
 					&nbsp;
 				</i-col>
 			</i-row>
-
 			<br><br>
 
 			<i-row :gutter="16">
@@ -64,6 +67,10 @@ SMT - PD report
 					<font color="#ff9900">* 注意：生产计划中，相同日期的内容数据会被覆盖！！</font>
 				</i-col>
 			</i-row>
+			<br><br>
+
+			<i-table height="300" size="small" border :columns="tablecolumns_plan" :data="tabledata_plan"></i-table>
+
 
 
 		</Tab-pane>
@@ -1179,6 +1186,257 @@ var vm_app = new Vue({
 			}
 
 		],
+
+		// 表头 plan
+		tablecolumns_plan: [
+			{
+				type: 'index',
+				align: 'center',
+				width: 50,
+				align: 'center',
+				// fixed: 'left',
+			},
+			{
+				title: '生产日期',
+				key: 'shengchanriqi',
+				align: 'center',
+				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shengchanriqi.substring(0,10)
+					]);
+				}
+			},
+			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 80
+			},
+			{
+				title: '班次',
+				key: 'banci',
+				align: 'center',
+				width: 70,
+				// filters: [
+				// 	{
+				// 		label: 'A-1',
+				// 		value: 'A-1'
+				// 	},
+				// 	{
+				// 		label: 'A-2',
+				// 		value: 'A-2'
+				// 	},
+				// 	{
+				// 		label: 'A-3',
+				// 		value: 'A-3'
+				// 	},
+				// 	{
+				// 		label: 'B-1',
+				// 		value: 'B-1'
+				// 	},
+				// 	{
+				// 		label: 'B-2',
+				// 		value: 'B-2'
+				// 	},
+				// 	{
+				// 		label: 'B-3',
+				// 		value: 'B-3'
+				// 	}
+				// ],
+				// filterMultiple: false,
+				// filterMethod: function (value, row) {
+				// 	if (value === 'A-1') {
+				// 		return row.banci === 'A-1';
+				// 	} else if (value === 'A-2') {
+				// 		return row.banci === 'A-2';
+				// 	} else if (value === 'A-3') {
+				// 		return row.banci === 'A-3';
+				// 	} else if (value === 'B-1') {
+				// 		return row.banci === 'B-1';
+				// 	} else if (value === 'B-2') {
+				// 		return row.banci === 'B-2';
+				// 	} else if (value === 'B-3') {
+				// 		return row.banci === 'B-3';
+				// 	}
+				// }
+			},
+			// 3
+			{
+				title: '机种信息',
+				align: 'center',
+				children: [
+					{
+						title: '机种名',
+						key: 'jizhongming',
+						align: 'center',
+						width: 100,
+						sortable: true
+					},
+					{
+						title: 'SP NO.',
+						key: 'spno',
+						align: 'center',
+						width: 130,
+						// sortable: true
+					},
+					{
+						title: '品名',
+						key: 'pinming',
+						align: 'center',
+						width: 80,
+						// sortable: true
+					},
+					{
+						title: 'LOT数',
+						key: 'lotshu',
+						align: 'center',
+						width: 70,
+						render: (h, params) => {
+							return h('div', [
+								params.row.lotshu.toLocaleString()
+							]);
+						}
+					}
+
+				]
+			},
+			// 4
+			{
+				title: '程序',
+				align: 'center',
+				children: [
+					{
+						title: '工序',
+						key: 'gongxu',
+						align: 'center',
+						width: 60
+					},
+					{
+						title: '点/枚',
+						key: 'dianmei',
+						align: 'center',
+						width: 70,
+						render: (h, params) => {
+							return h('div', [
+								params.row.dianmei.toLocaleString()
+							]);
+						}
+					}
+				]
+			},
+			// 5
+			{
+				title: '生产预定及实际',
+				align: 'center',
+				children: [
+					{
+						title: '枚/秒',
+						key: 'meimiao',
+						align: 'center',
+						width: 60
+					},
+					{
+						title: '枚数',
+						key: 'meishu',
+						align: 'center',
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.meishu.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '手动生产时间',
+						key: 'shoudongshengchanshijian',
+						align: 'center',
+						width: 90,
+						renderHeader: (h, params) => {
+							return h('div', [
+								h('span', {
+								}, '手动'),
+								h('br', {
+								}, ''),
+								h('span', {
+								}, '生产时间')
+							]);
+						},
+						render: (h, params) => {
+							return h('div', [
+								params.row.shoudongshengchanshijian.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '台数',
+						key: 'taishu',
+						align: 'center',
+						width: 70,
+						render: (h, params) => {
+							return h('div', [
+								params.row.taishu.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: 'LOT残',
+						key: 'lotcan',
+						align: 'center',
+						width: 70,
+						render: (h, params) => {
+							return h('div', [
+								params.row.lotcan.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '插件点数',
+						key: 'chajiandianshu',
+						align: 'center',
+						width: 80,
+						className: 'table-info-column',
+						renderHeader: (h, params) => {
+							return h('div', [
+								h('span', {
+								}, '插件'),
+								h('br', {
+								}, ''),
+								h('span', {
+								}, '点数')
+							]);
+						},
+						render: (h, params) => {
+							return h('div', [
+								params.row.chajiandianshu.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '稼动率',
+						key: 'jiadonglv',
+						align: 'center',
+						width: 60,
+						className: 'table-info-column',
+						render: (h, params) => {
+							return h('div', [
+								// parseFloat(params.row.jiadonglv * 100) + '%'
+								// (params.row.jiadonglv * 100) + '%'
+								// params.row.jiadonglv * 100
+								Math.round(params.row.jiadonglv*100) + '%'
+							]);
+						}
+					}
+				]
+			},
+			// {
+			// 	title: '创建日期',
+			// 	key: 'created_at',
+			// 	align: 'center',
+			// 	width: 160,
+			// }
+		],
+		tabledata_plan: [],
 		
 		// 删除disabled
 		boo_delete: true,
@@ -1281,12 +1539,14 @@ var vm_app = new Vue({
 		pagelast: 1,
 
 		// tabs索引
-		currenttabs: 1,
+		currenttabs: 0,
 
 		// 上传，批量导入
 		file: null,
 		loadingStatus: false,
 		uploaddisabled: false,
+
+		date_plan_suoshuriqi: '',
 
 
 			
