@@ -1660,7 +1660,8 @@ var vm_app = new Vue({
 					// console.log(date_filter);
 					if (date_filter[0].substring(0,10) == date_filter[1].substring(0,10)
 						&& xianti_filter != '' && xianti_filter != undefined
-						&& banci_filter != '' && banci_filter != undefined) {
+						// && banci_filter != '' && banci_filter != undefined) {
+						) {
 
 						_this.xiaoji_shengchanshijian = 0;
 						_this.xiaoji_langfeishijian = 0;
