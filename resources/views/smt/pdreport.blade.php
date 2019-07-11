@@ -232,7 +232,7 @@ SMT - PD report
 					&nbsp;
 				</i-col>
 				<i-col span="16">
-				<font color="#ff9900">* 注意：同时查询当天日期、线体和班次，可显示部品补充时间。</font>
+				<font color="#ff9900">* 注意：同时查询当天日期、线体和班次，可显示合计信息。</font>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -257,7 +257,7 @@ SMT - PD report
 				
 				<i-col span="16">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
-					<div style="text-align:right"><strong>枚数小计：@{{ xiaoji_meishu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(2).toLocaleString() + '分' }}</strong>&nbsp;&nbsp;</div>
+					<div style="text-align:right"><strong>合计信息 （枚数：@{{ xiaoji_meishu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;插件点数：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(2).toLocaleString() + '分' }}）</strong>&nbsp;&nbsp;</div>
 				</i-col>
 			</i-row>
 			<br><br>
