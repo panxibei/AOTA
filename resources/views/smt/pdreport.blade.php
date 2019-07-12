@@ -82,7 +82,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="24">
-					<i-table height="200" size="small" border :columns="tablecolumns_plan" :data="tabledata_planresult"></i-table>
+					<i-table ref="planresult" height="200" size="small" border :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-selection-change="selection => onselectchange_planresult(selection)"></i-table>
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -622,7 +622,6 @@ var vm_app = new Vue({
 				// 	}
 				// }
 			},
-			// 3
 			{
 				title: '机种信息',
 				align: 'center',
@@ -662,7 +661,6 @@ var vm_app = new Vue({
 
 				]
 			},
-			// 4
 			{
 				title: '程序',
 				align: 'center',
@@ -686,7 +684,6 @@ var vm_app = new Vue({
 					}
 				]
 			},
-			// 5
 			{
 				title: '生产预定及实际',
 				align: 'center',
@@ -1262,6 +1259,97 @@ var vm_app = new Vue({
 
 		],
 		tabledata_plan: [],
+
+		// 表头 planresult
+		tablecolumns_planresult: [
+			{
+				type: 'selection',
+				width: 50,
+				align: 'center',
+				// fixed: 'left'
+			},
+			{
+				type: 'index',
+				align: 'center',
+				width: 60,
+				align: 'center',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize_plan * (vm_app.pagecurrent_plan - 1)
+				}
+			},
+			{
+				title: '所属日期',
+				key: 'suoshuriqi',
+				align: 'center',
+				width: 110,
+				// fixed: 'left',
+				render: (h, params) => {
+					return h('div', [
+						params.row.suoshuriqi.substring(0,10)
+					]);
+				}
+			},
+			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 80,
+				// fixed: 'left',
+			},
+			{
+				title: '机种名',
+				key: 'jizhongming',
+				align: 'center',
+				width: 120,
+				// fixed: 'left',
+			},
+			{
+				title: 'SP NO',
+				key: 'spno',
+				align: 'center',
+				width: 130,
+				// fixed: 'left',
+			},
+			{
+				title: '品名',
+				key: 'pinming',
+				align: 'center',
+				width: 80,
+				// fixed: 'left',
+			},
+			{
+				title: '工序',
+				key: 'gongxu',
+				align: 'center',
+				width: 70,
+				// fixed: 'left',
+			},
+			{
+				title: 'LOT数',
+				key: 'lotshu',
+				align: 'center',
+				width: 80,
+				// fixed: 'left',
+				render: (h, params) => {
+					return h('div', [
+						params.row.lotshu.toLocaleString()
+					]);
+				}
+			},
+			{
+				title: '计划产量',
+				key: 'jihuachanliang',
+				align: 'center',
+				width: 90,
+				// fixed: 'left',
+				render: (h, params) => {
+					return h('div', [
+						params.row.jihuachanliang.toLocaleString()
+					]);
+				}
+			},
+
+		],
 		tabledata_planresult: [],
 		
 		// 删除disabled
@@ -1737,9 +1825,34 @@ var vm_app = new Vue({
 		},
 		
 		//
-		onselectchange: function (selection) {
-			// console.log(row);
+		onselectchange (selection) {
 			var _this = this;
+			_this.tableselect = [];
+
+			for (var i in selection) {
+				_this.tableselect.push(selection[i].id);
+			}
+			
+			_this.boo_delete = _this.tableselect[0] == undefined ? true : false;
+
+			// 担当者
+			_this.disabled_dandangzhe = _this.tableselect[0] == undefined ? true : false;
+			
+			// 确认者
+			_this.disabled_querenzhe = _this.tableselect[0] == undefined ? true : false;
+		},
+
+		//
+		onselectchange_planresult (selection) {
+			var _this = this;
+
+console.log(selection);
+return false;
+
+
+			this.$refs.selection.selectAll(status);
+
+
 			_this.tableselect = [];
 
 			for (var i in selection) {
@@ -2131,6 +2244,7 @@ var vm_app = new Vue({
 					_this.pagelast_plan = response.data.last_page
 					
 					_this.tabledata_plan = response.data.data;
+					_this.tabledata_planresult = response.data.data;
 
 				} else {
 					_this.tabledata_plan = [];
