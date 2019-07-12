@@ -35,9 +35,9 @@ SMT - PD report
 				<i-col span="1">
 					&nbsp;
 				</i-col>
-				<i-col span="4">
-					查询： 选择月份&nbsp;&nbsp;
-					<Date-picker v-model.lazy="date_plan_suoshuriqi" type="month" size="small" style="width:100px"></Date-picker>
+				<i-col span="7">
+					查询： 日期&nbsp;&nbsp;
+					<Date-picker v-model.lazy="date_plan_suoshuriqi" :options="date_plan_suoshuriqi_options" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="2">
 					<Upload
@@ -53,18 +53,18 @@ SMT - PD report
 				<i-col span="2">
 					<i-button @click="download_plan()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 				</i-col>
-				<i-col span="15">
+				<i-col span="12">
 					&nbsp;
 				</i-col>
 			</i-row>
 			<br><br>
 
 			<i-row :gutter="16">
-				<i-col span="1">
+				<i-col span="8">
 					&nbsp;
 				</i-col>
-				<i-col span="23">
-					<font color="#ff9900">* 注意：生产计划中，相同日期的内容数据会被覆盖！！</font>
+				<i-col span="16">
+					<font color="#ff9900">* 注意：旧的生产计划内容数据会被覆盖！！</font>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -1194,14 +1194,14 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 50,
 				align: 'center',
-				fixed: 'left',
+				// fixed: 'left',
 			},
 			{
-				title: '所属月份',
+				title: '所属日期',
 				key: 'shengchanriqi',
 				align: 'center',
-				width: 70,
-				fixed: 'left',
+				width: 90,
+				// fixed: 'left',
 				// render: (h, params) => {
 				// 	return h('div', [
 				// 		params.row.shengchanriqi.substring(0,10)
@@ -1213,42 +1213,42 @@ var vm_app = new Vue({
 				key: 'xianti',
 				align: 'center',
 				width: 80,
-				fixed: 'left',
+				// fixed: 'left',
 			},
 			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
 				width: 100,
-				fixed: 'left',
+				// fixed: 'left',
 			},
 			{
 				title: 'SP NO',
 				key: 'spno',
 				align: 'center',
 				width: 130,
-				fixed: 'left',
+				// fixed: 'left',
 			},
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
 				width: 80,
-				fixed: 'left',
+				// fixed: 'left',
 			},
 			{
 				title: '工序',
 				key: 'gongxu',
 				align: 'center',
 				width: 60,
-				fixed: 'left',
+				// fixed: 'left',
 			},
 			{
 				title: 'LOT数',
 				key: 'lotshu',
 				align: 'center',
 				width: 70,
-				fixed: 'left',
+				// fixed: 'left',
 				render: (h, params) => {
 					return h('div', [
 						params.row.lotshu.toLocaleString()
@@ -1256,673 +1256,17 @@ var vm_app = new Vue({
 				}
 			},
 			{
-				title: 'd1-A',
-				key: 'd1_A',
+				title: '计划产量',
+				key: 'jihuachanliang',
 				align: 'center',
-				width: 70,
-				// className: 'table-info-column',
+				width: 90,
+				// fixed: 'left',
 				render: (h, params) => {
 					return h('div', [
-						params.row.d1_A ? params.row.d1_A.toLocaleString() : ''
+						params.row.jihuachanliang.toLocaleString()
 					]);
 				}
 			},
-			{
-				title: 'd1-B',
-				key: 'd1_B',
-				align: 'center',
-				width: 70,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d1_B ? params.row.d1_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd2-A',
-				key: 'd2_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d2_A ? params.row.d2_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd2-B',
-				key: 'd2_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d2_B ? params.row.d2_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd3-A',
-				key: 'd3_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d3_A ? params.row.d3_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd3-B',
-				key: 'd3_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d3_B ? params.row.d3_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd4-A',
-				key: 'd4_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d4_A ? params.row.d4_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd4-B',
-				key: 'd4_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d4_B ? params.row.d4_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd5-A',
-				key: 'd5_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5_A ? params.row.d5_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd5-B',
-				key: 'd5_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5_B ? params.row.d5_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd6-A',
-				key: 'd6_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6_A ? params.row.d6_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd6-B',
-				key: 'd6_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6_B ? params.row.d6_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd7-A',
-				key: 'd7_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7_A ? params.row.d7_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd7-B',
-				key: 'd7_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7_B ? params.row.d7_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd8-A',
-				key: 'd8_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8_A ? params.row.d8_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd8-B',
-				key: 'd8_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8_B ? params.row.d8_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd9-A',
-				key: 'd9_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9_A ? params.row.d9_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd9-B',
-				key: 'd9_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9_B ? params.row.d9_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd10-A',
-				key: 'd10_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10_A ? params.row.d10_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd10-B',
-				key: 'd10_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10_B ? params.row.d10_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd11-A',
-				key: 'd11_A',
-				align: 'center',
-				width: 70,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d11_A ? params.row.d11_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd11-B',
-				key: 'd11_B',
-				align: 'center',
-				width: 70,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d11_B ? params.row.d11_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd12-A',
-				key: 'd12_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d12_A ? params.row.d12_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd12-B',
-				key: 'd12_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d12_B ? params.row.d12_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd13-A',
-				key: 'd13_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d13_A ? params.row.d13_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd13-B',
-				key: 'd13_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d13_B ? params.row.d13_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd14-A',
-				key: 'd14_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d14_A ? params.row.d14_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd14-B',
-				key: 'd14_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d14_B ? params.row.d14_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd5-A',
-				key: 'd5_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5_A ? params.row.d5_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd5-B',
-				key: 'd5_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5_B ? params.row.d5_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd6-A',
-				key: 'd6_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6_A ? params.row.d6_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd6-B',
-				key: 'd6_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6_B ? params.row.d6_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd7-A',
-				key: 'd7_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7_A ? params.row.d7_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd7-B',
-				key: 'd7_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7_B ? params.row.d7_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd8-A',
-				key: 'd8_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8_A ? params.row.d8_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd8-B',
-				key: 'd8_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8_B ? params.row.d8_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd9-A',
-				key: 'd9_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9_A ? params.row.d9_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd9-B',
-				key: 'd9_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9_B ? params.row.d9_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd10-A',
-				key: 'd10_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10_A ? params.row.d10_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd10-B',
-				key: 'd10_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10_B ? params.row.d10_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd1-A',
-				key: 'd1_A',
-				align: 'center',
-				width: 70,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d1_A ? params.row.d1_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd1-B',
-				key: 'd1_B',
-				align: 'center',
-				width: 70,
-				// className: 'table-info-column',
-				render: (h, params) => {
-					return h('div', [
-						params.row.d1_B ? params.row.d1_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd2-A',
-				key: 'd2_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d2_A ? params.row.d2_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd2-B',
-				key: 'd2_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d2_B ? params.row.d2_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd3-A',
-				key: 'd3_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d3_A ? params.row.d3_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd3-B',
-				key: 'd3_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d3_B ? params.row.d3_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd4-A',
-				key: 'd4_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d4_A ? params.row.d4_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd4-B',
-				key: 'd4_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d4_B ? params.row.d4_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd5-A',
-				key: 'd5_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5_A ? params.row.d5_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd5-B',
-				key: 'd5_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d5_B ? params.row.d5_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd6-A',
-				key: 'd6_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6_A ? params.row.d6_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd6-B',
-				key: 'd6_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d6_B ? params.row.d6_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd7-A',
-				key: 'd7_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7_A ? params.row.d7_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd7-B',
-				key: 'd7_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d7_B ? params.row.d7_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd8-A',
-				key: 'd8_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8_A ? params.row.d8_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd8-B',
-				key: 'd8_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d8_B ? params.row.d8_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd9-A',
-				key: 'd9_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9_A ? params.row.d9_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd9-B',
-				key: 'd9_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d9_B ? params.row.d9_B.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd10-A',
-				key: 'd10_A',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10_A ? params.row.d10_A.toLocaleString() : ''
-					]);
-				}
-			},
-			{
-				title: 'd10-B',
-				key: 'd10_B',
-				align: 'center',
-				width: 70,
-				render: (h, params) => {
-					return h('div', [
-						params.row.d10_B ? params.row.d10_B.toLocaleString() : ''
-					]);
-				}
-			},
-
-
 
 		],
 		tabledata_plan: [],
@@ -2035,7 +1379,70 @@ var vm_app = new Vue({
 		loadingStatus: false,
 		uploaddisabled: false,
 
+		// 生产计划导入过滤
 		date_plan_suoshuriqi: '',
+		date_plan_suoshuriqi_options: {
+			shortcuts: [
+				{
+					text: '今天',
+					value () {
+						return [new Date(), new Date()];
+					},
+					// onClick: (picker) => {
+					// 	this.$Message.info('Click today');
+					// },
+				},
+				{
+					text: '前后1天',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						// start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+						start.setDate(start.getDate() - 1);
+						end.setDate(start.getDate() + 1);
+						return [start, end];
+					}
+				},
+				{
+					text: '前后2天',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setDate(start.getDate() - 2);
+						end.setDate(start.getDate() + 2);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 3 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setDate(start.getDate() - 90);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 6 月',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						start.setDate(start.getDate() - 180);
+						return [start, end];
+					}
+				},
+				{
+					text: '前 1 年',
+					value () {
+						const end = new Date();
+						const start = new Date();
+						// start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+						start.setDate(start.getDate() - 365);
+						return [start, end];
+					}
+				},
+			]
+		},
 
 
 			

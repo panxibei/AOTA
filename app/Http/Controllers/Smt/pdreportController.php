@@ -684,7 +684,7 @@ class pdreportController extends Controller
 			$plan = Smt_pdplan::select('suoshuyuefen', 'xianti', 'jizhongming', 'spno', 'pinming', 'gongxu', 'lotshu', 'chanliangxinxi')
 				->get()->toArray();
 			
-			$plan_data = [];
+			// $plan_data = [];
 			Smt_pdplanresult::truncate();
 
 			foreach ($plan as $key=>$value) {
@@ -718,30 +718,12 @@ class pdreportController extends Controller
 							'jihuachanliang' => $xinxi[2],
 						]);
 
-					
-
 					}
 				}
 			}
 
-			// Smt_pdplanresult::truncate();
-			// $result = Smt_pdplanresult::create($plan_data);
-			// $result = Smt_pdplanresult::update([
-			// 	'jizhongming'	=> $mpoint['jizhongming'],
-			// 	'pinming'		=> $mpoint['pinming'],
-			// 	'gongxu'			=> $mpoint['gongxu'],
-			// 	'diantai'		=> $mpoint['diantai'],
-			// 	'pinban'		=> $mpoint['pinban'],
-			// ]);
-
-
-
-
-
-
 			$result = 1;
 		} catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
 			// dd('Message: ' .$e->getMessage());
 			DB::rollBack();
 			return 0;
