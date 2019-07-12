@@ -69,7 +69,8 @@ SMT - PD report
 			</i-row>
 			<br><br>
 
-			<i-table height="400" size="small" border :columns="tablecolumns_plan" :data="tabledata_plan"></i-table>
+			<i-table height="350" size="small" border :columns="tablecolumns_plan" :data="tabledata_plan"></i-table>
+			<br><Page :current="pagecurrent_plan" :total="pagetotal_plan" :page-size="pagepagesize_plan" @on-change="currentpage => oncurrentpagechange_plan(currentpage)" show-total show-elevator></Page><br><br>
 
 
 
@@ -1190,7 +1191,9 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 60,
 				align: 'center',
-				// fixed: 'left',
+				indexMethod: (row) => {
+					return row._index + 1 + vm_app.pagepagesize_plan * (vm_app.pagecurrent_plan - 1)
+				}
 			},
 			{
 				title: '所属日期',
@@ -1375,6 +1378,13 @@ var vm_app = new Vue({
 		loadingStatus: false,
 		uploaddisabled: false,
 
+		//分页计划
+		pagecurrent_plan: 1,
+		pagetotal_plan: 1,
+		pagepagesize_plan: 10,
+		pagelast_plan: 1,
+
+
 		// 生产计划导入过滤
 		date_plan_suoshuriqi: [],
 		date_plan_suoshuriqi_options: {
@@ -1473,6 +1483,11 @@ var vm_app = new Vue({
 		// 切换当前页
 		oncurrentpagechange (currentpage) {
 			this.dailyreportgets(currentpage, this.pagelast);
+		},
+
+		// 切换当前页计划
+		oncurrentpagechange_plan (currentpage) {
+			this.pdplangets(currentpage, this.pagelast_plan);
 		},
 
 		// 把laravel返回的结果转换成select能接受的格式
@@ -2072,8 +2087,14 @@ var vm_app = new Vue({
 		},
 
 		// plan列表
-		pdplangets () {
+		pdplangets (page, last_page) {
 			var _this = this;
+
+			if (page > last_page) {
+				page = last_page;
+			} else if (page < 1) {
+				page = 1;
+			}
 			
 			var date_filter = [];
 
@@ -2092,8 +2113,8 @@ var vm_app = new Vue({
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					// perPage: _this.pagepagesize,
-					// page: page,
+					perPage: _this.pagepagesize_plan,
+					page: page,
 					date_filter: date_filter,
 					// xianti_filter: xianti_filter,
 					// banci_filter: banci_filter,
@@ -2111,11 +2132,11 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 
-					// _this.pagecurrent = response.data.paginate.current_page;
-					// _this.pagetotal = response.data.paginate.total;
-					// _this.pagelast = response.data.paginate.last_page
+					_this.pagecurrent_plan = response.data.current_page;
+					_this.pagetotal_plan = response.data.total;
+					_this.pagelast_plan = response.data.last_page
 					
-					_this.tabledata_plan = response.data;
+					_this.tabledata_plan = response.data.data;
 
 				} else {
 					_this.tabledata_plan = [];
