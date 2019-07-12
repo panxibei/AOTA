@@ -78,6 +78,16 @@ SMT - PD report
 
 		<Tab-pane label="生产信息录入">
 
+			<Divider orientation="left">生产计划表</Divider>
+
+			<i-row :gutter="16">
+				<i-col span="24">
+					<i-table height="200" size="small" border :columns="tablecolumns_plan" :data="tabledata_planresult"></i-table>
+					&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+
 			<Divider orientation="left">生产基本信息</Divider>
 
 			<i-row :gutter="16">
@@ -101,7 +111,6 @@ SMT - PD report
 					&nbsp;
 				</i-col>
 			</i-row>
-
 			<br><br><br>
 
 			<i-row :gutter="16">
@@ -130,9 +139,9 @@ SMT - PD report
 					</i-select>
 				</i-col>
 				<i-col span="4">
+				&nbsp;
 				</i-col>
 			</i-row>
-
 			<br><br>
 
 			<i-row :gutter="16">
@@ -474,29 +483,13 @@ var vm_app = new Vue({
 		select_banci: '',
 		option_banci: [
 			{
-				value: 'A-1',
-				label: 'A-1'
+				value: 'A',
+				label: 'A'
 			},
 			{
-				value: 'A-2',
-				label: 'A-2'
+				value: 'B',
+				label: 'B'
 			},
-			{
-				value: 'A-3',
-				label: 'A-3'
-			},
-			{
-				value: 'B-1',
-				label: 'B-1'
-			},
-			{
-				value: 'B-2',
-				label: 'B-2'
-			},
-			{
-				value: 'B-3',
-				label: 'B-3'
-			}
 		],
 		
 		// 生产日期
@@ -1269,6 +1262,7 @@ var vm_app = new Vue({
 
 		],
 		tabledata_plan: [],
+		tabledata_planresult: [],
 		
 		// 删除disabled
 		boo_delete: true,
@@ -1371,7 +1365,7 @@ var vm_app = new Vue({
 		pagelast: 1,
 
 		// tabs索引
-		currenttabs: 0,
+		currenttabs: 1,
 
 		// 上传，批量导入
 		file: null,
