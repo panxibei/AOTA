@@ -37,7 +37,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="7">
 					查询： 日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="date_plan_suoshuriqi" :options="date_plan_suoshuriqi_options" type="daterange" size="small" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="date_plan_suoshuriqi" :options="date_plan_suoshuriqi_options" @on-change="pdplangets()" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="2">
 					<Upload
@@ -1399,7 +1399,7 @@ var vm_app = new Vue({
 						const start = new Date();
 						// start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
 						start.setDate(start.getDate() - 1);
-						end.setDate(start.getDate() + 1);
+						end.setDate(end.getDate() + 1);
 						return [start, end];
 					}
 				},
@@ -1409,35 +1409,27 @@ var vm_app = new Vue({
 						const end = new Date();
 						const start = new Date();
 						start.setDate(start.getDate() - 2);
-						end.setDate(start.getDate() + 2);
+						end.setDate(end.getDate() + 2);
 						return [start, end];
 					}
 				},
 				{
-					text: '前 3 月',
+					text: '前后3天',
 					value () {
 						const end = new Date();
 						const start = new Date();
-						start.setDate(start.getDate() - 90);
+						start.setDate(start.getDate() - 3);
+						end.setDate(end.getDate() + 3);
 						return [start, end];
 					}
 				},
 				{
-					text: '前 6 月',
+					text: '前后5天',
 					value () {
 						const end = new Date();
 						const start = new Date();
-						start.setDate(start.getDate() - 180);
-						return [start, end];
-					}
-				},
-				{
-					text: '前 1 年',
-					value () {
-						const end = new Date();
-						const start = new Date();
-						// start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
-						start.setDate(start.getDate() - 365);
+						start.setDate(start.getDate() - 5);
+						end.setDate(end.getDate() + 5);
 						return [start, end];
 					}
 				},
@@ -2081,6 +2073,103 @@ var vm_app = new Vue({
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
+		},
+
+		// plan列表
+		pdplangets () {
+			var _this = this;
+			
+			var date_filter = [];
+
+			if (_this.date_filter[0] == '' || _this.date_filter == undefined) {
+				_this.tabledata1 = [];
+				_this.tabledata2 = [];
+				_this.warning(false, '警告', '请先选择日期范围！');
+				return false;
+			} else {
+				date_filter =  _this.date_filter;
+			}
+			// console.log(date_filter);return false;
+			date_filter = [date_filter[0].Format("yyyy-MM-dd 00:00:00"), date_filter[1].Format("yyyy-MM-dd 23:59:59")];
+
+			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					perPage: _this.pagepagesize,
+					page: page,
+					date_filter: date_filter,
+					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
+					jizhongming_filter: jizhongming_filter,
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data.data);
+				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+
+					_this.pagecurrent = response.data.paginate.current_page;
+					_this.pagetotal = response.data.paginate.total;
+					_this.pagelast = response.data.paginate.last_page
+					
+					_this.tabledata1 = response.data.paginate.data;
+					_this.tabledata2 = response.data.paginate.data;
+
+					var tabledata_total = response.data.total;
+					
+
+					if (date_filter[0].substring(0,10) == date_filter[1].substring(0,10)
+						&& xianti_filter != '' && xianti_filter != undefined
+						// && banci_filter != '' && banci_filter != undefined) {
+						) {
+
+						_this.xiaoji_shengchanshijian = 0;
+						_this.xiaoji_langfeishijian = 0;
+						_this.xiaoji_chajiandianshu = 0;
+						_this.xiaoji_meishu = 0;
+
+						// console.log(tabledata_total);
+						tabledata_total.map(function (v, i) {
+							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
+							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.xinjizhongshengchanshijian);
+							_this.xiaoji_chajiandianshu += v.chajiandianshu;
+							_this.xiaoji_meishu += v.meishu;
+						});
+						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
+						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian;
+
+						if (_this.xiaoji_bupinbuchongshijian == 43200) {
+							_this.xiaoji_bupinbuchongshijian = 0;
+						}
+
+						// console.log('生产时间：' + _this.xiaoji_shengchanshijian);
+						// console.log('浪费时间：' + _this.xiaoji_langfeishijian);
+						// console.log('部品补充时间：' + _this.xiaoji_bupinbuchongshijian);
+					} else {
+						_this.xiaoji_shengchanshijian = 0;
+						_this.xiaoji_langfeishijian = 0;
+						_this.xiaoji_bupinbuchongshijian = 0;
+						_this.xiaoji_chajiandianshu = 0;
+						_this.xiaoji_meishu = 0;
+					}
+
+				} else {
+					_this.tabledata1 = [];
+					_this.tabledata2 = [];
+				}
+				
+				
+			})
+			.catch(function (error) {
+				// _this.loadingbarerror();
+			})
 		},
 
 
