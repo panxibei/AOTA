@@ -105,7 +105,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="24">
-					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
+					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border no-data-text="暂无数据，请选择条件查询！" :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -116,19 +116,19 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 线体&nbsp;&nbsp;
-					<i-select v-model.lazy="xianti" clearable style="width:120px" placeholder="">
+					<i-select v-model.lazy="xianti" @on-change="pdplanresultgets()" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
 					* 班次&nbsp;&nbsp;
-					<i-select v-model.lazy="banci" clearable style="width:120px" placeholder="">
+					<i-select v-model.lazy="banci" @on-change="pdplanresultgets()" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
 					* 生产日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px" placeholder=""></Date-picker>
+					<Date-picker v-model.lazy="shengchanriqi" @on-change="pdplanresultgets()" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="12">
 					&nbsp;
@@ -2217,8 +2217,7 @@ var vm_app = new Vue({
 			var date_filter = [];
 
 			if (_this.date_plan_suoshuriqi[0] == '' || _this.date_plan_suoshuriqi == undefined) {
-				_this.tabledata1 = [];
-				_this.tabledata2 = [];
+				_this.tabledata_plan = [];
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
 			} else {
@@ -2255,12 +2254,65 @@ var vm_app = new Vue({
 					_this.pagelast_plan = response.data.last_page
 					
 					_this.tabledata_plan = response.data.data;
-					_this.tabledata_planresult = response.data.data;
 
 				} else {
 					_this.tabledata_plan = [];
 				}
 				
+				
+			})
+			.catch(function (error) {
+				// _this.loadingbarerror();
+				_this.tabledata_plan = [];
+			})
+		},
+
+
+		// planresult列表
+		pdplanresultgets (page, last_page) {
+			var _this = this;
+
+			var date_filter = _this.shengchanriqi;
+			var xianti_filter = _this.xianti;
+			var banci_filter = _this.banci;
+
+			if (date_filter == '' || date_filter == undefined
+				|| xianti_filter == '' || xianti_filter == undefined
+				|| banci_filter == '' || banci_filter == undefined) {
+				_this.tabledata_planresult = [];
+				// _this.warning(false, '警告', '请先选择日期范围！');
+				return false;
+			}
+
+			date_filter = [date_filter.Format("yyyy-MM-dd 00:00:00"), date_filter.Format("yyyy-MM-dd 23:59:59")];
+			// console.log(date_filter);return false;
+
+			var url = "{{ route('smt.pdreport.pdplanresultgets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					// perPage: _this.pagepagesize_plan,
+					// page: page,
+					date_filter: date_filter,
+					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
+					// jizhongming_filter: jizhongming_filter,
+				}
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.tabledata_planresult = response.data;
+				} else {
+					_this.tabledata_plan = [];
+				}
 				
 			})
 			.catch(function (error) {

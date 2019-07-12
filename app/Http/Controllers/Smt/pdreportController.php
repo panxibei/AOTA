@@ -809,6 +809,66 @@ class pdreportController extends Controller
 		return $result;
 	}
 
+	/**
+	 * pdplanresultGets
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function pdplanresultGets(Request $request)
+	{
+		if (! $request->ajax()) return null;
+		
+		$url = request()->url();
+		$queryParams = request()->query();
+
+		// $perPage = $queryParams['perPage'] ?? 10000;
+		// $page = $queryParams['page'] ?? 1;
+		
+		$date_filter = $request->input('date_filter');
+		$xianti_filter = $request->input('xianti_filter');
+		$banci_filter = $request->input('banci_filter');
+		// $jizhongming_filter = $request->input('jizhongming_filter');
+
+		//对查询参数按照键名排序
+		ksort($queryParams);
+		
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$result = Cache::get($fullUrl);    //直接读取cache
+		} else {                                   //如果cache里面没有
+			// 总记录结果，包含全部分页，用于真正地计算汇总
+			$result = Smt_pdplanresult::when($date_filter, function ($query) use ($date_filter) {
+					return $query->whereBetween('suoshuriqi', $date_filter);
+				})
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
+				})
+				->when($banci_filter, function ($query) use ($banci_filter) {
+					return $query->where('banci', '=', $banci_filter);
+				})
+				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				// })
+				->orderBy('suoshuriqi', 'asc')
+				// ->orderBy('created_at', 'asc')
+				->get();
+				// ->paginate($perPage, ['*'], 'page', $page);
+
+		
+			Cache::put($fullUrl, $result, now()->addSeconds(10));
+		}
+
+		// dd($result);
+		return $result;
+	}
+
 
 	
 }
