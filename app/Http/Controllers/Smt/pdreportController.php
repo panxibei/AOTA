@@ -260,6 +260,7 @@ class pdreportController extends Controller
 			'shizuo',
 			'jizaishixiang'
 		);
+		// dd($dailyreport);
 		// dd($dailyreport['banci']);
 		
 		//读取点/枚
@@ -330,10 +331,10 @@ class pdreportController extends Controller
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
-
+		// dd($result);
 		return $result;
 	}
 	

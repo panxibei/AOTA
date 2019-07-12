@@ -147,9 +147,10 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 					* 品名&nbsp;&nbsp;
-					<i-select v-model.lazy="select_pinming" clearable style="width:120px" size="small" placeholder="">
+					<!-- <i-select v-model.lazy="pinming" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
+					</i-select> -->
+					<i-input v-model.lazy="pinming" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 					* LOT数&nbsp;&nbsp;
@@ -157,9 +158,10 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 					* 工序&nbsp;&nbsp;
-					<i-select v-model.lazy="select_gongxu" clearable style="width:120px" size="small" placeholder="">
+					<!-- <i-select v-model.lazy="gongxu" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
+					</i-select> -->
+					<i-input v-model.lazy="gongxu" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 				&nbsp;
@@ -457,7 +459,7 @@ var vm_app = new Vue({
 		
 		// 线体
 		xianti: '',
-		select_xianti: '',
+		// select_xianti: '',
 		option_xianti: [
 			{
 				value: 'SMT-1',
@@ -503,7 +505,7 @@ var vm_app = new Vue({
 		
 		// 班次
 		banci: '',
-		select_banci: '',
+		// select_banci: '',
 		option_banci: [
 			{
 				value: 'A',
@@ -525,7 +527,7 @@ var vm_app = new Vue({
 		spno: '',
 		
 		//品名
-		select_pinming: '',
+		pinming: '',
 		option_pinming: [],
 		
 		//lot数
@@ -544,7 +546,7 @@ var vm_app = new Vue({
 		taishu: '',
 		
 		//工序
-		select_gongxu: '',
+		gongxu: '',
 		option_gongxu: [],
 		
 		// 异常
@@ -1675,8 +1677,8 @@ var vm_app = new Vue({
 					var tmp_gongxu = '';
 					var boo_flag = false;
 					
-					_this.select_pinming = '';
-					_this.select_gongxu = '';
+					_this.pinming = '';
+					_this.gongxu = '';
 					_this.option_pinming = [];
 					_this.option_gongxu = [];
 					for (var i in response.data) {
@@ -1731,13 +1733,13 @@ var vm_app = new Vue({
 			var _this = this;
 			_this.jizhongming = '';
 			_this.spno = '';
-			_this.select_pinming = '';
+			_this.pinming = '';
 			_this.lotshu = '';
 			_this.meimiao = '';
 			// _this.meishu = '';
 			_this.shoudongshengchanshijian = '';
 			_this.taishu = '';
-			_this.select_gongxu = '';
+			_this.gongxu = '';
 			_this.xinchan = '';
 			_this.liangchan = '';
 			_this.dengdaibupin = '';
@@ -1750,11 +1752,14 @@ var vm_app = new Vue({
 			_this.xinjizhongshengchanshijian = '';
 			_this.shizuo = '';
 			_this.jizaishixiang = '';
-			_this.$refs.planresult.clearCurrentRow();
+			// _this.$refs.planresult.clearCurrentRow();
+			_this.rowClassName_planresultX = -1;
+			_this.rowClassName_planresult();
+
 		},
 		
 		// create
-		create: function () {
+		create () {
 			var _this = this;
 			
 			var shengchanriqi = _this.shengchanriqi;
@@ -1762,9 +1767,9 @@ var vm_app = new Vue({
 			var banci = _this.banci;
 			var jizhongming = _this.jizhongming;
 			var spno = _this.spno;
-			var pinming = _this.select_pinming;
+			var pinming = _this.pinming;
 			var lotshu = _this.lotshu;
-			var gongxu = _this.select_gongxu;
+			var gongxu = _this.gongxu;
 			var meimiao = _this.meimiao;
 			var taishu = _this.taishu;
 			var shoudongshengchanshijian = _this.shoudongshengchanshijian;
@@ -1829,12 +1834,17 @@ var vm_app = new Vue({
 				// console.log(response.data);
 				// return false;
 
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
 				if (response.data) {
 					_this.clear();
 					_this.success(false, '成功', '记入成功！');
 					// _this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				} else {
-					_this.error(false, '失败', '记入失败！');
+					_this.error(false, '失败', '记入失败！请确认MPoint表中机种信息是否正确！');
 				}
 			})
 			.catch(function (error) {
@@ -1868,15 +1878,21 @@ var vm_app = new Vue({
 			_this.rowClassName_planresultX = index;
 			_this.rowClassName_planresult();
 
-			console.log(selection);
-			return false;
+			// console.log(selection);
+			// return false;
 
+			_this.jizhongming = selection.jizhongming;
+			_this.spno = selection.spno;
+			_this.pinming = selection.pinming;
+			_this.lotshu = selection.lotshu;
+			_this.gongxu = selection.jizhongming;
 
 
 
 
 		},
 
+		// 选择行的颜色
 		rowClassName_planresult (row, index) {
 			return this.rowClassName_planresultX == index ? 'table-info-row' : '';
 		},
