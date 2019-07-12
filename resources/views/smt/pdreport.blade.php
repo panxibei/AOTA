@@ -69,7 +69,7 @@ SMT - PD report
 			</i-row>
 			<br><br>
 
-			<i-table height="300" size="small" border :columns="tablecolumns_plan" :data="tabledata_plan"></i-table>
+			<i-table height="400" size="small" border :columns="tablecolumns_plan" :data="tabledata_plan"></i-table>
 
 
 
