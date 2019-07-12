@@ -7,10 +7,33 @@ SMT - PD report
 
 @section('my_style')
 <style>
+.ivu-table .table-info-row td{
+	background-color: #2db7f5;
+	color: #fff;
+}
+.ivu-table .table-error-row td{
+	background-color: #ff6600;
+	color: #fff;
+}
 .ivu-table td.table-info-column{
 	background-color: #2db7f5;
 	color: #fff;
 }
+.ivu-table .table-info-cell-name {
+	background-color: #2db7f5;
+	color: #fff;
+}
+.ivu-table .table-info-cell-age {
+	background-color: #ff6600;
+	color: #fff;
+}
+.ivu-table .table-info-cell-address {
+	background-color: #187;
+	color: #fff;
+}
+
+
+
 </style>
 @endsection
 
@@ -82,7 +105,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="24">
-					<i-table ref="planresult" highlight-row height="200" size="small" border :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-current-change="selection => onselectchange_planresult(selection)"></i-table>
+					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -1345,6 +1368,7 @@ var vm_app = new Vue({
 
 		],
 		tabledata_planresult: [],
+		rowClassName_planresultX: -1,
 		
 		// 删除disabled
 		boo_delete: true,
@@ -1838,31 +1862,24 @@ var vm_app = new Vue({
 		},
 
 		//
-		onselectchange_planresult (selection) {
+		onselectchange_planresult (selection, index) {
 			var _this = this;
 
-console.log(selection);
-return false;
+			_this.rowClassName_planresultX = index;
+			_this.rowClassName_planresult();
+
+			console.log(selection);
+			return false;
 
 
 
 
-			_this.tableselect = [];
 
-			for (var i in selection) {
-				_this.tableselect.push(selection[i].id);
-			}
-			// console.log(_this.tableselect);
-			
-			_this.boo_delete = _this.tableselect[0] == undefined ? true : false;
-
-			// 担当者
-			_this.disabled_dandangzhe = _this.tableselect[0] == undefined ? true : false;
-			
-			// 确认者
-			_this.disabled_querenzhe = _this.tableselect[0] == undefined ? true : false;
 		},
 
+		rowClassName_planresult (row, index) {
+			return this.rowClassName_planresultX == index ? 'table-info-row' : '';
+		},
 		
 		//
 		ondelete: function (selection) {
