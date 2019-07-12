@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Smt_pdplan extends Model
 {
 	protected $fillable = [
-        'suoshuyuefen', 'suoshuriqi', 'xianti', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu',
+        'suoshuyuefen', 'suoshuriqi', 'xianti', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'chanliangxinxi',
         'd1_A', 'd2_A', 'd3_A', 'd4_A', 'd5_A', 'd6_A', 'd7_A', 'd8_A', 'd9_A', 'd10_A',
         'd11_A', 'd12_A', 'd13_A', 'd14_A', 'd15_A', 'd16_A', 'd17_A', 'd18_A', 'd19_A', 'd20_A',
         'd21_A', 'd22_A', 'd23_A', 'd24_A', 'd25_A', 'd26_A', 'd27_A', 'd28_A', 'd29_A', 'd30_A', 'd31_A',

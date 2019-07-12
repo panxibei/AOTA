@@ -23,6 +23,7 @@ class CreateSmtPdplansTable extends Migration
 			$table->string('pinming', 50)->comment('品名');
 			$table->string('gongxu', 20)->comment('工序');
 			$table->integer('lotshu')->unsigned()->comment('LOT数');
+			$table->text('chanliangxinxi')->comment('产量信息');
 			$table->integer('d1_A')->nullable()->default(0)->unsigned()->comment('1号产量_A班');
 			$table->integer('d1_B')->nullable()->default(0)->unsigned()->comment('1号产量_B班');
 			$table->integer('d2_A')->nullable()->default(0)->unsigned()->comment('2号产量_A班');

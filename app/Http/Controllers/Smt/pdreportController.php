@@ -9,6 +9,7 @@ use App\Models\Admin\Config;
 use App\Models\Smt\Smt_mpoint;
 use App\Models\Smt\Smt_pdreport;
 use App\Models\Smt\Smt_pdplan;
+use App\Models\Smt\Smt_pdplanresult;
 use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
@@ -672,20 +673,83 @@ class pdreportController extends Controller
 		
 		// 导入excel文件内容
 		try {
+			DB::beginTransaction();
+
 			// 先清空表
 			Smt_pdplan::truncate();
 			
 			$ret = Excel::import(new pdplanImport, 'excel/'.$filename);
-			// dd($ret);
+
+			// 转换到planresult表中
+			$plan = Smt_pdplan::select('suoshuyuefen', 'xianti', 'jizhongming', 'spno', 'pinming', 'gongxu', 'lotshu', 'chanliangxinxi')
+				->get()->toArray();
+			
+			$plan_data = [];
+			Smt_pdplanresult::truncate();
+
+			foreach ($plan as $key=>$value) {
+				$chanliangxinxi = explode('|', $value['chanliangxinxi']);
+
+				foreach ($chanliangxinxi as $k=>$v) {
+					if ($v!=0) {
+						$xinxi = explode('_', $v); // 01_A_120，日期+班次+产量
+
+						// array_push($plan_data, [
+						// 	'suoshuriqi' => $value['suoshuyuefen'] . '-' . $xinxi[0],
+						// 	'xianti' => $value['xianti'],
+						// 	'banci' => $xinxi[1],
+						// 	'jizhongming' => $value['jizhongming'],
+						// 	'spno' => $value['spno'],
+						// 	'pinming' => $value['pinming'],
+						// 	'gongxu' => $value['gongxu'],
+						// 	'lotshu' => $value['lotshu'],
+						// 	'jihuachanliang' => $xinxi[2],
+						// ]);
+
+						$result = Smt_pdplanresult::create([
+							'suoshuriqi' => $value['suoshuyuefen'] . '-' . $xinxi[0],
+							'xianti' => $value['xianti'],
+							'banci' => $xinxi[1],
+							'jizhongming' => $value['jizhongming'],
+							'spno' => $value['spno'],
+							'pinming' => $value['pinming'],
+							'gongxu' => $value['gongxu'],
+							'lotshu' => $value['lotshu'],
+							'jihuachanliang' => $xinxi[2],
+						]);
+
+					
+
+					}
+				}
+			}
+
+			// Smt_pdplanresult::truncate();
+			// $result = Smt_pdplanresult::create($plan_data);
+			// $result = Smt_pdplanresult::update([
+			// 	'jizhongming'	=> $mpoint['jizhongming'],
+			// 	'pinming'		=> $mpoint['pinming'],
+			// 	'gongxu'			=> $mpoint['gongxu'],
+			// 	'diantai'		=> $mpoint['diantai'],
+			// 	'pinban'		=> $mpoint['pinban'],
+			// ]);
+
+
+
+
+
+
 			$result = 1;
 		} catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
 			// dd('Message: ' .$e->getMessage());
-			$result = 0;
+			DB::rollBack();
+			return 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
-
+		DB::commit();
+		dd($result);
 		return $result;
 	}
 
