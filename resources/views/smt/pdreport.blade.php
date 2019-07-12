@@ -82,7 +82,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="24">
-					<i-table ref="planresult" height="200" size="small" border :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-selection-change="selection => onselectchange_planresult(selection)"></i-table>
+					<i-table ref="planresult" highlight-row height="200" size="small" border :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-current-change="selection => onselectchange_planresult(selection)"></i-table>
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -1263,12 +1263,6 @@ var vm_app = new Vue({
 		// 表头 planresult
 		tablecolumns_planresult: [
 			{
-				type: 'selection',
-				width: 50,
-				align: 'center',
-				// fixed: 'left'
-			},
-			{
 				type: 'index',
 				align: 'center',
 				width: 60,
@@ -1709,7 +1703,7 @@ var vm_app = new Vue({
 		},
 		
 		//
-		clear: function () {
+		clear () {
 			var _this = this;
 			_this.jizhongming = '';
 			_this.spno = '';
@@ -1732,6 +1726,7 @@ var vm_app = new Vue({
 			_this.xinjizhongshengchanshijian = '';
 			_this.shizuo = '';
 			_this.jizaishixiang = '';
+			_this.$refs.planresult.clearCurrentRow();
 		},
 		
 		// create
@@ -1850,7 +1845,6 @@ console.log(selection);
 return false;
 
 
-			this.$refs.selection.selectAll(status);
 
 
 			_this.tableselect = [];
