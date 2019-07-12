@@ -553,7 +553,6 @@ var vm_app = new Vue({
 				align: 'center',
 				fixed: 'left'
 			},
-			// 1
 			{
 				type: 'index',
 				align: 'center',
@@ -564,7 +563,6 @@ var vm_app = new Vue({
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
 			},
-			// 1
 			{
 				title: '生产日期',
 				key: 'shengchanriqi',
@@ -576,14 +574,12 @@ var vm_app = new Vue({
 					]);
 				}
 			},
-			// 1
 			{
 				title: '线体',
 				key: 'xianti',
 				align: 'center',
 				width: 80
 			},
-			// 1
 			{
 				title: '班次',
 				key: 'banci',
@@ -1192,21 +1188,21 @@ var vm_app = new Vue({
 			{
 				type: 'index',
 				align: 'center',
-				width: 50,
+				width: 60,
 				align: 'center',
 				// fixed: 'left',
 			},
 			{
 				title: '所属日期',
-				key: 'shengchanriqi',
+				key: 'suoshuriqi',
 				align: 'center',
-				width: 90,
+				width: 110,
 				// fixed: 'left',
-				// render: (h, params) => {
-				// 	return h('div', [
-				// 		params.row.shengchanriqi.substring(0,10)
-				// 	]);
-				// }
+				render: (h, params) => {
+					return h('div', [
+						params.row.suoshuriqi.substring(0,10)
+					]);
+				}
 			},
 			{
 				title: '线体',
@@ -1219,7 +1215,7 @@ var vm_app = new Vue({
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
-				width: 100,
+				width: 120,
 				// fixed: 'left',
 			},
 			{
@@ -1240,14 +1236,14 @@ var vm_app = new Vue({
 				title: '工序',
 				key: 'gongxu',
 				align: 'center',
-				width: 60,
+				width: 70,
 				// fixed: 'left',
 			},
 			{
 				title: 'LOT数',
 				key: 'lotshu',
 				align: 'center',
-				width: 70,
+				width: 80,
 				// fixed: 'left',
 				render: (h, params) => {
 					return h('div', [
@@ -1380,7 +1376,7 @@ var vm_app = new Vue({
 		uploaddisabled: false,
 
 		// 生产计划导入过滤
-		date_plan_suoshuriqi: '',
+		date_plan_suoshuriqi: [],
 		date_plan_suoshuriqi_options: {
 			shortcuts: [
 				{
@@ -2041,9 +2037,9 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.success(false, 'Success', '导入成功！');
+					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '失败', '导入失败！注意内容文本格式并且内容不能为空！');
 				}
 				
 				setTimeout( function () {
@@ -2054,7 +2050,7 @@ var vm_app = new Vue({
 				
 			})
 			.catch(function (error) {
-				_this.error(false, 'Error', error);
+				_this.error(false, '错误', error);
 				setTimeout( function () {
 					_this.file = null;
 					_this.loadingStatus = false;
@@ -2081,31 +2077,31 @@ var vm_app = new Vue({
 			
 			var date_filter = [];
 
-			if (_this.date_filter[0] == '' || _this.date_filter == undefined) {
+			if (_this.date_plan_suoshuriqi[0] == '' || _this.date_plan_suoshuriqi == undefined) {
 				_this.tabledata1 = [];
 				_this.tabledata2 = [];
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
 			} else {
-				date_filter =  _this.date_filter;
+				date_filter =  _this.date_plan_suoshuriqi;
 			}
 			// console.log(date_filter);return false;
 			date_filter = [date_filter[0].Format("yyyy-MM-dd 00:00:00"), date_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
-			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
+			var url = "{{ route('smt.pdreport.pdplangets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
-					perPage: _this.pagepagesize,
-					page: page,
+					// perPage: _this.pagepagesize,
+					// page: page,
 					date_filter: date_filter,
-					xianti_filter: xianti_filter,
-					banci_filter: banci_filter,
-					jizhongming_filter: jizhongming_filter,
+					// xianti_filter: xianti_filter,
+					// banci_filter: banci_filter,
+					// jizhongming_filter: jizhongming_filter,
 				}
 			})
 			.then(function (response) {
-				// console.log(response.data.data);
+				// console.log(response.data);
 				// return false;
 
 				if (response.data['jwt'] == 'logout') {
@@ -2115,60 +2111,21 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 
-					_this.pagecurrent = response.data.paginate.current_page;
-					_this.pagetotal = response.data.paginate.total;
-					_this.pagelast = response.data.paginate.last_page
+					// _this.pagecurrent = response.data.paginate.current_page;
+					// _this.pagetotal = response.data.paginate.total;
+					// _this.pagelast = response.data.paginate.last_page
 					
-					_this.tabledata1 = response.data.paginate.data;
-					_this.tabledata2 = response.data.paginate.data;
-
-					var tabledata_total = response.data.total;
-					
-
-					if (date_filter[0].substring(0,10) == date_filter[1].substring(0,10)
-						&& xianti_filter != '' && xianti_filter != undefined
-						// && banci_filter != '' && banci_filter != undefined) {
-						) {
-
-						_this.xiaoji_shengchanshijian = 0;
-						_this.xiaoji_langfeishijian = 0;
-						_this.xiaoji_chajiandianshu = 0;
-						_this.xiaoji_meishu = 0;
-
-						// console.log(tabledata_total);
-						tabledata_total.map(function (v, i) {
-							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
-							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.xinjizhongshengchanshijian);
-							_this.xiaoji_chajiandianshu += v.chajiandianshu;
-							_this.xiaoji_meishu += v.meishu;
-						});
-						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
-						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian;
-
-						if (_this.xiaoji_bupinbuchongshijian == 43200) {
-							_this.xiaoji_bupinbuchongshijian = 0;
-						}
-
-						// console.log('生产时间：' + _this.xiaoji_shengchanshijian);
-						// console.log('浪费时间：' + _this.xiaoji_langfeishijian);
-						// console.log('部品补充时间：' + _this.xiaoji_bupinbuchongshijian);
-					} else {
-						_this.xiaoji_shengchanshijian = 0;
-						_this.xiaoji_langfeishijian = 0;
-						_this.xiaoji_bupinbuchongshijian = 0;
-						_this.xiaoji_chajiandianshu = 0;
-						_this.xiaoji_meishu = 0;
-					}
+					_this.tabledata_plan = response.data;
 
 				} else {
-					_this.tabledata1 = [];
-					_this.tabledata2 = [];
+					_this.tabledata_plan = [];
 				}
 				
 				
 			})
 			.catch(function (error) {
 				// _this.loadingbarerror();
+				_this.tabledata_plan = [];
 			})
 		},
 
