@@ -77,7 +77,7 @@ SMT - PD report
 					<i-button @click="download_plan()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 				</i-col>
 				<i-col span="12">
-					&nbsp;
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -1480,6 +1480,10 @@ var vm_app = new Vue({
 		loadingStatus: false,
 		uploaddisabled: false,
 
+		// 刷新生产计划
+		loadingStatus_refreshplan: false,
+		uploaddisabled_refreshplan: false,
+
 		//分页计划
 		pagecurrent_plan: 1,
 		pagetotal_plan: 1,
@@ -2218,6 +2222,63 @@ var vm_app = new Vue({
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
+		},
+
+		// 刷新生产计划
+		refreshplan () {
+			var _this = this;
+
+console.log();
+return false;
+
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('smt.pdreport.pdplanimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, '成功', '导入成功！');
+				} else {
+					_this.error(false, '失败', '导入失败！注意内容文本格式并且内容不能为空！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+			})
 		},
 
 		// plan列表
