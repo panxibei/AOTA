@@ -895,15 +895,17 @@ class pdreportController extends Controller
 			// limit 10');
 			->table('tcprjreport')
 			->select('execdate AS suoshuriqi',
-				'linename AS xianti',
+				// 'linename AS xianti',
+				DB::raw('INSERT(linename, 5, 1, "") AS xianti'), // SMT-26 -> SMT-6 去年那个2
 				'production AS jizhongming',
 				'spno',
 				'panelname AS pinming',
-				DB::raw('RIGHT(prjname, 1) AS gongxu'),
+				DB::raw('RIGHT(prjname, 1) AS gongxu'), // RA或RB，去掉那个R
 				'quantity AS lotshu',
 				'lota',
 				'lotb')
-			->limit(10)
+			->limit(1000)
+			->orderBy('rptid', 'desc')
 			->get();
 		
 		// dd($res);
@@ -918,29 +920,29 @@ class pdreportController extends Controller
 				// A班
 				if ($value->lota > 0) {
 					$result = Smt_pdplanresult::create([
-						'suoshuriqi' => $value['suoshuriqi'],
-						'xianti' => $value['xianti'],
+						'suoshuriqi' => $value->suoshuriqi,
+						'xianti' => $value->xianti,
 						'banci' => 'A',
-						'jizhongming' => $value['jizhongming'],
-						'spno' => $value['spno'],
-						'pinming' => $value['pinming'],
-						'gongxu' => $value['gongxu'],
-						'lotshu' => $value['lotshu'],
-						'jihuachanliang' => $value['lota'],
+						'jizhongming' => $value->jizhongming,
+						'spno' => $value->spno,
+						'pinming' => $value->pinming,
+						'gongxu' => $value->gongxu,
+						'lotshu' => $value->lotshu,
+						'jihuachanliang' => $value->lota,
 					]);
 				}
 				// B班
-				if ($value['lotb'] > 0) {
+				if ($value->lotb > 0) {
 					$result = Smt_pdplanresult::create([
-						'suoshuriqi' => $value['suoshuriqi'],
-						'xianti' => $value['xianti'],
+						'suoshuriqi' => $value->suoshuriqi,
+						'xianti' => $value->xianti,
 						'banci' => 'B',
-						'jizhongming' => $value['jizhongming'],
-						'spno' => $value['spno'],
-						'pinming' => $value['pinming'],
-						'gongxu' => $value['gongxu'],
-						'lotshu' => $value['lotshu'],
-						'jihuachanliang' => $value['lotb'],
+						'jizhongming' => $value->jizhongming,
+						'spno' => $value->spno,
+						'pinming' => $value->pinming,
+						'gongxu' => $value->gongxu,
+						'lotshu' => $value->lotshu,
+						'jihuachanliang' => $value->lotb,
 					]);
 				}
 			}

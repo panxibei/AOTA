@@ -76,8 +76,10 @@ SMT - PD report
 				<i-col span="2">
 					<i-button @click="download_plan()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 				</i-col>
-				<i-col span="12">
-				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+				<i-col span="12">&nbsp;
+				@hasanyrole('role_smt_refreshplan|role_super_admin')
+				<i-button icon="ios-refresh-circle-outline" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="primary" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+				@endhasanyrole
 				</i-col>
 			</i-row>
 			<br><br>
@@ -131,7 +133,7 @@ SMT - PD report
 					<Date-picker v-model.lazy="shengchanriqi" @on-change="pdplanresultgets()" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="12">
-					&nbsp;
+					<font color="#2db7f5">⇐ 选择<strong>线体</strong>、<strong>班次</strong>和<strong>生产日期</strong>来查询计划</font>
 				</i-col>
 			</i-row>
 			<br><br><br>
@@ -1661,8 +1663,9 @@ var vm_app = new Vue({
 			}
 		},
 		
-		//
-		load_jizhongming: function () {
+		// 使用计划表，功能暂停，直接返回
+		load_jizhongming () {
+			return false;
 			var _this = this;
 			if (_this.jizhongming.trim() == '') {
 				_this.jizhongming = '';
@@ -1899,10 +1902,7 @@ var vm_app = new Vue({
 			_this.spno = selection.spno;
 			_this.pinming = selection.pinming;
 			_this.lotshu = selection.lotshu;
-			_this.gongxu = selection.jizhongming;
-
-
-
+			_this.gongxu = selection.gongxu;
 
 		},
 
