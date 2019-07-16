@@ -1230,6 +1230,13 @@ var vm_app = new Vue({
 				// fixed: 'left',
 			},
 			{
+				title: '班次',
+				key: 'banci',
+				align: 'center',
+				width: 70,
+				// fixed: 'left',
+			},
+			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
@@ -1313,21 +1320,24 @@ var vm_app = new Vue({
 				key: 'xianti',
 				align: 'center',
 				width: 80,
-				// fixed: 'left',
+			},
+			{
+				title: '班次',
+				key: 'banci',
+				align: 'center',
+				width: 70,
 			},
 			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
 				width: 120,
-				// fixed: 'left',
 			},
 			{
 				title: 'SP NO',
 				key: 'spno',
 				align: 'center',
 				width: 130,
-				// fixed: 'left',
 			},
 			{
 				title: '品名',
@@ -2228,29 +2238,13 @@ var vm_app = new Vue({
 		refreshplan () {
 			var _this = this;
 
-console.log();
-return false;
-
-			_this.file = file;
-			_this.uploaddisabled = true;
-			_this.loadingStatus = true;
-
-			let formData = new FormData()
-			// formData.append('file',e.target.files[0])
-			formData.append('myfile',_this.file)
-			// console.log(formData.get('file'));
+			_this.uploaddisabled_refreshplan = true;
+			_this.loadingStatus_refreshplan = true;
 			
-			// return false;
-			
-			var url = "{{ route('smt.pdreport.pdplanimport') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-			axios({
-				url: url,
-				method: 'post',
-				data: formData,
-				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
-				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			var url = "{{ route('smt.pdreport.pdplandrefresh') }}";
+			axios.get(url,{
+				params: {
+				}
 			})
 			.then(function (response) {
 				if (response.data['jwt'] == 'logout') {
@@ -2259,24 +2253,22 @@ return false;
 				}
 				
 				if (response.data) {
-					_this.success(false, '成功', '导入成功！');
+					_this.success(false, '成功', '刷新成功！');
 				} else {
-					_this.error(false, '失败', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '失败', '刷新失败！');
 				}
 				
 				setTimeout( function () {
-					_this.file = null;
-					_this.loadingStatus = false;
-					_this.uploaddisabled = false;
+					_this.loadingStatus_refreshplan = false;
+					_this.uploaddisabled_refreshplan = false;
 				}, 1000);
 				
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', error);
 				setTimeout( function () {
-					_this.file = null;
-					_this.loadingStatus = false;
-					_this.uploaddisabled = false;
+					_this.loadingStatus_refreshplan = false;
+					_this.uploaddisabled_refreshplan = false;
 				}, 1000);
 			})
 		},

@@ -101,13 +101,13 @@ return [
         ],
 
         // smt plan db
-        'mysql_smtdb' => [
+        'mysql_smtplandb' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_HOST_SMTPLANDB', '127.0.0.1'),
+            'port' => env('DB_PORT_SMTPLANDB', '3306'),
+            'database' => env('DB_DATABASE_SMTPLANDB', 'forge'),
+            'username' => env('DB_USERNAME_SMTPLANDB', 'forge'),
+            'password' => env('DB_PASSWORD_SMTPLANDB', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
