@@ -849,7 +849,7 @@ class pdreportController extends Controller
 					return $query->whereBetween('suoshuriqi', $date_filter);
 				})
 				->when($xianti_filter, function ($query) use ($xianti_filter) {
-					return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
+					return $query->where('xianti', '=', $xianti_filter);
 				})
 				->when($banci_filter, function ($query) use ($banci_filter) {
 					return $query->where('banci', '=', $banci_filter);

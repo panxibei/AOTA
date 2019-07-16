@@ -141,7 +141,8 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
+					<!-- <i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input> -->
+					<i-input v-model.lazy="jizhongming" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 					* SP NO.&nbsp;&nbsp;
@@ -1663,9 +1664,8 @@ var vm_app = new Vue({
 			}
 		},
 		
-		// 使用计划表，功能暂停，直接返回
+		// 使用计划表，功能暂停使用
 		load_jizhongming () {
-			return false;
 			var _this = this;
 			if (_this.jizhongming.trim() == '') {
 				_this.jizhongming = '';
