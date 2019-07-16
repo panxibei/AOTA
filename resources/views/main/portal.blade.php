@@ -130,7 +130,7 @@ var vm_app = new Vue({
 			{
 				name: '生产日报',
 				url: "{{ route('smt.pdreport.index') }}",
-				percent: 80,
+				percent: 85,
 			},
 			{
 				name: '品质日报',
@@ -151,7 +151,7 @@ var vm_app = new Vue({
 			{
 				name: '耗材分析',
 				url: "{{ route('scgl.hcfx.index') }}",
-				percent: 60,
+				percent: 80,
 			},
 		],
 		

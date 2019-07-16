@@ -956,13 +956,13 @@ class pdreportController extends Controller
 			$result = 1;
 		} catch (\Exception $e) {
 			DB::rollBack();
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			return 0;
 		}
 		DB::commit();
 		Cache::flush();
 
-		dd($result);
+		// dd($result);
 		return $result;
 	}
 

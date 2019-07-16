@@ -2261,7 +2261,7 @@ var vm_app = new Vue({
 				setTimeout( function () {
 					_this.loadingStatus_refreshplan = false;
 					_this.uploaddisabled_refreshplan = false;
-				}, 1000);
+				}, 500);
 				
 			})
 			.catch(function (error) {
