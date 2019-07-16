@@ -895,8 +895,8 @@ class pdreportController extends Controller
 			// limit 10');
 			->table('tcprjreport')
 			->select('execdate AS suoshuriqi',
-				// 'linename AS xianti',
-				DB::raw('INSERT(linename, 5, 1, "") AS xianti'), // SMT-26 -> SMT-6 去年那个2
+				'linename AS xianti',
+				// DB::raw('INSERT(linename, 5, 1, "") AS xianti'), // SMT-26 -> SMT-6 去年那个2
 				'production AS jizhongming',
 				'spno',
 				'panelname AS pinming',
@@ -917,11 +917,17 @@ class pdreportController extends Controller
 			Smt_pdplanresult::truncate();
 
 			foreach ($res as $key=>$value) {
+				if (strlen($value->xianti) > 5 && substr($value->xianti, 4, 1) == '2') {
+					$xianti = substr($value->xianti, 0, 4) . substr($value->xianti, 5);
+				} else {
+					$xianti = $value->xianti;
+				}
+
 				// A班
 				if ($value->lota > 0) {
 					$result = Smt_pdplanresult::create([
 						'suoshuriqi' => $value->suoshuriqi,
-						'xianti' => $value->xianti,
+						'xianti' => $xianti,
 						'banci' => 'A',
 						'jizhongming' => $value->jizhongming,
 						'spno' => $value->spno,
@@ -935,7 +941,7 @@ class pdreportController extends Controller
 				if ($value->lotb > 0) {
 					$result = Smt_pdplanresult::create([
 						'suoshuriqi' => $value->suoshuriqi,
-						'xianti' => $value->xianti,
+						'xianti' => $xianti,
 						'banci' => 'B',
 						'jizhongming' => $value->jizhongming,
 						'spno' => $value->spno,
