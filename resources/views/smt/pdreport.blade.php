@@ -589,7 +589,7 @@ var vm_app = new Vue({
 				title: '生产日期',
 				key: 'shengchanriqi',
 				align: 'center',
-				width: 100,
+				width: 110,
 				render: (h, params) => {
 					return h('div', [
 						params.row.shengchanriqi.substring(0,10)
@@ -659,7 +659,7 @@ var vm_app = new Vue({
 						key: 'jizhongming',
 						align: 'center',
 						width: 100,
-						sortable: true
+						// sortable: true
 					},
 					{
 						title: 'SP NO.',
