@@ -911,47 +911,57 @@ class pdreportController extends Controller
 		// dd($res);
 		
 
+		$nowtime = date("Y-m-d H:i:s",time());
+		$data = [];
+
+		foreach ($res as $key=>$value) {
+			if (strlen($value->xianti) > 5 && substr($value->xianti, 4, 1) == '2') {
+				$xianti = substr($value->xianti, 0, 4) . substr($value->xianti, 5);
+			} else {
+				$xianti = $value->xianti;
+			}
+
+			// A班
+			if ($value->lota > 0) {
+				array_push($data, [
+					'suoshuriqi' => $value->suoshuriqi,
+					'xianti' => $xianti,
+					'banci' => 'A',
+					'jizhongming' => $value->jizhongming,
+					'spno' => $value->spno,
+					'pinming' => $value->pinming,
+					'gongxu' => $value->gongxu,
+					'lotshu' => $value->lotshu,
+					'jihuachanliang' => $value->lota,
+					'created_at' => $nowtime,
+					'updated_at' => $nowtime,
+				]);
+			}
+			// B班
+			if ($value->lotb > 0) {
+				array_push($data, [
+					'suoshuriqi' => $value->suoshuriqi,
+					'xianti' => $xianti,
+					'banci' => 'B',
+					'jizhongming' => $value->jizhongming,
+					'spno' => $value->spno,
+					'pinming' => $value->pinming,
+					'gongxu' => $value->gongxu,
+					'lotshu' => $value->lotshu,
+					'jihuachanliang' => $value->lotb,
+					'created_at' => $nowtime,
+					'updated_at' => $nowtime,
+				]);
+			}
+		}
+		// dd($data);
+
 		try {
 			DB::beginTransaction();
 
 			Smt_pdplanresult::truncate();
 
-			foreach ($res as $key=>$value) {
-				if (strlen($value->xianti) > 5 && substr($value->xianti, 4, 1) == '2') {
-					$xianti = substr($value->xianti, 0, 4) . substr($value->xianti, 5);
-				} else {
-					$xianti = $value->xianti;
-				}
-
-				// A班
-				if ($value->lota > 0) {
-					$result = Smt_pdplanresult::create([
-						'suoshuriqi' => $value->suoshuriqi,
-						'xianti' => $xianti,
-						'banci' => 'A',
-						'jizhongming' => $value->jizhongming,
-						'spno' => $value->spno,
-						'pinming' => $value->pinming,
-						'gongxu' => $value->gongxu,
-						'lotshu' => $value->lotshu,
-						'jihuachanliang' => $value->lota,
-					]);
-				}
-				// B班
-				if ($value->lotb > 0) {
-					$result = Smt_pdplanresult::create([
-						'suoshuriqi' => $value->suoshuriqi,
-						'xianti' => $xianti,
-						'banci' => 'B',
-						'jizhongming' => $value->jizhongming,
-						'spno' => $value->spno,
-						'pinming' => $value->pinming,
-						'gongxu' => $value->gongxu,
-						'lotshu' => $value->lotshu,
-						'jihuachanliang' => $value->lotb,
-					]);
-				}
-			}
+			$result = Smt_pdplanresult::insert($data);
 
 			$result = 1;
 		} catch (\Exception $e) {
