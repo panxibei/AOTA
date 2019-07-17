@@ -599,7 +599,7 @@ class pdreportController extends Controller
 			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'taishu', 'lotcan', 'chajiandianshu',
 			'jiadonglv', 'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
 			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'xinjizhongshengchanshijian', 'shizuo',
-			'jizaishixiang', 'dandangzhe', 'querenzhe')
+			'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe')
 			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
 		
@@ -620,7 +620,7 @@ class pdreportController extends Controller
 			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '台数', 'LOT残', '插件点数',
 			'稼动率', '新产', '量产', '等待部品', '无计划', '前后工程等待',
 			'无部品', '部品安排等待', '定期点检', '故障', '新机种生产时间', '试作',
-			'记载事项', '担当者', '确认者'];
+			'记载事项', '录入者', '担当者', '确认者'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $smt_pdreport);

@@ -2131,7 +2131,7 @@ var vm_app = new Vue({
 		
 		
 		// 结果表数据导出
-		exportData_pdreport: function () {
+		exportData_pdreport () {
 			var _this = this;
 			
 			if (_this.date_filter[0] == '' || _this.date_filter[0] == undefined) {
