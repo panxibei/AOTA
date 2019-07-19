@@ -586,22 +586,27 @@ class hcfxController extends Controller
 			return 0;
 		}
 		
+		// 先清空表
+		// Scgl_hcfx_relation::truncate();
+
 		// 导入excel文件内容
+		DB::beginTransaction();
 		try {
-			// 先清空表
-			Scgl_hcfx_relation::truncate();
-			
+			Scgl_hcfx_relation::where('id', '<>', 0)->delete();
+
 			$ret = Excel::import(new hcfx_relationimport, 'excel/'.$filename);
 			// dd($ret);
+			DB::commit();
 			$result = 1;
 		} catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
 			// dd('Message: ' .$e->getMessage());
+			DB::rollBack();
 			$result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
 		
+		Cache::flush();		
 		return $result;
 	}
 	

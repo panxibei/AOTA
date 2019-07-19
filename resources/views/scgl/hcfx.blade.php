@@ -1515,7 +1515,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, '错误', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '错误', '导入失败！请注意[内容格式]或[内容不能为空]或[机种、托盘型号及台/托三项不可有重复项]！');
 				}
 				
 				setTimeout( function () {
