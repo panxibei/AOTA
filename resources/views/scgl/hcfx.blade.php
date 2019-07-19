@@ -1483,7 +1483,7 @@ var vm_app = new Vue({
 				
 			})
 		},
-		uploadstart_relation: function (file) {
+		uploadstart_relation (file) {
 			var _this = this;
 			_this.file = file;
 			_this.uploaddisabled = true;

@@ -596,8 +596,8 @@ class hcfxController extends Controller
 			$result = 1;
 		} catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
-			$result = 'Message: ' .$e->getMessage();
-			// $result = 0;
+			// dd('Message: ' .$e->getMessage());
+			$result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
