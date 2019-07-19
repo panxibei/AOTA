@@ -672,12 +672,13 @@ class pdreportController extends Controller
 			return 0;
 		}
 		
+		DB::beginTransaction();
 		// 导入excel文件内容
 		try {
-			DB::beginTransaction();
 
 			// 先清空表
-			Smt_pdplan::truncate();
+			// Smt_pdplan::truncate();
+			DB::statement('delete from smt_pdplans');
 			
 			$ret = Excel::import(new pdplanImport, 'excel/'.$filename);
 
@@ -686,7 +687,8 @@ class pdreportController extends Controller
 				->get()->toArray();
 			
 			// $plan_data = [];
-			Smt_pdplanresult::truncate();
+			// Smt_pdplanresult::truncate();
+			DB::statement('delete from smt_pdplanresults');
 
 			foreach ($plan as $key=>$value) {
 				$chanliangxinxi = explode('|', $value['chanliangxinxi']);
@@ -722,16 +724,16 @@ class pdreportController extends Controller
 					}
 				}
 			}
-
+			DB::commit();
 			$result = 1;
 		} catch (\Exception $e) {
 			DB::rollBack();
 			// dd('Message: ' .$e->getMessage());
-			return 0;
+			$result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);
 		}
-		DB::commit();
+		
 		Cache::flush();
 		// dd($result);
 		return $result;
@@ -956,22 +958,23 @@ class pdreportController extends Controller
 		}
 		// dd($data);
 
+		DB::beginTransaction();
 		try {
-			DB::beginTransaction();
 
-			Smt_pdplanresult::truncate();
+			// Smt_pdplanresult::truncate();
+			DB::statement('delete from smt_pdplanresults');
 
 			$result = Smt_pdplanresult::insert($data);
 
+			DB::commit();
 			$result = 1;
 		} catch (\Exception $e) {
 			DB::rollBack();
 			// dd('Message: ' .$e->getMessage());
-			return 0;
+			$result = 0;
 		}
-		DB::commit();
+		
 		Cache::flush();
-
 		// dd($result);
 		return $result;
 	}

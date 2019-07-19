@@ -586,13 +586,15 @@ class hcfxController extends Controller
 			return 0;
 		}
 		
-		// 先清空表
-		// Scgl_hcfx_relation::truncate();
 
 		// 导入excel文件内容
 		DB::beginTransaction();
 		try {
-			Scgl_hcfx_relation::where('id', '<>', 0)->delete();
+			// 先清空表，注释掉的都是无法事务回滚的
+			// Scgl_hcfx_relation::truncate();
+			// Scgl_hcfx_relation::where('id', '<>', 0)->delete();
+			DB::statement('delete from scgl_hcfx_relations');
+			// DB::statement('alter table scgl_hcfx_relations auto_increment = 1');
 
 			$ret = Excel::import(new hcfx_relationimport, 'excel/'.$filename);
 			// dd($ret);
@@ -606,7 +608,7 @@ class hcfxController extends Controller
 			Storage::delete('excel/'.$filename);
 		}
 		
-		Cache::flush();		
+		Cache::flush();
 		return $result;
 	}
 	
