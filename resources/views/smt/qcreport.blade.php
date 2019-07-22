@@ -864,7 +864,7 @@ var vm_app = new Vue({
 				title: '检查日期',
 				key: 'jianchariqi',
 				align: 'center',
-				width: 100,
+				width: 110,
 				render: (h, params) => {
 					return h('div', [
 						params.row.jianchariqi.substring(0,10)
