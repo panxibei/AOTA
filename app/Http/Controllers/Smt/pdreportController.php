@@ -989,16 +989,12 @@ class pdreportController extends Controller
 	{
 		if (! $request->ajax()) return null;
 		
-		DB::beginTransaction();
 		try {
 			Smt_pdplanresult::truncate();
-			DB::commit();
 			$result = 1;
 		} catch (\Exception $e) {
-			DB::rollBack();
 			$result = 0;
 		}
-		
 		Cache::flush();
 		return $result;
 	}
