@@ -78,7 +78,11 @@ SMT - PD report
 				</i-col>
 				<i-col span="12">&nbsp;
 				@hasanyrole('role_smt_refreshplan|role_super_admin')
-				<i-button icon="ios-refresh-circle-outline" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="primary" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+				<i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+				@endhasanyrole
+				@hasanyrole('role_super_admin')
+				&nbsp;
+				<i-button icon="ios-sync" @click="truncateplan" type="warning" size="small">清空生产计划表</i-button>
 				@endhasanyrole
 				</i-col>
 			</i-row>
@@ -2270,6 +2274,33 @@ var vm_app = new Vue({
 					_this.loadingStatus_refreshplan = false;
 					_this.uploaddisabled_refreshplan = false;
 				}, 1000);
+			})
+		},
+
+		// 清空生产计划
+		truncateplan () {
+			var _this = this;
+
+			var url = "{{ route('smt.pdreport.pdplandtruncate') }}";
+			axios.get(url,{
+				params: {
+				}
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, '成功', '清空成功！');
+				} else {
+					_this.error(false, '失败', '清空失败！');
+				}
+				
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', error);
 			})
 		},
 

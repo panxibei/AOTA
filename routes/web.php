@@ -109,6 +109,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::post('pdplanimport', 'pdreportController@pdplanImport')->name('smt.pdreport.pdplanimport');
 	Route::get('pdplandownload', 'pdreportController@pdplanDownload')->name('smt.pdreport.pdplandownload');
 	Route::get('pdplanrefresh', 'pdreportController@pdplanRefresh')->name('smt.pdreport.pdplandrefresh');
+	Route::get('pdplantruncate', 'pdreportController@pdplanTruncate')->name('smt.pdreport.pdplandtruncate');
 	Route::get('pdplangets', 'pdreportController@pdplanGets')->name('smt.pdreport.pdplangets');
 	Route::get('pdplanresultgets', 'pdreportController@pdplanresultGets')->name('smt.pdreport.pdplanresultgets');
 

@@ -979,6 +979,30 @@ class pdreportController extends Controller
 		return $result;
 	}
 
+	/**
+	 * pdplanTruncate
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function pdplanTruncate(Request $request)
+	{
+		if (! $request->ajax()) return null;
+		
+		DB::beginTransaction();
+		try {
+			Smt_pdplanresult::truncate();
+			DB::commit();
+			$result = 1;
+		} catch (\Exception $e) {
+			DB::rollBack();
+			$result = 0;
+		}
+		
+		Cache::flush();
+		return $result;
+	}
+
 
 	
 }
