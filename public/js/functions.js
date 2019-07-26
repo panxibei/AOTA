@@ -17,8 +17,8 @@ function mobile() {
 isMobile = mobile();
 // console.log(isMobile);
 if (isMobile) {
-	alert('系统暂不支持移动端！');
-	document.execCommand("Stop");
+	alert('仅有付费系统组件支持移动端！');
+	document.execCommand('Stop');
 	window.stop();
 }
  
@@ -73,8 +73,9 @@ function checkBrowser () {
 	//判断是否IE浏览器
 	else {
 		// alert("IE");
-		alert('请使用Chrome或Firefox浏览器！');
-		document.execCommand("stop");
+		alert('系统不支持IE，请使用现代浏览器！');
+        document.execCommand('Stop');
+        window.stop();
 	};	
 }
 
