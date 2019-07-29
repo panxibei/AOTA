@@ -84,6 +84,12 @@ class AdminController extends Controller
 
 		$config = Config::select('cfg_id', 'cfg_name', 'cfg_value', 'cfg_description')
 			->get();
+		
+		foreach ($config as $key=>$value) {
+			if ($value['cfg_name']=='SITE_KEY') {
+				unset($config[$key]);
+			}
+		}
 			
 		return $config;
     }
