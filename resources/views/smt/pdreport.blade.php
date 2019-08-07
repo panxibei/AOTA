@@ -1076,13 +1076,18 @@ var vm_app = new Vue({
 										// }, params.row.jizaishixiang ? params.row.jizaishixiang.substr(0, 6) + '...' : '无内容'),
 										h('span', {
 										}, [
-											h('Tooltip', {
+											// h('Tooltip', {
+											// 	props: {
+											// 		content: params.row.jizaishixiang,
+											// 		placement: 'top',
+											// 	}
+											// }, params.row.jizaishixiang.substr(0, 6) + ' ...')
+											h('Poptip', {
 												props: {
-													content: params.row.jizaishixiang,
-													placement: 'top',
-													// disabled: params.row.jizaishixiang ? false : true
+													'word-wrap': params.row.jizaishixiang.length>20 ? true : false,
+													'trigger': 'hover',
+													'content': params.row.jizaishixiang
 												}
-											// }, params.row.jizaishixiang ? params.row.jizaishixiang.substr(0, 6) + '...' : '')
 											}, params.row.jizaishixiang.substr(0, 6) + ' ...')
 										])
 									]),
