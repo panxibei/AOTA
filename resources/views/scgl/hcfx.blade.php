@@ -866,14 +866,28 @@ var vm_app = new Vue({
 				desc: nodesc ? '' : content
 			});
 		},
+		// 最大三行，用|||隔开
 		error (nodesc, title, content) {
 			this.$Notice.error({
 				title: title,
-				desc: nodesc ? '' : content
+				desc: nodesc ? '' : content,
+				duration: 6,
+				render: h => {
+					var arr = content.split('|||')
+					return h('span', [
+						arr[0],
+						arr[1] ? h('br', '') : '',
+						arr[1] ? h('br', '') : '',
+						arr[1],
+						arr[2] ? h('br', '') : '',
+						arr[2] ? h('br', '') : '',
+						arr[2],
+					])
+				}
 			});
 		},
 		
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
@@ -1515,7 +1529,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, '错误', '导入失败！请注意[内容格式]或[内容不能为空]或[机种、托盘型号及台/托三项不可有重复项]！');
+					_this.error(false, '导入失败！', '请注意 [内容格式] 或 [内容不能为空]|||请确保 [机种、托盘型号及台/托] 三项没有重复！');
 				}
 				
 				setTimeout( function () {

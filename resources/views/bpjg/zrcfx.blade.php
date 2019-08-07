@@ -1010,14 +1010,33 @@ var vm_app = new Vue({
 				desc: nodesc ? '' : content
 			});
 		},
+		// 最大三行，用|||隔开
 		error (nodesc, title, content) {
 			this.$Notice.error({
 				title: title,
-				desc: nodesc ? '' : content
+				desc: nodesc ? '' : content,
+				duration: 6,
+				render: h => {
+					var arr = content.split('|||')
+					// var res_content = ''
+					// for (var i=0, l=arr.length; i<l; i++) {
+					// 	res_content += arr[i] + ", h('br', ''), xxxxx"
+					// }
+					// console.log(res_content);
+					return h('span', [
+						arr[0],
+						arr[1] ? h('br', '') : '',
+						arr[1] ? h('br', '') : '',
+						arr[1],
+						arr[2] ? h('br', '') : '',
+						arr[2] ? h('br', '') : '',
+						arr[2],
+					])
+				}
 			});
 		},
 		
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
@@ -1183,8 +1202,9 @@ var vm_app = new Vue({
 		
 		
 		// onclear_relation
-		onclear_relation: function () {
+		onclear_relation () {
 			var _this = this;
+
 			_this.piliangluru_relation.map(function (v,i) {
 				v.jizhongming = '';
 				v.pinfan = '';
@@ -1488,7 +1508,7 @@ var vm_app = new Vue({
 				
 			})
 		},
-		uploadstart_relation: function (file) {
+		uploadstart_relation (file) {
 			var _this = this;
 			_this.file = file;
 			_this.uploaddisabled = true;
@@ -1518,9 +1538,9 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					_this.success(false, 'Success', '导入成功！');
+					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, 'Error', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '导入失败！', '请注意 [内容格式] 或 [内容不能为空]！|||请确保 [机种名、品番及品名] 三项没有重复！');
 				}
 				
 				setTimeout( function () {
@@ -1610,7 +1630,7 @@ var vm_app = new Vue({
 		// 分析数据提示
 		analytics_main: function () {
 			var _this = this;
-			
+
 			if (_this.date_fenxi_suoshuriqi == '' || _this.date_fenxi_suoshuriqi == undefined) {
 				_this.warning(false, '警告', '请选择日期范围！');
 				return false;
