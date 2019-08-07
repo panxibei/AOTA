@@ -179,7 +179,7 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					* 枚/秒&nbsp;&nbsp;
-					<Input-number v-model.lazy="meimiao" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+					<Input-number ref="ref_meimiao" v-model.lazy="meimiao" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="4">
 					* 台数&nbsp;&nbsp;
@@ -1913,6 +1913,8 @@ var vm_app = new Vue({
 			_this.lotshu = selection.lotshu;
 			_this.gongxu = selection.gongxu;
 
+			_this.$refs.ref_meimiao.focus();
+			
 		},
 
 		// 选择行的颜色
