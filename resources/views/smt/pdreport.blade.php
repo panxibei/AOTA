@@ -372,6 +372,37 @@ SMT - PD report
 
 		</Tab-pane>
 
+		<Tab-pane label="月报汇总">
+
+			<i-row :gutter="16">
+				<br>
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="3">
+					查询：&nbsp;&nbsp;
+					<Date-picker v-model.lazy="tongji_date_filter" @on-change="tongjigets(tongji_date_filter)" type="month" size="small" style="width:100px"></Date-picker>
+				</i-col>
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="18">
+					导出：
+					&nbsp;&nbsp;
+					<i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
+				</i-col>
+			</i-row>
+
+			&nbsp;
+			<i-row :gutter="16">
+				<br>
+				<i-col span="24">
+					<i-table ref="table_tongji" height="460" size="small" border :columns="tablecolumns_tongji" :data="tabledata_tongji"></i-table>
+				</i-col>
+			</i-row>
+
+		</Tab-pane>
+
 	</Tabs>
 
 </div>
@@ -1495,7 +1526,7 @@ var vm_app = new Vue({
 		pagelast: 1,
 
 		// tabs索引
-		currenttabs: 1,
+		currenttabs: 3,
 
 		// 上传，批量导入
 		file: null,
@@ -1570,6 +1601,184 @@ var vm_app = new Vue({
 			]
 		},
 
+		// 统计日期过滤（月）
+		tongji_date_filter: '',
+
+		// 表头tongji
+		tablecolumns_tongji: [
+ 			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 70,
+				// render: (h, params) => {
+				// 	return h('div', [
+				// 		params.row.jianchariqi.substring(0,10)
+				// 	]);
+				// }
+			},
+ 			{
+				title: ' ',
+				key: 'shebei',
+				align: 'center',
+				width: 100,
+				// render: (h, params) => {
+				// 	return h('div', [
+				// 		params.row.jianchariqi.substring(0,10)
+				// 	]);
+				// }
+			},
+ 			{
+				title: '持续时间',
+				key: 'chixushijian',
+				align: 'center',
+				width: 90,
+			},
+ 			{
+				title: '实绩时间',
+				key: 'shijishijian',
+				align: 'center',
+				width: 90,
+			},
+ 			{
+				title: '稼动率（无计划除外）',
+				key: 'jiadonglv',
+				align: 'center',
+				width: 120,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, '稼动率'),
+						h('br', {
+						}, ''),
+						h('span', {
+						}, '（除无计划）')
+					]);
+				},
+			},
+ 			{
+				title: '实绩点数',
+				key: 'shijidianshu',
+				align: 'center',
+				width: 90,
+			},
+ 			{
+				title: '打点稼动率',
+				key: 'dadianjiadonglv',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '机种切换（回数）',
+				key: 'xianti',
+				align: 'center',
+				width: 110,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, '机种切换'),
+						h('br', {
+						}, ''),
+						h('span', {
+						}, '（回数）')
+					]);
+				},
+			},
+ 			{
+				title: '机种切换（时间）',
+				key: 'xianti',
+				align: 'center',
+				width: 110,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, '机种切换'),
+						h('br', {
+						}, ''),
+						h('span', {
+						}, '（时间）')
+					]);
+				},
+			},
+ 			{
+				title: '机种切换（1回）',
+				key: 'xianti',
+				align: 'center',
+				width: 110,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, '机种切换'),
+						h('br', {
+						}, ''),
+						h('span', {
+						}, '（1回）')
+					]);
+				},
+			},
+ 			{
+				title: '等待部品',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '无计划',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '前后工程等待',
+				key: 'xianti',
+				align: 'center',
+				width: 110,
+			},
+ 			{
+				title: '无部品',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '部品安排等待',
+				key: 'xianti',
+				align: 'center',
+				width: 110,
+			},
+ 			{
+				title: '定期点检',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '故障',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '部品补充',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '试作',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+ 			{
+				title: '合计',
+				key: 'xianti',
+				align: 'center',
+				width: 100,
+			},
+		],
+		tabledata_tongji: [],
+		tableselect_tongji: [],
 
 			
 	},
@@ -2428,6 +2637,49 @@ var vm_app = new Vue({
 			})
 		},
 
+
+		// 统计列表查询
+		tongjigets (month) {
+			var _this = this;
+
+			if (month == undefined || month == '') {
+				_this.tabledata_tongji = [];
+				return false;
+			}
+
+			var mymonth = month.Format("yyyy-MM");
+			var tongji_date_filter = [month.Format("yyyy-MM-01 00:00:00"), month.Format("yyyy-MM-31 23:59:59")];
+			// console.log(tongji_date_filter);return false;
+
+			var url = "{{ route('smt.pdreport.tongjigets') }}";
+			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+			axios.get(url,{
+				params: {
+					tongji_date_filter: tongji_date_filter,
+				}
+			})
+			.then(function (response) {
+				console.log(response.data);return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					var tongji = response.data;
+
+
+
+
+				} else {
+					_this.tabledata2 = [];
+				}
+				
+			})
+			.catch(function (error) {
+			})
+		},
 
 		
 	},

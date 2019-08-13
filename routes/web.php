@@ -112,7 +112,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::get('pdplantruncate', 'pdreportController@pdplanTruncate')->name('smt.pdreport.pdplandtruncate');
 	Route::get('pdplangets', 'pdreportController@pdplanGets')->name('smt.pdreport.pdplangets');
 	Route::get('pdplanresultgets', 'pdreportController@pdplanresultGets')->name('smt.pdreport.pdplanresultgets');
-
+	Route::get('tongjigets', 'pdreportController@tongjiGets')->name('smt.pdreport.tongjigets');
 });
 
 
