@@ -92,7 +92,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::get('chart2', 'qcreportController@chart2')->name('smt.qcreport.chart2');
 	// Route::get('chart3', 'qcreportController@chart3')->name('smt.qcreport.chart3');
 	Route::get('getdianmei', 'qcreportController@getDianmei')->name('smt.qcreport.getdianmei');
-	Route::get('tongjigets', 'qcreportController@tongjiGets')->name('smt.qcreport.tongjigets');
+	Route::get('tongjigets_qcreport', 'qcreportController@tongjiGets')->name('smt.qcreport.tongjigets');
 });
 
 
@@ -112,7 +112,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::get('pdplantruncate', 'pdreportController@pdplanTruncate')->name('smt.pdreport.pdplandtruncate');
 	Route::get('pdplangets', 'pdreportController@pdplanGets')->name('smt.pdreport.pdplangets');
 	Route::get('pdplanresultgets', 'pdreportController@pdplanresultGets')->name('smt.pdreport.pdplanresultgets');
-	Route::get('tongjigets', 'pdreportController@tongjiGets')->name('smt.pdreport.tongjigets');
+	Route::get('tongjigets_pdreport', 'pdreportController@tongjiGets')->name('smt.pdreport.tongjigets');
 });
 
 

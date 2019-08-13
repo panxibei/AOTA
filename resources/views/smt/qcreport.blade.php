@@ -1461,7 +1461,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm1',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm1.toLocaleString()
@@ -1500,7 +1500,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm2',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm2.toLocaleString()
@@ -1539,7 +1539,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm3',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm3.toLocaleString()
@@ -1578,7 +1578,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm4',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm4.toLocaleString()
@@ -1617,7 +1617,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm5',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm5.toLocaleString()
@@ -1656,7 +1656,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm6',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm6.toLocaleString()
@@ -1695,7 +1695,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm7',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm7.toLocaleString()
@@ -1734,7 +1734,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm8',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm8.toLocaleString()
@@ -1773,7 +1773,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm9',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm9.toLocaleString()
@@ -1812,7 +1812,7 @@ var vm_app = new Vue({
 						title: 'PPM',
 						key: 'ppm10',
 						align: 'center',
-						width: 80,
+						width: 100,
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm10.toLocaleString()
