@@ -1039,7 +1039,7 @@ class pdreportController extends Controller
 			Cache::put($fullUrl, $tongji, now()->addSeconds(10));
 		}
 		
-		dd($tongji);
+		// dd($tongji);
 		return $tongji;
 	}
 

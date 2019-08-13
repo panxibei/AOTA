@@ -1610,7 +1610,7 @@ var vm_app = new Vue({
 				title: '线体',
 				key: 'xianti',
 				align: 'center',
-				width: 70,
+				width: 90,
 				// render: (h, params) => {
 				// 	return h('div', [
 				// 		params.row.jianchariqi.substring(0,10)
@@ -1620,8 +1620,8 @@ var vm_app = new Vue({
  			{
 				title: ' ',
 				key: 'shebei',
-				align: 'center',
-				width: 100,
+				// align: 'center',
+				width: 160,
 				// render: (h, params) => {
 				// 	return h('div', [
 				// 		params.row.jianchariqi.substring(0,10)
@@ -1633,12 +1633,22 @@ var vm_app = new Vue({
 				key: 'chixushijian',
 				align: 'center',
 				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						params.row.chixushijian.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '实绩时间',
 				key: 'shijishijian',
 				align: 'center',
 				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shijishijian.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '稼动率（无计划除外）',
@@ -1655,22 +1665,37 @@ var vm_app = new Vue({
 						}, '（除无计划）')
 					]);
 				},
+				render: (h, params) => {
+					return h('div', [
+						(params.row.jiadonglv * 100).toLocaleString() + '%'
+					]);
+				}
 			},
  			{
 				title: '实绩点数',
 				key: 'shijidianshu',
 				align: 'center',
 				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shijidianshu.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '打点稼动率',
 				key: 'dadianjiadonglv',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						(params.row.dadianjiadonglv * 100).toLocaleString() + '%'
+					]);
+				}
 			},
  			{
 				title: '机种切换（回数）',
-				key: 'xianti',
+				key: 'jizhongqiehuan1',
 				align: 'center',
 				width: 110,
 				renderHeader: (h, params) => {
@@ -1683,10 +1708,15 @@ var vm_app = new Vue({
 						}, '（回数）')
 					]);
 				},
+				render: (h, params) => {
+					return h('div', [
+						params.row.jizhongqiehuan1.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '机种切换（时间）',
-				key: 'xianti',
+				key: 'jizhongqiehuan2',
 				align: 'center',
 				width: 110,
 				renderHeader: (h, params) => {
@@ -1699,10 +1729,15 @@ var vm_app = new Vue({
 						}, '（时间）')
 					]);
 				},
+				render: (h, params) => {
+					return h('div', [
+						params.row.jizhongqiehuan2.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '机种切换（1回）',
-				key: 'xianti',
+				key: 'jizhongqiehuan3',
 				align: 'center',
 				width: 110,
 				renderHeader: (h, params) => {
@@ -1715,66 +1750,121 @@ var vm_app = new Vue({
 						}, '（1回）')
 					]);
 				},
+				render: (h, params) => {
+					return h('div', [
+						params.row.jizhongqiehuan3.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '等待部品',
-				key: 'xianti',
+				key: 'dengdaibupin',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.dengdaibupin.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '无计划',
-				key: 'xianti',
+				key: 'wujihua',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.wujihua.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '前后工程等待',
-				key: 'xianti',
+				key: 'qianhougongchengdengdai',
 				align: 'center',
 				width: 110,
+				render: (h, params) => {
+					return h('div', [
+						params.row.qianhougongchengdengdai.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '无部品',
-				key: 'xianti',
+				key: 'wubupin',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.wubupin.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '部品安排等待',
-				key: 'xianti',
+				key: 'bupinanpaidengdai',
 				align: 'center',
 				width: 110,
+				render: (h, params) => {
+					return h('div', [
+						params.row.bupinanpaidengdai.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '定期点检',
-				key: 'xianti',
+				key: 'dingqidianjian',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.dingqidianjian.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '故障',
-				key: 'xianti',
+				key: 'guzhang',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.guzhang.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '部品补充',
-				key: 'xianti',
+				key: 'bupinbuchong',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.bupinbuchong.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '试作',
-				key: 'xianti',
+				key: 'shizuo',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shizuo.toLocaleString()
+					]);
+				}
 			},
  			{
 				title: '合计',
-				key: 'xianti',
+				key: 'heji',
 				align: 'center',
 				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.heji.toLocaleString()
+					]);
+				}
 			},
 		],
 		tabledata_tongji: [],
@@ -2647,9 +2737,14 @@ var vm_app = new Vue({
 				return false;
 			}
 
-			var mymonth = month.Format("yyyy-MM");
+			var myyear = month.Format("yyyy");
+			var mymonth = month.Format("MM");
+
+			var days = new Date(myyear, mymonth, 0);
+			var mydays = days.getDate();
+
 			var tongji_date_filter = [month.Format("yyyy-MM-01 00:00:00"), month.Format("yyyy-MM-31 23:59:59")];
-			// console.log(tongji_date_filter);return false;
+			// console.log(mydays);return false;
 
 			var url = "{{ route('smt.pdreport.tongjigets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -2659,7 +2754,7 @@ var vm_app = new Vue({
 				}
 			})
 			.then(function (response) {
-				console.log(response.data);return false;
+				// console.log(response.data);return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
@@ -2669,11 +2764,38 @@ var vm_app = new Vue({
 				if (response.data) {
 					var tongji = response.data;
 
+					var chixushijian = 1440 * mydays;
+					// if (mymonth == 1)
+					// if (mymonth == 1 || mymonth == 3 || mymonth == 5 || mymonth == 7 || mymonth == 8 || mymonth == 10 || mymonth == 12) {
+
+					// }
+					// if (mymonth == 1 || mymonth == 3 || mymonth == 5 || mymonth == 7 || mymonth == 8 || mymonth == 10 || mymonth == 12) {
+
+					// }
+
+					var res = [
+						{
+							'xianti': 'SMT-10', 'shebei': 'CM402+CM212',
+							'chixushijian': chixushijian, 'shijishijian': 31041, 'jiadonglv': 0.75,
+							'shijidianshu': 13415, 'dadianjiadonglv': 0.4712,
+							'jizhongqiehuan1': 112, 'jizhongqiehuan2': 1493,  'jizhongqiehuan3': 13,
+							'dengdaibupin': 0, 'wujihua': 5372, 'qianhougongchengdengdai': 700,
+							'wubupin': 20, 'bupinanpaidengdai': 30, 'dingqidianjian': 470,
+							'guzhang': 2900, 'bupinbuchong': 1414, 'shizuo': 1200, 'heji': 13599,
+						},
+					];
 
 
+
+
+
+
+
+
+					_this.tabledata_tongji = res;
 
 				} else {
-					_this.tabledata2 = [];
+					_this.tabledata_tongji = [];
 				}
 				
 			})
