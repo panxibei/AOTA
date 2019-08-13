@@ -2917,6 +2917,7 @@ var vm_app = new Vue({
 						res[i].bupinanpaidengdai += v.bupinanpaidengdai;
 						res[i].dingqidianjian += v.dingqidianjian;
 						res[i].guzhang += v.guzhang;
+						res[i].bupinbuchong += v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo;
 						res[i].shizuo += v.shizuo;
 
 						res[i].heji += v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo;
