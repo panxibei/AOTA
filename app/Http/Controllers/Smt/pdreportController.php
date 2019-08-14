@@ -1029,7 +1029,7 @@ class pdreportController extends Controller
 		if (Cache::has($fullUrl)) {
 			$tongji = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			$tongji = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo')
+			$tongji = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'meimiao', 'meishu', 'chajiandianshu', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo')
 				->when($tongji_date_filter, function ($query) use ($tongji_date_filter) {
 					return $query->whereBetween('shengchanriqi', $tongji_date_filter);
 				})
