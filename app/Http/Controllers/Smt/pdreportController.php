@@ -1033,14 +1033,14 @@ class pdreportController extends Controller
 			$tongji = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			$tongji = Smt_pdreport::select('xianti',
-					DB::raw('SUM(shijishengchanshijian) AS shijishijian'),
+					DB::raw('ROUND(SUM(shijishengchanshijian)/60) AS shijishijian'),
 					DB::raw('SUM(chajiandianshu) AS shijidianshu'),
 
 					// DB::raw('SUM(xinchan) AS xinchan'),
 					// DB::raw('SUM(liangchan) AS liangchan'),
 					DB::raw('SUM(xinchan) + SUM(liangchan) AS jizhongqiehuanshijian'),
 					DB::raw('SUM(qiehuancishu) AS jizhongqiehuancishu'),
-					DB::raw('(SUM(xinchan) + SUM(liangchan))/SUM(qiehuancishu) AS jizhongqiehuanyici'),
+					DB::raw('ROUND((SUM(xinchan) + SUM(liangchan))/SUM(qiehuancishu)) AS jizhongqiehuanyici'),
 
 					DB::raw('SUM(dengdaibupin) AS dengdaibupin'),
 					DB::raw('SUM(wujihua) AS wujihua'),

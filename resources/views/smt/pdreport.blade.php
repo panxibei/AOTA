@@ -2774,7 +2774,7 @@ var vm_app = new Vue({
 					var res = [
 						{
 							'xianti': 'SMT-1', 'shebei': 'CM402+CM212',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'chixushijian': chixushijian, 'shijishijian': 200, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2912,333 +2912,35 @@ var vm_app = new Vue({
 						}
 
 						// 生产时间
-						res[i].shijishijian += v.shijishijian;
-						res[i].shijidianshu += v.shijidianshu;
+						res[i].shijishijian = parseInt(v.shijishijian) || 0;
+						res[i].shijidianshu = parseInt(v.shijidianshu) || 0;
+						res[i].jiadonglv = res[i].shijishijian != 0 ? (res[i].shijishijian / chixushijian).toFixed(2) : 0;
 
 						// 机种切换
-						res[i].jizhongqiehuanshijian += v.jizhongqiehuanshijian;
-						res[i].jizhongqiehuancishu += v.jizhongqiehuancishu;
-						res[i].jizhongqiehuanyici += v.jizhongqiehuanyici;
-						
+						res[i].jizhongqiehuanshijian = parseInt(v.jizhongqiehuanshijian) || 0;
+						res[i].jizhongqiehuancishu = parseInt(v.jizhongqiehuancishu) || 0;
+						res[i].jizhongqiehuanyici = parseInt(v.jizhongqiehuanyici) || 0;
 						
 						// 停止时间
-						res[i].dengdaibupin += v.dengdaibupin;
-						res[i].wujihua += v.wujihua;
-						res[i].qianhougongchengdengdai += v.qianhougongchengdengdai;
-						res[i].wubupin += v.wubupin;
-						res[i].bupinanpaidengdai += v.bupinanpaidengdai;
-						res[i].dingqidianjian += v.dingqidianjian;
-						res[i].guzhang += v.guzhang;
-						res[i].shizuo += v.shizuo;
+						res[i].dengdaibupin = parseInt(v.dengdaibupin) || 0;
+						res[i].wujihua = parseInt(v.wujihua) || 0;
+						res[i].qianhougongchengdengdai = parseInt(v.qianhougongchengdengdai) || 0;
+						res[i].wubupin = parseInt(v.wubupin) || 0;
+						res[i].bupinanpaidengdai = parseInt(v.bupinanpaidengdai) || 0;
+						res[i].dingqidianjian = parseInt(v.dingqidianjian) || 0;
+						res[i].guzhang = parseInt(v.guzhang) || 0;
+						res[i].shizuo = parseInt(v.shizuo) || 0;
 
-						res[i].bupinbuchong += chixushijian - v.shijishijian - (v.jizhongqiehuanshijian + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo);
+						res[i].bupinbuchong = chixushijian - res[i].shijishijian - (res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo);
 
-						res[i].heji += v.jizhongqiehuanshijian + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo + res[i].bupinbuchong;
+						res[i].heji = res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo + res[i].bupinbuchong;
 					
 
-
-
 					});
 
 
 					_this.tabledata_tongji = res;
-					return false;
 
-
-
-
-
-
-
-
-
-
-					// i为线体，j为日期
-					var data = [
-						{
-							'banci': '', 'chanjiandianshu': 0, 'xinchan': 0, 'liangchan': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'shizuo': 0,
-						}
-
-					];
-
-					var res = [
-						{
-							'xianti': 'SMT-1', 'shebei': 'CM402+CM212',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-2', 'shebei': 'CM402+CM212',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-3', 'shebei': 'NPM×3',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-4', 'shebei': 'NPM×3',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-5', 'shebei': 'NPM×3',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-6', 'shebei': 'YG200+YV100Xg×2+YV88Xg',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-7', 'shebei': 'YG200＋YS12++YSM20',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-8', 'shebei': 'YG200+YV100Xg+YV88Xg',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-9', 'shebei': '',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': 'SMT-10', 'shebei': '',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-						{
-							'xianti': '合计', 'shebei': '',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
-							'shijidianshu': 0, 'dadianjiadonglv': 0,
-							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
-							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
-							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
-							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
-						},
-					];
-
-					var i = 100; // 线体
-					var j = 100; // 日期
-					tongji.map(function (v,k) {
-
-						switch(v.shengchanriqi.substr(8, 2))
-						{
-							case '01':
-								j = 0; break;
-							case '02':
-								j = 1; break;
-							case '03':
-								j = 2; break;
-							case '04':
-								j = 3; break;
-							case '05':
-								j = 4; break;
-							case '06':
-								j = 5; break;
-							case '07':
-								j = 6; break;
-							case '08':
-								j = 7; break;
-							case '09':
-								j = 8; break;
-							case '10':
-								j = 9; break;
-							case '11':
-								j = 10; break;
-							case '12':
-								j = 11; break;
-							case '13':
-								j = 12; break;
-							case '14':
-								j = 13; break;
-							case '15':
-								j = 14; break;
-							case '16':
-								j = 15; break;
-							case '17':
-								j = 16; break;
-							case '18':
-								j = 17; break;
-							case '19':
-								j = 18; break;
-							case '20':
-								j = 19; break;
-							case '21':
-								j = 20; break;
-							case '22':
-								j = 21; break;
-							case '23':
-								j = 22; break;
-							case '24':
-								j = 23; break;
-							case '25':
-								j = 24; break;
-							case '26':
-								j = 25; break;
-							case '27':
-								j = 26; break;
-							case '28':
-								j = 27; break;
-							case '29':
-								j = 28; break;
-							case '30':
-								j = 29; break;
-							case '31':
-								j = 30; break;
-
-							default:
-						}
-
-						// 按线体区分统计
-						switch(v.xianti.trim())
-						{
-							case 'SMT-1':
-								i = 0;
-								break;
-							case 'SMT-2':
-								i = 1;
-								break;
-							case 'SMT-3':
-								i = 2;
-								break;
-							case 'SMT-4':
-								i = 3;
-								break;
-							case 'SMT-5':
-								i = 4;
-								break;
-							case 'SMT-6':
-								i = 5;
-								break;
-							case 'SMT-7':
-								i = 6;
-								break;
-							case 'SMT-8':
-								i = 7;
-								break;
-							case 'SMT-9':
-								i = 8;
-								break;
-							case 'SMT-10':
-								i = 9;
-								break;
-							default:
-						}
-
-
-						// 实绩时间
-						data[i][j].shijishijian += v.meimiao * v.meishu;
-						// 实际点数
-						data[i][j].shijidianshu += v.chajiandianshu;
-
-
-						data[i][j].dengdaibupin += v.dengdaibupin;
-						data[i][j].wujihua += v.wujihua;
-						data[i][j].qianhougongchengdengdai += v.qianhougongchengdengdai;
-						data[i][j].wubupin += v.wubupin;
-						data[i][j].bupinanpaidengdai += v.bupinanpaidengdai;
-						data[i][j].dingqidianjian += v.dingqidianjian;
-						data[i][j].guzhang += v.guzhang;
-						data[i][j].shizuo += v.shizuo;
-
-
-
-
-/*
-						// 生产时间
-						res[i].shijishijian += v.meimiao * v.meishu;
-						res[i].shijidianshu += v.chajiandianshu;
-						
-						
-						// 停止时间
-						res[i].dengdaibupin += v.dengdaibupin;
-						res[i].wujihua += v.wujihua;
-						res[i].qianhougongchengdengdai += v.qianhougongchengdengdai;
-						res[i].wubupin += v.wubupin;
-						res[i].bupinanpaidengdai += v.bupinanpaidengdai;
-						res[i].dingqidianjian += v.dingqidianjian;
-						res[i].guzhang += v.guzhang;
-						// res[i].bupinbuchong += ;
-						res[i].shizuo += v.shizuo;
-
-						// res[i].heji += v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo;
-
-*/
-
-
-
-
-
-
-
-					});
-
-					res.map(function (v,k) {
-						v.jiadonglv = v.shijishijian / v.chixushijian;
-
-						// 一天2个班，即12小时一个班
-						v.bupinbuchong = mydays * 2 * 720 - v.shijishijian - (v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo);
-
-
-					});
-
-
-
-
-
-
-
-
-					_this.tabledata_tongji = res;
 
 				} else {
 					_this.tabledata_tongji = [];
