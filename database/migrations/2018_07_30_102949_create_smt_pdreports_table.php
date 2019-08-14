@@ -26,6 +26,7 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('dianmei')->unsigned();
 			$table->integer('meimiao')->unsigned();
 			$table->integer('meishu')->unsigned();
+			$table->integer('shijishengchanshijian')->unsigned(); // dianmei * meishu
 			$table->integer('shoudongshengchanshijian')->unsigned();
 			$table->integer('taishu')->unsigned();
 			$table->integer('lotcan')->unsigned();
@@ -33,6 +34,7 @@ class CreateSmtPdreportsTable extends Migration
 			$table->float('jiadonglv');
 			$table->integer('xinchan')->unsigned()->nullable();
 			$table->integer('liangchan')->unsigned()->nullable();
+			$table->integer('qiehuancishu')->unsigned()->default(0);
 			$table->integer('dengdaibupin')->unsigned()->nullable();
 			$table->integer('wujihua')->unsigned()->nullable();
 			$table->integer('qianhougongchengdengdai')->unsigned()->nullable();

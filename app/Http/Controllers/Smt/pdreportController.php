@@ -249,6 +249,7 @@ class pdreportController extends Controller
 			'gongxu',
 			'xinchan',
 			'liangchan',
+			'qiehuancishu',
 			'dengdaibupin',
 			'wujihua',
 			'qianhougongchengdengdai',
@@ -305,6 +306,7 @@ class pdreportController extends Controller
 				'lotshu'		=> $dailyreport['lotshu'],
 				'meimiao'		=> $dailyreport['meimiao'],
 				'meishu'		=> $meishu,
+				'shijishengchanshijian'		=> $dailyreport['meimiao'] * $meishu,
 				'shoudongshengchanshijian'		=> $dailyreport['shoudongshengchanshijian'],
 				'gongxu'		=> $dailyreport['gongxu'],
 				'dianmei'		=> $dianmei,
@@ -316,6 +318,7 @@ class pdreportController extends Controller
 
 				'xinchan'					=> $dailyreport['xinchan'],
 				'liangchan'					=> $dailyreport['liangchan'],
+				'qiehuancishu'				=> $dailyreport['qiehuancishu'],
 				'dengdaibupin'				=> $dailyreport['dengdaibupin'],
 				'wujihua'					=> $dailyreport['wujihua'],
 				'qianhougongchengdengdai'	=> $dailyreport['qianhougongchengdengdai'],
@@ -1029,11 +1032,29 @@ class pdreportController extends Controller
 		if (Cache::has($fullUrl)) {
 			$tongji = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			$tongji = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'meimiao', 'meishu', 'chajiandianshu', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo')
+			$tongji = Smt_pdreport::select('xianti',
+					DB::raw('SUM(shijishengchanshijian) AS shijishijian'),
+					DB::raw('SUM(chajiandianshu) AS shijidianshu'),
+
+					// DB::raw('SUM(xinchan) AS xinchan'),
+					// DB::raw('SUM(liangchan) AS liangchan'),
+					DB::raw('SUM(xinchan) + SUM(liangchan) AS jizhongqiehuanshijian'),
+					DB::raw('SUM(qiehuancishu) AS jizhongqiehuancishu'),
+					DB::raw('(SUM(xinchan) + SUM(liangchan))/SUM(qiehuancishu) AS jizhongqiehuanyici'),
+
+					DB::raw('SUM(dengdaibupin) AS dengdaibupin'),
+					DB::raw('SUM(wujihua) AS wujihua'),
+					DB::raw('SUM(qianhougongchengdengdai) AS qianhougongchengdengdai'),
+					DB::raw('SUM(wubupin) AS wubupin'),
+					DB::raw('SUM(bupinanpaidengdai) AS bupinanpaidengdai'),
+					DB::raw('SUM(dingqidianjian) AS dingqidianjian'),
+					DB::raw('SUM(guzhang) AS guzhang'),
+					DB::raw('SUM(shizuo) AS shizuo'))
 				->when($tongji_date_filter, function ($query) use ($tongji_date_filter) {
 					return $query->whereBetween('shengchanriqi', $tongji_date_filter);
 				})
-				->orderBy('shengchanriqi', 'asc')
+				->groupBy('xianti')
+				// ->orderBy('shengchanriqi', 'asc')
 				->get()->toArray();
 			
 			Cache::put($fullUrl, $tongji, now()->addSeconds(10));
