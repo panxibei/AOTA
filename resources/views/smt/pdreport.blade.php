@@ -2766,6 +2766,17 @@ var vm_app = new Vue({
 
 					var chixushijian = 1440 * mydays;
 
+					// i为线体，j为日期
+					var data = [
+						[
+							'banci': '', 'chanjiandianshu': 0, 'xinchan': 0, 'liangchan': 0,
+							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
+							'wubupin': 0, 'bupinanpaidengdai': 0, 'dingqidianjian': 0,
+							'guzhang': 0, 'shizuo': 0,
+						]
+
+					];
+
 					var res = [
 						{
 							'xianti': 'SMT-1', 'shebei': 'CM402+CM212',
@@ -2869,7 +2880,77 @@ var vm_app = new Vue({
 					];
 
 					var i = 100; // 线体
+					var j = 100; // 日期
 					tongji.map(function (v,k) {
+
+						switch(v.shengchanriqi.substr(8, 2))
+						{
+							case '01':
+								j = 0; break;
+							case '02':
+								j = 1; break;
+							case '03':
+								j = 2; break;
+							case '04':
+								j = 3; break;
+							case '05':
+								j = 4; break;
+							case '06':
+								j = 5; break;
+							case '07':
+								j = 6; break;
+							case '08':
+								j = 7; break;
+							case '09':
+								j = 8; break;
+							case '10':
+								j = 9; break;
+							case '11':
+								j = 10; break;
+							case '12':
+								j = 11; break;
+							case '13':
+								j = 12; break;
+							case '14':
+								j = 13; break;
+							case '15':
+								j = 14; break;
+							case '16':
+								j = 15; break;
+							case '17':
+								j = 16; break;
+							case '18':
+								j = 17; break;
+							case '19':
+								j = 18; break;
+							case '20':
+								j = 19; break;
+							case '21':
+								j = 20; break;
+							case '22':
+								j = 21; break;
+							case '23':
+								j = 22; break;
+							case '24':
+								j = 23; break;
+							case '25':
+								j = 24; break;
+							case '26':
+								j = 25; break;
+							case '27':
+								j = 26; break;
+							case '28':
+								j = 27; break;
+							case '29':
+								j = 28; break;
+							case '30':
+								j = 29; break;
+							case '31':
+								j = 30; break;
+
+							default:
+						}
+
 						// 按线体区分统计
 						switch(v.xianti.trim())
 						{
@@ -2907,6 +2988,25 @@ var vm_app = new Vue({
 						}
 
 
+						// 实绩时间
+						data[i][j].shijishijian += v.meimiao * v.meishu;
+						// 实际点数
+						data[i][j].shijidianshu += v.chajiandianshu;
+
+
+						data[i][j].dengdaibupin += v.dengdaibupin;
+						data[i][j].wujihua += v.wujihua;
+						data[i][j].qianhougongchengdengdai += v.qianhougongchengdengdai;
+						data[i][j].wubupin += v.wubupin;
+						data[i][j].bupinanpaidengdai += v.bupinanpaidengdai;
+						data[i][j].dingqidianjian += v.dingqidianjian;
+						data[i][j].guzhang += v.guzhang;
+						data[i][j].shizuo += v.shizuo;
+
+
+
+
+/*
 						// 生产时间
 						res[i].shijishijian += v.meimiao * v.meishu;
 						res[i].shijidianshu += v.chajiandianshu;
@@ -2925,7 +3025,7 @@ var vm_app = new Vue({
 
 						// res[i].heji += v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo;
 
-
+*/
 
 
 
