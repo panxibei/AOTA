@@ -1607,6 +1607,12 @@ var vm_app = new Vue({
 		// 表头tongji
 		tablecolumns_tongji: [
  			{
+				title: '生产日期',
+				key: 'shengchanriqi',
+				align: 'center',
+				width: 90,
+			},
+ 			{
 				title: '线体',
 				key: 'xianti',
 				align: 'center',
@@ -2773,8 +2779,8 @@ var vm_app = new Vue({
 
 					var res = [
 						{
-							'xianti': 'SMT-1', 'shebei': 'CM402+CM212',
-							'chixushijian': chixushijian, 'shijishijian': 200, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-1', 'shebei': 'CM402+CM212',
+							'chixushijian': 0, 'shijishijian': 200, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2782,8 +2788,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-2', 'shebei': 'CM402+CM212',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-2', 'shebei': 'CM402+CM212',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2791,8 +2797,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-3', 'shebei': 'NPM×3',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-3', 'shebei': 'NPM×3',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2800,8 +2806,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-4', 'shebei': 'NPM×3',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-4', 'shebei': 'NPM×3',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2809,8 +2815,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-5', 'shebei': 'NPM×3',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-5', 'shebei': 'NPM×3',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2818,8 +2824,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-6', 'shebei': 'YG200+YV100Xg×2+YV88Xg',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-6', 'shebei': 'YG200+YV100Xg×2+YV88Xg',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2827,8 +2833,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-7', 'shebei': 'YG200＋YS12++YSM20',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-7', 'shebei': 'YG200＋YS12++YSM20',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2836,8 +2842,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-8', 'shebei': 'YG200+YV100Xg+YV88Xg',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-8', 'shebei': 'YG200+YV100Xg+YV88Xg',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2845,8 +2851,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-9', 'shebei': '',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-9', 'shebei': '',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2854,8 +2860,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': 'SMT-10', 'shebei': '',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-10', 'shebei': '',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2863,8 +2869,8 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'xianti': '合计', 'shebei': '',
-							'chixushijian': chixushijian, 'shijishijian': 0, 'jiadonglv': 0,
+							'shengchanriqi': '合计', 'xianti': '', 'shebei': '',
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
@@ -2937,6 +2943,22 @@ var vm_app = new Vue({
 					
 
 					});
+
+					for (var i=0;i<10;i++) {
+						res[i].chixushijian = res[i].shijishijian !=0 ? chixushijian : 0;
+						res[10].chixushijian += res[i].chixushijian;
+						// 实绩时间
+						res[10].shijishijian += res[i].shijishijian;
+						// 实绩点数
+						res[10].shijidianshu += res[i].shijidianshu;
+						// 机种切换
+						res[10].jizhongqiehuanshijian += res[i].jizhongqiehuanshijian;
+						res[10].jizhongqiehuancishu += res[i].jizhongqiehuancishu;
+
+
+					}
+
+					res[10].jizhongqiehuanyici = Math.round(res[10].jizhongqiehuanshijian / res[10].jizhongqiehuancishu);
 
 
 					_this.tabledata_tongji = res;
