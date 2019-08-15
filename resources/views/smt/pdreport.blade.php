@@ -413,6 +413,28 @@ SMT - PD report
 				</i-col>
 			</i-row>
 
+			&nbsp;
+			<i-row :gutter="16">
+				<br><br>
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="22">
+					打点稼动率计算
+					<u>x+y</u>
+					<span style="text-decoration:overline;">a</span>
+					<u>xxxxxxxxxxxxxxx</u>
+				</i-col>
+			</i-row>
+
+			&nbsp;
+			<i-row :gutter="16">
+				<br>
+				<i-col span="24">
+					<i-table ref="table_dadianjiadonglv" height="320" size="small" border :columns="tablecolumns_dadianjiadonglv" :data="tabledata_dadianjiadonglv"></i-table>
+				</i-col>
+			</i-row>
+
 		</Tab-pane>
 
 	</Tabs>
@@ -1912,6 +1934,90 @@ var vm_app = new Vue({
 		tabledata_tongji: [],
 		tableselect_tongji: [],
 
+		// 表头dadianjiadonglv
+		tablecolumns_dadianjiadonglv: [
+ 			{
+				title: '生产日期',
+				key: 'shengchanriqi',
+				align: 'center',
+				width: 90,
+			},
+ 			{
+				title: '线体',
+				key: 'xianti',
+				align: 'center',
+				width: 90,
+			},
+ 			{
+				title: '稼动时间',
+				key: 'jiadongshijian',
+				align: 'center',
+				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						params.row.jiadongshijian.toLocaleString()
+					]);
+				}
+			},
+ 			{
+				title: '稼动天数',
+				key: 'jiadongtianshu',
+				align: 'center',
+				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						params.row.jiadongtianshu.toLocaleString()
+					]);
+				}
+			},
+ 			{
+				title: '设备能力',
+				key: 'shebeinengli',
+				align: 'center',
+				width: 120,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shebeinengli.toLocaleString()
+					]);
+				}
+			},
+ 			{
+				title: '理论打点数',
+				key: 'lilundadianshu',
+				align: 'center',
+				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.lilundadianshu.toLocaleString()
+					]);
+				}
+			},
+ 			{
+				title: '实际打点数',
+				key: 'shijidadianshu',
+				align: 'center',
+				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						params.row.shijidadianshu.toLocaleString()
+					]);
+				}
+			},
+ 			{
+				title: '打点稼动率',
+				key: 'dadianjiadonglv',
+				align: 'center',
+				width: 100,
+				render: (h, params) => {
+					return h('div', [
+						(params.row.dadianjiadonglv * 100).toLocaleString() + '%'
+					]);
+				}
+			},
+		],
+		tabledata_dadianjiadonglv: [],
+		tableselect_dadianjiadonglv: [],
+
 			
 	},
 	methods: {
@@ -2916,6 +3022,19 @@ var vm_app = new Vue({
 						},
 					];
 
+					var dadianjiadonglv = [
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1086, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1086, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1379, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1383, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1383, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1077, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1392, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1077, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 0, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 0, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+					];
+
 					tongji.map(function (v,k) {
 
 						// 按线体区分统计
@@ -3023,8 +3142,37 @@ var vm_app = new Vue({
 
 					_this.tabledata_tongji = res;
 
+					// 打点稼动率
+					for (i=0;i<10;i++) {
+						// 线体
+						dadianjiadonglv[i].xianti = res[i].xianti;
+						// 稼动时间
+						dadianjiadonglv[i].jiadongshijian = res[i].chixushijian - res[i].wujihua -res[i].shizuo;
+						
+						if (dadianjiadonglv[i].jiadongshijian != 0) {
+							// 移动天数
+							dadianjiadonglv[i].jiadongtianshu = (dadianjiadonglv[i].jiadongshijian/1440).toFixed(2);
+							// 设备能力
+							// dadianjiadonglv[i].shebeinengli = 
+							
+							// 理论打点数
+							dadianjiadonglv[i].lilundadianshu = dadianjiadonglv[i].shebeinengli != 0 ? Math.round(dadianjiadonglv[i].shebeinengli * dadianjiadonglv[i].jiadongtianshu) : 0;
+							// 实际打点数
+							dadianjiadonglv[i].shijidadianshu = res[i].shijidianshu;
+							// 打点稼动率
+							dadianjiadonglv[i].dadianjiadonglv = dadianjiadonglv[i].lilundadianshu != 0 ? (dadianjiadonglv[i].shijidadianshu / dadianjiadonglv[i].lilundadianshu).toFixed(2) : 0;
+							res[i].dadianjiadonglv = dadianjiadonglv[i].dadianjiadonglv;
+						}
+
+
+					}
+
+
+					_this.tabledata_dadianjiadonglv = dadianjiadonglv;
+
 				} else {
 					_this.tabledata_tongji = [];
+					_this.tabledata_dadianjiadonglv = [];
 				}
 				
 			})
