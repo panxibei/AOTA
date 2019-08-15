@@ -2945,6 +2945,7 @@ var vm_app = new Vue({
 					});
 
 					for (var i=0;i<10;i++) {
+						// 持续时间
 						res[i].chixushijian = res[i].shijishijian !=0 ? chixushijian : 0;
 						res[10].chixushijian += res[i].chixushijian;
 						// 实绩时间
@@ -2955,14 +2956,35 @@ var vm_app = new Vue({
 						res[10].jizhongqiehuanshijian += res[i].jizhongqiehuanshijian;
 						res[10].jizhongqiehuancishu += res[i].jizhongqiehuancishu;
 
+						// 停止时间
+						res[10].dengdaibupin += res[i].dengdaibupin;
+						res[10].wujihua += res[i].wujihua;
+						res[10].qianhougongchengdengdai += res[i].qianhougongchengdengdai;
+						res[10].wubupin += res[i].wubupin;
+						res[10].bupinanpaidengdai += res[i].bupinanpaidengdai;
+						res[10].dingqidianjian += res[i].dingqidianjian;
+						res[10].guzhang += res[i].guzhang;
+						res[10].shizuo += res[i].shizuo;
+						res[10].bupinbuchong += res[i].bupinbuchong;
+
+
 
 					}
 
+					// 稼动率
+					res[10].jiadonglv = (res[10].shijishijian / res[10].chixushijian).toFixed(2);
+					// 机种切换1次
 					res[10].jizhongqiehuanyici = Math.round(res[10].jizhongqiehuanshijian / res[10].jizhongqiehuancishu);
+
+					// 停止时间合计
+					res[10].heji = res[10].jizhongqiehuanshijian
+						+ res[10].dengdaibupin + res[10].wujihua + res[10].qianhougongchengdengdai
+						+ res[10].wubupin + res[10].bupinanpaidengdai + res[10].dingqidianjian
+						+ res[10].guzhang + res[10].shizuo + res[10].bupinbuchong;
+
 
 
 					_this.tabledata_tongji = res;
-
 
 				} else {
 					_this.tabledata_tongji = [];
