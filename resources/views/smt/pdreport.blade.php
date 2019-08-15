@@ -78,11 +78,17 @@ SMT - PD report
 				</i-col>
 				<i-col span="12">&nbsp;
 				@hasanyrole('role_smt_refreshplan|role_super_admin')
-				<i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+				<Poptip confirm title="确定要刷新生产计划数据吗？" placement="right-start" @on-ok="refreshplan" @on-cancel="">
+					<!-- <i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button> -->
+					<i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+				</Poptip>
 				@endhasanyrole
 				@hasanyrole('role_super_admin')
 				&nbsp;
-				<i-button icon="ios-sync" @click="truncateplan" type="warning" size="small">清空生产计划表</i-button>
+				<Poptip confirm title="确定要清空生产计划表吗？" placement="right-start" @on-ok="truncateplan" @on-cancel="">
+					<!-- <i-button icon="ios-sync" @click="truncateplan" type="warning" size="small">清空生产计划表</i-button> -->
+					<i-button icon="ios-sync" type="warning" size="small">清空生产计划表</i-button>
+				</Poptip>
 				@endhasanyrole
 				</i-col>
 			</i-row>
@@ -314,7 +320,10 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
-					<i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_pdreport" @on-cancel="">
+						<!-- <i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
+						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+					</Poptip>
 				</i-col>
 				<i-col span="2">
 					&nbsp;
@@ -389,7 +398,10 @@ SMT - PD report
 				<i-col span="18">
 					导出：
 					&nbsp;&nbsp;
-					<i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
+					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="">
+						<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
+						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
+					</Poptip>
 				</i-col>
 			</i-row>
 
