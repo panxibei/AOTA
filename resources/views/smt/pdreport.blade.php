@@ -1639,9 +1639,33 @@ var vm_app = new Vue({
 				key: 'chixushijian',
 				align: 'center',
 				width: 90,
+				renderHeader: (h, params) => {
+					return h('div', [
+						h('span', {
+						}, [
+							h('Poptip', {
+								props: {
+									'word-wrap': true,
+									'trigger': 'hover',
+									'content': '全月的稼动天数 * 1440分/天'
+								}
+							}, '持续时间')
+						])
+					]);
+				},
 				render: (h, params) => {
 					return h('div', [
-						params.row.chixushijian.toLocaleString()
+						// params.row.chixushijian.toLocaleString()
+						h('span', {
+						}, [
+							h('Poptip', {
+								props: {
+									'word-wrap': true,
+									'trigger': 'hover',
+									'content': '全月的稼动天数 * 1440分/天'
+								}
+							}, params.row.chixushijian.toLocaleString())
+						])
 					]);
 				}
 			},
