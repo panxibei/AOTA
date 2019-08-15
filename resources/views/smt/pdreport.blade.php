@@ -421,9 +421,20 @@ SMT - PD report
 				</i-col>
 				<i-col span="22">
 					打点稼动率计算
-					<u>x+y</u>
-					<span style="text-decoration:overline;">a</span>
-					<u>xxxxxxxxxxxxxxx</u>
+					<p><span id="sp1">...</span></p>
+<script>
+					katex.render("c = \\pm\\sqrt{a^2 + b^2}", sp1, {
+    throwOnError: false
+});
+</script>
+
+					$$2+2=4$$
+					<div>
+						<label>暴雨强度公式：</label><span>$`i=A/(t+b)^n`$</span>
+						<label>峰前降雨强度公式：</label><span>`i(t_b)=A[(1-n)*t/r+b]/[(t_b/r)+b]^(n+1)`</span>
+						<label>峰后降雨强度公式：</label><span>`i(t_a)=A[(1-n)*t_a/(1-r)+b]/[(t_a/(1-r))+b]^(n+1)`</span>
+						<label>备注：</label><span>`A=[A_1(1+ClgP)]/167`</span>
+					</div>
 				</i-col>
 			</i-row>
 

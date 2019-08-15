@@ -12,6 +12,8 @@
 @show
 </title>
 <link rel="stylesheet" href="{{ asset('statics/iview/styles/iview.css') }}">
+<link rel="stylesheet" href="{{ asset('statics/katex/katex.min.css') }}">
+<script src="{{ asset('statics/katex/katex.min.js') }}"></script>
 <style type="text/css">
 	/* 解决闪烁问题的CSS */
 	[v-cloak] {	display: none; }
