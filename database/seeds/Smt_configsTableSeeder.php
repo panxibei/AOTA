@@ -165,6 +165,97 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
+            16 => 
+            array (
+                'title' => '设备能力(SMT1)',
+                'name' => 'shebeinengli_smt1',
+                'value' => "1086",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            17 => 
+            array (
+                'title' => '设备能力(SMT2)',
+                'name' => 'shebeinengli_smt2',
+                'value' => "1086",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            18 => 
+            array (
+                'title' => '设备能力(SMT3)',
+                'name' => 'shebeinengli_smt3',
+                'value' => "1379",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            19 => 
+            array (
+                'title' => '设备能力(SMT4)',
+                'name' => 'shebeinengli_smt4',
+                'value' => "1383",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            20 => 
+            array (
+                'title' => '设备能力(SMT5)',
+                'name' => 'shebeinengli_smt5',
+                'value' => "1383",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            21 => 
+            array (
+                'title' => '设备能力(SMT6)',
+                'name' => 'shebeinengli_smt6',
+                'value' => "1077",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            22 => 
+            array (
+                'title' => '设备能力(SMT7)',
+                'name' => 'shebeinengli_smt7',
+                'value' => "1392",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            23 => 
+            array (
+                'title' => '设备能力(SMT8)',
+                'name' => 'shebeinengli_smt8',
+                'value' => "1077",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            24 => 
+            array (
+                'title' => '设备能力(SMT9)',
+                'name' => 'shebeinengli_smt9',
+                'value' => "0",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            25 => 
+            array (
+                'title' => '设备能力(SMT10)',
+                'name' => 'shebeinengli_smt10',
+                'value' => "0",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+
 
         ));		
 		

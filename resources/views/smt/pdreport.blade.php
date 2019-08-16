@@ -416,11 +416,15 @@ SMT - PD report
 			&nbsp;
 			<i-row :gutter="16">
 				<br><br>
-				<i-col span="2">
+				<i-col span="1">
 					&nbsp;
 				</i-col>
-				<i-col span="22">
-					<p><span id="dadianjiadonglv">...</span></p>
+				<i-col span="23">
+					<p>
+					<span id="dadianjiadonglv">...</span>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<font color="#2db7f5">* 设备能力通常为常数，可在配置页面中调整。</font>
+					</p>
 					<script>
 						katex.render("\\text{参考公式：} \\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{\\text{(稼动时间 (js) - 无计划 (w) - 试作 (s)) / 1440分 * 设备能力 (N)}} \\times \\text{100}\\%", dadianjiadonglv, {
 							throwOnError: false
