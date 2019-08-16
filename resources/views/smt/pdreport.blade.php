@@ -78,14 +78,14 @@ SMT - PD report
 				</i-col>
 				<i-col span="12">&nbsp;
 				@hasanyrole('role_smt_refreshplan|role_super_admin')
-				<Poptip confirm title="确定要刷新生产计划数据吗？" placement="right-start" @on-ok="refreshplan" @on-cancel="">
+				<Poptip confirm title="确定要刷新生产计划数据吗？" placement="right-start" @on-ok="refreshplan" @on-cancel="" transfer="true">
 					<!-- <i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button> -->
 					<i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
 				</Poptip>
 				@endhasanyrole
 				@hasanyrole('role_super_admin')
 				&nbsp;
-				<Poptip confirm title="确定要清空生产计划表吗？" placement="right-start" @on-ok="truncateplan" @on-cancel="">
+				<Poptip confirm title="确定要清空生产计划表吗？" placement="right-start" @on-ok="truncateplan" @on-cancel="" transfer="true">
 					<!-- <i-button icon="ios-sync" @click="truncateplan" type="warning" size="small">清空生产计划表</i-button> -->
 					<i-button icon="ios-sync" type="warning" size="small">清空生产计划表</i-button>
 				</Poptip>
@@ -320,7 +320,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
-					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_pdreport" @on-cancel="">
+					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_pdreport" @on-cancel="" transfer="true">
 						<!-- <i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
 						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 					</Poptip>
@@ -398,7 +398,7 @@ SMT - PD report
 				<i-col span="3">
 					导出：
 					&nbsp;&nbsp;
-					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="">
+					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
 						<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
 						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
 					</Poptip>

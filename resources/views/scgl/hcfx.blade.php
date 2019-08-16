@@ -204,7 +204,7 @@
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
-					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_relation" @on-cancel="">
+					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_relation" @on-cancel="" transfer="true">
 						<!-- <i-button type="default" size="small" @click="exportData_relation()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
 						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 					</Poptip>
@@ -343,7 +343,7 @@
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
-					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_result" @on-cancel="">
+					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_result" @on-cancel="" transfer="true">
 						<!-- <i-button type="default" size="small" @click="exportData_result()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
 						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 					<Poptip>

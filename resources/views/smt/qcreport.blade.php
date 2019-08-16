@@ -274,7 +274,7 @@ SMT(QC report) -
 							导出：<!--&nbsp;&nbsp;&nbsp;&nbsp;
 							<i-button type="default" size="small" @click="exportData_table()"><Icon type="ios-download-outline"></Icon> 导出当前显示数据</i-button>-->
 							&nbsp;&nbsp;
-							<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_db" @on-cancel="">
+							<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_db" @on-cancel="" transfer="true">
 								<!-- <i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
 								<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
 							</Poptip>
@@ -592,7 +592,7 @@ SMT(QC report) -
 						<i-col span="18">
 							导出：
 							&nbsp;&nbsp;
-							<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="">
+							<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
 								<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
 								<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
 							</Poptip>
