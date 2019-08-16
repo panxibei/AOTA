@@ -3131,8 +3131,6 @@ var vm_app = new Vue({
 						res[10].shizuo += res[i].shizuo;
 						res[10].bupinbuchong += res[i].bupinbuchong;
 
-
-
 					}
 
 					// 稼动率
@@ -3147,8 +3145,8 @@ var vm_app = new Vue({
 						+ res[10].guzhang + res[10].shizuo + res[10].bupinbuchong;
 
 
-
 					_this.tabledata_tongji = res;
+
 
 					// 打点稼动率
 					for (i=0;i<10;i++) {
@@ -3174,7 +3172,6 @@ var vm_app = new Vue({
 
 
 					}
-
 
 					_this.tabledata_dadianjiadonglv = dadianjiadonglv;
 
