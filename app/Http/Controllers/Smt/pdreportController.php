@@ -1062,13 +1062,23 @@ class pdreportController extends Controller
 		}
 		
 		// 设备能力配置读取
-		$shebeinengli = Smt_config::select('value')
-			->where('suoshu', 'pdreport')
-			->where('name', 'like', 'shebeinengli_%')
-			->get()->toArray();
+		// $shebeinengli = Smt_config::select('value')
+		// 	->where('suoshu', 'pdreport')
+		// 	->where('name', 'like', 'shebeinengli_%')
+		// 	->get()->toArray();
+		
+		$shebeinengli = Smt_config::where('suoshu', 'pdreport')
+			->where('name', 'like', 'shebeinengli_smt%')
+			->pluck('value', 'name')
+			->toArray();
+		
+		$shebei = Smt_config::where('suoshu', 'pdreport')
+			->where('name', 'like', 'shebei_smt%')
+			->pluck('value', 'name')
+			->toArray();
 
-		// dd($tongji);
-		$result = compact('tongji', 'shebeinengli');
+		// dd($shebeinengli);
+		$result = compact('tongji', 'shebeinengli', 'shebei');
 		return $result;
 	}
 

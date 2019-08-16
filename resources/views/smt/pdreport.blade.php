@@ -395,13 +395,16 @@ SMT - PD report
 				<i-col span="1">
 					&nbsp;
 				</i-col>
-				<i-col span="18">
+				<i-col span="3">
 					导出：
 					&nbsp;&nbsp;
 					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="">
 						<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
 						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
 					</Poptip>
+				</i-col>
+				<i-col span="15">
+					<font color="#2db7f5">* 设备型号可在配置页面中调整。</font>
 				</i-col>
 			</i-row>
 
@@ -2895,6 +2898,7 @@ var vm_app = new Vue({
 
 			if (month == undefined || month == '') {
 				_this.tabledata_tongji = [];
+				_this.tabledata_dadianjiadonglv = [];
 				return false;
 			}
 
@@ -2925,11 +2929,12 @@ var vm_app = new Vue({
 				if (response.data) {
 					var tongji = response.data.tongji;
 					var shebeinengli = response.data.shebeinengli;
+					var shebei = response.data.shebei;
 					var chixushijian = 1440 * mydays;
 
 					var res = [
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-1', 'shebei': 'CM402+CM212',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-1', 'shebei': shebei.shebei_smt1,
 							'chixushijian': 0, 'shijishijian': 200, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2938,7 +2943,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-2', 'shebei': 'CM402+CM212',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-2', 'shebei': shebei.shebei_smt2,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2947,7 +2952,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-3', 'shebei': 'NPM×3',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-3', 'shebei': shebei.shebei_smt3,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2956,7 +2961,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-4', 'shebei': 'NPM×3',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-4', 'shebei': shebei.shebei_smt4,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2965,7 +2970,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-5', 'shebei': 'NPM×3',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-5', 'shebei': shebei.shebei_smt5,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2974,7 +2979,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-6', 'shebei': 'YG200+YV100Xg×2+YV88Xg',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-6', 'shebei': shebei.shebei_smt6,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2983,7 +2988,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-7', 'shebei': 'YG200＋YS12++YSM20',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-7', 'shebei': shebei.shebei_smt7,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -2992,7 +2997,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-8', 'shebei': 'YG200+YV100Xg+YV88Xg',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-8', 'shebei': shebei.shebei_smt8,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -3001,7 +3006,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-9', 'shebei': '',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-9', 'shebei': shebei.shebei_smt9,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -3010,7 +3015,7 @@ var vm_app = new Vue({
 							'guzhang': 0, 'bupinbuchong': 0, 'shizuo': 0, 'heji': 0,
 						},
 						{
-							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-10', 'shebei': '',
+							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-10', 'shebei': shebei.shebei_smt10,
 							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
@@ -3030,16 +3035,16 @@ var vm_app = new Vue({
 					];
 
 					var dadianjiadonglv = [
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[0].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[1].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[2].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[3].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[4].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[5].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[6].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[7].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[8].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[9].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt1, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt2, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt3, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt4, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt5, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt6, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt7, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt8, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt9, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli.shebeinengli_smt10, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
 					];
 					// console.log(dadianjiadonglv);return false;
 

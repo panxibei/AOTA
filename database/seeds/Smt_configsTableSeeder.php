@@ -167,6 +167,96 @@ class Smt_configsTableSeeder extends Seeder
             ),
             16 => 
             array (
+                'title' => '设备型号(SMT1)',
+                'name' => 'shebei_smt1',
+                'value' => "CM402+CM212",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            17 => 
+            array (
+                'title' => '设备型号(SMT2)',
+                'name' => 'shebei_smt2',
+                'value' => "CM402+CM212",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            18 => 
+            array (
+                'title' => '设备型号(SMT3)',
+                'name' => 'shebei_smt3',
+                'value' => "NPM×3",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            19 => 
+            array (
+                'title' => '设备型号(SMT4)',
+                'name' => 'shebei_smt4',
+                'value' => "NPM×3",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            20 => 
+            array (
+                'title' => '设备型号(SMT5)',
+                'name' => 'shebei_smt5',
+                'value' => "NPM×3",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            21 => 
+            array (
+                'title' => '设备型号(SMT6)',
+                'name' => 'shebei_smt6',
+                'value' => "YG200+YV100Xg×2+YV88Xg",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            22 => 
+            array (
+                'title' => '设备型号(SMT7)',
+                'name' => 'shebei_smt7',
+                'value' => "YG200＋YS12++YSM20",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            23 => 
+            array (
+                'title' => '设备型号(SMT8)',
+                'name' => 'shebei_smt8',
+                'value' => "YG200+YV100Xg+YV88Xg",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            24 => 
+            array (
+                'title' => '设备型号(SMT9)',
+                'name' => 'shebei_smt9',
+                'value' => "",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            25 => 
+            array (
+                'title' => '设备型号(SMT10)',
+                'name' => 'shebei_smt10',
+                'value' => "",
+                'suoshu' => 'pdreport',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+            ),
+            26 => 
+            array (
                 'title' => '设备能力(SMT1)',
                 'name' => 'shebeinengli_smt1',
                 'value' => "1086",
@@ -174,7 +264,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            17 => 
+            27 => 
             array (
                 'title' => '设备能力(SMT2)',
                 'name' => 'shebeinengli_smt2',
@@ -183,7 +273,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            18 => 
+            28 => 
             array (
                 'title' => '设备能力(SMT3)',
                 'name' => 'shebeinengli_smt3',
@@ -192,7 +282,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            19 => 
+            29 => 
             array (
                 'title' => '设备能力(SMT4)',
                 'name' => 'shebeinengli_smt4',
@@ -201,7 +291,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            20 => 
+            30 => 
             array (
                 'title' => '设备能力(SMT5)',
                 'name' => 'shebeinengli_smt5',
@@ -210,7 +300,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            21 => 
+            31 => 
             array (
                 'title' => '设备能力(SMT6)',
                 'name' => 'shebeinengli_smt6',
@@ -219,7 +309,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            22 => 
+            32 => 
             array (
                 'title' => '设备能力(SMT7)',
                 'name' => 'shebeinengli_smt7',
@@ -228,7 +318,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            23 => 
+            33 => 
             array (
                 'title' => '设备能力(SMT8)',
                 'name' => 'shebeinengli_smt8',
@@ -237,7 +327,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            24 => 
+            34 => 
             array (
                 'title' => '设备能力(SMT9)',
                 'name' => 'shebeinengli_smt9',
@@ -246,7 +336,7 @@ class Smt_configsTableSeeder extends Seeder
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
             ),
-            25 => 
+            35 => 
             array (
                 'title' => '设备能力(SMT10)',
                 'name' => 'shebeinengli_smt10',
