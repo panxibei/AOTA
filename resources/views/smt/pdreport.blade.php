@@ -2923,7 +2923,8 @@ var vm_app = new Vue({
 				}
 				
 				if (response.data) {
-					var tongji = response.data;
+					var tongji = response.data.tongji;
+					var shebeinengli = response.data.shebeinengli;
 					var chixushijian = 1440 * mydays;
 
 					var res = [
@@ -3029,17 +3030,18 @@ var vm_app = new Vue({
 					];
 
 					var dadianjiadonglv = [
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1086, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1086, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1379, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1383, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1383, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1077, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1392, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 1077, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 0, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
-						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': 0, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[0].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[1].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[2].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[3].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[4].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[5].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[6].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[7].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[8].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
+						{'shengchanriqi': month.Format("yyyy-MM"), 'xianti': '', 'jiadongshijian': 0, 'jiadongtianshu': 0, 'shebeinengli': shebeinengli[9].value, 'lilundadianshu': 0, 'shijidadianshu': 0, 'dadianjiadonglv': 0,},
 					];
+					// console.log(dadianjiadonglv);return false;
 
 					tongji.map(function (v,k) {
 

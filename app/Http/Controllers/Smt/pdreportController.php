@@ -11,6 +11,7 @@ use App\Models\Smt\Smt_pdreport;
 use App\Models\Smt\Smt_pdplan;
 use App\Models\Smt\Smt_pdplanresult;
 use DB;
+use App\Models\Smt\Smt_config;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\mpointExport;
@@ -1060,8 +1061,15 @@ class pdreportController extends Controller
 			Cache::put($fullUrl, $tongji, now()->addSeconds(10));
 		}
 		
+		// 设备能力配置读取
+		$shebeinengli = Smt_config::select('value')
+			->where('suoshu', 'pdreport')
+			->where('name', 'like', 'shebeinengli_%')
+			->get()->toArray();
+
 		// dd($tongji);
-		return $tongji;
+		$result = compact('tongji', 'shebeinengli');
+		return $result;
 	}
 
 
