@@ -420,21 +420,12 @@ SMT - PD report
 					&nbsp;
 				</i-col>
 				<i-col span="22">
-					打点稼动率计算
-					<p><span id="sp1">...</span></p>
-<script>
-					katex.render("c = \\pm\\sqrt{a^2 + b^2}", sp1, {
-    throwOnError: false
-});
-</script>
-
-					$$2+2=4$$
-					<div>
-						<label>暴雨强度公式：</label><span>$`i=A/(t+b)^n`$</span>
-						<label>峰前降雨强度公式：</label><span>`i(t_b)=A[(1-n)*t/r+b]/[(t_b/r)+b]^(n+1)`</span>
-						<label>峰后降雨强度公式：</label><span>`i(t_a)=A[(1-n)*t_a/(1-r)+b]/[(t_a/(1-r))+b]^(n+1)`</span>
-						<label>备注：</label><span>`A=[A_1(1+ClgP)]/167`</span>
-					</div>
+					<p><span id="dadianjiadonglv">...</span></p>
+					<script>
+						katex.render("\\text{参考公式：} \\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{\\text{(稼动时间 (js) - 无计划 (w) - 试作 (s)) / 1440分 * 设备能力 (N)}} \\times \\text{100}\\%", dadianjiadonglv, {
+							throwOnError: false
+						});
+					</script>
 				</i-col>
 			</i-row>
 
@@ -1960,10 +1951,10 @@ var vm_app = new Vue({
 				width: 90,
 			},
  			{
-				title: '稼动时间',
+				title: '稼动时间 (js)',
 				key: 'jiadongshijian',
 				align: 'center',
-				width: 90,
+				width: 110,
 				render: (h, params) => {
 					return h('div', [
 						params.row.jiadongshijian.toLocaleString()
@@ -1971,10 +1962,10 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '稼动天数',
+				title: '稼动天数 (jt)',
 				key: 'jiadongtianshu',
 				align: 'center',
-				width: 90,
+				width: 110,
 				render: (h, params) => {
 					return h('div', [
 						params.row.jiadongtianshu.toLocaleString()
@@ -1982,7 +1973,7 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '设备能力',
+				title: '设备能力 (N)',
 				key: 'shebeinengli',
 				align: 'center',
 				width: 120,
@@ -1993,10 +1984,10 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '理论打点数',
+				title: '理论打点数 (ld)',
 				key: 'lilundadianshu',
 				align: 'center',
-				width: 100,
+				width: 120,
 				render: (h, params) => {
 					return h('div', [
 						params.row.lilundadianshu.toLocaleString()
@@ -2004,10 +1995,10 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '实际打点数',
+				title: '实际打点数 (sd)',
 				key: 'shijidadianshu',
 				align: 'center',
-				width: 100,
+				width: 130,
 				render: (h, params) => {
 					return h('div', [
 						params.row.shijidadianshu.toLocaleString()
@@ -2015,10 +2006,10 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '打点稼动率',
+				title: '打点稼动率 (v)',
 				key: 'dadianjiadonglv',
 				align: 'center',
-				width: 100,
+				width: 120,
 				render: (h, params) => {
 					return h('div', [
 						(params.row.dadianjiadonglv * 100).toLocaleString() + '%'
