@@ -1569,7 +1569,7 @@ var vm_app = new Vue({
 		pagelast: 1,
 
 		// tabs索引
-		currenttabs: 3,
+		currenttabs: 1,
 
 		// 上传，批量导入
 		file: null,
@@ -1713,7 +1713,7 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '实绩时间',
+				title: '实际时间',
 				key: 'shijishijian',
 				align: 'center',
 				width: 90,
@@ -1745,7 +1745,7 @@ var vm_app = new Vue({
 				}
 			},
  			{
-				title: '实绩点数',
+				title: '实际点数',
 				key: 'shijidianshu',
 				align: 'center',
 				width: 100,
@@ -3117,9 +3117,9 @@ var vm_app = new Vue({
 						// 持续时间
 						res[i].chixushijian = res[i].shijishijian !=0 ? chixushijian : 0;
 						res[10].chixushijian += res[i].chixushijian;
-						// 实绩时间
+						// 实际时间
 						res[10].shijishijian += res[i].shijishijian;
-						// 实绩点数
+						// 实际点数
 						res[10].shijidianshu += res[i].shijidianshu;
 						// 机种切换
 						res[10].jizhongqiehuanshijian += res[i].jizhongqiehuanshijian;
