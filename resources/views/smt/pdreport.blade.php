@@ -3138,7 +3138,7 @@ var vm_app = new Vue({
 					// 稼动率
 					res[10].jiadonglv = (res[10].shijishijian / res[10].chixushijian).toFixed(2);
 					// 机种切换1次
-					res[10].jizhongqiehuanyici = Math.round(res[10].jizhongqiehuanshijian / res[10].jizhongqiehuancishu);
+					res[10].jizhongqiehuanyici = res[10].jizhongqiehuancishu != 0 ? Math.round(res[10].jizhongqiehuanshijian / res[10].jizhongqiehuancishu) : 0;
 
 					// 停止时间合计
 					res[10].heji = res[10].jizhongqiehuanshijian
