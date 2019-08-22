@@ -117,7 +117,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="24">
-					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border no-data-text="暂无数据，请选择条件查询！" :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
+					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border no-data-text="请选择 <strong>计划日期</strong>、<strong>线体</strong> 和 <strong>班次</strong> 来查询计划！" :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -125,6 +125,13 @@ SMT - PD report
 
 			<Divider orientation="left">生产基本信息</Divider>
 
+			<i-row :gutter="16">
+				<i-col span="24">
+					<font color="#2db7f5">↓ 1. 选择 <strong>计划日期</strong>、<strong>线体</strong> 和 <strong>班次</strong> 来查询计划。 2. 点选上部计划表项，提高录入速度及有效性。</font>
+				</i-col>
+			</i-row>
+
+			<br><br>
 			<i-row :gutter="16">
 				<i-col span="4">
 					<strong>* 计划日期</strong>&nbsp;&nbsp;
@@ -147,7 +154,7 @@ SMT - PD report
 					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="8">
-					<font color="#2db7f5">⇐ 选择<strong>线体</strong>、<strong>班次</strong>和<strong>生产日期</strong>来查询计划</font>
+					&nbsp;
 				</i-col>
 			</i-row>
 			<br><br><br>
