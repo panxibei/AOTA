@@ -154,7 +154,7 @@ SMT - PD report
 					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="8">
-					&nbsp;
+					&nbsp;&nbsp;
 				</i-col>
 			</i-row>
 			<br><br><br>
