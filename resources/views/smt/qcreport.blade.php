@@ -168,7 +168,6 @@ SMT(QC report) -
 			</span>
 
 			<br>
-
 			<i-row :gutter="16">
 				<i-col span="24">
 					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary">记入</i-button>
