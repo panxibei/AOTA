@@ -117,7 +117,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="24">
-					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border no-data-text="请选择 <strong>计划日期</strong>、<strong>线体</strong> 和 <strong>班次</strong> 来查询计划！" :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
+					<i-table ref="planresult" :row-class-name="rowClassName_planresult" height="200" size="small" border no-data-text="请选择 <strong>计划日期</strong>、<strong>线体</strong> 和 <strong>班次</strong> 来看查询计划！" :columns="tablecolumns_planresult" :data="tabledata_planresult" @on-row-click="(selection, index) => onselectchange_planresult(selection, index)"></i-table>
 					&nbsp;
 				</i-col>
 			</i-row>
