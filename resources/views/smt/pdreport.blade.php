@@ -127,22 +127,26 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="4">
-					* 线体&nbsp;&nbsp;
+					<strong>* 计划日期</strong>&nbsp;&nbsp;
+					<Date-picker v-model.lazy="jihuariqi" @on-change="pdplanresultgets()" type="date" style="width:120px" placeholder=""></Date-picker>
+				</i-col>
+				<i-col span="4">
+					<strong>* 线体</strong>&nbsp;&nbsp;
 					<i-select v-model.lazy="xianti" @on-change="pdplanresultgets()" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
-					* 班次&nbsp;&nbsp;
+					<strong>* 班次</strong>&nbsp;&nbsp;
 					<i-select v-model.lazy="banci" @on-change="pdplanresultgets()" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
 					* 生产日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="shengchanriqi" @on-change="pdplanresultgets()" type="date" style="width:120px" placeholder=""></Date-picker>
+					<Date-picker v-model.lazy="shengchanriqi" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
-				<i-col span="12">
+				<i-col span="8">
 					<font color="#2db7f5">⇐ 选择<strong>线体</strong>、<strong>班次</strong>和<strong>生产日期</strong>来查询计划</font>
 				</i-col>
 			</i-row>
@@ -597,7 +601,10 @@ var vm_app = new Vue({
 				label: 'B'
 			},
 		],
-		
+
+		// 计划日期
+		jihuariqi: '',
+
 		// 生产日期
 		shengchanriqi: '',
 
@@ -2332,7 +2339,7 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '记入成功！');
 					// _this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				} else {
-					_this.error(false, '失败', '记入失败！请确认MPoint表中机种信息是否正确！');
+					_this.error(false, '失败', '请确认MPoint表中机种信息是否存在或正确！');
 				}
 			})
 			.catch(function (error) {
@@ -2676,7 +2683,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, '失败', '导入失败！注意内容文本格式并且内容不能为空！');
+					_this.error(false, '失败', '注意内容文本格式并且内容不能为空！');
 				}
 				
 				setTimeout( function () {
@@ -2842,7 +2849,7 @@ var vm_app = new Vue({
 		pdplanresultgets (page, last_page) {
 			var _this = this;
 
-			var date_filter = _this.shengchanriqi;
+			var date_filter = _this.jihuariqi;
 			var xianti_filter = _this.xianti;
 			var banci_filter = _this.banci;
 
