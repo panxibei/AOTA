@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>403 error</title>
+	<title>404 error</title>
 	<style type="text/css">
 		/* 解决闪烁问题的CSS */
 		[v-cloak] {	display: none; }
@@ -21,9 +21,9 @@
 
 	<font color="#035C98" style="font-size:36px;"><strong>ALPSALPINE</strong></font><br>
 	<font color="#035C98" style="font-size:18px;">ALPS ALPINE GROUP</font><br><br>
-	<font color="#ed4014" style="font-size:128px;"><strong>403</strong></font>
-	<h3>很抱歉，您没有访问该页面的权限！</h3>
-	<span>@{{ time }} 秒后返回上一页或关闭本页面</span>
+	<font color="#ed4014" style="font-size:128px;"><strong>500</strong></font>
+	<h3>很抱歉，服务器内部发生错误！</h3>
+	<span>@{{ time }} 秒后返回上一页</span>
 
 </div>
 

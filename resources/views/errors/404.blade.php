@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<div style="text-align:center;" id="error404" v-cloak>
+<div style="text-align:center;" id="app" v-cloak>
 
 	<font color="#035C98" style="font-size:36px;"><strong>ALPSALPINE</strong></font><br>
 	<font color="#035C98" style="font-size:18px;">ALPS ALPINE GROUP</font><br><br>
@@ -29,8 +29,8 @@
 
 <script>
 var count = 3;
-var vm_error404 = new Vue({
-    el: '#error404',
+var vm_app = new Vue({
+    el: '#app',
     data: {
 		time: count
     },
