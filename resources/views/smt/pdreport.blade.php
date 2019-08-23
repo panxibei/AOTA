@@ -2383,7 +2383,7 @@ var vm_app = new Vue({
 			// console.log(selection);
 			// return false;
 
-			_this.jizhongming = selection.jizhongming;
+			_this.jizhongming = selection.jizhongming.substr(0, 8);
 			_this.spno = selection.spno;
 			_this.pinming = selection.pinming;
 			_this.lotshu = selection.lotshu;

@@ -907,7 +907,7 @@ class pdreportController extends Controller
 				'spno',
 				'panelname AS pinming',
 				DB::raw('RIGHT(prjname, 1) AS gongxu'), // RA或RB，去掉那个R
-				'quantity AS lotshu',
+				'total AS lotshu',
 				'lota',
 				'lotb')
 			->limit(1000)
