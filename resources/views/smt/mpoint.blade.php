@@ -650,7 +650,7 @@ var vm_app = new Vue({
 				if (response.data == 1) {
 					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, '失败', '导入失败！');
+					_this.error(false, '失败', '导入失败！请确保 [机种名、品名及工序] 三项没有重复！');
 				}
 				
 				setTimeout( function () {
