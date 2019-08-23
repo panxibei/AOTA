@@ -1353,12 +1353,32 @@ var vm_app = new Vue({
 												style: {
 													marginRight: '5px'
 												},
-												on: {
-													click: () => {
-														vm_app.qcreport_remove_sub(params.row, item, index)
-													}
-												}
-											}, '删除')
+												// on: {
+												// 	click: () => {
+												// 		vm_app.qcreport_remove_sub(params.row, item, index)
+												// 	}
+												// }
+											// }, '删除')
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': true,
+															'trigger': 'click',
+															'confirm': true,
+															'title': '真的要删除吗？',
+															'transfer': true
+														},
+														on: {
+															'on-ok': () => {
+																vm_app.qcreport_remove_sub(params.row, item, index)
+															}
+														}
+													}, '删除')
+												])
+											]),
+
 										])
 									}))
 								]);
