@@ -2258,7 +2258,7 @@ var vm_app = new Vue({
 		},		
 		
 		// qcreport列表
-		qcreportgets: function (page, last_page) {
+		qcreportgets (page, last_page) {
 			var _this = this;
 			
 			if (page > last_page) {
@@ -2285,6 +2285,10 @@ var vm_app = new Vue({
 				// 	|| xianti_filter != undefined || banci_filter != undefined || jizhongming_filter != undefined ||  pinming_filter != undefined || gongxu_filter != undefined || buliangneirong_filter != undefined) {
 					// _this.warning(false, '警告', '请先选择日期范围！');
 				// }
+
+				_this.pagecurrent = 1;
+				_this.pagetotal = 0;
+				_this.pagelast = 1;
 
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
@@ -2334,7 +2338,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.pagecurrent = response.data.current_page;
 					_this.pagetotal = response.data.total;
-					_this.pagelast = response.data.last_page
+					_this.pagelast = response.data.last_page;
 					
 					_this.tabledata1 = response.data.data;
 					

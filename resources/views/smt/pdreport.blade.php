@@ -1578,7 +1578,7 @@ var vm_app = new Vue({
 		
 		//分页
 		pagecurrent: 1,
-		pagetotal: 1,
+		pagetotal: 0,
 		pagepagesize: 5,
 		pagelast: 1,
 
@@ -1596,7 +1596,7 @@ var vm_app = new Vue({
 
 		//分页计划
 		pagecurrent_plan: 1,
-		pagetotal_plan: 1,
+		pagetotal_plan: 0,
 		pagepagesize_plan: 10,
 		pagelast_plan: 1,
 
@@ -2446,6 +2446,10 @@ var vm_app = new Vue({
 			if (_this.date_filter[0] == '' || _this.date_filter == undefined) {
 				_this.tabledata1 = [];
 				_this.tabledata2 = [];
+				_this.pagecurrent = 1;
+				_this.pagetotal = 0;
+				_this.pagelast = 1
+				
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
 			} else {
@@ -2802,6 +2806,10 @@ var vm_app = new Vue({
 
 			if (_this.date_plan_suoshuriqi[0] == '' || _this.date_plan_suoshuriqi == undefined) {
 				_this.tabledata_plan = [];
+				_this.pagecurrent_plan = 1;
+				_this.pagetotal_plan = 0;
+				_this.pagelast_plan = 1;
+
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
 			} else {
