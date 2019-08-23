@@ -174,7 +174,7 @@ SMT - PD report
 					<!-- <i-select v-model.lazy="pinming" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select> -->
-					<i-input v-model.lazy="pinming" size="small" clearable style="width: 120px" placeholder=""></i-input>
+					<i-input v-model.lazy="pinming" @on-keyup="pinming=pinming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 					* LOT数&nbsp;&nbsp;
@@ -185,7 +185,7 @@ SMT - PD report
 					<!-- <i-select v-model.lazy="gongxu" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select> -->
-					<i-input v-model.lazy="gongxu" size="small" clearable style="width: 120px" placeholder=""></i-input>
+					<i-input v-model.lazy="gongxu" @on-keyup="gongxu=gongxu.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 				&nbsp;
