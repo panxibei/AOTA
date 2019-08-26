@@ -200,7 +200,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 					* 台数&nbsp;&nbsp;
-					<Input-number v-model.lazy="taishu" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+					<Input-number v-model.lazy="taishu" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="16">
 					* 手动生产时间（分）&nbsp;&nbsp;
