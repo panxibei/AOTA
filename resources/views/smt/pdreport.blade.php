@@ -872,7 +872,7 @@ var vm_app = new Vue({
 						title: '插件点数',
 						key: 'chajiandianshu',
 						align: 'center',
-						width: 80,
+						width: 90,
 						className: 'table-info-column',
 						renderHeader: (h, params) => {
 							return h('div', [
@@ -894,7 +894,7 @@ var vm_app = new Vue({
 						title: '稼动率',
 						key: 'jiadonglv',
 						align: 'center',
-						width: 60,
+						width: 70,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
