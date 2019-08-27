@@ -258,7 +258,6 @@ class pdreportController extends Controller
 			'bupinanpaidengdai',
 			'dingqidianjian',
 			'guzhang',
-			'xinjizhongshengchanshijian',
 			'shizuo',
 			'jizaishixiang'
 		);
@@ -276,9 +275,17 @@ class pdreportController extends Controller
 		if ($t == null) return 0;
 		
 		$dianmei = $t->diantai * $t->pinban;
-		// $taishu = $dailyreport['meishu'] * $t->pinban;
+
 		$meishu = ceil($dailyreport['taishu'] / $t->pinban);
-		// $chajiandianshu = $t->diantai * $dailyreport['meishu'];
+
+		$shijishengchanshijian = $dailyreport['meimiao'] * $meishu;
+
+		$bupinbuchongshijian = $dailyreport['shoudongshengchanshijian'] - $shijishengchanshijian
+			- $dailyreport['xinchan'] - $dailyreport['liangchan'] - $dailyreport['dengdaibupin']
+			- $dailyreport['wujihua'] - $dailyreport['qianhougongchengdengdai'] - $dailyreport['wubupin']
+			- $dailyreport['bupinanpaidengdai'] - $dailyreport['dingqidianjian'] - $dailyreport['guzhang']
+			- $dailyreport['shizuo'];
+
 		$chajiandianshu = $t->diantai * $meishu;
 		// $jiadonglv = $dailyreport['meishu'] * $dailyreport['meimiao'] / 43200;
 		$jiadonglv = $meishu * $dailyreport['meimiao'] / 43200;
@@ -307,8 +314,9 @@ class pdreportController extends Controller
 				'lotshu'		=> $dailyreport['lotshu'],
 				'meimiao'		=> $dailyreport['meimiao'],
 				'meishu'		=> $meishu,
-				'shijishengchanshijian'		=> $dailyreport['meimiao'] * $meishu,
-				'shoudongshengchanshijian'		=> $dailyreport['shoudongshengchanshijian'],
+				'shijishengchanshijian'		=> $shijishengchanshijian,
+				'shoudongshengchanshijian'	=> $dailyreport['shoudongshengchanshijian'],
+				'bupinbuchongshijian'		=> $bupinbuchongshijian,
 				'gongxu'		=> $dailyreport['gongxu'],
 				'dianmei'		=> $dianmei,
 				'meimiao'		=> $dailyreport['meimiao'],
@@ -327,7 +335,7 @@ class pdreportController extends Controller
 				'bupinanpaidengdai'			=> $dailyreport['bupinanpaidengdai'],
 				'dingqidianjian'			=> $dailyreport['dingqidianjian'],
 				'guzhang'					=> $dailyreport['guzhang'],
-				'xinjizhongshengchanshijian'				=> $dailyreport['xinjizhongshengchanshijian'],
+				// 'xinjizhongshengchanshijian'				=> $dailyreport['xinjizhongshengchanshijian'],
 				'shizuo'					=> $dailyreport['shizuo'],
 				'jizaishixiang'				=> $dailyreport['jizaishixiang'],
 				'luruzhe'					=> $luruzhe,
@@ -600,7 +608,7 @@ class pdreportController extends Controller
 
 		$smt_pdreport = Smt_pdreport::select(DB::raw('LEFT(shengchanriqi, 10)'), 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 		// $smt_pdreport = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
-			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'taishu', 'lotcan', 'chajiandianshu',
+			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'bupinbuchongshijian', 'taishu', 'lotcan', 'chajiandianshu',
 			'jiadonglv', 'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
 			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'xinjizhongshengchanshijian', 'shizuo',
 			'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe')
@@ -621,7 +629,7 @@ class pdreportController extends Controller
 
 		// Excel标题第一行，可修改为任意名字，包括中文
 		$title[] = ['生产日期', '线体', '班次', '机种名', 'SP NO.', '品名',
-			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '台数', 'LOT残', '插件点数',
+			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '部品补充时间', '台数', 'LOT残', '插件点数',
 			'稼动率', '新产', '量产', '等待部品', '无计划', '前后工程等待',
 			'部品欠品', '部品准备等待', '定期点检', '故障', '新机种生产时间', '试作',
 			'记载事项', '录入者', '担当者', '确认者'];

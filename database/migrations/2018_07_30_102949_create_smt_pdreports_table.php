@@ -28,6 +28,7 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('meishu')->unsigned();
 			$table->integer('shijishengchanshijian')->unsigned(); // dianmei * meishu
 			$table->integer('shoudongshengchanshijian')->unsigned();
+			$table->integer('bupinbuchongshijian')->unsigned();
 			$table->integer('taishu')->unsigned();
 			$table->integer('lotcan')->unsigned();
 			$table->integer('chajiandianshu')->unsigned();
@@ -42,8 +43,8 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('bupinanpaidengdai')->unsigned()->nullable();
 			$table->integer('dingqidianjian')->unsigned()->nullable();
 			$table->integer('guzhang')->unsigned()->nullable();
-			$table->integer('xinjizhongshengchanshijian')->unsigned()->nullable();
-			$table->integer('shizuo')->unsigned()->nullable();
+			// $table->integer('xinjizhongshengchanshijian')->unsigned()->nullable();
+			$table->integer('shizuo')->unsigned()->nullable()->comment('新机种生产时间（试作）');
 			$table->text('jizaishixiang')->nullable();
 			$table->string('luruzhe', 20)->nullable();
 			$table->string('dandangzhe', 20)->nullable();

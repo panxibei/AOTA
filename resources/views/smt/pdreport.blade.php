@@ -202,9 +202,12 @@ SMT - PD report
 					* 台数&nbsp;&nbsp;
 					<Input-number v-model.lazy="taishu" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
-				<i-col span="16">
-					* 手动生产时间（分）&nbsp;&nbsp;
+				<i-col span="5">
+					手动生产时间（分）&nbsp;&nbsp;
 					<Input-number v-model.lazy="shoudongshengchanshijian" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+				</i-col>
+				<i-col span="11">
+					&nbsp;
 				</i-col>
 			</i-row>
 			<br><br>
@@ -258,7 +261,7 @@ SMT - PD report
 				<i-col span="6">
 				&nbsp;
 					9.新机种生产时间（试作）&nbsp;&nbsp;
-					<Input-number v-model.lazy="xinjizhongshengchanshijian" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 				&nbsp;
@@ -655,7 +658,7 @@ var vm_app = new Vue({
 		bupinanpaidengdai: '',
 		dingqidianjian: '',
 		guzhang: '',
-		xinjizhongshengchanshijian: '',
+		// xinjizhongshengchanshijian: '',
 		shizuo: '',
 		jizaishixiang: '',
 		
@@ -844,6 +847,27 @@ var vm_app = new Vue({
 						render: (h, params) => {
 							return h('div', [
 								params.row.shoudongshengchanshijian.toLocaleString()
+							]);
+						}
+					},
+					{
+						title: '部品补充时间',
+						key: 'bupinbuchongshijian',
+						align: 'center',
+						width: 90,
+						renderHeader: (h, params) => {
+							return h('div', [
+								h('span', {
+								}, '部品'),
+								h('br', {
+								}, ''),
+								h('span', {
+								}, '补充时间')
+							]);
+						},
+						render: (h, params) => {
+							return h('div', [
+								params.row.bupinbuchongshijian.toLocaleString()
 							]);
 						}
 					},
@@ -1098,18 +1122,19 @@ var vm_app = new Vue({
 						align: 'center',
 						children: [
 							{
-								title: '新机种生产时间',
-								key: 'xinjizhongshengchanshijian',
+								title: '新机种生产时间（试作）',
+								// key: 'xinjizhongshengchanshijian',
+								key: 'shizuo',
 								align: 'center',
-								width: 90,
+								width: 110,
 								renderHeader: (h, params) => {
 									return h('div', [
 										h('span', {
-										}, '新机种'),
+										}, '新机种生产'),
 										h('br', {
 										}, ''),
 										h('span', {
-										}, '生产时间')
+										}, '时间（试作）')
 									]);
 								}
 							}
@@ -2256,7 +2281,7 @@ var vm_app = new Vue({
 			_this.bupinanpaidengdai = '';
 			_this.dingqidianjian = '';
 			_this.guzhang = '';
-			_this.xinjizhongshengchanshijian = '';
+			// _this.xinjizhongshengchanshijian = '';
 			_this.shizuo = '';
 			_this.jizaishixiang = '';
 			// _this.$refs.planresult.clearCurrentRow();
@@ -2295,12 +2320,12 @@ var vm_app = new Vue({
 			var bupinanpaidengdai = _this.bupinanpaidengdai;
 			var dingqidianjian = _this.dingqidianjian;
 			var guzhang = _this.guzhang;
-			var xinjizhongshengchanshijian = _this.xinjizhongshengchanshijian;
+			// var xinjizhongshengchanshijian = _this.xinjizhongshengchanshijian;
 			var shizuo = _this.shizuo;
 			var jizaishixiang = _this.jizaishixiang;
 
-			if (shengchanriqi == '' || xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || taishu == '' || shoudongshengchanshijian == '' || gongxu == ''
-				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || taishu == undefined || shoudongshengchanshijian == undefined || gongxu == undefined) {
+			if (shengchanriqi == '' || xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || taishu == '' || gongxu == ''
+				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || taishu == undefined || gongxu == undefined) {
 				_this.warning(false, '警告', '输入内容为空或不正确！');
 				return false;
 			}
@@ -2339,7 +2364,7 @@ var vm_app = new Vue({
 				bupinanpaidengdai: bupinanpaidengdai,
 				dingqidianjian: dingqidianjian,
 				guzhang: guzhang,
-				xinjizhongshengchanshijian: xinjizhongshengchanshijian,
+				// xinjizhongshengchanshijian: xinjizhongshengchanshijian,
 				shizuo: shizuo,
 				jizaishixiang: jizaishixiang,
 			})
@@ -2526,7 +2551,7 @@ var vm_app = new Vue({
 						// console.log(tabledata_total);
 						tabledata_total.map(function (v, i) {
 							_this.xiaoji_shengchanshijian += v.meimiao * v.meishu;
-							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.xinjizhongshengchanshijian);
+							_this.xiaoji_langfeishijian += 60 * (v.xinchan + v.liangchan + v.dengdaibupin + v.wujihua + v.qianhougongchengdengdai + v.wubupin + v.bupinanpaidengdai + v.dingqidianjian + v.guzhang + v.shizuo);
 							_this.xiaoji_chajiandianshu += v.chajiandianshu;
 							_this.xiaoji_meishu += v.meishu;
 						});
