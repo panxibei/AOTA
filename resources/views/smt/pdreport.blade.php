@@ -439,6 +439,40 @@ SMT - PD report
 				</i-col>
 				<i-col span="23">
 					<p>
+						<span id="jiadonglv">...</span>
+						<br><br>
+						<span id="jizhongqiehuan">...</span>
+						<br><br>
+						<span id="bupinbuchong">...</span>
+						<br><br>
+						<span id="tingzhishijian">...</span>
+					
+					</p>
+					<script>
+						katex.render("\\text{1.稼动率} = \\dfrac{\\text{实际时间}}{\\text{持续时间 - 无计划}} \\times \\text{100}\\%", jiadonglv, {
+							throwOnError: false
+						});
+						katex.render("\\text{2.机种切换（1次）} = \\dfrac{\\text{机种切换（时间）}}{\\text{机种切换（次数）}}", jizhongqiehuan, {
+							throwOnError: false
+						});
+						katex.render("\\text{3.部品补充时间} = \\text{手动生产时间} - \\text{实际生产时间} - \\text{停止时间}", bupinbuchong, {
+							throwOnError: false
+						});
+						katex.render("\\text{4.停止时间} = \\text{机种切换（时间） + 等待部品 + 无计划 + 前后工程等待 + 无部品 + 部品安排等待 + 定期点检 + 故障 + 试作}", tingzhishijian, {
+							throwOnError: false
+						});
+					</script>
+				</i-col>
+			</i-row>
+
+			<!-- &nbsp;
+			<i-row :gutter="16">
+				<br><br>
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="23">
+					<p>
 					<span id="dadianjiadonglv">...</span>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<font color="#2db7f5">* 设备能力通常为常数，可在配置页面中调整。</font>
@@ -449,15 +483,38 @@ SMT - PD report
 						});
 					</script>
 				</i-col>
-			</i-row>
+			</i-row> -->
 
 			&nbsp;
+			<Divider orientation="left">打点稼动率</Divider>
+
 			<i-row :gutter="16">
 				<br>
 				<i-col span="24">
 					<i-table ref="table_dadianjiadonglv" height="320" size="small" border :columns="tablecolumns_dadianjiadonglv" :data="tabledata_dadianjiadonglv"></i-table>
 				</i-col>
 			</i-row>
+
+			&nbsp;
+			<i-row :gutter="16">
+				<br><br>
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="23">
+					<p>
+					<span id="dadianjiadonglv">...</span>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<font color="#2db7f5">* 设备能力通常为常数，可在配置页面中调整。</font>
+					</p>
+					<script>
+						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{\\text{(稼动时间 (js) - 无计划 (w) - 试作 (s)) / 1440分 * 设备能力 (N)}} \\times \\text{100}\\%", dadianjiadonglv, {
+							throwOnError: false
+						});
+					</script>
+				</i-col>
+			</i-row>
+
 
 		</Tab-pane>
 
@@ -3164,7 +3221,8 @@ var vm_app = new Vue({
 						res[i].guzhang = parseInt(v.guzhang) || 0;
 						res[i].shizuo = parseInt(v.shizuo) || 0;
 
-						res[i].bupinbuchong = chixushijian - res[i].shijishijian - (res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo);
+						// res[i].bupinbuchong = chixushijian - res[i].shijishijian - (res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo);
+						res[i].bupinbuchong = parseInt(v.bupinbuchong) || 0;
 
 						res[i].heji = res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo + res[i].bupinbuchong;
 					

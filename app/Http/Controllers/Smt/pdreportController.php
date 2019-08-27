@@ -1044,9 +1044,8 @@ class pdreportController extends Controller
 			$tongji = Smt_pdreport::select('xianti',
 					DB::raw('ROUND(SUM(shijishengchanshijian)/60) AS shijishijian'),
 					DB::raw('SUM(chajiandianshu) AS shijidianshu'),
+					DB::raw('SUM(bupinbuchongshijian) AS bupinbuchong'),
 
-					// DB::raw('SUM(xinchan) AS xinchan'),
-					// DB::raw('SUM(liangchan) AS liangchan'),
 					DB::raw('SUM(xinchan) + SUM(liangchan) AS jizhongqiehuanshijian'),
 					DB::raw('SUM(qiehuancishu) AS jizhongqiehuancishu'),
 					DB::raw('ROUND((SUM(xinchan) + SUM(liangchan))/SUM(qiehuancishu)) AS jizhongqiehuanyici'),
