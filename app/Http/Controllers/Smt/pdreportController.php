@@ -600,7 +600,7 @@ class pdreportController extends Controller
 
 		$smt_pdreport = Smt_pdreport::select(DB::raw('LEFT(shengchanriqi, 10)'), 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 		// $smt_pdreport = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
-			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'taishu', 'lotcan', 'chajiandianshu',
+			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'taishu', 'lotcan', 'chajiandianshu',
 			'jiadonglv', 'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
 			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'xinjizhongshengchanshijian', 'shizuo',
 			'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe')
@@ -621,9 +621,9 @@ class pdreportController extends Controller
 
 		// Excel标题第一行，可修改为任意名字，包括中文
 		$title[] = ['生产日期', '线体', '班次', '机种名', 'SP NO.', '品名',
-			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '台数', 'LOT残', '插件点数',
+			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '台数', 'LOT残', '插件点数',
 			'稼动率', '新产', '量产', '等待部品', '无计划', '前后工程等待',
-			'无部品', '部品安排等待', '定期点检', '故障', '新机种生产时间', '试作',
+			'部品欠品', '部品准备等待', '定期点检', '故障', '新机种生产时间', '试作',
 			'记载事项', '录入者', '担当者', '确认者'];
 
 		// 合并Excel的标题和数据为一个整体

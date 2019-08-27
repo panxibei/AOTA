@@ -204,7 +204,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="16">
 					* 手动生产时间（分）&nbsp;&nbsp;
-					<Input-number v-model.lazy="shoudongshengchanshijian" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+					<Input-number v-model.lazy="shoudongshengchanshijian" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -236,7 +236,7 @@ SMT - PD report
 					<Input-number v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
-					5.无部品&nbsp;&nbsp;
+					5.部品欠品&nbsp;&nbsp;
 					<Input-number v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 			</i-row>
@@ -244,7 +244,7 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="4">
-					6.部品安排等待&nbsp;&nbsp;
+					6.部品准备等待&nbsp;&nbsp;
 					<Input-number v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
@@ -255,9 +255,9 @@ SMT - PD report
 					8.故障&nbsp;&nbsp;
 					<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
-				<i-col span="4">
+				<i-col span="6">
 				&nbsp;
-					9.新机种生产时间&nbsp;&nbsp;
+					9.新机种生产时间（试作）&nbsp;&nbsp;
 					<Input-number v-model.lazy="xinjizhongshengchanshijian" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
@@ -265,7 +265,8 @@ SMT - PD report
 					<!-- 10.试作&nbsp;&nbsp;
 					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number> -->
 				</i-col>
-				<i-col span="4">
+				<i-col span="2">
+					&nbsp;
 				</i-col>
 			</i-row>
 			
@@ -1019,10 +1020,20 @@ var vm_app = new Vue({
 						align: 'center',
 						children: [
 							{
-								title: '无部品',
+								title: '部品欠品',
 								key: 'wubupin',
 								align: 'center',
-								width: 70
+								width: 70,
+								renderHeader: (h, params) => {
+									return h('div', [
+										h('span', {
+										}, '部品'),
+										h('br', {
+										}, ''),
+										h('span', {
+										}, '欠品')
+									]);
+								}
 							}
 						]
 					},
@@ -1031,7 +1042,7 @@ var vm_app = new Vue({
 						align: 'center',
 						children: [
 							{
-								title: '部品安排等待',
+								title: '部品准备等待',
 								key: 'bupinanpaidengdai',
 								align: 'center',
 								width: 80,
