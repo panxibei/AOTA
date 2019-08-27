@@ -8,7 +8,7 @@ use DB;
 class Smt_pdreport extends Model
 {
 	protected $fillable = [
-        'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shoudongshengchanshijian', 'taishu', 'lotcan', 'chajiandianshu', 'jiadonglv',
+        'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'taishu', 'lotcan', 'chajiandianshu', 'jiadonglv',
 		'xinchan', 'dengdaibupin', 'liangchan', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'xinjizhongshengchanshijian', 'shizuo', 'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe',
     ];
 	
