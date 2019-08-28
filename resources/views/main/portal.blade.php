@@ -33,7 +33,7 @@ Main(Portal) -
 
 			<Card>
 				<p slot="title">
-					SMT管理系统（Beta）
+					SMT实装课
 					@hasanyrole('role_smt_config|role_super_admin')
 					<span style="float:right">
 						<a href="{{ route('smt.config') }}" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;Config</a>
@@ -58,7 +58,7 @@ Main(Portal) -
 		
 			<Card>
 				<p slot="title">
-					部品加工管理系统（RC）
+					部品加工课
 				</p>
 					<p v-for="item in CardListBupinjiagong">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
@@ -78,7 +78,7 @@ Main(Portal) -
 		
 			<Card>
 				<p slot="title">
-					生产管理系统（Beta）
+					生产管理课
 					@hasanyrole('role_scgl_config|role_super_admin')
 					<span style="float:right">
 						<a href="{{ route('scgl.config') }}" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;Config</a>
@@ -123,17 +123,17 @@ var vm_app = new Vue({
 	data: {
 		CardListSmt: [
 			{
-				name: 'Mpoint',
+				name: 'Mpoint (RC)',
 				url: "{{ route('smt.pdreport.mpoint') }}", //'http://172.22.15.199:8888/smt/mpoint',
+				percent: 100,
+			},
+			{
+				name: '生产日报 (Beta)',
+				url: "{{ route('smt.pdreport.index') }}",
 				percent: 95,
 			},
 			{
-				name: '生产日报',
-				url: "{{ route('smt.pdreport.index') }}",
-				percent: 85,
-			},
-			{
-				name: '品质日报',
+				name: '品质日报 (Beta)',
 				url: "{{ route('smt.qcreport.index') }}",
 				percent: 95,
 			},
@@ -141,7 +141,7 @@ var vm_app = new Vue({
 
 		CardListBupinjiagong: [
 			{
-				name: '中日程分析',
+				name: '中日程分析 (GA)',
 				url: "{{ route('bpjg.zrcfx.index') }}",
 				percent: 100,
 			},
@@ -149,9 +149,9 @@ var vm_app = new Vue({
 
 		CardListShengchanguanli: [
 			{
-				name: '耗材分析',
+				name: '耗材分析 (RC)',
 				url: "{{ route('scgl.hcfx.index') }}",
-				percent: 90,
+				percent: 100,
 			},
 		],
 		
