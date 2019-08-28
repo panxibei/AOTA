@@ -486,7 +486,7 @@ SMT - PD report
 			</i-row> -->
 
 			&nbsp;
-			<Divider orientation="left">打点稼动率</Divider>
+			<Divider orientation="left">打点稼动率计算表</Divider>
 
 			<i-row :gutter="16">
 				<br>
@@ -1761,12 +1761,14 @@ var vm_app = new Vue({
 				key: 'shengchanriqi',
 				align: 'center',
 				width: 90,
+				fixed: 'left'
 			},
  			{
 				title: '线体',
 				key: 'xianti',
 				align: 'center',
 				width: 90,
+				fixed: 'left'
 				// render: (h, params) => {
 				// 	return h('div', [
 				// 		params.row.jianchariqi.substring(0,10)
@@ -3020,8 +3022,8 @@ var vm_app = new Vue({
 			var myyear = month.Format("yyyy");
 			var mymonth = month.Format("MM");
 
-			var days = new Date(myyear, mymonth, 0);
-			var mydays = days.getDate();
+			// var days = new Date(myyear, mymonth, 0);
+			// var mydays = days.getDate();
 
 			var tongji_date_filter = [month.Format("yyyy-MM-01 00:00:00"), month.Format("yyyy-MM-31 23:59:59")];
 			// console.log(mydays);return false;
@@ -3045,7 +3047,9 @@ var vm_app = new Vue({
 					var tongji = response.data.tongji;
 					var shebeinengli = response.data.shebeinengli;
 					var shebei = response.data.shebei;
-					var chixushijian = 1440 * mydays;
+					var shengchantianshu = response.data.shengchantianshu;
+					// var chixushijian = 1440 * mydays;
+					var chixushijian = 1440 * shengchantianshu;
 
 					var res = [
 						{
@@ -3204,7 +3208,6 @@ var vm_app = new Vue({
 						// 生产时间
 						res[i].shijishijian = parseInt(v.shijishijian) || 0;
 						res[i].shijidianshu = parseInt(v.shijidianshu) || 0;
-						res[i].jiadonglv = res[i].shijishijian != 0 ? (res[i].shijishijian / chixushijian).toFixed(2) : 0;
 
 						// 机种切换
 						res[i].jizhongqiehuanshijian = parseInt(v.jizhongqiehuanshijian) || 0;
@@ -3221,11 +3224,14 @@ var vm_app = new Vue({
 						res[i].guzhang = parseInt(v.guzhang) || 0;
 						res[i].shizuo = parseInt(v.shizuo) || 0;
 
-						// res[i].bupinbuchong = chixushijian - res[i].shijishijian - (res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo);
+						// 部品补充
 						res[i].bupinbuchong = parseInt(v.bupinbuchong) || 0;
 
+						// 稼动率
+						res[i].jiadonglv = res[i].shijishijian != 0 ? (res[i].shijishijian / (chixushijian - res[i].wujihua)).toFixed(2) : 0;
+
+						// 合计
 						res[i].heji = res[i].jizhongqiehuanshijian + res[i].dengdaibupin + res[i].wujihua + res[i].qianhougongchengdengdai + res[i].wubupin + res[i].bupinanpaidengdai + res[i].dingqidianjian + res[i].guzhang + res[i].shizuo + res[i].bupinbuchong;
-					
 
 					});
 

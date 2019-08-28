@@ -1067,6 +1067,16 @@ class pdreportController extends Controller
 			
 			Cache::put($fullUrl, $tongji, now()->addSeconds(10));
 		}
+
+		$tianshu = Smt_pdreport::select(
+			DB::raw('COUNT(DISTINCT shengchanriqi) AS shengchantianshu')
+			)
+			->when($tongji_date_filter, function ($query) use ($tongji_date_filter) {
+				return $query->whereBetween('shengchanriqi', $tongji_date_filter);
+			})
+			->first()->toArray();
+		$shengchantianshu = $tianshu['shengchantianshu'];
+		// dd($shengchantianshu);
 		
 		// 设备能力配置读取
 		// $shebeinengli = Smt_config::select('value')
@@ -1085,7 +1095,7 @@ class pdreportController extends Controller
 			->toArray();
 
 		// dd($shebeinengli);
-		$result = compact('tongji', 'shebeinengli', 'shebei');
+		$result = compact('tongji', 'shengchantianshu', 'shebeinengli', 'shebei');
 		return $result;
 	}
 
