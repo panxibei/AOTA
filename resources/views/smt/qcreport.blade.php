@@ -103,7 +103,7 @@ SMT(QC report) -
 				</i-col>
 			</i-row>
 			
-			&nbsp;
+			<br>
 
 			<span v-for="(item, index) in piliangluru">
 			<br>
@@ -164,10 +164,10 @@ SMT(QC report) -
 				</i-col>
 				
 			</i-row>
-			<br>
+			&nbsp;
 			</span>
 
-			<br>
+			&nbsp;<br>
 			<i-row :gutter="16">
 				<i-col span="24">
 					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary">记入</i-button>
@@ -178,7 +178,7 @@ SMT(QC report) -
 			&nbsp;<br><br><br>
 
 			<span v-for="n in (10 - piliangluru.length)">
-				<br><br>
+			<br><br>
 			</span>
 
 		</Tab-pane>
@@ -2689,7 +2689,7 @@ var vm_app = new Vue({
 		
 		//
 		// 生成piliangluru
-		piliangluru_generate: function (counts) {
+		piliangluru_generate (counts) {
 			if (counts == undefined) counts = 1;
 			var len = this.piliangluru.length;
 			
