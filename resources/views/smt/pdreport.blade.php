@@ -465,26 +465,6 @@ SMT - PD report
 				</i-col>
 			</i-row>
 
-			<!-- &nbsp;
-			<i-row :gutter="16">
-				<br><br>
-				<i-col span="1">
-					&nbsp;
-				</i-col>
-				<i-col span="23">
-					<p>
-					<span id="dadianjiadonglv">...</span>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<font color="#2db7f5">* 设备能力通常为常数，可在配置页面中调整。</font>
-					</p>
-					<script>
-						katex.render("\\text{参考公式：} \\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{\\text{(稼动时间 (js) - 无计划 (w) - 试作 (s)) / 1440分 * 设备能力 (N)}} \\times \\text{100}\\%", dadianjiadonglv, {
-							throwOnError: false
-						});
-					</script>
-				</i-col>
-			</i-row> -->
-
 			&nbsp;
 			<Divider orientation="left">打点稼动率计算表</Divider>
 
@@ -507,13 +487,13 @@ SMT - PD report
 					<br><br>
 					<span id="dadianjiadonglv">...</span>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<font color="#2db7f5">* 设备能力通常为常数，可在配置页面中调整。</font>
+					<font color="#2db7f5">* 设备能力为常数，单位为K点，可在配置页面中调整。</font>
 					</p>
 					<script>
 						katex.render("\\text{理论打点数 (ld)} = \\text{设备能力 (N)} \\times \\text{稼动时间 (js)}", lilundadianshu, {
 							throwOnError: false
 						});
-						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{\\text{(稼动时间 (js) - 无计划 (w) - 试作 (s)) / 1440分 * 设备能力 (N)}} \\times \\text{100}\\%", dadianjiadonglv, {
+						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(稼动时间 (js)} - \\text{无计划 (w)} - \\text{试作 (s))}}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
 							throwOnError: false
 						});
 					</script>
@@ -3298,7 +3278,7 @@ var vm_app = new Vue({
 							// 实际打点数
 							dadianjiadonglv[i].shijidadianshu = res[i].shijidianshu;
 							// 打点稼动率
-							dadianjiadonglv[i].dadianjiadonglv = dadianjiadonglv[i].lilundadianshu != 0 ? (dadianjiadonglv[i].shijidadianshu / dadianjiadonglv[i].lilundadianshu).toFixed(2) : 0;
+							dadianjiadonglv[i].dadianjiadonglv = dadianjiadonglv[i].lilundadianshu != 0 ? (dadianjiadonglv[i].shijidadianshu / dadianjiadonglv[i].lilundadianshu / 1000).toFixed(2) : 0;
 							res[i].dadianjiadonglv = dadianjiadonglv[i].dadianjiadonglv;
 						}
 
