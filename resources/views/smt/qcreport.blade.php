@@ -806,14 +806,16 @@ var vm_app = new Vue({
 
 		// 品名
 		option_pinming: [
-			{
-				value: 'MAIN',
-				label: 'MAIN'
-			},
-			{
-				value: 'DIGITAL',
-				label: 'DIGITAL'
-			}
+			{value: 'MAIN', label: 'MAIN'},
+			{value: 'HVAC',	label: 'HVAC'},
+			{value: 'KEY',	label: 'KEY'},
+			{value: 'AUDIO', label: 'AUDIO'},
+			{value: 'VIDEO', label: 'VIDEO'},
+			{value: 'SW', label: 'SW'},
+			{value: 'FRONT', label: 'FRONT'},
+			{value: 'ODMD', label: 'ODMD'},
+			{value: 'MIC', label: 'MIC'},
+			{value: 'DIGITAL', label: 'DIGITAL'}
 		],
 		
 		// 检查者
