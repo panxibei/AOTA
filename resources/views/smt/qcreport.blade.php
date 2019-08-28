@@ -44,7 +44,9 @@ SMT(QC report) -
 			<i-row :gutter="16">
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
+					<Poptip trigger="focus" placement="top-start" content="在这里开始扫描或输入...." transfer="true">
 					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
+					</Poptip>
 				</i-col>
 				<i-col span="3">
 					* 工序&nbsp;&nbsp;
@@ -267,7 +269,11 @@ SMT(QC report) -
 					<i-row :gutter="16">
 						<br>
 						<i-col span="2">
-							<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button>&nbsp;<br>&nbsp;
+							<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete" @on-cancel="" transfer="true">
+							<!-- <i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button> -->
+							<i-button :disabled="boo_delete" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>
+							</Poptip>
+							&nbsp;<br>&nbsp;
 						</i-col>
 						<i-col span="8">
 							导出：<!--&nbsp;&nbsp;&nbsp;&nbsp;

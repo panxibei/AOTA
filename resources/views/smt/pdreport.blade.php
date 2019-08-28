@@ -352,7 +352,10 @@ SMT - PD report
 			<i-row :gutter="16">
 				
 				<i-col span="2">
-					<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button>&nbsp;&nbsp;
+					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete" @on-cancel="" transfer="true">
+					<i-button :disabled="boo_delete" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>
+					</Poptip>
+					&nbsp;&nbsp;
 				</i-col>
 				<i-col span="3">
 					担当者&nbsp;&nbsp;
