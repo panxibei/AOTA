@@ -264,31 +264,45 @@ class pdreportController extends Controller
 		// dd($dailyreport);
 		// dd($dailyreport['banci']);
 		
-		//读取点/枚
-		$t = Smt_mpoint::select('diantai', 'pinban')
-			->where('jizhongming', $dailyreport['jizhongming'])
-			->where('pinming', $dailyreport['pinming'])
-			->where('gongxu', $dailyreport['gongxu'])
-			->first();
-		// dd($t);
-		
-		if ($t == null) return 0;
-		
-		$dianmei = $t->diantai * $t->pinban;
+		// 如果机种名等均为空，则判断为无计划
+		if (empty($dailyreport['jizhongming']) && empty($dailyreport['pinming']) && empty($dailyreport['gongxu'])) {
+			// dd('无计划');
 
-		$meishu = ceil($dailyreport['taishu'] / $t->pinban);
+			$dianmei = null;
+			$meishu = null;
+			$shijishengchanshijian =null;
+			$bupinbuchongshijian = null;
+			$chajiandianshu = null;
+			$jiadonglv = null;
 
-		$shijishengchanshijian = $dailyreport['meimiao'] * $meishu;
+		} else {
 
-		$bupinbuchongshijian = $dailyreport['shoudongshengchanshijian'] - $shijishengchanshijian
-			- $dailyreport['xinchan'] - $dailyreport['liangchan'] - $dailyreport['dengdaibupin']
-			- $dailyreport['wujihua'] - $dailyreport['qianhougongchengdengdai'] - $dailyreport['wubupin']
-			- $dailyreport['bupinanpaidengdai'] - $dailyreport['dingqidianjian'] - $dailyreport['guzhang']
-			- $dailyreport['shizuo'];
+			//读取点/枚
+			$t = Smt_mpoint::select('diantai', 'pinban')
+				->where('jizhongming', $dailyreport['jizhongming'])
+				->where('pinming', $dailyreport['pinming'])
+				->where('gongxu', $dailyreport['gongxu'])
+				->first();
+			// dd($t);
+			
+			if ($t == null) return 0;
+			
+			$dianmei = $t->diantai * $t->pinban;
 
-		$chajiandianshu = $t->diantai * $meishu;
-		// $jiadonglv = $dailyreport['meishu'] * $dailyreport['meimiao'] / 43200;
-		$jiadonglv = $meishu * $dailyreport['meimiao'] / 43200;
+			$meishu = ceil($dailyreport['taishu'] / $t->pinban);
+
+			$shijishengchanshijian = $dailyreport['meimiao'] * $meishu;
+
+			$bupinbuchongshijian = $dailyreport['shoudongshengchanshijian'] - $shijishengchanshijian
+				- $dailyreport['xinchan'] - $dailyreport['liangchan'] - $dailyreport['dengdaibupin']
+				- $dailyreport['wujihua'] - $dailyreport['qianhougongchengdengdai'] - $dailyreport['wubupin']
+				- $dailyreport['bupinanpaidengdai'] - $dailyreport['dingqidianjian'] - $dailyreport['guzhang']
+				- $dailyreport['shizuo'];
+
+			$chajiandianshu = $t->diantai * $meishu;
+			$jiadonglv = $meishu * $dailyreport['meimiao'] / 43200;
+
+		}
 
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
@@ -343,7 +357,7 @@ class pdreportController extends Controller
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			// dd('Message: ' .$e->getMessage());
+			dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		// dd($result);
@@ -610,7 +624,7 @@ class pdreportController extends Controller
 		// $smt_pdreport = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'bupinbuchongshijian', 'taishu', 'lotcan', 'chajiandianshu',
 			'jiadonglv', 'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
-			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'xinjizhongshengchanshijian', 'shizuo',
+			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo',
 			'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe')
 			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
@@ -631,7 +645,7 @@ class pdreportController extends Controller
 		$title[] = ['生产日期', '线体', '班次', '机种名', 'SP NO.', '品名',
 			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '部品补充时间', '台数', 'LOT残', '插件点数',
 			'稼动率', '新产', '量产', '等待部品', '无计划', '前后工程等待',
-			'部品欠品', '部品准备等待', '定期点检', '故障', '新机种生产时间', '试作',
+			'部品欠品', '部品准备等待', '定期点检', '故障', '试作',
 			'记载事项', '录入者', '担当者', '确认者'];
 
 		// 合并Excel的标题和数据为一个整体

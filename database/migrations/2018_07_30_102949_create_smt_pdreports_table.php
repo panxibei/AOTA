@@ -18,21 +18,21 @@ class CreateSmtPdreportsTable extends Migration
 			$table->dateTime('shengchanriqi');
 			$table->string('xianti', 20);
 			$table->string('banci', 20);
-			$table->string('jizhongming', 50);
-			$table->string('spno', 50);
-			$table->string('pinming', 50);
-			$table->integer('lotshu')->unsigned();
-			$table->string('gongxu', 20);
-			$table->integer('dianmei')->unsigned();
-			$table->integer('meimiao')->unsigned();
-			$table->integer('meishu')->unsigned();
-			$table->integer('shijishengchanshijian')->unsigned(); // dianmei * meishu
-			$table->integer('shoudongshengchanshijian')->unsigned();
-			$table->integer('bupinbuchongshijian')->unsigned();
-			$table->integer('taishu')->unsigned();
-			$table->integer('lotcan')->unsigned();
-			$table->integer('chajiandianshu')->unsigned();
-			$table->float('jiadonglv');
+			$table->string('jizhongming', 50)->nullable();
+			$table->string('spno', 50)->nullable();
+			$table->string('pinming', 50)->nullable();
+			$table->integer('lotshu')->unsigned()->nullable();
+			$table->string('gongxu', 20)->nullable();
+			$table->integer('dianmei')->unsigned()->nullable();
+			$table->integer('meimiao')->unsigned()->nullable();
+			$table->integer('meishu')->unsigned()->nullable();
+			$table->integer('shijishengchanshijian')->unsigned()->nullable(); // dianmei * meishu
+			$table->integer('shoudongshengchanshijian')->unsigned()->nullable();
+			$table->integer('bupinbuchongshijian')->unsigned()->nullable();
+			$table->integer('taishu')->unsigned()->nullable();
+			$table->integer('lotcan')->unsigned()->nullable();
+			$table->integer('chajiandianshu')->unsigned()->nullable();
+			$table->float('jiadonglv')->nullable();
 			$table->integer('xinchan')->unsigned()->nullable();
 			$table->integer('liangchan')->unsigned()->nullable();
 			$table->integer('qiehuancishu')->unsigned()->default(0);

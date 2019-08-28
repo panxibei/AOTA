@@ -134,7 +134,7 @@ SMT - PD report
 			<br><br>
 			<i-row :gutter="16">
 				<i-col span="4">
-					<strong>* 计划日期</strong>&nbsp;&nbsp;
+					<strong>计划日期</strong>&nbsp;&nbsp;
 					<Date-picker v-model.lazy="jihuariqi" @on-change="pdplanresultgets()" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="4">
@@ -161,27 +161,27 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="4">
-					* 机种名&nbsp;&nbsp;
+					机种名&nbsp;&nbsp;
 					<!-- <i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input> -->
 					<i-input v-model.lazy="jizhongming" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
-					* SP NO.&nbsp;&nbsp;
+					SP NO.&nbsp;&nbsp;
 					<i-input v-model.lazy="spno" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
-					* 品名&nbsp;&nbsp;
+					品名&nbsp;&nbsp;
 					<!-- <i-select v-model.lazy="pinming" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select> -->
 					<i-input v-model.lazy="pinming" @on-keyup="pinming=pinming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
-					* LOT数&nbsp;&nbsp;
+					LOT数&nbsp;&nbsp;
 					<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="4">
-					* 工序&nbsp;&nbsp;
+					工序&nbsp;&nbsp;
 					<!-- <i-select v-model.lazy="gongxu" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select> -->
@@ -195,11 +195,11 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="4">
-					* 枚/秒&nbsp;&nbsp;
+					枚/秒&nbsp;&nbsp;
 					<Input-number ref="ref_meimiao" element-id="id_meimiao" v-model.lazy="meimiao" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="4">
-					* 台数&nbsp;&nbsp;
+					台数&nbsp;&nbsp;
 					<Input-number v-model.lazy="taishu" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="5">
@@ -745,48 +745,6 @@ var vm_app = new Vue({
 				key: 'banci',
 				align: 'center',
 				width: 70,
-				// filters: [
-				// 	{
-				// 		label: 'A-1',
-				// 		value: 'A-1'
-				// 	},
-				// 	{
-				// 		label: 'A-2',
-				// 		value: 'A-2'
-				// 	},
-				// 	{
-				// 		label: 'A-3',
-				// 		value: 'A-3'
-				// 	},
-				// 	{
-				// 		label: 'B-1',
-				// 		value: 'B-1'
-				// 	},
-				// 	{
-				// 		label: 'B-2',
-				// 		value: 'B-2'
-				// 	},
-				// 	{
-				// 		label: 'B-3',
-				// 		value: 'B-3'
-				// 	}
-				// ],
-				// filterMultiple: false,
-				// filterMethod: function (value, row) {
-				// 	if (value === 'A-1') {
-				// 		return row.banci === 'A-1';
-				// 	} else if (value === 'A-2') {
-				// 		return row.banci === 'A-2';
-				// 	} else if (value === 'A-3') {
-				// 		return row.banci === 'A-3';
-				// 	} else if (value === 'B-1') {
-				// 		return row.banci === 'B-1';
-				// 	} else if (value === 'B-2') {
-				// 		return row.banci === 'B-2';
-				// 	} else if (value === 'B-3') {
-				// 		return row.banci === 'B-3';
-				// 	}
-				// }
 			},
 			{
 				title: '机种信息',
@@ -797,21 +755,33 @@ var vm_app = new Vue({
 						key: 'jizhongming',
 						align: 'center',
 						width: 100,
-						// sortable: true
+						render: (h, params) => {
+							return h('div', [
+								params.row.jizhongming || ''
+							]);
+						}
 					},
 					{
 						title: 'SP NO.',
 						key: 'spno',
 						align: 'center',
 						width: 130,
-						// sortable: true
+						render: (h, params) => {
+							return h('div', [
+								params.row.spno || ''
+							]);
+						}
 					},
 					{
 						title: '品名',
 						key: 'pinming',
 						align: 'center',
 						width: 80,
-						// sortable: true
+						render: (h, params) => {
+							return h('div', [
+								params.row.pinming || ''
+							]);
+						}
 					},
 					{
 						title: 'LOT数',
@@ -820,7 +790,7 @@ var vm_app = new Vue({
 						width: 70,
 						render: (h, params) => {
 							return h('div', [
-								params.row.lotshu.toLocaleString()
+								params.row.lotshu ? params.row.lotshu.toLocaleString() : ''
 							]);
 						}
 					}
@@ -835,7 +805,12 @@ var vm_app = new Vue({
 						title: '工序',
 						key: 'gongxu',
 						align: 'center',
-						width: 60
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.gongxu || ''
+							]);
+						}
 					},
 					{
 						title: '点/枚',
@@ -844,7 +819,7 @@ var vm_app = new Vue({
 						width: 70,
 						render: (h, params) => {
 							return h('div', [
-								params.row.dianmei.toLocaleString()
+								params.row.dianmei ? params.row.dianmei.toLocaleString() : ''
 							]);
 						}
 					}
@@ -858,7 +833,12 @@ var vm_app = new Vue({
 						title: '枚/秒',
 						key: 'meimiao',
 						align: 'center',
-						width: 60
+						width: 60,
+						render: (h, params) => {
+							return h('div', [
+								params.row.meimiao || ''
+							]);
+						}
 					},
 					{
 						title: '枚数',
@@ -867,7 +847,7 @@ var vm_app = new Vue({
 						width: 60,
 						render: (h, params) => {
 							return h('div', [
-								params.row.meishu.toLocaleString()
+								params.row.meishu ? params.row.meishu.toLocaleString() : ''
 							]);
 						}
 					},
@@ -888,7 +868,7 @@ var vm_app = new Vue({
 						},
 						render: (h, params) => {
 							return h('div', [
-								params.row.shoudongshengchanshijian.toLocaleString()
+								params.row.shoudongshengchanshijian ? params.row.shoudongshengchanshijian.toLocaleString() : ''
 							]);
 						}
 					},
@@ -909,7 +889,7 @@ var vm_app = new Vue({
 						},
 						render: (h, params) => {
 							return h('div', [
-								params.row.bupinbuchongshijian.toLocaleString()
+								params.row.bupinbuchongshijian ? params.row.bupinbuchongshijian.toLocaleString() : ''
 							]);
 						}
 					},
@@ -920,7 +900,7 @@ var vm_app = new Vue({
 						width: 70,
 						render: (h, params) => {
 							return h('div', [
-								params.row.taishu.toLocaleString()
+								params.row.taishu ? params.row.taishu.toLocaleString() : ''
 							]);
 						}
 					},
@@ -931,7 +911,7 @@ var vm_app = new Vue({
 						width: 70,
 						render: (h, params) => {
 							return h('div', [
-								params.row.lotcan.toLocaleString()
+								params.row.lotcan ? params.row.lotcan.toLocaleString() : ''
 							]);
 						}
 					},
@@ -953,7 +933,7 @@ var vm_app = new Vue({
 						},
 						render: (h, params) => {
 							return h('div', [
-								params.row.chajiandianshu.toLocaleString()
+								params.row.chajiandianshu ? params.row.chajiandianshu.toLocaleString() : ''
 							]);
 						}
 					},
@@ -968,7 +948,7 @@ var vm_app = new Vue({
 								// parseFloat(params.row.jiadonglv * 100) + '%'
 								// (params.row.jiadonglv * 100) + '%'
 								// params.row.jiadonglv * 100
-								Math.round(params.row.jiadonglv*100) + '%'
+								params.row.jiadonglv ? Math.round(params.row.jiadonglv*100) + '%' : ''
 							]);
 						}
 					}
@@ -2368,20 +2348,22 @@ var vm_app = new Vue({
 			var shizuo = _this.shizuo;
 			var jizaishixiang = _this.jizaishixiang;
 
-			if (shengchanriqi == '' || xianti == '' || banci == '' || jizhongming == '' || spno == ''  || pinming == '' || lotshu == '' || meimiao == '' || taishu == '' || gongxu == ''
-				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || jizhongming == undefined || spno == undefined || pinming == undefined || lotshu == undefined || meimiao == undefined || taishu == undefined || gongxu == undefined) {
-				_this.warning(false, '警告', '输入内容为空或不正确！');
+			if (shengchanriqi == '' || xianti == '' || banci == ''
+				|| shengchanriqi == undefined || xianti == undefined || banci == undefined) {
+				_this.warning(false, '警告', '必填项输入内容为空或不正确！');
 				return false;
 			}
 
 			// 正则判断spno（10位数字 + 横杠 + 一位或两位数字）
-			// var pattern = /^\d{10}-\d{1,2}$/;
-			var pattern = /^\d{10}-[0-9a-zA-Z]{1,2}$/;
-			// console.log(pattern.test(spno));
-			// return false;
-			if (! pattern.test(spno)) {
-				_this.warning(false, '警告', 'SP NO. 输入不正确！');
-				return false;
+			if (spno != undefined && spno != '' && spno != null) {
+				// var pattern = /^\d{10}-\d{1,2}$/;
+				var pattern = /^\d{10}-[0-9a-zA-Z]{1,2}$/;
+				// console.log(pattern.test(spno));
+				// return false;
+				if (! pattern.test(spno)) {
+					_this.warning(false, '警告', 'SP NO. 输入不正确！');
+					return false;
+				}
 			}
 
 			var url = "{{ route('smt.pdreport.dailyreportcreate') }}";
