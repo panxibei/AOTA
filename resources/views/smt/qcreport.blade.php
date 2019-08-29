@@ -44,8 +44,8 @@ SMT(QC report) -
 			<i-row :gutter="16">
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
-					<Poptip trigger="focus" placement="top-start" content="在这里开始扫描或输入...." transfer="true">
-					<i-input ref="saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
+					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
+					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
 					</Poptip>
 				</i-col>
 				<i-col span="3">
@@ -172,8 +172,8 @@ SMT(QC report) -
 			&nbsp;<br>
 			<i-row :gutter="16">
 				<i-col span="24">
-					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary">记入</i-button>
-					&nbsp;&nbsp;<i-button @click="onclear()">清除</i-button>
+					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary"><Icon type="ios-create-outline"></Icon> 记入</i-button>
+					&nbsp;&nbsp;<i-button @click="onclear()"><Icon type="ios-close-circle-outline"></Icon> 清除</i-button>
 				</i-col>
 			</i-row>
 
@@ -4806,6 +4806,9 @@ var vm_app = new Vue({
 			
 	},
 	mounted () {
+		var id_saomiao = document.getElementById("id_saomiao");
+		id_saomiao.style.background = "#FFF8E1";
+
 		var _this = this;
 		_this.configgets();
 		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
