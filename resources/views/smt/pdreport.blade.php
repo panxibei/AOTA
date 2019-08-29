@@ -37,7 +37,6 @@ SMT - PD report
 	color: #fff;
 }
 
-
 </style>
 @endsection
 

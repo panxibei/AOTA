@@ -20,6 +20,36 @@ SMT(QC report) -
 .subCol>ul>li:last-child{
   border-bottom: none
 }
+
+.ivu-table .table-info-row td{
+	background-color: #2db7f5;
+	color: #fff;
+}
+.ivu-table .table-error-row td{
+	background-color: #ff6600;
+	color: #fff;
+}
+.ivu-table td.table-info-column{
+	background-color: #2db7f5;
+	color: #fff;
+}
+.ivu-table .table-info-cell-name {
+	background-color: #2db7f5;
+	color: #fff;
+}
+.ivu-table .table-info-cell-age {
+	background-color: #ff6600;
+	color: #fff;
+}
+.ivu-table .table-info-cell-address {
+	background-color: #187;
+	color: #fff;
+}
+
+.ivu-table td.table-info-column-buliangxinxi {
+	background-color: #90A4AE;
+	color: #fff;
+}
 </style>
 @endsection
 
@@ -1070,6 +1100,7 @@ var vm_app = new Vue({
 				key: 'hejidianshu',
 				align: 'center',
 				width: 90,
+				className: 'table-info-column',
 				render: (h, params) => {
 					return h('div', [
 						// parseFloat(params.row.hejidianshu * 100) + '%'
@@ -1208,6 +1239,7 @@ var vm_app = new Vue({
 						key: 'buliangxinxi',
 						align:'center',
 						width: 50,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
@@ -1229,6 +1261,7 @@ var vm_app = new Vue({
 						key: 'buliangxinxi',
 						align:'center',
 						width: 170,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
@@ -1249,6 +1282,7 @@ var vm_app = new Vue({
 						key: 'buliangxinxi',
 						align:'center',
 						width: 80,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
@@ -1269,6 +1303,7 @@ var vm_app = new Vue({
 						key: 'buliangxinxi',
 						align:'center',
 						width: 70,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
@@ -1289,6 +1324,7 @@ var vm_app = new Vue({
 						key: 'buliangxinxi',
 						align:'center',
 						width: 80,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
@@ -1309,6 +1345,7 @@ var vm_app = new Vue({
 						key: 'buliangxinxi',
 						align:'center',
 						width: 90,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
@@ -1329,6 +1366,7 @@ var vm_app = new Vue({
 						key: 'action',
 						align: 'center',
 						width: 110,
+						className: 'table-info-column-buliangxinxi',
 						render: (h, params) => {
 							if (params.row.buliangxinxi!=undefined && params.row.buliangxinxi!=null) {
 								return h('div', {
