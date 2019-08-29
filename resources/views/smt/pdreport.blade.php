@@ -281,8 +281,8 @@ SMT - PD report
 					<i-input element-id="id_jizaishixiang" type="textarea" :rows="3" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="16">
-					<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
-					&nbsp;&nbsp;<i-button @click="clear()" size="large">清除</i-button>
+					<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large"><Icon type="md-create"></Icon> 记入</i-button>
+					&nbsp;&nbsp;<i-button @click="clear()" size="large"><Icon type="ios-close-circle-outline"></Icon> 清除</i-button>
 				</i-col>
 			</i-row>
 			&nbsp;<br><br><br><br><br><br>

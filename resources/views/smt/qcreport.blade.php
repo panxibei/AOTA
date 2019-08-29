@@ -536,7 +536,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表1 - 工程内不良记录（PPM）">
 
-					<i-button @click="onchart1()" type="info" size="small">刷新图表1 ↘</i-button>
+					<i-button @click="onchart1()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表1 ↘</i-button>
 					<!--
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<Upload
@@ -558,7 +558,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表2 - 按不良内容统计不良占有率">
 
-					<i-button @click="onchart2()" type="info" size="small">刷新图表2 ↘</i-button>
+					<i-button @click="onchart2()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表2 ↘</i-button>
 					<br><br>
 					<i-row :gutter="16">
 						<i-col span="24">
@@ -570,7 +570,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表3 - 按月份对比不良率和PPM">
 
-					<i-button @click="onchart3()" type="info" size="small">刷新图表3 ↘</i-button>
+					<i-button @click="onchart3()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表3 ↘</i-button>
 					<br><br>
 					<i-row :gutter="16">
 						<i-col span="24">
