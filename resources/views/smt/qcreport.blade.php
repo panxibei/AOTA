@@ -598,64 +598,56 @@ SMT(QC report) -
 
 				</Tab-pane>
 
-				<Tab-pane label="图表3 - 按月份对比不良率和PPM">
-
-					<i-button @click="onchart3()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表3 ↘</i-button>
-					<br><br>
-					<i-row :gutter="16">
-						<i-col span="24">
-							<div id="chart3" style="height:600px"></div>
-						</i-col>
-					</i-row>
-
-				</Tab-pane>
-
-				<Tab-pane label="按线体统计点数和不良件数以及PPM">
-
-					<i-row :gutter="16">
-						<br>
-						<i-col span="2">
-							&nbsp;
-						</i-col>
-						<i-col span="3">
-							查询：&nbsp;&nbsp;
-							<Date-picker v-model.lazy="tongji_date_filter" @on-change="tongjigets(tongji_date_filter)" type="year" size="small" style="width:100px"></Date-picker>
-						</i-col>
-						<i-col span="1">
-							&nbsp;
-						</i-col>
-						<i-col span="18">
-							导出：
-							&nbsp;&nbsp;
-							<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
-								<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
-								<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
-							</Poptip>
-						</i-col>
-					</i-row>
-
-					&nbsp;
-					<i-row :gutter="16">
-						<br>
-						<i-col span="24">
-							<i-table ref="table2" height="460" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
-						</i-col>
-					</i-row>
-
-				</Tab-pane>
-
 			</Tabs>
-
-
-
-
-
 
 
 		</Tab-pane>
 
+		<Tab-pane label="图表3 - 按月份对比不良率和PPM">
 
+			<i-button @click="onchart3()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表3 ↘</i-button>
+			<br><br>
+			<i-row :gutter="16">
+				<i-col span="24">
+					<div id="chart3" style="height:600px"></div>
+				</i-col>
+			</i-row>
 
+		</Tab-pane>
+
+		<Tab-pane label="按线体统计点数和不良件数以及PPM">
+
+			<i-row :gutter="16">
+				<br>
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="3">
+					查询：&nbsp;&nbsp;
+					<Date-picker v-model.lazy="tongji_date_filter" @on-change="tongjigets(tongji_date_filter)" type="year" size="small" style="width:100px"></Date-picker>
+				</i-col>
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="18">
+					导出：
+					&nbsp;&nbsp;
+					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
+						<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
+						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
+					</Poptip>
+				</i-col>
+			</i-row>
+
+			&nbsp;
+			<i-row :gutter="16">
+				<br>
+				<i-col span="24">
+					<i-table ref="table2" height="460" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
+				</i-col>
+			</i-row>
+
+		</Tab-pane>
 
 	</Tabs>
 	
