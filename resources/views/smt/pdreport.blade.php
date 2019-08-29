@@ -134,17 +134,17 @@ SMT - PD report
 			<br><br>
 			<i-row :gutter="16">
 				<i-col span="4">
-					<strong>计划日期</strong>&nbsp;&nbsp;
+					<strong><font color="#ff9900">计划日期</font></strong>&nbsp;&nbsp;
 					<Date-picker v-model.lazy="jihuariqi" @on-change="pdplanresultgets()" type="date" style="width:120px" placeholder=""></Date-picker>
 				</i-col>
 				<i-col span="4">
-					<strong>* 线体</strong>&nbsp;&nbsp;
+					* <strong><font color="#ff9900">线体</font></strong>&nbsp;&nbsp;
 					<i-select v-model.lazy="xianti" @on-change="pdplanresultgets()" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="4">
-					<strong>* 班次</strong>&nbsp;&nbsp;
+					* <strong><font color="#ff9900">班次</font></strong>&nbsp;&nbsp;
 					<i-select v-model.lazy="banci" @on-change="pdplanresultgets()" clearable style="width:120px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
@@ -196,15 +196,15 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					枚/秒&nbsp;&nbsp;
-					<Input-number ref="ref_meimiao" element-id="id_meimiao" v-model.lazy="meimiao" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+					<Input-number ref="ref_meimiao" element-id="id_meimiao" v-model.lazy="meimiao" :min="1" size="small" style="width: 120px;" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="4">
 					台数&nbsp;&nbsp;
-					<Input-number v-model.lazy="taishu" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+					<Input-number element-id="id_taishu" v-model.lazy="taishu" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="5">
 					手动生产时间（分）&nbsp;&nbsp;
-					<Input-number v-model.lazy="shoudongshengchanshijian" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+					<Input-number element-id="id_shoudongshengchanshijian" v-model.lazy="shoudongshengchanshijian" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 				</i-col>
 				<i-col span="11">
 					&nbsp;
@@ -217,30 +217,30 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="3">
 					1.新产切换&nbsp;&nbsp;
-					<Input-number v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_xinchan" v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="3">
 					1.量产切换&nbsp;&nbsp;
-					<Input-number v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_liangchan" v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="2">
 				&nbsp;
 				</i-col>
 				<i-col span="4">
 					2.等待部品&nbsp;&nbsp;
-					<Input-number v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_dengdaibupin" v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 					3.无计划&nbsp;&nbsp;
-					<Input-number v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_wujihua" v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 					4.前后工程等待&nbsp;&nbsp;
-					<Input-number v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_qianhougongchengdengdai" v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 					5.部品欠品&nbsp;&nbsp;
-					<Input-number v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_wubupin" v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -248,20 +248,20 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="4">
 					6.部品准备等待&nbsp;&nbsp;
-					<Input-number v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_bupinanpaidengdai" v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 					7.定期点检&nbsp;&nbsp;
-					<Input-number v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_dingqidianjian" v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 					8.故障&nbsp;&nbsp;
-					<Input-number v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_guzhang" v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="6">
 				&nbsp;
 					9.新机种生产时间（试作）&nbsp;&nbsp;
-					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
+					<Input-number element-id="id_shizuo" v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="4">
 				&nbsp;
@@ -278,7 +278,7 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="8">
 					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-					<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang" type="textarea" :rows="3" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="16">
 					<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large">记入</i-button>
@@ -3300,6 +3300,49 @@ var vm_app = new Vue({
 		
 	},
 	mounted () {
+		// 设置input背景色
+		var id_meimiao = document.getElementById("id_meimiao");
+		id_meimiao.style.background = "#E1F5FE";
+
+		var id_taishu = document.getElementById("id_taishu");
+		id_taishu.style.background = "#E1F5FE";
+
+		var id_shoudongshengchanshijian = document.getElementById("id_shoudongshengchanshijian");
+		id_shoudongshengchanshijian.style.background = "#E1F5FE";
+
+		var id_xinchan = document.getElementById("id_xinchan");
+		id_xinchan.style.background = "#E1F5FE";
+
+		var id_liangchan = document.getElementById("id_liangchan");
+		id_liangchan.style.background = "#E1F5FE";
+
+		var id_dengdaibupin = document.getElementById("id_dengdaibupin");
+		id_dengdaibupin.style.background = "#E1F5FE";
+
+		var id_wujihua = document.getElementById("id_wujihua");
+		id_wujihua.style.background = "#E1F5FE";
+
+		var id_qianhougongchengdengdai = document.getElementById("id_qianhougongchengdengdai");
+		id_qianhougongchengdengdai.style.background = "#E1F5FE";
+
+		var id_wubupin = document.getElementById("id_wubupin");
+		id_wubupin.style.background = "#E1F5FE";
+
+		var id_bupinanpaidengdai = document.getElementById("id_bupinanpaidengdai");
+		id_bupinanpaidengdai.style.background = "#E1F5FE";
+
+		var id_dingqidianjian = document.getElementById("id_dingqidianjian");
+		id_dingqidianjian.style.background = "#E1F5FE";
+
+		var id_guzhang = document.getElementById("id_guzhang");
+		id_guzhang.style.background = "#E1F5FE";
+
+		var id_shizuo = document.getElementById("id_shizuo");
+		id_shizuo.style.background = "#E1F5FE";
+
+		var id_jizaishixiang = document.getElementById("id_jizaishixiang");
+		id_jizaishixiang.style.background = "#E1F5FE";
+
 		var _this = this;
 		_this.configgets();
 	}
