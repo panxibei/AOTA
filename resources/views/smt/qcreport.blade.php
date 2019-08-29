@@ -1496,6 +1496,7 @@ var vm_app = new Vue({
 				key: 'jianchariqi',
 				align: 'center',
 				width: 100,
+				fixed: 'left',
 				render: (h, params) => {
 					return h('div', [
 						params.row.jianchariqi.substring(0,10)
@@ -1550,6 +1551,7 @@ var vm_app = new Vue({
 						key: 'hejidianshu2',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu2.toLocaleString()
@@ -1561,6 +1563,7 @@ var vm_app = new Vue({
 						key: 'buliangjianshu2',
 						align: 'center',
 						width: 90,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.buliangjianshu2.toLocaleString()
@@ -1570,6 +1573,7 @@ var vm_app = new Vue({
 					{
 						title: 'PPM',
 						key: 'ppm2',
+						className: 'table-info-column',
 						align: 'center',
 						width: 100,
 						render: (h, params) => {
@@ -1628,6 +1632,7 @@ var vm_app = new Vue({
 						key: 'hejidianshu4',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu4.toLocaleString()
@@ -1639,6 +1644,7 @@ var vm_app = new Vue({
 						key: 'buliangjianshu4',
 						align: 'center',
 						width: 90,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.buliangjianshu4.toLocaleString()
@@ -1650,6 +1656,7 @@ var vm_app = new Vue({
 						key: 'ppm4',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm4.toLocaleString()
@@ -1706,6 +1713,7 @@ var vm_app = new Vue({
 						key: 'hejidianshu6',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu6.toLocaleString()
@@ -1717,6 +1725,7 @@ var vm_app = new Vue({
 						key: 'buliangjianshu6',
 						align: 'center',
 						width: 90,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.buliangjianshu6.toLocaleString()
@@ -1728,6 +1737,7 @@ var vm_app = new Vue({
 						key: 'ppm6',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm6.toLocaleString()
@@ -1784,6 +1794,7 @@ var vm_app = new Vue({
 						key: 'hejidianshu8',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu8.toLocaleString()
@@ -1795,6 +1806,7 @@ var vm_app = new Vue({
 						key: 'buliangjianshu8',
 						align: 'center',
 						width: 90,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.buliangjianshu8.toLocaleString()
@@ -1806,6 +1818,7 @@ var vm_app = new Vue({
 						key: 'ppm8',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm8.toLocaleString()
@@ -1862,6 +1875,7 @@ var vm_app = new Vue({
 						key: 'hejidianshu10',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu10.toLocaleString()
@@ -1873,6 +1887,7 @@ var vm_app = new Vue({
 						key: 'buliangjianshu10',
 						align: 'center',
 						width: 90,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.buliangjianshu10.toLocaleString()
@@ -1884,6 +1899,7 @@ var vm_app = new Vue({
 						key: 'ppm10',
 						align: 'center',
 						width: 100,
+						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
 								params.row.ppm10.toLocaleString()
