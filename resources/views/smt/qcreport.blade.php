@@ -86,7 +86,7 @@ SMT(QC report) -
 				</i-col>
 				<i-col span="3">
 					* 点/枚&nbsp;&nbsp;
-					<Input-number v-model.lazy="dianmei" :min="1" readonly style="width: 80px"></Input-number>
+					<Input-number element-id="id_dianmei" v-model.lazy="dianmei" :min="1" disabled="disabled" style="width: 80px"></Input-number>
 				</i-col>
 				<i-col span="3">
 					* 枚数&nbsp;&nbsp;
@@ -4854,6 +4854,9 @@ var vm_app = new Vue({
 	mounted () {
 		var id_saomiao = document.getElementById("id_saomiao");
 		id_saomiao.style.background = "#FFF8E1";
+
+		// var id_dianmei = document.getElementById("id_dianmei");
+		// id_dianmei.style.background = "#c5c8ce";
 
 		var _this = this;
 		_this.configgets();
