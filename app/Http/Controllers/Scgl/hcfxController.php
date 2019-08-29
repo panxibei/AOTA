@@ -482,6 +482,30 @@ class hcfxController extends Controller
 		Cache::flush();
 		return $result;
 	}	
+
+    /**
+     * guigeDelete
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function guigeDelete (Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$id = $request->input('tableselect_guige');
+
+		try	{
+			$result = Scgl_hcfx_tuopan::whereIn('id', $id)->delete();
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
+		
+		Cache::flush();
+		return $result;
+	}	
 	
 	
 	

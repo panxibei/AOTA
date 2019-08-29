@@ -67,7 +67,9 @@
 		<i-row :gutter="16">
 			<br>
 			<i-col span="2">
-				<i-button @click="ondelete_guige()" :disabled="boo_delete_guige" type="warning" size="small">批量删除</i-button>&nbsp;<br>&nbsp;
+				<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete_guige()" @on-cancel="" transfer="true">
+				<i-button :disabled="boo_delete_guige" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>&nbsp;<br>&nbsp;
+				</Poptip>
 			</i-col>
 			<i-col span="4">
 				&nbsp;
@@ -81,7 +83,7 @@
 
 		<i-row :gutter="16">
 			<i-col span="24">
-				<i-table ref="table_guige" height="420" size="small" border :columns="tablecolumns_guige" :data="tabledata_guige"></i-table>
+				<i-table ref="table_guige" height="420" size="small" border :columns="tablecolumns_guige" :data="tabledata_guige" @on-selection-change="selection => onselectchange_guige(selection)"></i-table>
 			</i-col>
 		</i-row>
 
@@ -200,7 +202,9 @@
 			<i-row :gutter="16">
 				<br>
 				<i-col span="2">
-					<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">删除</i-button>&nbsp;<br>&nbsp;
+					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete_relation()" @on-cancel="" transfer="true">
+					<i-button :disabled="boo_delete_relation" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>&nbsp;<br>&nbsp;
+					<Poptip>
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1352,7 +1356,7 @@ var vm_app = new Vue({
 		
 		
 		// ondelete_relation
-		ondelete_relation: function () {
+		ondelete_relation () {
 			var _this = this;
 			
 			var tableselect_relation = _this.tableselect_relation;
@@ -1384,9 +1388,42 @@ var vm_app = new Vue({
 			})
 		},		
 		
+		// ondelete_guige
+		ondelete_guige () {
+			var _this = this;
+			
+			var tableselect_guige = _this.tableselect_guige;
+			
+			if (tableselect_guige[0] == undefined) return false;
+
+			var url = "{{ route('scgl.hcfx.guigedelete') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				tableselect_guige: tableselect_guige
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, '成功', '删除成功！');
+					_this.boo_delete_guige = true;
+					_this.tableselect_guige = [];
+					_this.guigegets();
+				} else {
+					_this.error(false, '失败', '删除失败！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '删除失败！');
+			})
+		},		
+		
 		
 		// 表relation选择
-		onselectchange_relation: function (selection) {
+		onselectchange_relation (selection) {
 			var _this = this;
 			_this.tableselect_relation = [];
 
@@ -1397,10 +1434,24 @@ var vm_app = new Vue({
 			_this.boo_delete_relation = _this.tableselect_relation[0] == undefined ? true : false;
 			
 		},
+		
+
+		// 表relation选择
+		onselectchange_guige (selection) {
+			var _this = this;
+			_this.tableselect_guige = [];
+
+			for (var i in selection) {
+				_this.tableselect_guige.push(selection[i].id);
+			}
+			
+			_this.boo_delete_guige = _this.tableselect_guige[0] == undefined ? true : false;
+			
+		},
 
 
 		// 生成piliangluru_relation
-		piliangluru_relation_generate: function (counts) {
+		piliangluru_relation_generate (counts) {
 			if (counts == undefined) counts = 1;
 			var len = this.piliangluru_relation.length;
 			

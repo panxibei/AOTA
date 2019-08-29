@@ -28,6 +28,7 @@ Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','p
 Route::group(['prefix'=>'scgl', 'namespace'=>'Scgl', 'middleware'=>['jwtauth','permission:permission_scgl_hcfx|permission_super_admin']], function() {
 	Route::get('hcfx', 'hcfxController@hcfxIndex')->name('scgl.hcfx.index');
 	Route::get('guigegets', 'hcfxController@guigeGets')->name('scgl.hcfx.guigegets');
+	Route::post('guigedelete', 'hcfxController@guigeDelete')->name('scgl.hcfx.guigedelete');
 	Route::get('relationgets', 'hcfxController@relationGets')->name('scgl.hcfx.relationgets');
 	Route::post('guigeCreate', 'hcfxController@guigeCreate')->name('scgl.hcfx.guigecreate');
 	Route::post('relationupdate', 'hcfxController@relationUpdate')->name('scgl.hcfx.relationupdate');
