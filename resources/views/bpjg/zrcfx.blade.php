@@ -92,7 +92,7 @@
 
 			<i-row :gutter="16">
 				<i-col span="3">
-					&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">记入</i-button>
+					&nbsp;&nbsp;<i-button @click="oncreate_relation()" type="primary">新增</i-button>
 					&nbsp;&nbsp;<i-button @click="onclear_relation()">清除</i-button>
 				</i-col>
 				<i-col span="4">
@@ -175,7 +175,9 @@
 			<i-row :gutter="16">
 				<br>
 				<i-col span="2">
-					<i-button @click="ondelete_relation()" :disabled="boo_delete_relation" type="warning" size="small">删除</i-button>&nbsp;<br>&nbsp;
+					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete_relation" @on-cancel="" transfer="true">
+					<i-button :disabled="boo_delete_relation" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>&nbsp;<br>&nbsp;
+					</Poptip>
 				</i-col>
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
