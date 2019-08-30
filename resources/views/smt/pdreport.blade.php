@@ -79,7 +79,7 @@ SMT - PD report
 						:on-format-error="handleFormatError"
 						:max-size="2048"
 						action="/">
-						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '导入生产计划' }}</i-button>
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '导入中...' : '导入生产计划' }}</i-button>
 					</Upload>
 				</i-col>
 				<i-col span="2">
@@ -119,10 +119,27 @@ SMT - PD report
 						<i-option v-for="item in option_banci_filter" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
-				<i-col span="2">
+				<i-col span="1">
 					&nbsp;
 				</i-col>
-				<i-col span="14">
+				<i-col span="1">
+					上传：
+				</i-col>
+				<i-col span="2">
+					<Upload
+						:before-upload="uploadstart_plan_table"
+						:show-upload-list="false"
+						:format="['xls','xlsx']"
+						:on-format-error="handleFormatError"
+						:max-size="2048"
+						action="/">
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus_table" :disabled="uploaddisabled_table" size="small" shape="circle" disabled>@{{ loadingStatus ? '上传中...' : '上传计划表' }}</i-button>
+					</Upload>
+				</i-col>
+				<i-col span="2">
+					<i-button @click="download_plan_table()" icon="ios-download-outline" type="primary" size="small" shape="circle" disabled>下载计划表</i-button>
+				</i-col>
+				<i-col span="10">
 					<font color="#ff9900">* 注意：旧的生产计划内容数据会被覆盖！！</font>
 				</i-col>
 			</i-row>
@@ -1890,6 +1907,8 @@ var vm_app = new Vue({
 		file: null,
 		loadingStatus: false,
 		uploaddisabled: false,
+		loadingStatus_table: false,
+		uploaddisabled_table: false,
 
 		// 刷新生产计划
 		loadingStatus_refreshplan: false,
@@ -3066,6 +3085,65 @@ var vm_app = new Vue({
 			})
 		},
 		uploadcancel: function () {
+			this.file = null;
+			// this.loadingStatus = false;
+		},
+
+		// relation模板下载
+		download_plan: function () {
+			var url = "{{ route('smt.pdreport.pdplandownload') }}";
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},
+		uploadstart_plan_table (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled_table = true;
+			_this.loadingStatus_table = true;
+
+			let formData = new FormData()
+			formData.append('myfile',_this.file)
+			
+			var url = "{{ route('smt.pdreport.pdplantableimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, '成功', '上传成功！');
+				} else {
+					_this.error(false, '失败', '上传失败，请重试！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus_table = false;
+					_this.uploaddisabled_table = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus_table = false;
+					_this.uploaddisabled_table = false;
+				}, 1000);
+			})
+		},
+		uploadcancel () {
 			this.file = null;
 			// this.loadingStatus = false;
 		},
