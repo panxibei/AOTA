@@ -396,9 +396,148 @@ SMT - PD report
 				</div>
 			</Modal>
 
+			<Modal v-model="modal_pdreport_edit1" @on-ok="pdreport_edit_ok1" ok-text="保存" title="编辑 - 生产信息表" width="680">
+				<div style="text-align:left">
+				<p>
+					创建时间：@{{ created_at_edit }}
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					更新时间：@{{ updated_at_edit }}
+				
+				</p>
+
+				<Divider></Divider>
+						
+				<p>
+					机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming_edit" @on-keyup="jizhongming_edit=jizhongming_edit.toUpperCase()" size="small" clearable style="width: 100px" placeholder=""></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					SP NO.&nbsp;&nbsp;
+					<i-input v-model.lazy="spno_edit" size="small" clearable style="width: 120px" placeholder=""></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					品名&nbsp;&nbsp;
+					<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					工序&nbsp;&nbsp;
+					<i-input v-model.lazy="gongxu_edit" @on-keyup="gongxu_edit=gongxu_edit.toUpperCase()" size="small" clearable style="width: 80px" placeholder=""></i-input>
+					
+					<br><br>
+
+					LOT数&nbsp;&nbsp;
+					<Input-number v-model.lazy="lotshu_edit" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					枚/秒&nbsp;&nbsp;
+					<Input-number v-model.lazy="meimiao_edit" :min="1" size="small" style="width: 120px;" placeholder=""></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					台数&nbsp;&nbsp;
+					<Input-number v-model.lazy="taishu_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+
+					<br><br>
+
+					手动生产时间（分）&nbsp;&nbsp;
+					<Input-number v-model.lazy="shoudongshengchanshijian_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+
+				
+				</p><br>
+					
+				&nbsp;
+				
+				</div>	
+			</Modal>
+
+			<Modal v-model="modal_pdreport_edit2" @on-ok="pdreport_edit_ok2" ok-text="保存" title="编辑 - 生产信息表" width="680">
+				<div style="text-align:left">
+				<p>
+					创建时间：@{{ created_at_edit }}
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					更新时间：@{{ updated_at_edit }}
+				
+					</p><br>
+
+					<p>
+						机种名：@{{ jizhongming_edit }}
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						SP NO：@{{ spno_edit }}
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						品名：@{{ pinming_edit }}
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						工序：@{{ gongxu_edit }}
+
+					</p>
+
+				<Divider></Divider>
+						
+				<p>
+					机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming_edit" @on-keyup="jizhongming_edit=jizhongming_edit.toUpperCase()" size="small" clearable style="width: 100px" placeholder=""></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					SP NO.&nbsp;&nbsp;
+					<i-input v-model.lazy="spno_edit" size="small" clearable style="width: 120px" placeholder=""></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					品名&nbsp;&nbsp;
+					<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					工序&nbsp;&nbsp;
+					<i-input v-model.lazy="gongxu_edit" @on-keyup="gongxu_edit=gongxu_edit.toUpperCase()" size="small" clearable style="width: 80px" placeholder=""></i-input>
+					
+					<br><br>
+
+					LOT数&nbsp;&nbsp;
+					<Input-number v-model.lazy="lotshu_edit" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					枚/秒&nbsp;&nbsp;
+					<Input-number v-model.lazy="meimiao_edit" :min="1" size="small" style="width: 120px;" placeholder=""></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					台数&nbsp;&nbsp;
+					<Input-number v-model.lazy="taishu_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+
+					<br><br>
+
+					手动生产时间（分）&nbsp;&nbsp;
+					<Input-number v-model.lazy="shoudongshengchanshijian_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+
+				
+				</p><br>
+					
+				&nbsp;
+				
+				</div>	
+			</Modal>
+
+
 			<br>
 			<i-table height="350" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
 			<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+
 
 		</Tab-pane>
 
@@ -960,6 +1099,31 @@ var vm_app = new Vue({
 					}
 				]
 			},
+			{
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.pdreport_edit1(params.row)
+								}
+							}
+						}, '编辑')
+					]);
+				},
+				fixed: 'right'
+			},
 			// {
 			// 	title: '创建日期',
 			// 	key: 'created_at',
@@ -1251,8 +1415,6 @@ var vm_app = new Vue({
 				]
 
 			},
-			
-			// 3
 			{
 				title: '品质确认',
 				align: 'center',
@@ -1288,7 +1450,32 @@ var vm_app = new Vue({
 						width: 80
 					}
 				]
-			}
+			},
+			{
+				title: '操作',
+				key: 'action',
+				align: 'center',
+				width: 70,
+				render: (h, params) => {
+					return h('div', [
+						h('Button', {
+							props: {
+								type: 'info',
+								size: 'small'
+							},
+							style: {
+								marginRight: '5px'
+							},
+							on: {
+								click: () => {
+									vm_app.pdreport_edit2(params.row)
+								}
+							}
+						}, '编辑')
+					]);
+				},
+				fixed: 'right'
+			},
 		],
 		tabledata2: [],
 		
@@ -2121,7 +2308,37 @@ var vm_app = new Vue({
 		tabledata_dadianjiadonglv: [],
 		tableselect_dadianjiadonglv: [],
 
-			
+		// 编辑
+		modal_pdreport_edit1: false,
+		modal_pdreport_edit2: false,
+		created_at_edit: '',
+		updated_at_edit: '',
+
+		id_edit: '',
+		spno_edit: '',
+		jizhongming_edit: '',
+		pinming_edit: '',
+		lotshu_edit: '',
+		gongxu_edit: '',
+		meimiao_edit: '',
+		taishu_edit: '',
+		shoudongshengchanshijian_edit: '',
+
+		xinchan_edit: '',
+		liangchan_edit: '',
+		dengdaibupin_edit: '',
+		wujihua_edit: '',
+		qianhougongchengdengdai_edit: '',
+		wubupin_edit: '',
+		bupinanpaidengdai_edit: '',
+		dingqidianjian_edit: '',
+		guzhang_edit: '',
+		shizuo_edit: '',
+		jizaishixiang_edit: '',
+
+
+
+
 	},
 	methods: {
 		// 2.Notice 通知提醒
@@ -3313,6 +3530,188 @@ var vm_app = new Vue({
 			});
 		},
 
+
+		// 编辑前查看
+		pdreport_edit1 (row) {
+			var _this = this;
+			
+			_this.id_edit = row.id;
+			_this.spno_edit = row.spno;
+			_this.jizhongming_edit = row.jizhongming;
+			_this.pinming_edit = row.pinming;
+			_this.lotshu_edit = row.lotshu;
+			_this.gongxu_edit = row.gongxu;
+
+			_this.meimiao_edit = row.meimiao;
+			_this.taishu_edit = row.taishu;
+			_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
+			
+			_this.created_at_edit = row.created_at;
+			_this.updated_at_edit = row.updated_at;
+
+			_this.modal_pdreport_edit1 = true;
+		},
+
+		// 主编辑后保存
+		pdreport_edit_ok1 () {
+			var _this = this;
+			
+			var created_at = _this.created_at_edit;
+			var updated_at = _this.updated_at_edit;
+			var id = _this.id_edit;
+			var spno = _this.spno_edit;
+			var jizhongming = _this.jizhongming_edit;
+			var pinming = _this.pinming_edit;
+			var lotshu = _this.lotshu_edit;
+			var gongxu = _this.gongxu_edit;
+			var meimiao = _this.meimiao_edit;
+			var taishu = _this.taishu_edit;
+			var shoudongshengchanshijian = _this.shoudongshengchanshijian_edit;
+			
+			var url = "{{ route('smt.pdreport.dailyreportupdate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				created_at: created_at,
+				updated_at: updated_at,
+				id: id,
+				spno: spno,
+				jizhongming: jizhongming,
+				pinming: pinming,
+				lotshu: lotshu,
+				gongxu: gongxu,
+				meimiao: meimiao,
+				taishu: taishu,
+				shoudongshengchanshijian: shoudongshengchanshijian
+			})
+			.then(function (response) {
+				console.log(response.data);
+				return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+				
+				if (response.data) {
+					_this.success(false, '成功', '更新成功！');
+
+					_this.id_edit = '';
+					_this.spno_edit = '';
+					_this.jizhongming_edit = '';
+					_this.pinming_edit = '';
+					_this.lotshu_edit = '';
+					_this.gongxu_edit = '';
+
+					_this.meimiao_edit = row.meimiao;
+					_this.taishu_edit = row.taishu;
+					_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
+					
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
+
+
+					
+				} else {
+					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '更新失败！');
+			})			
+		},
+
+		// 子编辑前查看
+		pdreport_edit2 (row) {
+			var _this = this;
+			
+			_this.id_edit = row.id;
+			_this.spno_edit = row.spno;
+			_this.jizhongming_edit = row.jizhongming;
+			_this.pinming_edit = row.pinming;
+			_this.lotshu_edit = row.lotshu;
+			_this.gongxu_edit = row.gongxu;
+
+			_this.meimiao_edit = row.meimiao;
+			_this.taishu_edit = row.taishu;
+			_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
+			
+			_this.created_at_edit = row.created_at;
+			_this.updated_at_edit = row.updated_at;
+
+			_this.modal_pdreport_edit2 = true;
+		},
+
+		// 子编辑后保存
+		pdreport_edit_ok2 () {
+			var _this = this;
+			
+			var created_at = _this.created_at_edit;
+			var updated_at = _this.updated_at_edit;
+			var id = _this.id_edit;
+			var spno = _this.spno_edit;
+			var jizhongming = _this.jizhongming_edit;
+			var pinming = _this.pinming_edit;
+			var lotshu = _this.lotshu_edit;
+			var gongxu = _this.gongxu_edit;
+			var meimiao = _this.meimiao_edit;
+			var taishu = _this.taishu_edit;
+			var shoudongshengchanshijian = _this.shoudongshengchanshijian_edit;
+			
+			var url = "{{ route('smt.pdreport.dailyreportupdate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				created_at: created_at,
+				updated_at: updated_at,
+				id: id,
+				spno: spno,
+				jizhongming: jizhongming,
+				pinming: pinming,
+				lotshu: lotshu,
+				gongxu: gongxu,
+				meimiao: meimiao,
+				taishu: taishu,
+				shoudongshengchanshijian: shoudongshengchanshijian
+			})
+			.then(function (response) {
+				console.log(response.data);
+				return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+				
+				if (response.data) {
+					_this.success(false, '成功', '更新成功！');
+
+					_this.id_edit = '';
+					_this.spno_edit = '';
+					_this.jizhongming_edit = '';
+					_this.pinming_edit = '';
+					_this.lotshu_edit = '';
+					_this.gongxu_edit = '';
+
+					_this.meimiao_edit = row.meimiao;
+					_this.taishu_edit = row.taishu;
+					_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
+					
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
+
+
+					
+				} else {
+					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '更新失败！');
+			})			
+		},
 
 		
 	},
