@@ -4206,7 +4206,7 @@ var vm_app = new Vue({
 					_this.shuliang_edit = [0, 0];
 					_this.jianchazhe_edit = '';
 				} else {
-					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+					_this.error(false, '失败', '更新失败！请确认录入是否正确！');
 				}
 			})
 			.catch(function (error) {

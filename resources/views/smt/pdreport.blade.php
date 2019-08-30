@@ -399,6 +399,10 @@ SMT - PD report
 			<Modal v-model="modal_pdreport_edit1" @on-ok="pdreport_edit_ok1" ok-text="保存" title="编辑 - 生产信息表" width="680">
 				<div style="text-align:left">
 				<p>
+					生产日期：@{{ shengchanriqi_edit }}
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
 					创建时间：@{{ created_at_edit }}
 					
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -459,6 +463,10 @@ SMT - PD report
 			<Modal v-model="modal_pdreport_edit2" @on-ok="pdreport_edit_ok2" ok-text="保存" title="编辑 - 生产信息表" width="680">
 				<div style="text-align:left">
 				<p>
+					生产日期：@{{ shengchanriqi_edit }}
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
 					创建时间：@{{ created_at_edit }}
 					
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -2326,6 +2334,7 @@ var vm_app = new Vue({
 		// 编辑
 		modal_pdreport_edit1: false,
 		modal_pdreport_edit2: false,
+		shengchanriqi_edit: '',
 		created_at_edit: '',
 		updated_at_edit: '',
 
@@ -3549,7 +3558,11 @@ var vm_app = new Vue({
 		// 编辑前查看
 		pdreport_edit1 (row) {
 			var _this = this;
-			
+
+			_this.shengchanriqi_edit = row.shengchanriqi.substr(0, 10);
+			_this.created_at_edit = row.created_at;
+			_this.updated_at_edit = row.updated_at;
+
 			_this.id_edit = row.id;
 			_this.spno_edit = row.spno;
 			_this.jizhongming_edit = row.jizhongming;
@@ -3561,9 +3574,6 @@ var vm_app = new Vue({
 			_this.taishu_edit = row.taishu;
 			_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
 			
-			_this.created_at_edit = row.created_at;
-			_this.updated_at_edit = row.updated_at;
-
 			_this.modal_pdreport_edit1 = true;
 		},
 
@@ -3583,7 +3593,7 @@ var vm_app = new Vue({
 			var taishu = _this.taishu_edit;
 			var shoudongshengchanshijian = _this.shoudongshengchanshijian_edit;
 			
-			var url = "{{ route('smt.pdreport.dailyreportupdate') }}";
+			var url = "{{ route('smt.pdreport.dailyreportupdate1') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				created_at: created_at,
@@ -3599,37 +3609,33 @@ var vm_app = new Vue({
 				shoudongshengchanshijian: shoudongshengchanshijian
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;
 				}
-				
-				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+
+				_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
 
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
 					_this.id_edit = '';
 					_this.spno_edit = '';
 					_this.jizhongming_edit = '';
 					_this.pinming_edit = '';
 					_this.lotshu_edit = '';
 					_this.gongxu_edit = '';
+					_this.meimiao_edit = '';
+					_this.taishu_edit = '';
+					_this.shoudongshengchanshijian_edit = '';
 
-					_this.meimiao_edit = row.meimiao;
-					_this.taishu_edit = row.taishu;
-					_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
-					
-					_this.created_at_edit = '';
-					_this.updated_at_edit = '';
-
-
-					
 				} else {
-					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+					_this.error(false, '失败', '更新失败！请确认录入是否正确！');
 				}
 			})
 			.catch(function (error) {
@@ -3641,14 +3647,15 @@ var vm_app = new Vue({
 		pdreport_edit2 (row) {
 			var _this = this;
 			
+			_this.shengchanriqi_edit = row.shengchanriqi.substr(0, 10);
+			_this.created_at_edit = row.created_at;
+			_this.updated_at_edit = row.updated_at;
+
 			_this.id_edit = row.id;
 			_this.spno_edit = row.spno;
 			_this.jizhongming_edit = row.jizhongming;
 			_this.pinming_edit = row.pinming;
 			_this.gongxu_edit = row.gongxu;
-			
-			_this.created_at_edit = row.created_at;
-			_this.updated_at_edit = row.updated_at;
 
 			_this.xinchan_edit = row.xinchan;
 			_this.liangchan_edit = row.liangchan;
@@ -3661,7 +3668,6 @@ var vm_app = new Vue({
 			_this.guzhang_edit = row.guzhang;
 			_this.shizuo_edit = row.shizuo;
 			_this.jizaishixiang_edit = row.jizaishixiang;
-
 
 			_this.modal_pdreport_edit2 = true;
 		},
@@ -3676,26 +3682,37 @@ var vm_app = new Vue({
 			var spno = _this.spno_edit;
 			var jizhongming = _this.jizhongming_edit;
 			var pinming = _this.pinming_edit;
-			var lotshu = _this.lotshu_edit;
 			var gongxu = _this.gongxu_edit;
-			var meimiao = _this.meimiao_edit;
-			var taishu = _this.taishu_edit;
-			var shoudongshengchanshijian = _this.shoudongshengchanshijian_edit;
-			
-			var url = "{{ route('smt.pdreport.dailyreportupdate') }}";
+
+			var xinchan = _this.xinchan_edit;
+			var liangchan = _this.liangchan_edit;
+			var dengdaibupin = _this.dengdaibupin_edit;
+			var wujihua = _this.wujihua_edit;
+			var qianhougongchengdengdai = _this.qianhougongchengdengdai_edit;
+			var wubupin = _this.wubupin_edit;
+			var bupinanpaidengdai = _this.bupinanpaidengdai_edit;
+			var dingqidianjian = _this.dingqidianjian_edit;
+			var guzhang = _this.guzhang_edit;
+			var shizuo = _this.shizuo_edit;
+			var jizaishixiang = _this.jizaishixiang_edit;
+
+			var url = "{{ route('smt.pdreport.dailyreportupdate2') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				created_at: created_at,
 				updated_at: updated_at,
 				id: id,
-				spno: spno,
-				jizhongming: jizhongming,
-				pinming: pinming,
-				lotshu: lotshu,
-				gongxu: gongxu,
-				meimiao: meimiao,
-				taishu: taishu,
-				shoudongshengchanshijian: shoudongshengchanshijian
+				xinchan: xinchan,
+				liangchan: liangchan,
+				dengdaibupin: dengdaibupin,
+				wujihua: wujihua,
+				qianhougongchengdengdai: qianhougongchengdengdai,
+				wubupin: wubupin,
+				bupinanpaidengdai: bupinanpaidengdai,
+				dingqidianjian: dingqidianjian,
+				guzhang: guzhang,
+				shizuo: shizuo,
+				jizaishixiang: jizaishixiang
 			})
 			.then(function (response) {
 				console.log(response.data);
@@ -3711,6 +3728,9 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
 
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
+
 					_this.id_edit = '';
 					_this.spno_edit = '';
 					_this.jizhongming_edit = '';
@@ -3722,13 +3742,11 @@ var vm_app = new Vue({
 					_this.taishu_edit = row.taishu;
 					_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
 					
-					_this.created_at_edit = '';
-					_this.updated_at_edit = '';
 
 
 					
 				} else {
-					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
+					_this.error(false, '失败', '更新失败！请确认录入是否正确！');
 				}
 			})
 			.catch(function (error) {

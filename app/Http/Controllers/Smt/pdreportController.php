@@ -357,7 +357,7 @@ class pdreportController extends Controller
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		// dd($result);
@@ -1115,12 +1115,12 @@ class pdreportController extends Controller
 
 
 	/**
-	 * dailyreportUpdate
+	 * dailyreportUpdate1
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function dailyreportUpdate(Request $request)
+	public function dailyreportUpdate1(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
@@ -1136,44 +1136,133 @@ class pdreportController extends Controller
 		$taishu = $request->input('taishu');
 		$shoudongshengchanshijian = $request->input('shoudongshengchanshijian');
 
-		dd($id);
-		// dd($updated_at);
+		// dd($jizhongming);
 		
-		// 判断如果不是最新的记录，不可被编辑
-		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Smt_qcreport::select('updated_at')
-			->where('id', $id)
+		//读取点/枚
+		$t = Smt_mpoint::select('diantai', 'pinban')
+			->where('jizhongming', $jizhongming)
+			->where('pinming', $pinming)
+			->where('gongxu', $gongxu)
 			->first();
-		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
-
-		// dd($updated_at . ' | ' . $res_updated_at);
-		// dd(gettype($updated_at) . ' | ' . gettype($res_updated_at));
-		// dd($updated_at != $res_updated_at);
 		
-		if ($updated_at != $res_updated_at) {
-			return 0;
+		if ($t == null) return 0;
+		
+		$dianmei = $t->diantai * $t->pinban;
+
+		$meishu = ceil($taishu / $t->pinban);
+
+		$shijishengchanshijian = $meimiao * $meishu;
+
+		$chajiandianshu = $t->diantai * $meishu;
+		$jiadonglv = $meishu * $meimiao / 43200;
+
+
+		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+		$user_tmp = explode(' ', $user['displayname']);
+
+		if (sizeof($user_tmp)>1) {
+			$luruzhe = $user_tmp[0] . $user_tmp[1];
+		} else {
+			$luruzhe = $user['displayname'];
 		}
 
-		// 尝试更新
+		// 写入数据库
 		try	{
-			DB::beginTransaction();
-			$result = Smt_qcreport::where('id', $id)
-				->update([
-					'meishu'				=> $meishu,
-					'hejidianshu'			=> $hejidianshu,
-					// 'bushihejianshuheji'	=> $bushihejianshuheji,
-					'ppm'					=> $ppm,
-				]);
+			$result = Smt_pdreport::where('id', $id)
+			->update([
+				'jizhongming'	=> $jizhongming,
+				'spno'			=> $spno,
+				'pinming'		=> $pinming,
+				'lotshu'		=> $lotshu,
+				'meimiao'		=> $meimiao,
+				'meishu'		=> $meishu,
+				'shijishengchanshijian'		=> $shijishengchanshijian,
+				'shoudongshengchanshijian'	=> $shoudongshengchanshijian,
+				'gongxu'		=> $gongxu,
+				'dianmei'		=> $dianmei,
+				'meimiao'		=> $meimiao,
+				'taishu'		=> $taishu,
+				'lotcan'		=> 0,
+				'chajiandianshu'=> $chajiandianshu,
+				'jiadonglv'		=> $jiadonglv,
+				'luruzhe'		=> $luruzhe,
+			]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			DB::rollBack();
-			// echo 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
-		DB::commit();
 		Cache::flush();
 		// dd($result);
+		return $result;
+
+	}
+
+	/**
+	 * dailyreportUpdate2
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function dailyreportUpdate2(Request $request)
+	{
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$created_at = $request->input('created_at');
+		$updated_at = $request->input('updated_at');
+		$id = $request->input('id');
+		$xinchan = $request->input('xinchan');
+		$liangchan = $request->input('liangchan');
+		$dengdaibupin = $request->input('dengdaibupin');
+		$wujihua = $request->input('wujihua');
+		$qianhougongchengdengdai = $request->input('qianhougongchengdengdai');
+		$wubupin = $request->input('wubupin');
+		$bupinanpaidengdai = $request->input('bupinanpaidengdai');
+		$dingqidianjian = $request->input('dingqidianjian');
+		$guzhang = $request->input('guzhang');
+		$shizuo = $request->input('shizuo');
+		$jizaishixiang = $request->input('jizaishixiang');
+
+		// dd($id);
+		
+		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+		$user_tmp = explode(' ', $user['displayname']);
+
+		if (sizeof($user_tmp)>1) {
+			$luruzhe = $user_tmp[0] . $user_tmp[1];
+		} else {
+			$luruzhe = $user['displayname'];
+		}
+
+		// 写入数据库
+		try	{
+			$result = Smt_pdreport::where('id', $id)
+			->update([
+				'xinchan' => $xinchan,
+				'liangchan' => $liangchan,
+				'dengdaibupin' => $dengdaibupin,
+				'wujihua' => $wujihua,
+				'qianhougongchengdengdai' => $qianhougongchengdengdai,
+				'wubupin' => $wubupin,
+				'bupinanpaidengdai' => $bupinanpaidengdai,
+				'dingqidianjian' => $dingqidianjian,
+				'guzhang' => $guzhang,
+				'shizuo' => $shizuo,
+				'jizaishixiang' => $jizaishixiang
+			]);
+			$result = 1;
+		}
+		catch (\Exception $e) {
+			dd('Message: ' .$e->getMessage());
+			$result = 0;
+		}
+		Cache::flush();
+		dd($result);
 		return $result;
 
 	}
