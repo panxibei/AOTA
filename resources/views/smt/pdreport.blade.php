@@ -59,11 +59,17 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="1">
-					&nbsp;
+					查询：
 				</i-col>
 				<i-col span="7">
-					查询： 日期&nbsp;&nbsp;
+					日期&nbsp;&nbsp;
 					<Date-picker v-model.lazy="date_plan_suoshuriqi" :options="date_plan_suoshuriqi_options" @on-change="pdplangets()" type="daterange" size="small" style="width:200px"></Date-picker>
+				</i-col>
+				<i-col span="1">
+					&nbsp;
+				</i-col>
+				<i-col span="1">
+					导入：
 				</i-col>
 				<i-col span="2">
 					<Upload
@@ -79,7 +85,7 @@ SMT - PD report
 				<i-col span="2">
 					<i-button @click="download_plan()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
 				</i-col>
-				<i-col span="12">&nbsp;
+				<i-col span="10">&nbsp;
 				@hasanyrole('role_smt_refreshplan|role_super_admin')
 				<Poptip confirm title="确定要刷新生产计划数据吗？" placement="right-start" @on-ok="refreshplan" @on-cancel="" transfer="true">
 					<!-- <i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button> -->
@@ -98,10 +104,25 @@ SMT - PD report
 			<br><br>
 
 			<i-row :gutter="16">
-				<i-col span="8">
+				<i-col span="1">
 					&nbsp;
 				</i-col>
-				<i-col span="16">
+				<i-col span="4">
+					线体&nbsp;&nbsp;
+					<i-select v-model.lazy="xianti_plan_filter" clearable style="width:120px"  @on-change="pdplangets()" size="small" placeholder="">
+						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="3">
+					班次&nbsp;&nbsp;
+					<i-select v-model.lazy="banci_plan_filter" clearable style="width:100px" @on-change="pdplangets()" size="small" placeholder="">
+						<i-option v-for="item in option_banci_filter" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</i-col>
+				<i-col span="2">
+					&nbsp;
+				</i-col>
+				<i-col span="14">
 					<font color="#ff9900">* 注意：旧的生产计划内容数据会被覆盖！！</font>
 				</i-col>
 			</i-row>
@@ -375,7 +396,7 @@ SMT - PD report
 				
 				<i-col span="16">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
-					<div style="text-align:right"><strong>合计信息 （枚数：@{{ xiaoji_meishu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;插件点数：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(2).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(2).toLocaleString() + '分' }}）</strong>&nbsp;&nbsp;</div>
+					<div style="text-align:right"><strong>合计信息 （枚数：@{{ xiaoji_meishu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;插件点数：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(0).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(0).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(0).toLocaleString() + '分' }}）</strong>&nbsp;&nbsp;</div>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -1594,6 +1615,7 @@ var vm_app = new Vue({
 				key: 'suoshuriqi',
 				align: 'center',
 				width: 110,
+				sortable: true,
 				// fixed: 'left',
 				render: (h, params) => {
 					return h('div', [
@@ -1936,6 +1958,8 @@ var vm_app = new Vue({
 				},
 			]
 		},
+		xianti_plan_filter: '',
+		banci_plan_filter: '',
 
 		// 统计日期过滤（月）
 		tongji_date_filter: '',
@@ -3146,6 +3170,9 @@ var vm_app = new Vue({
 			// console.log(date_filter);return false;
 			date_filter = [date_filter[0].Format("yyyy-MM-dd 00:00:00"), date_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
+			var xianti_filter = _this.xianti_plan_filter;
+			var banci_filter = _this.banci_plan_filter;
+
 			var url = "{{ route('smt.pdreport.pdplangets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -3153,8 +3180,8 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize_plan,
 					page: page,
 					date_filter: date_filter,
-					// xianti_filter: xianti_filter,
-					// banci_filter: banci_filter,
+					xianti_filter: xianti_filter,
+					banci_filter: banci_filter,
 					// jizhongming_filter: jizhongming_filter,
 				}
 			})

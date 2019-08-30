@@ -795,8 +795,8 @@ class pdreportController extends Controller
 		$page = $queryParams['page'] ?? 1;
 		
 		$date_filter = $request->input('date_filter');
-		// $xianti_filter = $request->input('xianti_filter');
-		// $banci_filter = $request->input('banci_filter');
+		$xianti_filter = $request->input('xianti_filter');
+		$banci_filter = $request->input('banci_filter');
 		// $jizhongming_filter = $request->input('jizhongming_filter');
 
 		//对查询参数按照键名排序
@@ -816,12 +816,12 @@ class pdreportController extends Controller
 			$result = Smt_pdplanresult::when($date_filter, function ($query) use ($date_filter) {
 					return $query->whereBetween('suoshuriqi', $date_filter);
 				})
-				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
-				// 	return $query->where('xianti', 'like', '%'.$xianti_filter.'%');
-				// })
-				// ->when($banci_filter, function ($query) use ($banci_filter) {
-				// 	return $query->where('banci', 'like', '%'.$banci_filter.'%');
-				// })
+				->when($xianti_filter, function ($query) use ($xianti_filter) {
+					return $query->where('xianti', '=', $xianti_filter);
+				})
+				->when($banci_filter, function ($query) use ($banci_filter) {
+					return $query->where('banci', '=', $banci_filter);
+				})
 				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				// })
@@ -1163,12 +1163,12 @@ class pdreportController extends Controller
 			->where('id', $id)
 			->first()->toArray();
 		
-		$bupinbuchongshijian = $ss['shoudongshengchanshijian'] - $ss['shijishengchanshijian']
+		$bupinbuchongshijian = $ss['shoudongshengchanshijian'] - $ss['shijishengchanshijian'] / 60
 			- $ss['xinchan'] - $ss['liangchan'] - $ss['dengdaibupin']
 			- $ss['wujihua'] - $ss['qianhougongchengdengdai'] - $ss['wubupin']
 			- $ss['bupinanpaidengdai'] - $ss['dingqidianjian'] - $ss['guzhang']
 			- $ss['shizuo'];
-
+// dd($bupinbuchongshijian);
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
@@ -1247,7 +1247,7 @@ class pdreportController extends Controller
 		$shoudongshengchanshijian = $ss['shoudongshengchanshijian'];
 		$shijishengchanshijian = $ss['shijishengchanshijian'];
 		
-		$bupinbuchongshijian = $shoudongshengchanshijian - $shijishengchanshijian
+		$bupinbuchongshijian = $shoudongshengchanshijian - $shijishengchanshijian / 60
 			- $xinchan - $liangchan - $dengdaibupin
 			- $wujihua - $qianhougongchengdengdai - $wubupin
 			- $bupinanpaidengdai - $dingqidianjian - $guzhang
