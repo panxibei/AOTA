@@ -653,6 +653,8 @@ SMT - PD report
 					<p>
 					<span id="lilundadianshu">...</span>
 					<br><br>
+					<span id="jiadongshijian">...</span>
+					<br><br>
 					<span id="dadianjiadonglv">...</span>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<font color="#2db7f5">* 设备能力为常数，单位为K点，可在配置页面中调整。</font>
@@ -661,7 +663,10 @@ SMT - PD report
 						katex.render("\\text{理论打点数 (ld)} = \\text{设备能力 (N)} \\times \\text{稼动时间 (js)}", lilundadianshu, {
 							throwOnError: false
 						});
-						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(稼动时间 (js)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)})}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
+						katex.render("\\text{稼动时间 (js)} = \\text{持续时间 (chs)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)}", jiadongshijian, {
+							throwOnError: false
+						});
+						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(持续时间 (chs)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)})}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
 							throwOnError: false
 						});
 					</script>
