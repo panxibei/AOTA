@@ -487,44 +487,59 @@ SMT - PD report
 				<Divider></Divider>
 						
 				<p>
-					机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="jizhongming_edit" @on-keyup="jizhongming_edit=jizhongming_edit.toUpperCase()" size="small" clearable style="width: 100px" placeholder=""></i-input>
+
+					1.新产切换&nbsp;&nbsp;
+					<Input-number v-model.lazy="xinchan_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					&nbsp;&nbsp;
+
+					1.量产切换&nbsp;&nbsp;
+					<Input-number v-model.lazy="liangchan_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
 					&nbsp;&nbsp;&nbsp;&nbsp;
 
-					SP NO.&nbsp;&nbsp;
-					<i-input v-model.lazy="spno_edit" size="small" clearable style="width: 120px" placeholder=""></i-input>
+					2.等待部品&nbsp;&nbsp;
+					<Input-number v-model.lazy="dengdaibupin_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
 					&nbsp;&nbsp;&nbsp;&nbsp;
 
-					品名&nbsp;&nbsp;
-					<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
-
-					&nbsp;&nbsp;&nbsp;&nbsp;
-
-					工序&nbsp;&nbsp;
-					<i-input v-model.lazy="gongxu_edit" @on-keyup="gongxu_edit=gongxu_edit.toUpperCase()" size="small" clearable style="width: 80px" placeholder=""></i-input>
-					
-					<br><br>
-
-					LOT数&nbsp;&nbsp;
-					<Input-number v-model.lazy="lotshu_edit" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
-
-					&nbsp;&nbsp;&nbsp;&nbsp;
-
-					枚/秒&nbsp;&nbsp;
-					<Input-number v-model.lazy="meimiao_edit" :min="1" size="small" style="width: 120px;" placeholder=""></Input-number>
-
-					&nbsp;&nbsp;&nbsp;&nbsp;
-
-					台数&nbsp;&nbsp;
-					<Input-number v-model.lazy="taishu_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+					3.无计划&nbsp;&nbsp;
+					<Input-number v-model.lazy="wujihua_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
 					<br><br>
 
-					手动生产时间（分）&nbsp;&nbsp;
-					<Input-number v-model.lazy="shoudongshengchanshijian_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
+					4.前后工程等待&nbsp;&nbsp;
+					<Input-number v-model.lazy="qianhougongchengdengdai_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					5.部品欠品&nbsp;&nbsp;
+					<Input-number v-model.lazy="wubupin_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					6.部品准备等待&nbsp;&nbsp;
+					<Input-number v-model.lazy="bupinanpaidengdai_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					<br><br>
+
+					7.定期点检&nbsp;&nbsp;
+					<Input-number v-model.lazy="dingqidianjian_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					8.故障&nbsp;&nbsp;
+					<Input-number v-model.lazy="guzhang_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+
+					9.新机种生产时间（试作）&nbsp;&nbsp;
+					<Input-number v-model.lazy="shizuo_edit" :min="1" size="small" style="width: 80px"></Input-number>
+
+					<br><br>
+
+					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
+					<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				
 				</p><br>
 					
@@ -3630,15 +3645,23 @@ var vm_app = new Vue({
 			_this.spno_edit = row.spno;
 			_this.jizhongming_edit = row.jizhongming;
 			_this.pinming_edit = row.pinming;
-			_this.lotshu_edit = row.lotshu;
 			_this.gongxu_edit = row.gongxu;
-
-			_this.meimiao_edit = row.meimiao;
-			_this.taishu_edit = row.taishu;
-			_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
 			
 			_this.created_at_edit = row.created_at;
 			_this.updated_at_edit = row.updated_at;
+
+			_this.xinchan_edit = row.xinchan;
+			_this.liangchan_edit = row.liangchan;
+			_this.dengdaibupin_edit = row.dengdaibupin;
+			_this.wujihua_edit = row.wujihua;
+			_this.qianhougongchengdengdai_edit = row.qianhougongchengdengdai;
+			_this.wubupin_edit = row.wubupin;
+			_this.bupinanpaidengdai_edit = row.bupinanpaidengdai;
+			_this.dingqidianjian_edit = row.dingqidianjian;
+			_this.guzhang_edit = row.guzhang;
+			_this.shizuo_edit = row.shizuo;
+			_this.jizaishixiang_edit = row.jizaishixiang;
+
 
 			_this.modal_pdreport_edit2 = true;
 		},
