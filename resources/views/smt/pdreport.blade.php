@@ -453,7 +453,7 @@ SMT - PD report
 					<Input-number v-model.lazy="shoudongshengchanshijian_edit" :min="0" size="small" style="width: 120px" placeholder=""></Input-number>
 
 				
-				</p><br>
+				</p>
 					
 				&nbsp;
 				
@@ -549,7 +549,7 @@ SMT - PD report
 					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
 					<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				
-				</p><br>
+				</p>
 					
 				&nbsp;
 				
@@ -661,7 +661,7 @@ SMT - PD report
 						katex.render("\\text{理论打点数 (ld)} = \\text{设备能力 (N)} \\times \\text{稼动时间 (js)}", lilundadianshu, {
 							throwOnError: false
 						});
-						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(稼动时间 (js)} - \\text{无计划 (w)} - \\text{试作 (s))}}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
+						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(稼动时间 (js)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)})}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
 							throwOnError: false
 						});
 					</script>
@@ -3508,10 +3508,10 @@ var vm_app = new Vue({
 						// 线体
 						dadianjiadonglv[i].xianti = res[i].xianti;
 						// 稼动时间
-						dadianjiadonglv[i].jiadongshijian = res[i].chixushijian - res[i].wujihua -res[i].shizuo;
+						dadianjiadonglv[i].jiadongshijian = res[i].chixushijian - res[i].wujihua - res[i].shizuo - res[i].dingqidianjian;
 						
 						if (dadianjiadonglv[i].jiadongshijian != 0) {
-							// 移动天数
+							// 稼动天数
 							dadianjiadonglv[i].jiadongtianshu = (dadianjiadonglv[i].jiadongshijian/1440).toFixed(2);
 							// 设备能力
 							// dadianjiadonglv[i].shebeinengli = 
@@ -3715,15 +3715,15 @@ var vm_app = new Vue({
 				jizaishixiang: jizaishixiang
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;
 				}
 				
-				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+				_this.dailyreportgets(_this.pagecurrent, _this.pagelast);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
@@ -3735,15 +3735,19 @@ var vm_app = new Vue({
 					_this.spno_edit = '';
 					_this.jizhongming_edit = '';
 					_this.pinming_edit = '';
-					_this.lotshu_edit = '';
 					_this.gongxu_edit = '';
 
-					_this.meimiao_edit = row.meimiao;
-					_this.taishu_edit = row.taishu;
-					_this.shoudongshengchanshijian_edit = row.shoudongshengchanshijian;
-					
-
-
+					_this.xinchan_edit = '';
+					_this.liangchan_edit = '';
+					_this.dengdaibupin_edit = '';
+					_this.wujihua_edit = '';
+					_this.qianhougongchengdengdai_edit = '';
+					_this.wubupin_edit = '';
+					_this.bupinanpaidengdai_edit = '';
+					_this.dingqidianjian_edit = '';
+					_this.guzhang_edit = '';
+					_this.shizuo_edit = '';
+					_this.jizaishixiang_edit = '';
 					
 				} else {
 					_this.error(false, '失败', '更新失败！请确认录入是否正确！');

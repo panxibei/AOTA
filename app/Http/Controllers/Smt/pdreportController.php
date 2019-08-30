@@ -1156,6 +1156,18 @@ class pdreportController extends Controller
 		$chajiandianshu = $t->diantai * $meishu;
 		$jiadonglv = $meishu * $meimiao / 43200;
 
+		$ss = Smt_pdreport::select('shoudongshengchanshijian', 'shijishengchanshijian', 'xinchan',
+				'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin',
+				'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo'
+			)
+			->where('id', $id)
+			->first()->toArray();
+		
+		$bupinbuchongshijian = $ss['shoudongshengchanshijian'] - $ss['shijishengchanshijian']
+			- $ss['xinchan'] - $ss['liangchan'] - $ss['dengdaibupin']
+			- $ss['wujihua'] - $ss['qianhougongchengdengdai'] - $ss['wubupin']
+			- $ss['bupinanpaidengdai'] - $ss['dingqidianjian'] - $ss['guzhang']
+			- $ss['shizuo'];
 
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
@@ -1188,6 +1200,7 @@ class pdreportController extends Controller
 				'chajiandianshu'=> $chajiandianshu,
 				'jiadonglv'		=> $jiadonglv,
 				'luruzhe'		=> $luruzhe,
+				'bupinbuchongshijian' => $bupinbuchongshijian
 			]);
 			$result = 1;
 		}
@@ -1227,7 +1240,19 @@ class pdreportController extends Controller
 		$jizaishixiang = $request->input('jizaishixiang');
 
 		// dd($id);
+
+		$ss = Smt_pdreport::select('shoudongshengchanshijian', 'shijishengchanshijian')
+			->where('id', $id)
+			->first()->toArray();
+		$shoudongshengchanshijian = $ss['shoudongshengchanshijian'];
+		$shijishengchanshijian = $ss['shijishengchanshijian'];
 		
+		$bupinbuchongshijian = $shoudongshengchanshijian - $shijishengchanshijian
+			- $xinchan - $liangchan - $dengdaibupin
+			- $wujihua - $qianhougongchengdengdai - $wubupin
+			- $bupinanpaidengdai - $dingqidianjian - $guzhang
+			- $shizuo;
+
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
@@ -1253,16 +1278,18 @@ class pdreportController extends Controller
 				'dingqidianjian' => $dingqidianjian,
 				'guzhang' => $guzhang,
 				'shizuo' => $shizuo,
-				'jizaishixiang' => $jizaishixiang
+				'jizaishixiang' => $jizaishixiang,
+				'luruzhe'		=> $luruzhe,
+				'bupinbuchongshijian' => $bupinbuchongshijian
 			]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		Cache::flush();
-		dd($result);
+		// dd($result);
 		return $result;
 
 	}
