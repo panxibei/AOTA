@@ -2890,7 +2890,14 @@ var vm_app = new Vue({
 							_this.xiaoji_chajiandianshu += v.chajiandianshu;
 							_this.xiaoji_meishu += v.meishu;
 						});
-						let xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
+
+						let xiaoji_bupinbuchongshijian = 0;
+
+						if (banci_filter) {
+							xiaoji_bupinbuchongshijian = (12*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
+						} else{
+							xiaoji_bupinbuchongshijian = (24*60*60 - _this.xiaoji_shengchanshijian - _this.xiaoji_langfeishijian);
+						}
 						_this.xiaoji_bupinbuchongshijian = xiaoji_bupinbuchongshijian;
 
 						if (_this.xiaoji_bupinbuchongshijian == 43200) {
