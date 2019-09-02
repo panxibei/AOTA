@@ -1151,21 +1151,18 @@ var vm_app = new Vue({
 							]);
 						}
 					},
-					{
-						title: '稼动率',
-						key: 'jiadonglv',
-						align: 'center',
-						width: 70,
-						className: 'table-info-column',
-						render: (h, params) => {
-							return h('div', [
-								// parseFloat(params.row.jiadonglv * 100) + '%'
-								// (params.row.jiadonglv * 100) + '%'
-								// params.row.jiadonglv * 100
-								params.row.jiadonglv ? Math.round(params.row.jiadonglv*100) + '%' : ''
-							]);
-						}
-					}
+					// {
+					// 	title: '稼动率',
+					// 	key: 'jiadonglv',
+					// 	align: 'center',
+					// 	width: 70,
+					// 	className: 'table-info-column',
+					// 	render: (h, params) => {
+					// 		return h('div', [
+					// 			params.row.jiadonglv ? Math.round(params.row.jiadonglv*100) + '%' : ''
+					// 		]);
+					// 	}
+					// }
 				]
 			},
 			{

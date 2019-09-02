@@ -28,7 +28,7 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('meishu')->unsigned()->nullable();
 			$table->integer('shijishengchanshijian')->unsigned()->nullable(); // dianmei * meishu
 			$table->integer('shoudongshengchanshijian')->unsigned()->nullable();
-			$table->integer('bupinbuchongshijian')->unsigned()->nullable();
+			$table->integer('bupinbuchongshijian')->nullable();
 			$table->integer('taishu')->unsigned()->nullable();
 			$table->integer('lotcan')->unsigned()->nullable();
 			$table->integer('chajiandianshu')->unsigned()->nullable();

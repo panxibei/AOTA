@@ -293,13 +293,13 @@ class pdreportController extends Controller
 
 			$shijishengchanshijian = $dailyreport['meimiao'] * $meishu;
 
-			$bupinbuchongshijian = $dailyreport['shoudongshengchanshijian'] - $shijishengchanshijian
+			$bupinbuchongshijian = $dailyreport['shoudongshengchanshijian'] - $shijishengchanshijian / 60
 				- $dailyreport['xinchan'] - $dailyreport['liangchan'] - $dailyreport['dengdaibupin']
 				- $dailyreport['wujihua'] - $dailyreport['qianhougongchengdengdai'] - $dailyreport['wubupin']
 				- $dailyreport['bupinanpaidengdai'] - $dailyreport['dingqidianjian'] - $dailyreport['guzhang']
 				- $dailyreport['shizuo'];
 
-			$chajiandianshu = $t->diantai * $meishu;
+			$chajiandianshu = $dianmei * $meishu;
 			$jiadonglv = $meishu * $dailyreport['meimiao'] / 43200;
 
 		}
@@ -623,7 +623,7 @@ class pdreportController extends Controller
 		$smt_pdreport = Smt_pdreport::select(DB::raw('LEFT(shengchanriqi, 10)'), 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 		// $smt_pdreport = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'bupinbuchongshijian', 'taishu', 'lotcan', 'chajiandianshu',
-			'jiadonglv', 'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
+			'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
 			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo',
 			'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe')
 			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
@@ -644,7 +644,7 @@ class pdreportController extends Controller
 		// Excel标题第一行，可修改为任意名字，包括中文
 		$title[] = ['生产日期', '线体', '班次', '机种名', 'SP NO.', '品名',
 			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '部品补充时间', '台数', 'LOT残', '插件点数',
-			'稼动率', '新产', '量产', '等待部品', '无计划', '前后工程等待',
+			'新产', '量产', '等待部品', '无计划', '前后工程等待',
 			'部品欠品', '部品准备等待', '定期点检', '故障', '试作',
 			'记载事项', '录入者', '担当者', '确认者'];
 
