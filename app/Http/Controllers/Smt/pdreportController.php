@@ -777,6 +777,44 @@ class pdreportController extends Controller
 		return Storage::download('download/smt_pdplanimport.xlsx', 'MoBan_SmtPdPlan.xlsx');
 	}
 
+	/**
+     * pdplantableUpload
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pdplantableUpload(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+
+		$fileCharater = $request->file('myfile');
+ 
+		if ($fileCharater->isValid()) {
+			$ext = $fileCharater->extension();
+
+			if ($ext != 'xls' && $ext != 'xlsx') return 0;
+
+			$filename = 'pdplantableupload.'.$ext;
+			$fileCharater->storeAs('excel', $filename);
+		} else {
+			return 0;
+		}
+		
+		return 1;
+	}
+
+		
+    /**
+     * pdplantableDownload 计划表文件下载
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pdplantableDownload(Request $request)
+    {
+		return Storage::download('excel/pdplantableupload.xlsx', 'Download_SmtPdPlanTable.xlsx');
+	}
+
 
 	/**
 	 * pdplanGets

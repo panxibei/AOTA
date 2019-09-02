@@ -89,7 +89,7 @@ SMT - PD report
 				@hasanyrole('role_smt_refreshplan|role_super_admin')
 				<Poptip confirm title="确定要刷新生产计划数据吗？" placement="right-start" @on-ok="refreshplan" @on-cancel="" transfer="true">
 					<!-- <i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" @click="refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button> -->
-					<i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" type="default" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
+					<i-button icon="ios-refresh" :loading="loadingStatus_refreshplan" :disabled="uploaddisabled_refreshplan" type="primary" size="small">@{{ loadingStatus_refreshplan ? '刷新中...' : '刷新生产计划' }}</i-button>
 				</Poptip>
 				@endhasanyrole
 				@hasanyrole('role_super_admin')
@@ -133,11 +133,11 @@ SMT - PD report
 						:on-format-error="handleFormatError"
 						:max-size="2048"
 						action="/">
-						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus_table" :disabled="uploaddisabled_table" size="small" shape="circle" disabled>@{{ loadingStatus ? '上传中...' : '上传计划表' }}</i-button>
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus_table" :disabled="uploaddisabled_table" size="small" shape="circle">@{{ loadingStatus ? '上传中...' : '上传计划表' }}</i-button>
 					</Upload>
 				</i-col>
 				<i-col span="2">
-					<i-button @click="download_plan_table()" icon="ios-download-outline" type="primary" size="small" shape="circle" disabled>下载计划表</i-button>
+					<i-button @click="download_plan_table()" icon="ios-download-outline" size="small" shape="circle">下载计划表</i-button>
 				</i-col>
 				<i-col span="10">
 					<font color="#ff9900">* 注意：旧的生产计划内容数据会被覆盖！！</font>
@@ -167,8 +167,11 @@ SMT - PD report
 			<Divider orientation="left">生产基本信息</Divider>
 
 			<i-row :gutter="16">
-				<i-col span="24">
+				<i-col span="11">
 					<font color="#2db7f5">↓ 1. 选择 <strong>计划日期</strong>、<strong>线体</strong> 和 <strong>班次</strong> 来查询计划。 2. 点选上部计划表项，提高录入速度及有效性。</font>
+				</i-col>
+				<i-col span="13">
+					<i-button @click="download_plan_table()" icon="ios-download-outline" type="primary" size="small" shape="circle">下载计划表</i-button>
 				</i-col>
 			</i-row>
 
@@ -3089,13 +3092,14 @@ var vm_app = new Vue({
 			// this.loadingStatus = false;
 		},
 
-		// relation模板下载
+		// 计划上传模板下载
 		download_plan: function () {
 			var url = "{{ route('smt.pdreport.pdplandownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
 		},
+
 		uploadstart_plan_table (file) {
 			var _this = this;
 			_this.file = file;
@@ -3105,7 +3109,7 @@ var vm_app = new Vue({
 			let formData = new FormData()
 			formData.append('myfile',_this.file)
 			
-			var url = "{{ route('smt.pdreport.pdplantableimport') }}";
+			var url = "{{ route('smt.pdreport.pdplantableupload') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 			axios({
@@ -3131,7 +3135,7 @@ var vm_app = new Vue({
 					_this.file = null;
 					_this.loadingStatus_table = false;
 					_this.uploaddisabled_table = false;
-				}, 1000);
+				}, 1500);
 				
 			})
 			.catch(function (error) {
@@ -3140,7 +3144,7 @@ var vm_app = new Vue({
 					_this.file = null;
 					_this.loadingStatus_table = false;
 					_this.uploaddisabled_table = false;
-				}, 1000);
+				}, 1500);
 			})
 		},
 		uploadcancel () {
@@ -3148,9 +3152,9 @@ var vm_app = new Vue({
 			// this.loadingStatus = false;
 		},
 
-		// relation模板下载
-		download_plan: function () {
-			var url = "{{ route('smt.pdreport.pdplandownload') }}";
+		// 计划表文件下载
+		download_plan_table () {
+			var url = "{{ route('smt.pdreport.pdplantabledownload') }}";
 			window.setTimeout(function () {
 				window.location.href = url;
 			}, 1000);
