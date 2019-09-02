@@ -191,7 +191,7 @@ var vm_app = new Vue({
 					})
 					.catch(function (error) {
 						// console.log(error);
-						_this.formInline.loginmessage = '<font color="red">用户过期或未知错误！</font>';
+						_this.formInline.loginmessage = '<font color="red">用户过期或未知错误！请刷新再试！</font>';
 						_this.logindisabled(false);
 					})
 					// _this.captchaclick();
