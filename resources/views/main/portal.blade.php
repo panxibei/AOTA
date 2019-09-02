@@ -34,7 +34,7 @@ Main(Portal) -
 			<Card>
 				<p slot="title">
 					SMT实装课
-					@hasanyrole('role_smt_config|role_super_admin')
+					@hasanyrole('role_smt_config_write|role_super_admin')
 					<span style="float:right">
 						<a href="{{ route('smt.config') }}" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;Config</a>
 					</span>

@@ -62,14 +62,18 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>['jwtauth','p
 	Route::get('resultexport', 'zrcfxController@resultExport')->name('bpjg.zrcfx.resultexport');
 });
 
-// SMT 配置页面
-Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_config|permission_super_admin']], function() {
+// SMT 配置页面 只读
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_config_read|permission_super_admin']], function() {
+	Route::get('configGetsPdreport', 'configController@configGetsPdreport')->name('smt.configgetspdreport');
+	Route::get('configGetsQcreport', 'configController@configGetsQcreport')->name('smt.configgetsqcreport');
+});
+
+// SMT 配置页面 可写
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_config_write|permission_super_admin']], function() {
 	Route::get('config', 'configController@smtConfig')->name('smt.config');
 	// Route::post('configcreate', 'configController@configCreate')->name('smt.configcreate');
 	Route::post('configUpdatePdreport', 'configController@configUpdatePdreport')->name('smt.configupdatepdreport');
 	Route::post('configUpdateQcreport', 'configController@configUpdateQcreport')->name('smt.configupdateqcreport');
-	Route::get('configGetsPdreport', 'configController@configGetsPdreport')->name('smt.configgetspdreport');
-	Route::get('configGetsQcreport', 'configController@configGetsQcreport')->name('smt.configgetsqcreport');
 });
 
 // SMT 品质日报页面
