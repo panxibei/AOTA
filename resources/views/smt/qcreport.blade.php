@@ -75,7 +75,7 @@ SMT(QC report) -
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
 					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
-					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao" @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/5283600121-51/MAIN/900" size="large" clearable autofocus style="width: 320px"></i-input>
+					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao"  @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/MAIN/5283600121-5/900" size="large" clearable autofocus style="width: 320px"></i-input>
 					</Poptip>
 				</i-col>
 				<i-col span="3">
@@ -778,29 +778,29 @@ var vm_app = new Vue({
 		banci: '',
 		option_banci: [
 			{
-				value: 'A-1',
-				label: 'A-1'
+				value: 'A',
+				label: 'A'
 			},
+			// {
+			// 	value: 'A-2',
+			// 	label: 'A-2'
+			// },
+			// {
+			// 	value: 'A-3',
+			// 	label: 'A-3'
+			// },
 			{
-				value: 'A-2',
-				label: 'A-2'
+				value: 'B',
+				label: 'B'
 			},
-			{
-				value: 'A-3',
-				label: 'A-3'
-			},
-			{
-				value: 'B-1',
-				label: 'B-1'
-			},
-			{
-				value: 'B-2',
-				label: 'B-2'
-			},
-			{
-				value: 'B-3',
-				label: 'B-3'
-			}
+			// {
+			// 	value: 'B-2',
+			// 	label: 'B-2'
+			// },
+			// {
+			// 	value: 'B-3',
+			// 	label: 'B-3'
+			// }
 		],
 		
 		// 不良内容
@@ -4029,7 +4029,7 @@ var vm_app = new Vue({
 		
 		
 		//
-		onchangegongxu: function () {
+		onchangegongxu () {
 			var _this = this;
 			
 			var saomiao = _this.saomiao;

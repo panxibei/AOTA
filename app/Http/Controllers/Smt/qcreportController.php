@@ -100,7 +100,7 @@ class qcreportController extends Controller
 					return $query->where('xianti', '=', $xianti_filter);
 				})
 				->when($banci_filter, function ($query) use ($banci_filter) {
-					return $query->where('banci', '=', $banci_filter);
+					return $query->where('banci', 'like', $banci_filter.'%');
 				})
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
@@ -196,7 +196,7 @@ class qcreportController extends Controller
 					return $query->where('xianti', '=', $xianti_filter);
 				})
 				->when($banci_filter, function ($query) use ($banci_filter) {
-					return $query->where('banci', '=', $banci_filter);
+					return $query->where('banci', 'like', $banci_filter.'%');
 				})
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
@@ -282,7 +282,7 @@ class qcreportController extends Controller
 					return $query->where('xianti', '=', $xianti_filter);
 				})
 				->when($banci_filter, function ($query) use ($banci_filter) {
-					return $query->where('banci', '=', $banci_filter);
+					return $query->where('banci', 'like', $banci_filter.'%');
 				})
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
@@ -375,7 +375,7 @@ class qcreportController extends Controller
 					return $query->where('xianti', '=', $xianti_filter);
 				})
 				->when($banci_filter, function ($query) use ($banci_filter) {
-					return $query->where('banci', '=', $banci_filter);
+					return $query->where('banci', 'like', $banci_filter.'%');
 				})
 				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
@@ -484,9 +484,9 @@ class qcreportController extends Controller
 		try {
 			$saomiao_arr = explode('/', $saomiao);
 			
-			$jizhongming = $saomiao_arr[0];
-			$spno = $saomiao_arr[1];
-			$pinming = $saomiao_arr[2];
+			$jizhongming = substr($saomiao_arr[0], 0, 8);
+			$pinming = $saomiao_arr[1];
+			$spno = $saomiao_arr[2];
 			$lotshu = $saomiao_arr[3];
 
 			$res = Smt_mpoint::select('diantai', 'pinban')
@@ -499,7 +499,7 @@ class qcreportController extends Controller
 			
 			$res = Smt_pdreport::select('xianti', 'banci')
 				->where('jizhongming', $jizhongming)
-				->where('spno', $spno)
+				->where('spno', 'like', $spno.'%')
 				->where('pinming', $pinming)
 				->where('gongxu', $gongxu)
 				->first();
