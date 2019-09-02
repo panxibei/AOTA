@@ -1194,19 +1194,20 @@ class pdreportController extends Controller
 		$chajiandianshu = $t->diantai * $meishu;
 		$jiadonglv = $meishu * $meimiao / 43200;
 
-		$ss = Smt_pdreport::select('shoudongshengchanshijian', 'shijishengchanshijian', 'xinchan',
+		$ss = Smt_pdreport::select('shijishengchanshijian', 'xinchan',
 				'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin',
 				'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo'
 			)
 			->where('id', $id)
 			->first()->toArray();
 		
-		$bupinbuchongshijian = $ss['shoudongshengchanshijian'] - $ss['shijishengchanshijian'] / 60
+		$bupinbuchongshijian = $shoudongshengchanshijian - $ss['shijishengchanshijian'] / 60
 			- $ss['xinchan'] - $ss['liangchan'] - $ss['dengdaibupin']
 			- $ss['wujihua'] - $ss['qianhougongchengdengdai'] - $ss['wubupin']
 			- $ss['bupinanpaidengdai'] - $ss['dingqidianjian'] - $ss['guzhang']
 			- $ss['shizuo'];
-// dd($bupinbuchongshijian);
+		// dump($bupinbuchongshijian);
+
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
