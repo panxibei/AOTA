@@ -76,8 +76,53 @@ SMT - MPoint
 		</i-col>
 	</i-row>
 
+	<Modal v-model="modal_mpoint_edit" @on-ok="mpoint_edit_ok" ok-text="保存" title="编辑 - MPoint" width="680">
+		<div style="text-align:left">
+		<p>
+
+			创建时间：@{{ created_at_edit }}
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			更新时间：@{{ updated_at_edit }}
+		
+		</p>
+
+		<Divider></Divider>
+				
+		<p>
+			* 机种名&nbsp;&nbsp;
+			<i-input v-model.lazy="jizhongming_edit" @on-keyup="jizhongming_edit=jizhongming_edit.toUpperCase()" size="small" clearable style="width: 100px" placeholder=""></i-input>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
+			* 品名&nbsp;&nbsp;
+			<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
+			* 工序&nbsp;&nbsp;
+			<i-input v-model.lazy="gongxu_edit" @on-keyup="gongxu_edit=gongxu_edit.toUpperCase()" size="small" clearable style="width: 80px" placeholder=""></i-input>
+			
+			<br><br>
+
+			* 点/台&nbsp;&nbsp;
+			<Input-number v-model.lazy="diantai_edit" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
+			* 拼板&nbsp;&nbsp;
+			<Input-number v-model.lazy="pinban_edit" :min="1" size="small" style="width: 120px;" placeholder=""></Input-number>
+
+		
+		</p>
+			
+		&nbsp;
+		
+		</div>	
+	</Modal>
+
 	<br><br>
-	<!--<div style="background-color: rgb(201, 226, 179); height: 1px;"></div>-->
 	<Divider orientation="left">数据查询</Divider>
 	
 	<div>
@@ -116,7 +161,7 @@ var vm_app = new Vue({
 		dailydate: '',
 		
 		// id
-		mpointid: '',
+		// mpointid: '',
 		
 		// 机种名
 		jizhongming: '',
@@ -242,7 +287,8 @@ var vm_app = new Vue({
 							},
 							on: {
 								click: () => {
-									vm_app.editmpoint(params.row)
+									// vm_app.editmpoint(params.row)
+									vm_app.mpoint_edit(params.row)
 								}
 							}
 						}, '编辑')
@@ -338,6 +384,16 @@ var vm_app = new Vue({
 		loadingStatus: false,
 		uploaddisabled: false,
 
+		// 编辑
+		modal_mpoint_edit: false,
+		created_at_edit: '',
+		updated_at_edit: '',
+		id_edit: '',
+		jizhongming_edit: '',
+		pinming_edit: '',
+		gongxu_edit: '',
+		diantai_edit: '',
+		pinban_edit: '',
 
 			
 	},
@@ -502,12 +558,97 @@ var vm_app = new Vue({
 				_this.error(false, '错误', '创建失败！');
 			})
 		},
+
 		
-		// onupdate
+		// 编辑前查看
+		mpoint_edit (row) {
+			var _this = this;
+
+			_this.created_at_edit = row.created_at;
+			_this.updated_at_edit = row.updated_at;
+
+			_this.id_edit = row.id;
+			_this.jizhongming_edit = row.jizhongming;
+			_this.pinming_edit = row.pinming;
+			_this.gongxu_edit = row.gongxu;
+
+			_this.diantai_edit = row.diantai;
+			_this.pinban_edit = row.pinban;
+			
+			_this.modal_mpoint_edit = true;
+		},
+
+		// 编辑后保存
+		mpoint_edit_ok () {
+			var _this = this;
+
+			var created_at = _this.created_at_edit;
+			var updated_at = _this.updated_at_edit;
+			var id = _this.id_edit;
+			var jizhongming = _this.jizhongming_edit;
+			var pinming = _this.pinming_edit;
+			var gongxu = _this.gongxu_edit;
+			var diantai = _this.diantai_edit;
+			var pinban = _this.pinban_edit;
+
+			if (id == '' || id == undefined) return false;
+			
+			// var id = _this.mpointid;
+			
+			if (id == '' || jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == '' ||
+				id == undefined || jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
+				_this.warning(false, '错误', '内容不正确！');
+				return false;
+			}
+			
+			var url = "{{ route('smt.pdreport.mpointupdate') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				jizhongming: jizhongming,
+				pinming: pinming,
+				gongxu: gongxu,
+				diantai: diantai,
+				pinban: pinban,
+				id: id
+			})
+			.then(function (response) {
+				// console.log(response.data);
+				// return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+
+				_this.mpointgets(_this.pagecurrent, _this.pagelast);
+				
+				if (response.data) {
+					_this.success(false, '成功', '更新成功！');
+
+					_this.created_at_edit = '';
+					_this.updated_at_edit = '';
+					_this.id_edit = '';
+					_this.jizhongming_edit = '';
+					_this.pinming_edit = '';
+					_this.gongxu_edit = '';
+					_this.diantai_edit = '';
+					_this.pinban_edit = '';
+
+				} else {
+					_this.error(false, '失败', '更新失败！请确认录入是否正确！');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', '更新失败！');
+			})			
+		},
+
+		
+		// onupdate 作废
 		onupdate () {
 			var _this = this;
 			
-			if (_this.mpointid == '') return false;
+			// if (_this.mpointid == '') return false;
 			
 			var jizhongming = _this.jizhongming;
 			var pinming = _this.pinming;
@@ -515,7 +656,7 @@ var vm_app = new Vue({
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
 			
-			var id = _this.mpointid;
+			// var id = _this.mpointid;
 			
 			if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
 				|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
@@ -547,11 +688,11 @@ var vm_app = new Vue({
 				} else {
 					_this.error(false, '失败', '更新失败！');
 				}
-				_this.mpointid = '';
+				// _this.mpointid = '';
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '更新失败！');
-				_this.mpointid = '';
+				// _this.mpointid = '';
 			})
 		},
 		

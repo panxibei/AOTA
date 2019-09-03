@@ -151,23 +151,21 @@ class pdreportController extends Controller
 			'pinban',
 			'id'
 		);
-		// dd($mpoint);
 
 		// 写入数据库
 		try	{
-			// $result = DB::table('mpoints')
 			$result = Smt_mpoint::where('id', $mpoint['id'])
 				->update([
-					'jizhongming'	=> $mpoint['jizhongming'],
-					'pinming'		=> $mpoint['pinming'],
-					'gongxu'			=> $mpoint['gongxu'],
+					'jizhongming'	=> strtoupper(substr($mpoint['jizhongming'], 0 , 8)),
+					'pinming'		=> strtoupper($mpoint['pinming']),
+					'gongxu'			=> strtoupper($mpoint['gongxu']),
 					'diantai'		=> $mpoint['diantai'],
 					'pinban'		=> $mpoint['pinban'],
 				]);
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 
