@@ -26,7 +26,7 @@ class hcfx_zrcfxImport implements ToModel, WithHeadingRow
 			// 'shuliang' => $row[2],
 			
 			// 'jizhongming' => substr($row['机种名'], 0, 7),
-			'jizhongming' => $row['机种名'],
+			'jizhongming' => strtoupper($row['机种名']),
 			'd1' => is_null($row['d1']) ? 0 : $row['d1'],
 			'd2' => is_null($row['d2']) ? 0 : $row['d2'],
 			'd3' => is_null($row['d3']) ? 0 : $row['d3'],

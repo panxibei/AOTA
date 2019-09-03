@@ -34,7 +34,7 @@ class hcfx_relationImport implements ToModel, WithHeadingRow
 
 			// 'riqi' => $row['日期'],
 			// 'jizhongming' => substr($row['机种'], 0, 7),
-			'jizhongming' => $row['机种'],
+			'jizhongming' => strtoupper($row['机种']),
 			'tuopanxinghao' => $row['托盘型号'],
 			'tai_per_tuo' => $row['台/托'] ?? 0,
 			// 'zongshu' => is_null($row['总数']) ? 0 : $row['总数'],

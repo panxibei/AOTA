@@ -21,9 +21,9 @@ class mpointImport implements ToModel, WithHeadingRow
 	
 		// Smt_qcreport::create([
 		return new Smt_mpoint([
-			'jizhongming' => is_null($row['机种名']) ? '' : $row['机种名'],
-			'pinming' => is_null($row['品名']) ? '' : $row['品名'],
-			'gongxu' => is_null($row['工序']) ? '' : $row['工序'],
+			'jizhongming' => is_null($row['机种名']) ? '' : strtoupper(substr($row['机种名'], 0, 8)),
+			'pinming' => is_null($row['品名']) ? '' : strtoupper($row['品名']),
+			'gongxu' => is_null($row['工序']) ? '' : strtoupper($row['工序']),
 			'diantai' => is_null($row['点/台']) ? '' : $row['点/台'],
 			'pinban' => is_null($row['拼板']) ? '' : $row['拼板'],
 		]);

@@ -116,7 +116,7 @@ class pdreportController extends Controller
 		try	{
 			// $result = DB::table('mpoints')->insert([
 			$result = Smt_mpoint::create([
-				'jizhongming'	=> $mpoint['jizhongming'],
+				'jizhongming'	=> substr($mpoint['jizhongming'], 0, 8),
 				'pinming'		=> $mpoint['pinming'],
 				'gongxu'			=> $mpoint['gongxu'],
 				'diantai'		=> $mpoint['diantai'],

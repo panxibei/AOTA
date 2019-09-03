@@ -33,9 +33,9 @@ class zrcfx_relationImport implements ToModel, WithHeadingRow
 			// 'shuliang' => $row[9],
 
 			// 'riqi' => $row['日期'],
-			'jizhongming' => $row['机种名'],
-			'pinfan' => $row['品番'],
-			'pinming' => $row['品名'],
+			'jizhongming' => strtoupper(substr($row['机种名'], 0, 8)),
+			'pinfan' => strtoupper($row['品番']),
+			'pinming' => strtoupper($row['品名']),
 			'xuqiushuliang' => $row['需求数量'] ?: 0,
 			'leibie' => $row['类别'],
 			// 'zongshu' => is_null($row['总数']) ? 0 : $row['总数'],

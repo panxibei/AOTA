@@ -28,7 +28,7 @@ SMT - MPoint
 		</i-col>
 		<i-col span="5">
 			* 品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming" size="small" clearable style="width: 160px"></i-input>
+			<i-input v-model.lazy="pinming" @on-keyup="pinming=pinming.toUpperCase()" size="small" clearable style="width: 160px"></i-input>
 		</i-col>
 		<i-col span="4">
 			* 工序&nbsp;&nbsp;
