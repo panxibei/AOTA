@@ -2777,7 +2777,7 @@ var vm_app = new Vue({
 		},
 		
 		//
-		ondelete: function (selection) {
+		ondelete (selection) {
 			var _this = this;
 			
 			var tableselect = _this.tableselect;

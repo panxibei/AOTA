@@ -94,7 +94,7 @@ class pdreportController extends Controller
 			->when($gongxu_filter, function ($query) use ($gongxu_filter) {
 				return $query->where('gongxu', 'like', '%'.$gongxu_filter.'%');
 			})
-			->orderBy('created_at', 'desc')
+			->orderBy('id', 'asc')
 			->paginate($perPage, ['*'], 'page', $page);
 
 		return $mpoint;

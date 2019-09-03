@@ -512,6 +512,8 @@ var vm_app = new Vue({
 					_this.pagetotal = 0;
 					_this.pagelast = 1;
 				}
+				_this.boo_delete = true;
+
 			})
 			.catch(function (error) {
 				_this.loadingbarerror();
