@@ -1191,7 +1191,7 @@ class pdreportController extends Controller
 
 		$shijishengchanshijian = $meimiao * $meishu;
 
-		$chajiandianshu = $t->diantai * $meishu;
+		$chajiandianshu = $dianmei * $meishu;
 		$jiadonglv = $meishu * $meimiao / 43200;
 
 		$ss = Smt_pdreport::select('shijishengchanshijian', 'xinchan',
