@@ -30,32 +30,11 @@ SMT - MPoint
 			* 品名&nbsp;&nbsp;
 			<i-input v-model.lazy="pinming" @on-keyup="pinming=pinming.toUpperCase()" size="small" clearable style="width: 160px"></i-input>
 		</i-col>
-		<i-col span="4">
+		<i-col span="5">
 			* 工序&nbsp;&nbsp;
 			<i-select v-model.lazy="gongxu_select" placeholder="" clearable size="small" style="width:120px">
 				<i-option v-for="item in gongxu_option" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 			</i-select>
-		</i-col>
-		<i-col span="10">
-			&nbsp;
-		</i-col>
-	</i-row>
-
-	<br><br>
-	
-	<i-row :gutter="16">
-		<i-col span="5">
-			* 点/台&nbsp;&nbsp;
-			<Input-number v-model.lazy="diantai" :min="1" size="small"></Input-number>
-		</i-col>
-		<i-col span="5">
-			* 拼板&nbsp;&nbsp;
-			<Input-number v-model.lazy="pinban" :min="1" size="small"></Input-number>
-		</i-col>
-		<i-col span="5">
-			<i-button @click="oncreate()" type="primary">记入</i-button>&nbsp;&nbsp;&nbsp;
-			<i-button @click="onupdate()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;&nbsp;
-			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
 		</i-col>
 		<i-col span="2">
 			<Upload
@@ -73,6 +52,27 @@ SMT - MPoint
 		</i-col>
 		<i-col span="5">
 			&nbsp;
+		</i-col>
+	</i-row>
+
+	<br><br>
+	
+	<i-row :gutter="16">
+		<i-col span="5">
+			* 点/台&nbsp;&nbsp;
+			<Input-number v-model.lazy="diantai" :min="1" size="small"></Input-number>
+		</i-col>
+		<i-col span="5">
+			* 拼板&nbsp;&nbsp;
+			<Input-number v-model.lazy="pinban" :min="1" size="small"></Input-number>
+		</i-col>
+		<i-col span="5">
+			<i-button @click="oncreate()" type="primary">记入</i-button>&nbsp;&nbsp;&nbsp;
+			<!-- <i-button @click="onupdate()" :disabled="boo_update">更新</i-button>&nbsp;&nbsp;&nbsp; -->
+			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
+		</i-col>
+		<i-col span="7">
+			<font color="#ff9900">* 注意：原有数据会被覆盖！<br>[机种名] 、[品名]和[工序]三项必须保持唯一。</font>
 		</i-col>
 	</i-row>
 
@@ -114,7 +114,6 @@ SMT - MPoint
 			* 拼板&nbsp;&nbsp;
 			<Input-number v-model.lazy="pinban_edit" :min="1" size="small" style="width: 120px;" placeholder=""></Input-number>
 
-		
 		</p>
 			
 		&nbsp;
@@ -132,14 +131,22 @@ SMT - MPoint
 				<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button>&nbsp;&nbsp;
 			</i-col>
 			<i-col span="6">
-				日期范围&nbsp;&nbsp;
+				* 日期范围&nbsp;&nbsp;
 				<Date-picker v-model.lazy="dailydate_filter" :options="dailydate_filter_options" @on-change="mpointgets(pagecurrent, pagelast);" type="daterange" size="small" style="width:200px"></Date-picker>
 			</i-col>
-			<i-col span="5">
+			<i-col span="4">
 				机种名&nbsp;&nbsp;
-				<i-input v-model.lazy="jizhongming_filter" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 160px"></i-input>
+				<i-input v-model.lazy="jizhongming_filter" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 120px"></i-input>
 			</i-col>
-			<i-col span="10">
+			<i-col span="4">
+				品名&nbsp;&nbsp;
+				<i-input v-model.lazy="pinming_filter" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 120px"></i-input>
+			</i-col>
+			<i-col span="4">
+				工序&nbsp;&nbsp;
+				<i-input v-model.lazy="gongxu_filter" @on-keyup="gongxu_filter=gongxu_filter.toUpperCase()" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 120px"></i-input>
+			</i-col>
+			<i-col span="5">
 			</i-col>
 		</i-row>
 	
@@ -196,7 +203,6 @@ var vm_app = new Vue({
 				align: 'center',
 				fixed: 'left'
 			},
-			// 1
 			{
 				type: 'index',
 				align: 'center',
@@ -207,68 +213,67 @@ var vm_app = new Vue({
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
 			},
-			// 2
 			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
-				width: 200,
-				sortable: true
-
+				width: 120,
+				// sortable: true
 			},
-			// 3
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
-				width: 150,
+				width: 110,
 				// sortable: true
 			},
-			// 4
 			{
 				title: '工序',
 				key: 'gongxu',
 				align: 'center',
-				width: 120,
-				filters: [
-					{
-						label: 'A',
-						value: 'A'
-					},
-					{
-						label: 'B',
-						value: 'B'
-					}
-				],
-				filterMultiple: false,
-				filterMethod: function (value, row) {
-					if (value === 'A') {
-						return row.gongxu === 'A';
-					} else if (value === 'B') {
-						return row.gongxu === 'B';
-					}
-				}
+				width: 100,
+				// filters: [
+				// 	{
+				// 		label: 'A',
+				// 		value: 'A'
+				// 	},
+				// 	{
+				// 		label: 'B',
+				// 		value: 'B'
+				// 	}
+				// ],
+				// filterMultiple: false,
+				// filterMethod: function (value, row) {
+				// 	if (value === 'A') {
+				// 		return row.gongxu === 'A';
+				// 	} else if (value === 'B') {
+				// 		return row.gongxu === 'B';
+				// 	}
+				// }
 			},
-			// 5
 			{
 				title: '点/台',
 				key: 'diantai',
 				align: 'center',
-				width: 150
+				width: 130
 			},
-			// 6
 			{
 				title: '拼板',
 				key: 'pinban',
 				align: 'center',
-				width: 120
+				width: 100
 			},
-			// 7
 			{
 				title: '创建日期',
 				key: 'created_at',
 				align: 'center',
-				width: 200
+				width: 160
+			},
+			{
+				title: '更新日期',
+				key: 'updated_at',
+				align: 'center',
+				width: 160
 			},
 			{
 				title: '操作',
@@ -306,7 +311,7 @@ var vm_app = new Vue({
 		boo_delete: true,
 
 		// 更新disabled
-		boo_update: true,
+		// boo_update: true,
 
 		// 日期过滤
 		dailydate_filter: [],
@@ -373,6 +378,8 @@ var vm_app = new Vue({
 
 		// 机种名过滤
 		jizhongming_filter: '',
+		pinming_filter: '',
+		gongxu_filter: '',
 		
 		//分页
 		pagecurrent: 1,
@@ -460,7 +467,7 @@ var vm_app = new Vue({
 			// }
 
 			if (_this.dailydate_filter[0] == '' || _this.dailydate_filter == undefined) {
-				_this.tabledata1 = [];
+				_this.tabledata = [];
 				_this.pagecurrent = 1;
 				_this.pagetotal = 0;
 				_this.pagelast = 1;
@@ -468,7 +475,11 @@ var vm_app = new Vue({
 			} else {
 				dailydate_filter = [_this.dailydate_filter[0].Format("yyyy-MM-dd 00:00:00"), _this.dailydate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			}
-			
+
+			var jizhongming_filter = _this.jizhongming_filter;
+			var pinming_filter = _this.pinming_filter;
+			var gongxu_filter = _this.gongxu_filter;
+
 			var url = "{{ route('smt.pdreport.mpointgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -476,7 +487,9 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize,
 					page: page,
 					dailydate_filter: dailydate_filter,
-					jizhongming_filter: _this.jizhongming_filter
+					jizhongming_filter: jizhongming_filter,
+					pinming_filter: pinming_filter,
+					gongxu_filter: gongxu_filter,
 				}
 			})
 			.then(function (response) {
@@ -492,7 +505,7 @@ var vm_app = new Vue({
 					
 					_this.tabledata = response.data.data;
 				} else {
-					_this.tabledata1 = [];
+					_this.tabledata = [];
 					_this.pagecurrent = 1;
 					_this.pagetotal = 0;
 					_this.pagelast = 1;
@@ -512,7 +525,7 @@ var vm_app = new Vue({
 			_this.gongxu_select = '';
 			_this.diantai = '';
 			_this.pinban = '';
-			_this.boo_update = true;
+			// _this.boo_update = true;
 		},
 		
 		// oncreate
@@ -645,56 +658,56 @@ var vm_app = new Vue({
 
 		
 		// onupdate 作废
-		onupdate () {
-			var _this = this;
+		// onupdate () {
+		// 	var _this = this;
 			
-			// if (_this.mpointid == '') return false;
+		// 	// if (_this.mpointid == '') return false;
 			
-			var jizhongming = _this.jizhongming;
-			var pinming = _this.pinming;
-			var gongxu = _this.gongxu_select;
-			var diantai = _this.diantai;
-			var pinban = _this.pinban;
+		// 	var jizhongming = _this.jizhongming;
+		// 	var pinming = _this.pinming;
+		// 	var gongxu = _this.gongxu_select;
+		// 	var diantai = _this.diantai;
+		// 	var pinban = _this.pinban;
 			
-			// var id = _this.mpointid;
+		// 	// var id = _this.mpointid;
 			
-			if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
-				|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
-				_this.warning(false, 'Warning', 'Values are incorrect!');
-				return false;
-			}
+		// 	if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
+		// 		|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
+		// 		_this.warning(false, 'Warning', 'Values are incorrect!');
+		// 		return false;
+		// 	}
 
-			_this.boo_update = true;
-			var url = "{{ route('smt.pdreport.mpointupdate') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.post(url, {
-				jizhongming: jizhongming,
-				pinming: pinming,
-				gongxu: gongxu,
-				diantai: diantai,
-				pinban: pinban,
-				id: id
-			})
-			.then(function (response) {
-				if (response.data['jwt'] == 'logout') {
-					_this.alert_logout();
-					return false;
-				}
+		// 	_this.boo_update = true;
+		// 	var url = "{{ route('smt.pdreport.mpointupdate') }}";
+		// 	axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+		// 	axios.post(url, {
+		// 		jizhongming: jizhongming,
+		// 		pinming: pinming,
+		// 		gongxu: gongxu,
+		// 		diantai: diantai,
+		// 		pinban: pinban,
+		// 		id: id
+		// 	})
+		// 	.then(function (response) {
+		// 		if (response.data['jwt'] == 'logout') {
+		// 			_this.alert_logout();
+		// 			return false;
+		// 		}
 				
-				if (response.data) {
-					_this.success(false, '成功', '更新成功！');
-					_this.onclear();
-					_this.mpointgets(_this.pagecurrent, _this.pagelast);
-				} else {
-					_this.error(false, '失败', '更新失败！');
-				}
-				// _this.mpointid = '';
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', '更新失败！');
-				// _this.mpointid = '';
-			})
-		},
+		// 		if (response.data) {
+		// 			_this.success(false, '成功', '更新成功！');
+		// 			_this.onclear();
+		// 			_this.mpointgets(_this.pagecurrent, _this.pagelast);
+		// 		} else {
+		// 			_this.error(false, '失败', '更新失败！');
+		// 		}
+		// 		// _this.mpointid = '';
+		// 	})
+		// 	.catch(function (error) {
+		// 		_this.error(false, '错误', '更新失败！');
+		// 		// _this.mpointid = '';
+		// 	})
+		// },
 		
 		//
 		onselectchange (selection) {
@@ -742,17 +755,18 @@ var vm_app = new Vue({
 				_this.error(false, '错误', '删除失败！');
 			})
 		},
-		// 查看
-		editmpoint (row) {
-			var _this = this;
-			_this.jizhongming = row.jizhongming;
-			_this.pinming = row.pinming;
-			_this.gongxu_select = row.gongxu;
-			_this.diantai = row.diantai;
-			_this.pinban = row.pinban;
-			_this.mpointid = row.id
-			_this.boo_update = false;
-		},
+
+		// 查看 作废
+		// editmpoint (row) {
+		// 	var _this = this;
+		// 	_this.jizhongming = row.jizhongming;
+		// 	_this.pinming = row.pinming;
+		// 	_this.gongxu_select = row.gongxu;
+		// 	_this.diantai = row.diantai;
+		// 	_this.pinban = row.pinban;
+		// 	_this.mpointid = row.id
+		// 	_this.boo_update = false;
+		// },
 		
 		// upload
 		handleFormatError (file) {

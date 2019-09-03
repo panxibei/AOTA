@@ -79,12 +79,20 @@ class pdreportController extends Controller
 
 		$dailydate_filter = $request->input('dailydate_filter');
 		$jizhongming_filter = $request->input('jizhongming_filter');
+		$pinming_filter = $request->input('pinming_filter');
+		$gongxu_filter = $request->input('gongxu_filter');
 		
 		$mpoint = Smt_mpoint::when($dailydate_filter, function ($query) use ($dailydate_filter) {
 				return $query->whereBetween('created_at', $dailydate_filter);
 			})
 			->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 				return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+			})
+			->when($pinming_filter, function ($query) use ($pinming_filter) {
+				return $query->where('pinming', 'like', '%'.$pinming_filter.'%');
+			})
+			->when($gongxu_filter, function ($query) use ($gongxu_filter) {
+				return $query->where('gongxu', 'like', '%'.$gongxu_filter.'%');
 			})
 			->orderBy('created_at', 'desc')
 			->paginate($perPage, ['*'], 'page', $page);
