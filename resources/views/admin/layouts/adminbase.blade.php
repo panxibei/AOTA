@@ -136,6 +136,36 @@
 							<Menu-Item name="3-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
 							<Menu-Item name="3-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
 						</Submenu>
+
+						<Modal v-model="modal_password_edit" @on-ok="password_edit_ok" ok-text="更新" title="修改密码 - Admin" width="280">
+							<div style="text-align:left">
+							<p>
+								旧密码&nbsp;&nbsp;
+								<i-input v-model.lazy="password_old" clearable style="width: 180px" placeholder="" type="password"></i-input>
+
+								<br><br>
+
+								新密码&nbsp;&nbsp;
+								<i-input v-model.lazy="password_new" clearable style="width: 180px" placeholder="" type="password"></i-input>
+
+								<br><br>
+
+								再确认&nbsp;&nbsp;
+								<i-input v-model.lazy="password_confirm" clearable style="width: 180px" placeholder="" type="password"></i-input>
+								
+								<br><br>
+
+								* 点/台&nbsp;&nbsp;
+
+								&nbsp;&nbsp;&nbsp;&nbsp;
+
+								* 拼板&nbsp;&nbsp;
+
+							</p>
+							&nbsp;
+							</div>	
+						</Modal>
+
                     </div>
                 </i-menu>
 				</Layout>
@@ -348,7 +378,8 @@ function topmenuselect (name) {
 	  break;
 
 	case '3-1':
-	  window.location.href = "";
+	//   window.location.href = "";
+	  vm_app.modal_password_edit = true;
 	  break;
 	case '3-2':
 	  window.location.href = "{{route('admin.logout')}}";

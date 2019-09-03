@@ -325,6 +325,12 @@ var vm_app = new Vue({
 		tabledata: [],
 		tableselect: [],
 		
+		// 修改密码界面
+		modal_password_edit: false,
+		password_old: '',
+		password_new: '',
+		password_confirm: '',
+
 		//分页
 		page_current: 1,
 		page_total: 1, // 记录总数，非总页数
@@ -418,20 +424,24 @@ var vm_app = new Vue({
 			});
 		},
 
-		alert_logout: function () {
+		alert_logout () {
 			this.error(false, '会话超时', '会话超时，请重新登录！');
 			window.setTimeout(function(){
 				window.location.href = "{{ route('portal') }}";
 			}, 2000);
 			return false;
 		},
+
+		password_edit_ok () {
+
+		},
 		
 		// 切换当前页
-		oncurrentpagechange: function (currentpage) {
+		oncurrentpagechange (currentpage) {
 			this.usergets(currentpage, this.page_last);
 		},
 		// 切换页记录数
-		onpagesizechange: function (pagesize) {
+		onpagesizechange (pagesize) {
 			
 			var _this = this;
 			var cfg_data = {};

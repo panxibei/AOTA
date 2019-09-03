@@ -166,7 +166,7 @@ class pdreportController extends Controller
 				->update([
 					'jizhongming'	=> strtoupper(substr($mpoint['jizhongming'], 0 , 8)),
 					'pinming'		=> strtoupper($mpoint['pinming']),
-					'gongxu'			=> strtoupper($mpoint['gongxu']),
+					'gongxu'		=> strtoupper($mpoint['gongxu']),
 					'diantai'		=> $mpoint['diantai'],
 					'pinban'		=> $mpoint['pinban'],
 				]);
