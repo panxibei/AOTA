@@ -325,8 +325,10 @@ SMT - PD report
 					<i-input element-id="id_jizaishixiang" type="textarea" :rows="3" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="16">
-					<br>&nbsp;&nbsp;<i-button @click="create()" type="primary" size="large"><Icon type="ios-create-outline"></Icon> 记入</i-button>
-					&nbsp;&nbsp;<i-button @click="clear()" size="large"><Icon type="ios-close-circle-outline"></Icon> 清除</i-button>
+					<br>&nbsp;&nbsp;
+					<i-button @click="create()" icon="ios-create-outline" type="primary" size="large">记入</i-button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-button @click="clear()" icon="ios-close-circle-outline" size="large">清除</i-button>
 				</i-col>
 			</i-row>
 			&nbsp;<br><br><br><br><br><br>
@@ -380,8 +382,7 @@ SMT - PD report
 				<i-col span="4">
 					导出：&nbsp;&nbsp;&nbsp;&nbsp;
 					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_pdreport" @on-cancel="" transfer="true">
-						<!-- <i-button type="default" size="small" @click="exportData_pdreport()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
-						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+						<i-button type="default" size="small" icon="ios-download-outline">导出后台数据</i-button>
 					</Poptip>
 				</i-col>
 				<i-col span="2">
@@ -623,8 +624,7 @@ SMT - PD report
 					导出：
 					&nbsp;&nbsp;
 					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
-						<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
-						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
+						<i-button type="default" size="small" icon="ios-download-outline">导出数据</i-button>
 					</Poptip>
 				</i-col>
 				<i-col span="15">

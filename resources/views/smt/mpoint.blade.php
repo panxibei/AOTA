@@ -72,7 +72,7 @@ SMT - MPoint
 			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
 		</i-col>
 		<i-col span="7">
-			<font color="#ff9900">* 注意：原有数据会被覆盖！<br>[机种名] 、[品名]和[工序]三项必须保持唯一。</font>
+			<font color="#ff9900">* 注意：原有数据会被覆盖！<br>[机种名] 、[品名] 和 [工序] 三项必须保持唯一。</font>
 		</i-col>
 	</i-row>
 

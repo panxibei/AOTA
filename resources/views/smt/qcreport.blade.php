@@ -202,8 +202,8 @@ SMT(QC report) -
 			&nbsp;<br>
 			<i-row :gutter="16">
 				<i-col span="24">
-					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary"><Icon type="ios-create-outline"></Icon> 记入</i-button>
-					&nbsp;&nbsp;<i-button @click="onclear()"><Icon type="ios-close-circle-outline"></Icon> 清除</i-button>
+					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary" icon="ios-create-outline">记入</i-button>
+					&nbsp;&nbsp;<i-button @click="onclear()" icon="ios-close-circle-outline">清除</i-button>
 				</i-col>
 			</i-row>
 
@@ -299,19 +299,15 @@ SMT(QC report) -
 					<i-row :gutter="16">
 						<br>
 						<i-col span="2">
-							<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete" @on-cancel="" transfer="true">
-							<!-- <i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button> -->
-							<i-button :disabled="boo_delete" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>
+							<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
+								<i-button :disabled="boo_delete" type="warning" size="small" icon="ios-trash-outline">删除</i-button>
 							</Poptip>
 							&nbsp;<br>&nbsp;
 						</i-col>
 						<i-col span="8">
-							导出：<!--&nbsp;&nbsp;&nbsp;&nbsp;
-							<i-button type="default" size="small" @click="exportData_table()"><Icon type="ios-download-outline"></Icon> 导出当前显示数据</i-button>-->
-							&nbsp;&nbsp;
+							导出：&nbsp;&nbsp;
 							<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_db" @on-cancel="" transfer="true">
-								<!-- <i-button type="default" size="small" @click="exportData_db()"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button> -->
-								<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出后台数据</i-button>
+								<i-button type="default" size="small" icon="ios-download-outline">导出后台数据</i-button>
 							</Poptip>
 						</i-col>
 						<i-col span="10">
@@ -566,7 +562,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表1 - 工程内不良记录（PPM）">
 
-					<i-button @click="onchart1()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表1 ↘</i-button>
+					<i-button @click="onchart1()" type="info" size="small" icon="ios-podium">刷新图表1 ↘</i-button>
 					<!--
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<Upload
@@ -588,7 +584,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表2 - 按不良内容统计不良占有率">
 
-					<i-button @click="onchart2()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表2 ↘</i-button>
+					<i-button @click="onchart2()" type="info" size="small" icon="ios-podium">刷新图表2 ↘</i-button>
 					<br><br>
 					<i-row :gutter="16">
 						<i-col span="24">
@@ -605,7 +601,7 @@ SMT(QC report) -
 
 		<Tab-pane label="图表3 - 按月份对比不良率和PPM">
 
-			<i-button @click="onchart3()" type="info" size="small"><Icon type="ios-podium"></Icon> 刷新图表3 ↘</i-button>
+			<i-button @click="onchart3()" type="info" size="small" icon="ios-podium">刷新图表3 ↘</i-button>
 			<br><br>
 			<i-row :gutter="16">
 				<i-col span="24">
@@ -633,8 +629,7 @@ SMT(QC report) -
 					导出：
 					&nbsp;&nbsp;
 					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
-						<!-- <i-button type="default" size="small" @click="exportData_tongji()"><Icon type="ios-download-outline"></Icon> 导出数据</i-button> -->
-						<i-button type="default" size="small"><Icon type="ios-download-outline"></Icon> 导出数据</i-button>
+						<i-button type="default" size="small" icon="ios-download-outline">导出数据</i-button>
 					</Poptip>
 				</i-col>
 			</i-row>
