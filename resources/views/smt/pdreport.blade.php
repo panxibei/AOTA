@@ -968,7 +968,7 @@ var vm_app = new Vue({
 						title: '机种名',
 						key: 'jizhongming',
 						align: 'center',
-						width: 100,
+						width: 110,
 						render: (h, params) => {
 							return h('div', [
 								params.row.jizhongming || ''
@@ -1500,6 +1500,12 @@ var vm_app = new Vue({
 					{
 						title: '录入者',
 						key: 'luruzhe',
+						align: 'center',
+						width: 80
+					},
+					{
+						title: '编辑者',
+						key: 'bianjizhe',
 						align: 'center',
 						width: 80
 					},

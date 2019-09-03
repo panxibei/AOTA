@@ -625,7 +625,7 @@ class pdreportController extends Controller
 			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'bupinbuchongshijian', 'taishu', 'lotcan', 'chajiandianshu',
 			'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
 			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo',
-			'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe')
+			'jizaishixiang', 'luruzhe', 'bianjizhe', 'dandangzhe', 'querenzhe')
 			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
 		
@@ -646,7 +646,7 @@ class pdreportController extends Controller
 			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '部品补充时间', '台数', 'LOT残', '插件点数',
 			'新产', '量产', '等待部品', '无计划', '前后工程等待',
 			'部品欠品', '部品准备等待', '定期点检', '故障', '试作',
-			'记载事项', '录入者', '担当者', '确认者'];
+			'记载事项', '录入者', '编辑者', '担当者', '确认者'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $smt_pdreport);
@@ -1214,9 +1214,9 @@ class pdreportController extends Controller
 		$user_tmp = explode(' ', $user['displayname']);
 
 		if (sizeof($user_tmp)>1) {
-			$luruzhe = $user_tmp[0] . $user_tmp[1];
+			$bianjizhe = $user_tmp[0] . $user_tmp[1];
 		} else {
-			$luruzhe = $user['displayname'];
+			$bianjizhe = $user['displayname'];
 		}
 
 		// 写入数据库
@@ -1238,7 +1238,7 @@ class pdreportController extends Controller
 				'lotcan'		=> 0,
 				'chajiandianshu'=> $chajiandianshu,
 				'jiadonglv'		=> $jiadonglv,
-				'luruzhe'		=> $luruzhe,
+				'bianjizhe'		=> $bianjizhe,
 				'bupinbuchongshijian' => $bupinbuchongshijian
 			]);
 			$result = 1;
@@ -1298,9 +1298,9 @@ class pdreportController extends Controller
 		$user_tmp = explode(' ', $user['displayname']);
 
 		if (sizeof($user_tmp)>1) {
-			$luruzhe = $user_tmp[0] . $user_tmp[1];
+			$bianjizhe = $user_tmp[0] . $user_tmp[1];
 		} else {
-			$luruzhe = $user['displayname'];
+			$bianjizhe = $user['displayname'];
 		}
 
 		// 写入数据库
@@ -1318,7 +1318,7 @@ class pdreportController extends Controller
 				'guzhang' => $guzhang,
 				'shizuo' => $shizuo,
 				'jizaishixiang' => $jizaishixiang,
-				'luruzhe'		=> $luruzhe,
+				'bianjizhe'		=> $bianjizhe,
 				'bupinbuchongshijian' => $bupinbuchongshijian
 			]);
 			$result = 1;

@@ -47,6 +47,7 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('shizuo')->unsigned()->nullable()->comment('新机种生产时间（试作）');
 			$table->text('jizaishixiang')->nullable();
 			$table->string('luruzhe', 20)->nullable();
+			$table->string('bianjizhe', 20)->nullable();
 			$table->string('dandangzhe', 20)->nullable();
 			$table->string('querenzhe', 20)->nullable();
 			$table->timestamps();
