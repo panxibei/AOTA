@@ -128,7 +128,9 @@ SMT - MPoint
 	
 		<i-row :gutter="16">
 			<i-col span="3">
-				<i-button @click="ondelete()" :disabled="boo_delete" type="warning" size="small">删除</i-button>&nbsp;&nbsp;
+				<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
+					<i-button :disabled="boo_delete" icon="ios-trash-outline" type="warning" size="small">删除</i-button>&nbsp;&nbsp;
+				</Poptip>
 			</i-col>
 			<i-col span="6">
 				* 日期范围&nbsp;&nbsp;
@@ -726,16 +728,16 @@ var vm_app = new Vue({
 		ondelete (selection) {
 			var _this = this;
 			
-			var tableselect = _this.tableselect;
+			var id = _this.tableselect;
 			
-			if (tableselect[0] == undefined) {
+			if (id[0] == undefined) {
 				return false;
 			}
 
 			var url = "{{ route('smt.pdreport.mpointdelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				tableselect: tableselect
+				id: id
 			})
 			.then(function (response) {
 				if (response.data['jwt'] == 'logout') {

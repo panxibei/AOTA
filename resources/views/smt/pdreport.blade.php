@@ -397,7 +397,7 @@ SMT - PD report
 				
 				<i-col span="2">
 					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete" @on-cancel="" transfer="true">
-					<i-button :disabled="boo_delete" type="warning" size="small"><Icon type="ios-trash-outline"></Icon> 删除</i-button>
+					<i-button :disabled="boo_delete" icon="ios-trash-outline" type="warning" size="small">删除</i-button>
 					</Poptip>
 					&nbsp;&nbsp;
 				</i-col>

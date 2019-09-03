@@ -191,12 +191,10 @@ class pdreportController extends Controller
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
-		$id = $request->only('tableselect');
+		$id = $request->input('id');
 
-		// $result = DB::table('mpoints')->whereIn('id', $id)->delete();
 		$result = Smt_mpoint::whereIn('id', $id)->delete();
 		return $result;
-
 	}
 	
 	
