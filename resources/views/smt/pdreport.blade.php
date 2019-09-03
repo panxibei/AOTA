@@ -2830,10 +2830,8 @@ var vm_app = new Vue({
 				_this.warning(false, '警告', '请先选择日期范围！');
 				return false;
 			} else {
-				date_filter =  _this.date_filter;
+				date_filter = [_this.date_filter[0].Format("yyyy-MM-dd 00:00:00"), _this.date_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			}
-			// console.log(date_filter);return false;
-			date_filter = [date_filter[0].Format("yyyy-MM-dd 00:00:00"), date_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
 			var url = "{{ route('smt.pdreport.dailyreportgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';

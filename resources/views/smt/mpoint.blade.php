@@ -393,14 +393,24 @@ var vm_app = new Vue({
 			
 			var dailydate_filter = [];
 			
-			for (var i in _this.dailydate_filter) {
-				if (typeof(_this.dailydate_filter[i])!='string') {
-					dailydate_filter.push(_this.dailydate_filter[i].Format("yyyy-MM-dd"));
-				} else if (_this.dailydate_filter[i] == '') {
-					dailydate_filter.push(new Date().Format("yyyy-MM-dd"));
-				} else {
-					dailydate_filter.push(_this.dailydate_filter[i]);
-				}
+			// for (var i in _this.dailydate_filter) {
+			// 	if (typeof(_this.dailydate_filter[i])!='string') {
+			// 		dailydate_filter.push(_this.dailydate_filter[i].Format("yyyy-MM-dd"));
+			// 	} else if (_this.dailydate_filter[i] == '') {
+			// 		dailydate_filter.push(new Date().Format("yyyy-MM-dd"));
+			// 	} else {
+			// 		dailydate_filter.push(_this.dailydate_filter[i]);
+			// 	}
+			// }
+
+			if (_this.dailydate_filter[0] == '' || _this.dailydate_filter == undefined) {
+				_this.tabledata1 = [];
+				_this.pagecurrent = 1;
+				_this.pagetotal = 0;
+				_this.pagelast = 1;
+				return false;
+			} else {
+				dailydate_filter = [_this.dailydate_filter[0].Format("yyyy-MM-dd 00:00:00"), _this.dailydate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			}
 			
 			var url = "{{ route('smt.pdreport.mpointgets') }}";
@@ -427,6 +437,9 @@ var vm_app = new Vue({
 					_this.tabledata = response.data.data;
 				} else {
 					_this.tabledata1 = [];
+					_this.pagecurrent = 1;
+					_this.pagetotal = 0;
+					_this.pagelast = 1;
 				}
 			})
 			.catch(function (error) {
