@@ -137,31 +137,6 @@
 							<Menu-Item name="3-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
 						</Submenu>
 
-						<Modal v-model="modal_password_edit" @on-ok="password_edit_ok" ok-text="更新" title="修改密码 - Admin" width="280">
-							<div style="text-align:left">
-							<p>
-								旧密码&nbsp;&nbsp;
-								<i-input v-model.lazy="password_old" clearable style="width: 180px" placeholder="" type="password"></i-input>
-
-								<br><br>
-
-								新密码&nbsp;&nbsp;
-								<i-input v-model.lazy="password_new" clearable style="width: 180px" placeholder="" type="password"></i-input>
-
-								<br><br>
-
-								再确认&nbsp;&nbsp;
-								<i-input v-model.lazy="password_confirm" clearable style="width: 180px" placeholder="" type="password"></i-input>
-								
-								<br><br>
-
-								* OA网络用户密码会同步覆盖本系统密码。
-
-							</p>
-							&nbsp;
-							</div>	
-						</Modal>
-
                     </div>
                 </i-menu>
 				</Layout>
@@ -287,6 +262,7 @@
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script src="{{ asset('js/bluebird.min.js') }}"></script>
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
+<script src="{{ asset('js/httpVueLoader.js') }}"></script>
 @section('my_js_others')
 <script>
 function navmenuselect (name) {

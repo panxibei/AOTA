@@ -157,7 +157,33 @@ Admin(User) -
 
 </Tabs>
 
+<!-- <Modal v-model="modal_password_edit" @on-ok="password_edit_ok" ok-text="更新" title="修改密码 - Admin" width="280">
+	<div style="text-align:left">
+	<p>
+		旧密码&nbsp;&nbsp;
+		<i-input v-model.lazy="password_old" clearable style="width: 180px" placeholder="" type="password"></i-input>
 
+		<br><br>
+
+		新密码&nbsp;&nbsp;
+		<i-input v-model.lazy="password_new" clearable style="width: 180px" placeholder="" type="password"></i-input>
+
+		<br><br>
+
+		再确认&nbsp;&nbsp;
+		<i-input v-model.lazy="password_confirm" clearable style="width: 180px" placeholder="" type="password"></i-input>
+		
+		<br><br>
+
+		* OA网络用户密码会同步覆盖本系统密码。
+
+	</p>
+	&nbsp;
+	</div>	
+</Modal> -->
+
+<!-- <my-passwordchange :modal_password_edit.sync="modal_password_edit"></my-passwordchange> -->
+<my-passwordchange></my-passwordchange>
 
 @endsection
 
@@ -168,9 +194,18 @@ Admin(User) -
 
 @section('my_js_others')
 @parent
-<script>
+<script type="text/javascript">
+Vue.config.devtools = true;
+// var test = new Vue({
+// 	components: {
+// 		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}")
+// 	},
+// });
 var vm_app = new Vue({
     el: '#app',
+	components: {
+		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}")
+	},
     data: {
 		current_nav: '',
 		current_subnav: '',
@@ -319,9 +354,9 @@ var vm_app = new Vue({
 		
 		// 修改密码界面
 		modal_password_edit: false,
-		password_old: '',
-		password_new: '',
-		password_confirm: '',
+		// password_old: '',
+		// password_new: '',
+		// password_confirm: '',
 
 		//分页
 		page_current: 1,
@@ -361,18 +396,6 @@ var vm_app = new Vue({
 		
 		// 查询过滤器下拉
 		collapse_query: '',
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
     },
@@ -424,64 +447,64 @@ var vm_app = new Vue({
 			return false;
 		},
 
-		password_edit_ok () {
-			var _this = this;
-			var password_old = _this.password_old;
-			var password_new = _this.password_new;
-			var password_confirm = _this.password_confirm;
+		// password_edit_ok () {
+		// 	var _this = this;
+		// 	var password_old = _this.password_old;
+		// 	var password_new = _this.password_new;
+		// 	var password_confirm = _this.password_confirm;
 
-			var flag = false;
-			if (password_old == '' || password_new == '' || password_confirm == '' ||
-				password_old == null || password_new == null || password_confirm == null ||
-				password_old == undefined || password_new == undefined || password_confirm == undefined) {
-				_this.warning(false, '警告', '内容不能为空！');
-				flag = true;
-			} else if (password_new.length < 8) {
-				_this.warning(false, '警告', '新密码不能小于8位！');
-				flag = true;
-			} else if (password_new != password_confirm) {
-				_this.warning(false, '警告', '新密码与再确认密码不同！');
-				flag = true;
-			} else if (password_old == password_new) {
-				_this.warning(false, '警告', '新密码与旧密码相同！');
-				flag = true;
-			}
+		// 	var flag = false;
+		// 	if (password_old == '' || password_new == '' || password_confirm == '' ||
+		// 		password_old == null || password_new == null || password_confirm == null ||
+		// 		password_old == undefined || password_new == undefined || password_confirm == undefined) {
+		// 		_this.warning(false, '警告', '内容不能为空！');
+		// 		flag = true;
+		// 	} else if (password_new.length < 8) {
+		// 		_this.warning(false, '警告', '新密码不能小于8位！');
+		// 		flag = true;
+		// 	} else if (password_new != password_confirm) {
+		// 		_this.warning(false, '警告', '新密码与再确认密码不同！');
+		// 		flag = true;
+		// 	} else if (password_old == password_new) {
+		// 		_this.warning(false, '警告', '新密码与旧密码相同！');
+		// 		flag = true;
+		// 	}
 
-			if (flag == true) {
-				_this.password_old = '';
-				_this.password_new = '';
-				_this.password_confirm = '';
-				return false;
-			}
+		// 	if (flag == true) {
+		// 		_this.password_old = '';
+		// 		_this.password_new = '';
+		// 		_this.password_confirm = '';
+		// 		return false;
+		// 	}
 
-			var url = "{{ route('admin.password.change') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.post(url, {
-				password_old: password_old,
-				password_new: password_new,
-				password_confirm: password_confirm,
-			})
-			.then(function (response) {
-				if (response.data['jwt'] == 'logout') {
-					_this.alert_logout();
-					return false;
-				}
+		// 	var url = "{{ route('admin.password.change') }}";
+		// 	axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+		// 	axios.post(url, {
+		// 		password_old: password_old,
+		// 		password_new: password_new,
+		// 		password_confirm: password_confirm,
+		// 	})
+		// 	.then(function (response) {
+		// 		if (response.data['jwt'] == 'logout') {
+		// 			_this.alert_logout();
+		// 			return false;
+		// 		}
 				
-				if (response.data) {
-					_this.success(false, '成功', '修改密码成功！');
-				} else {
-					_this.warning(false, '失败', '修改密码失败！');
-				}
-				_this.password_old = '';
-				_this.password_new = '';
-				_this.password_confirm = '';
+		// 		if (response.data) {
+		// 			_this.success(false, '成功', '修改密码成功！');
+		// 		} else {
+		// 			_this.warning(false, '失败', '修改密码失败！');
+		// 		}
+		// 		_this.password_old = '';
+		// 		_this.password_new = '';
+		// 		_this.password_confirm = '';
 
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', '修改密码失败！');
-			})
+		// 	})
+		// 	.catch(function (error) {
+		// 		_this.error(false, '错误', '修改密码失败！');
+		// 	})
 
-		},
+		// },
 		
 		// 切换当前页
 		oncurrentpagechange (currentpage) {
