@@ -430,15 +430,27 @@ var vm_app = new Vue({
 			var password_new = _this.password_new;
 			var password_confirm = _this.password_confirm;
 
+			var flag = false;
 			if (password_old == '' || password_new == '' || password_confirm == '' ||
 				password_old == null || password_new == null || password_confirm == null ||
 				password_old == undefined || password_new == undefined || password_confirm == undefined) {
+				_this.warning(false, '警告', '内容不能为空！');
+				flag = true;
+			} else if (password_new.length < 8) {
+				_this.warning(false, '警告', '新密码不能小于8位！');
+				flag = true;
+			} else if (password_new != password_confirm) {
 				_this.warning(false, '警告', '新密码与再确认密码不同！');
-				return false;
+				flag = true;
+			} else if (password_old == password_new) {
+				_this.warning(false, '警告', '新密码与旧密码相同！');
+				flag = true;
 			}
 
-			if (password_new != password_confirm) {
-				_this.warning(false, '警告', '新密码与再确认密码不同！');
+			if (flag == true) {
+				_this.password_old = '';
+				_this.password_new = '';
+				_this.password_confirm = '';
 				return false;
 			}
 
@@ -450,22 +462,23 @@ var vm_app = new Vue({
 				password_confirm: password_confirm,
 			})
 			.then(function (response) {
-				console.log(response.data);return false;
-
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
 					return false;
 				}
 				
 				if (response.data) {
-					_this.page_size = pagesize;
-					_this.usergets(1, _this.page_last);
+					_this.success(false, '成功', '修改密码成功！');
 				} else {
-					_this.warning(false, 'Warning', 'failed!');
+					_this.warning(false, '失败', '修改密码失败！');
 				}
+				_this.password_old = '';
+				_this.password_new = '';
+				_this.password_confirm = '';
+
 			})
 			.catch(function (error) {
-				_this.error(false, 'Error', 'failed!');
+				_this.error(false, '错误', '修改密码失败！');
 			})
 
 		},

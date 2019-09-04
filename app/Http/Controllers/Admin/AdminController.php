@@ -134,6 +134,7 @@ class AdminController extends Controller
 		if ($password_new != $password_confirm) return 0;
 		if (! isset($password_new)) return 0;
 		if (strlen($password_new) < 8) return 0;
+		if ($password_old == $password_new) return 0;
 
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
@@ -145,36 +146,19 @@ class AdminController extends Controller
 		$token = auth()->attempt($credentials);
 		if (! $token) return 0;
 		
-
-
-		
-
 		try	{
-			// 如果password为空，则不更新密码
-			if (isset($password)) {
-				$result = User::where('id', $id)
-					->update([
-						'name'			=>	$name,
-						// 'ldapname'		=>	$ldapname,
-						'email'			=>	$email,
-						'displayname'	=>	$displayname,
-						'password'		=>	bcrypt($password)
-					]);
-			} else {
-				$result = User::where('id', $id)
-					->update([
-						'name'			=>	$name,
-						// 'ldapname'		=>	$ldapname,
-						'email'			=>	$email,
-						'displayname'	=>	$displayname
-					]);
+			$result = User::where('id', $user['id'])
+				->update([
+					// 'name'			=>	$name,
+					// 'ldapname'		=>	$ldapname,
+					'password' 		=> bcrypt($password_new),
+				]);
 			}
-		}
 		catch (Exception $e) {//捕获异常
-			// echo 'Message: ' .$e->getMessage();
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
-		
+
 		return $result;
     }
 
