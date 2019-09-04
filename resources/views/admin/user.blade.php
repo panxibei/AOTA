@@ -159,14 +159,6 @@ Admin(User) -
 
 
 
-
-
-
-
-
-
-
-
 @endsection
 
 @section('my_footer')
@@ -433,6 +425,48 @@ var vm_app = new Vue({
 		},
 
 		password_edit_ok () {
+			var _this = this;
+			var password_old = _this.password_old;
+			var password_new = _this.password_new;
+			var password_confirm = _this.password_confirm;
+
+			if (password_old == '' || password_new == '' || password_confirm == '' ||
+				password_old == null || password_new == null || password_confirm == null ||
+				password_old == undefined || password_new == undefined || password_confirm == undefined) {
+				_this.warning(false, '警告', '新密码与再确认密码不同！');
+				return false;
+			}
+
+			if (password_new != password_confirm) {
+				_this.warning(false, '警告', '新密码与再确认密码不同！');
+				return false;
+			}
+
+			var url = "{{ route('admin.password.change') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url, {
+				password_old: password_old,
+				password_new: password_new,
+				password_confirm: password_confirm,
+			})
+			.then(function (response) {
+				console.log(response.data);return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.page_size = pagesize;
+					_this.usergets(1, _this.page_last);
+				} else {
+					_this.warning(false, 'Warning', 'failed!');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', 'failed!');
+			})
 
 		},
 		

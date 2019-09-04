@@ -25,6 +25,7 @@ class RolesAndPermissionsSeeder extends Seeder
 		Permission::create(['guard_name' => 'api', 'name' => 'permission_admin_user']);
 		Permission::create(['guard_name' => 'api', 'name' => 'permission_admin_role']);
 		Permission::create(['guard_name' => 'api', 'name' => 'permission_admin_permission']);
+		Permission::create(['guard_name' => 'api', 'name' => 'permission_admin_changepassword']);
 
 		// 创建角色，并赋予权限
 		$role = Role::create(['guard_name' => 'api', 'name' => 'role_super_admin']);
@@ -45,6 +46,9 @@ class RolesAndPermissionsSeeder extends Seeder
 		
 		$role = Role::create(['guard_name' => 'api', 'name' => 'role_admin_permission']);
 		$role->givePermissionTo('permission_admin_permission');
+		
+		$role = Role::create(['guard_name' => 'api', 'name' => 'role_admin_changepassword']);
+		$role->givePermissionTo('permission_admin_changepassword');
 		
 		// 赋予用户角色（管理员id为1和2）
 		$user = User::where('id', 1)->first();

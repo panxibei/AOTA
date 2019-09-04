@@ -162,6 +162,12 @@ Route::group(['prefix' => 'login', 'namespace' =>'Home'], function() {
 });
 
 
+// AdminController路由 修改密码
+Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_admin_changepassword|permission_super_admin']], function() {
+	// 修改密码
+	Route::post('passwordchange', 'AdminController@passwordChange')->name('admin.password.change');
+});
+
 // AdminController路由
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['jwtauth','permission:permission_super_admin']], function() {
 	// 显示config页面

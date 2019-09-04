@@ -155,11 +155,7 @@
 								
 								<br><br>
 
-								* 点/台&nbsp;&nbsp;
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-
-								* 拼板&nbsp;&nbsp;
+								* OA网络用户密码会同步覆盖本系统密码。
 
 							</p>
 							&nbsp;
