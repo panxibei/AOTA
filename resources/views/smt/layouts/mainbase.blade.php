@@ -102,7 +102,11 @@
 							<template slot="title">
 								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
+							@hasanyrole('role_admin_changepassword|role_super_admin')
 							<Menu-Item name="1-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
+							@else
+							<Menu-Item name="disabled1-1" disabled><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
+							@endhasanyrole
 							<Menu-Item name="1-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
 						</Submenu>
 					

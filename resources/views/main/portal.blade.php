@@ -135,14 +135,14 @@ var vm_app = new Vue({
 				percent: 100,
 			},
 			{
-				name: '生产日报 (Beta)',
+				name: '生产日报 (RC)',
 				url: "{{ route('smt.pdreport.index') }}",
-				percent: 95,
+				percent: 97,
 			},
 			{
-				name: '品质日报 (Beta)',
+				name: '品质日报 (RC)',
 				url: "{{ route('smt.qcreport.index') }}",
-				percent: 95,
+				percent: 98,
 			},
 		],
 
@@ -156,7 +156,7 @@ var vm_app = new Vue({
 
 		CardListShengchanguanli: [
 			{
-				name: '耗材分析 (RC)',
+				name: '耗材分析 (GA)',
 				url: "{{ route('scgl.hcfx.index') }}",
 				percent: 100,
 			},
