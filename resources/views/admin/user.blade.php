@@ -157,31 +157,6 @@ Admin(User) -
 
 </Tabs>
 
-<!-- <Modal v-model="modal_password_edit" @on-ok="password_edit_ok" ok-text="更新" title="修改密码 - Admin" width="280">
-	<div style="text-align:left">
-	<p>
-		旧密码&nbsp;&nbsp;
-		<i-input v-model.lazy="password_old" clearable style="width: 180px" placeholder="" type="password"></i-input>
-
-		<br><br>
-
-		新密码&nbsp;&nbsp;
-		<i-input v-model.lazy="password_new" clearable style="width: 180px" placeholder="" type="password"></i-input>
-
-		<br><br>
-
-		再确认&nbsp;&nbsp;
-		<i-input v-model.lazy="password_confirm" clearable style="width: 180px" placeholder="" type="password"></i-input>
-		
-		<br><br>
-
-		* OA网络用户密码会同步覆盖本系统密码。
-
-	</p>
-	&nbsp;
-	</div>	
-</Modal> -->
-
 <!-- <my-passwordchange :modal_password_edit.sync="modal_password_edit"></my-passwordchange> -->
 <my-passwordchange></my-passwordchange>
 
@@ -195,12 +170,7 @@ Admin(User) -
 @section('my_js_others')
 @parent
 <script type="text/javascript">
-Vue.config.devtools = true;
-// var test = new Vue({
-// 	components: {
-// 		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}")
-// 	},
-// });
+// Vue.config.devtools = true;
 var vm_app = new Vue({
     el: '#app',
 	components: {
@@ -212,6 +182,9 @@ var vm_app = new Vue({
 		
 		sideractivename: '3-1',
 		sideropennames: ['3'],
+
+		// 修改密码界面
+		modal_password_edit: false,
 
 		tablecolumns: [
 			{
@@ -352,12 +325,6 @@ var vm_app = new Vue({
 		tabledata: [],
 		tableselect: [],
 		
-		// 修改密码界面
-		modal_password_edit: false,
-		// password_old: '',
-		// password_new: '',
-		// password_confirm: '',
-
 		//分页
 		page_current: 1,
 		page_total: 1, // 记录总数，非总页数
@@ -447,6 +414,7 @@ var vm_app = new Vue({
 			return false;
 		},
 
+		// 移至 public/components/my-passwordchange.vue
 		// password_edit_ok () {
 		// 	var _this = this;
 		// 	var password_old = _this.password_old;

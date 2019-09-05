@@ -381,16 +381,25 @@
 	</Tabs>
 
 </div>
+
+<my-passwordchange></my-passwordchange>
+
 @endsection
 
 @section('my_js_others')
 @parent	
 <script>
 // var current_date = new Date();
-var current_date = new Date("January 12,2006 22:19:35");
+// var current_date = new Date("January 12,2006 22:19:35");
 var vm_app = new Vue({
 	el: '#app',
+	components: {
+		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}")
+	},
 	data: {
+		// 修改密码界面
+		modal_password_edit: false,
+
 		//表relation分页
 		pagecurrent_relation: 1,
 		pagetotal_relation: 1,

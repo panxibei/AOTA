@@ -351,7 +351,6 @@ function topmenuselect (name) {
 	  break;
 
 	case '3-1':
-	//   window.location.href = "";
 	  vm_app.modal_password_edit = true;
 	  break;
 	case '3-2':

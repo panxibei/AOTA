@@ -98,7 +98,8 @@
 							<template slot="title">
 								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
-							<Menu-Item name="1-1"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
+							<Menu-Item name="1-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
+							<Menu-Item name="1-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
 						</Submenu>
 					
                     </div>
@@ -142,6 +143,7 @@
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script src="{{ asset('js/bluebird.min.js') }}"></script>
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
+<script src="{{ asset('js/httpVueLoader.js') }}"></script>
 <script src="{{ asset('statics/echarts/echarts.js') }}"></script>
 @section('my_js_others')
 <script>
@@ -149,6 +151,9 @@ function topmenuselect (name) {
 	switch(name)
 	{
 	case '1-1':
+	  vm_app.modal_password_edit = true;
+	  break;
+	case '1-2':
 	  window.location.href = "{{route('main.logout')}}";
 	  break;
 

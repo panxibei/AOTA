@@ -1,7 +1,7 @@
 <template>
 	<div>
 	
-		<Modal ref="ref1" v-model="vm_app.modal_password_edit" @on-ok="password_edit_ok()" ok-text="更新" title="修改密码 - Admin" width="280">
+		<Modal ref="ref1" v-model="vm_app.modal_password_edit" @on-ok="password_edit_ok()" ok-text="更新" title="修改密码" width="280">
 			<div style="text-align:left">
 			<p>
 				旧密码&nbsp;&nbsp;
@@ -42,7 +42,7 @@
 			}
 		},
 		methods: {
-					// 2.Notice 通知提醒
+			// 2.Notice 通知提醒
 			info (nodesc, title, content) {
 				this.$Notice.info({
 					title: title,
@@ -75,7 +75,6 @@
 				}, 2000);
 				return false;
 			},
-
 
 			password_edit_ok () {
 				// alert('vue');return false;

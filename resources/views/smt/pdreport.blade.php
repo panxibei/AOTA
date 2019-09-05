@@ -720,6 +720,9 @@ SMT - PD report
 	</Tabs>
 
 </div>
+
+<my-passwordchange></my-passwordchange>
+
 @endsection
 
 @section('my_js_others')
@@ -727,9 +730,12 @@ SMT - PD report
 <script>
 var vm_app = new Vue({
 	el: '#app',
+	components: {
+		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}")
+	},
 	data: {
-		// 日期
-		// daily_date: new Date(),
+		// 修改密码界面
+		modal_password_edit: false,
 		
 		// 记载事项说明
 		modal_jizhaishixiang: false,

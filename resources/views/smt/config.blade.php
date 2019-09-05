@@ -100,9 +100,10 @@ SMT (Config) -
 
 	&nbsp;<br>
 	
-
-
 </div>
+
+<my-passwordchange></my-passwordchange>
+
 @endsection
 
 @section('my_js_others')
@@ -110,11 +111,13 @@ SMT (Config) -
 <script>
 var vm_app = new Vue({
 	el: '#app',
+	components: {
+		'my-passwordchange': httpVueLoader("{{ asset('components/my-passwordchange.vue') }}")
+	},
 	data: {
-		
-		// 线体
+		// 修改密码界面
+		modal_password_edit: false,
 
-		
 		CardListSmtPdreport: [
 			// {
 			// 	title: '线体',
