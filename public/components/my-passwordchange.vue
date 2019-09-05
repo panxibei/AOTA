@@ -5,17 +5,17 @@
 			<div style="text-align:left">
 			<p>
 				旧密码&nbsp;&nbsp;
-				<i-input v-model.lazy="password_old" clearable style="width: 180px" placeholder="" type="password"></i-input>
+				<i-input v-model.lazy="password_old" clearable style="width: 180px" maxlength="20" placeholder="" type="password"></i-input>
 
 				<br><br>
 
 				新密码&nbsp;&nbsp;
-				<i-input v-model.lazy="password_new" clearable style="width: 180px" placeholder="" type="password"></i-input>
+				<i-input v-model.lazy="password_new" clearable style="width: 180px" maxlength="20" placeholder="" type="password"></i-input>
 
 				<br><br>
 
 				再确认&nbsp;&nbsp;
-				<i-input v-model.lazy="password_confirm" clearable style="width: 180px" placeholder="" type="password"></i-input>
+				<i-input v-model.lazy="password_confirm" clearable style="width: 180px" maxlength="20" placeholder="" type="password"></i-input>
 				
 				<br><br>
 

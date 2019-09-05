@@ -326,7 +326,7 @@ SMT - PD report
 				</i-col>
 				<i-col span="16">
 					<br>&nbsp;&nbsp;
-					<i-button @click="create()" icon="ios-create-outline" type="primary" size="large">记入</i-button>
+					<i-button @click="create()" icon="ios-create-outline" :disabled="disabled_create" type="primary" size="large">记入</i-button>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<i-button @click="clear()" icon="ios-close-circle-outline" size="large">清除</i-button>
 				</i-col>
@@ -1920,6 +1920,8 @@ var vm_app = new Vue({
 		loadingStatus_refreshplan: false,
 		uploaddisabled_refreshplan: false,
 
+		disabled_create: false,
+
 		//分页计划
 		pagecurrent_plan: 1,
 		pagetotal_plan: 0,
@@ -2632,6 +2634,8 @@ var vm_app = new Vue({
 		// create
 		create () {
 			var _this = this;
+
+			_this.disabled_create = true;
 			
 			var shengchanriqi = _this.shengchanriqi;
 			var xianti = _this.xianti;
@@ -2666,6 +2670,7 @@ var vm_app = new Vue({
 			if (shengchanriqi == '' || xianti == '' || banci == ''
 				|| shengchanriqi == undefined || xianti == undefined || banci == undefined) {
 				_this.warning(false, '警告', '必填项输入内容为空或不正确！');
+				_this.disabled_create = false;
 				return false;
 			}
 
@@ -2677,6 +2682,7 @@ var vm_app = new Vue({
 				// return false;
 				if (! pattern.test(spno)) {
 					_this.warning(false, '警告', 'SP NO. 输入不正确！');
+					_this.disabled_create = false;
 					return false;
 				}
 			}
@@ -2725,10 +2731,16 @@ var vm_app = new Vue({
 				} else {
 					_this.error(false, '失败', '请确认MPoint表中机种信息是否存在或正确！');
 				}
+				
+				window.setTimeout(function () {
+					_this.disabled_create = false;
+				}, 500);
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '记入失败！');
-				// console.log(error);
+				window.setTimeout(function () {
+					_this.disabled_create = false;
+				}, 1000);
 			})
 		},
 		

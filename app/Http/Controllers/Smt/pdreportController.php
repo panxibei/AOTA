@@ -190,10 +190,14 @@ class pdreportController extends Controller
 	public function mpointDelete(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-
 		$id = $request->input('id');
-
-		$result = Smt_mpoint::whereIn('id', $id)->delete();
+		try	{
+			$result = Smt_mpoint::whereIn('id', $id)->delete();
+		}
+		catch (\Exception $e) {
+			$result = 0;
+		}
+		Cache::flush();
 		return $result;
 	}
 	
@@ -453,12 +457,15 @@ class pdreportController extends Controller
 	public function dailyreportDelete(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-
-		$id = $request->only('tableselect');
-
-		$result = Smt_pdreport::whereIn('id', $id)->delete();
+		$id = $request->input('tableselect');
+		try	{
+			$result = Smt_pdreport::whereIn('id', $id)->delete();
+		}
+		catch (\Exception $e) {
+			$result = 0;
+		}
+		Cache::flush();
 		return $result;
-
 	}
 	
 	/**
