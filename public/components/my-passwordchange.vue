@@ -108,7 +108,8 @@
 					return false;
 				}
 
-				var url = "{{ route('admin.password.change') }}";
+				// tightenco/ziggy
+				var url = route('admin.password.change').template;
 				axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 				axios.post(url, {
 					password_old: password_old,
