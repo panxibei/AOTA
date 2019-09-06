@@ -63,8 +63,17 @@ Admin(User) -
 			<i-col span="2">
 				<i-button type="default" size="small" @click="onexport_user()"><Icon type="ios-download-outline"></Icon> 导出用户</i-button>
 			</i-col>
-			<i-col span="17">
+			<i-col span="2">
 				&nbsp;
+			</i-col>
+			<i-col span="15">
+				<Tooltip content="输入角色选择" placement="top">
+					<i-select v-model.lazy="give_role_select" filterable remote :remote-method="remoteMethod_sync_role" :loading="give_role_loading" @on-change="" clearable placeholder="输入角色" style="width: 200px;" size="small">
+						<i-option v-for="item in give_role_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+					</i-select>
+				</Tooltip>
+				&nbsp;&nbsp;
+				<i-button type="default" size="small" @click="giveroletouser()"><Icon type="ios-sync"></Icon> 赋予角色到用户</i-button>
 			</i-col>
 		</i-row>
 		
@@ -364,6 +373,11 @@ var vm_app = new Vue({
 		// 查询过滤器下拉
 		collapse_query: '',
 		
+		// 用户赋予角色
+		give_role_select: '',
+		give_role_options: [],
+		give_role_loading: false,
+
 		
     },
 	methods: {
@@ -412,6 +426,19 @@ var vm_app = new Vue({
 				window.location.href = "{{ route('portal') }}";
 			}, 2000);
 			return false;
+		},
+
+		// 把laravel返回的结果转换成select能接受的格式
+		json2selectvalue: function (json) {
+			var arr = [];
+			for (var key in json) {
+				// alert(key);
+				// alert(json[key]);
+				// arr.push({ obj.['value'] = key, obj.['label'] = json[key] });
+				arr.push({ value: key, label: json[key] });
+			}
+			return arr;
+			// return arr.reverse();
 		},
 
 		// 移至 public/components/my-passwordchange.vue
@@ -841,12 +868,81 @@ var vm_app = new Vue({
 				_this.error(false, '错误', '清除用户登录TTL失败！');
 			})
 
-
-			
 		},
 		
+		// 远程查询角色（同步）
+		remoteMethod_sync_role (query) {
+			var _this = this;
+			if (query !== '') {
+				_this.give_role_loading = true;
+				var queryfilter_name = query;
+				var url = "{{ route('admin.role.rolelist') }}";
+				axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+				axios.get(url,{
+					params: {
+						queryfilter_name: queryfilter_name
+					}
+				})
+				.then(function (response) {
+					if (response.data['jwt'] == 'logout') {
+						_this.alert_logout();
+						return false;
+					}
+					
+					if (response.data) {
+						var json = response.data;
+						_this.give_role_options = _this.json2selectvalue(json);
+					}
+				})
+				.catch(function (error) {
+				})				
+				setTimeout(() => {
+					_this.give_role_loading = false;
+				}, 200);
+			} else {
+				_this.give_role_options = [];
+			}
+		},
 		
-		
+		// 赋予角色到指定用户
+		giveroletouser: function () {
+			var _this = this;
+
+			var userid = _this.tableselect;
+			if (userid[0] == undefined) return false;
+
+			var roleid = _this.give_role_select;
+			if (roleid == undefined || roleid == '' ||
+				userid == undefined || userid == '') {
+				_this.warning(false, 'Warning', '内容不能为空！');
+				return false;
+			}
+			
+			var url = "{{ route('admin.user.syncroletouser') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.post(url,{
+				userid: userid,
+				roleid: roleid
+			})
+			.then(function (response) {
+				console.log(response.data);
+				return false;
+
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, 'Success', 'Role(s) sync successfully!');
+				} else {
+					_this.warning(false, 'Warning', 'Role(s) failed to sync!');
+				}
+			})
+			.catch(function (error) {
+				_this.error(false, 'Error', 'Role(s) failed to sync!');
+			})
+		},
 		
 		
 		

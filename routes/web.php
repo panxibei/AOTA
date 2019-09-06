@@ -216,6 +216,8 @@ Route::group(['prefix'=>'user', 'namespace'=>'Admin', 'middleware'=>['jwtauth','
 	// 清除user的ttl
 	Route::post('userclsttl', 'UserController@userClsttl')->name('admin.user.clsttl');
 
+	// 角色同步到指定用户
+	Route::post('syncRoleToUser', 'UserController@syncRoleToUser')->name('admin.user.syncroletouser');
 
 });
 

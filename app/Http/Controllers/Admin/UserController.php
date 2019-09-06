@@ -8,9 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Config;
 use App\Models\Admin\User;
 use DB;
+use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
-
 use App\Exports\Admin\userExport;
+use Illuminate\Support\Facades\Cache;
 
 // use Illuminate\Database\Eloquent\Collection;
 // use Illuminate\Support\Collection;
@@ -322,7 +323,6 @@ class UserController extends Controller
     }
 
 
-
     /**
      * 清除用户TTL
      *
@@ -348,6 +348,40 @@ class UserController extends Controller
 		}
 		// dd($result);
 		return $result;
-    }	
+	}
+	
+	
+    /**
+     * 权限角色到指定用户
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function syncRoleToUser(Request $request)
+    {
+		if (! $request->isMethod('post') || ! $request->ajax()) return null;
+		
+		$userid = $request->input('userid');
+		$roleid = $request->input('roleid');
+
+		// 重置角色和权限的缓存
+		app()['cache']->forget('spatie.permission.cache');
+
+		$role = Role::where('id', $roleid)->pluck('name')->toArray();
+
+		$result = 1;
+		foreach ($userid as $v) {
+			$user = User::where('id', $v)->first();
+			$res = $user->assignRole($role);
+			if (! $res) {
+				$result = 0;
+				break;
+			}
+		}
+
+		Cache::flush();
+		return $result;
+    }
+
 
 }
