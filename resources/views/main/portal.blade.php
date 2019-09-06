@@ -43,7 +43,7 @@ Main(Portal) -
 				<p v-for="item in CardListSmt">
 					<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
 					<span style="float:right">
-						Percent: @{{ item.percent }}%
+						Progress: @{{ item.percent }}%
 					</span>
 				</p>
 			</Card>
@@ -63,7 +63,7 @@ Main(Portal) -
 					<p v-for="item in CardListBupinjiagong">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
 						<span style="float:right">
-							Percent: @{{ item.percent }}%
+							Progress: @{{ item.percent }}%
 						</span>
 					</p>
 			</Card>
@@ -88,7 +88,7 @@ Main(Portal) -
 					<p v-for="item in CardListShengchanguanli">
 						<a :href="item.url" target="_blank"><Icon type="ios-link"></Icon>&nbsp;&nbsp;@{{ item.name }}</a>
 						<span style="float:right">
-							Percent: @{{ item.percent }}%
+							Progress: @{{ item.percent }}%
 						</span>
 					</p>
 			</Card>
