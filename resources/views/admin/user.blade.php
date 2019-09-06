@@ -68,12 +68,12 @@ Admin(User) -
 			</i-col>
 			<i-col span="15">
 				<Tooltip content="输入角色选择" placement="top">
-					<i-select v-model.lazy="give_role_select" filterable remote :remote-method="remoteMethod_sync_role" :loading="give_role_loading" @on-change="" clearable placeholder="输入角色" style="width: 200px;" size="small">
+					<i-select v-model.lazy="give_role_select" filterable remote :remote-method="remoteMethod_sync_role" :loading="give_role_loading" @on-change="" clearable placeholder="输入角色" :disabled="disabled_give_role_input" style="width: 200px;" size="small">
 						<i-option v-for="item in give_role_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</Tooltip>
 				&nbsp;&nbsp;
-				<i-button type="default" size="small" @click="giveroletouser()"><Icon type="ios-sync"></Icon> 赋予角色到用户</i-button>
+				<i-button type="default" size="small" @click="giveroletouser()" :disabled="disabled_give_role_button"><Icon type="ios-sync"></Icon> 赋予角色到用户</i-button>
 			</i-col>
 		</i-row>
 		
@@ -360,6 +360,10 @@ var vm_app = new Vue({
 		
 		// 删除
 		delete_disabled_user: true,
+		
+		// 赋予权限到指定用户
+		disabled_give_role_input: true,
+		disabled_give_role_button: true,
 
 		// tabs索引
 		currenttabs: 0,
@@ -616,6 +620,9 @@ var vm_app = new Vue({
 			}
 			
 			_this.delete_disabled_user = _this.tableselect[0] == undefined ? true : false;
+			_this.disabled_give_role_input = _this.tableselect[0] == undefined ? true : false;
+			_this.disabled_give_role_button = _this.tableselect[0] == undefined ? true : false;
+
 		},
 		
 		// user编辑前查看
@@ -925,8 +932,8 @@ var vm_app = new Vue({
 				roleid: roleid
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
