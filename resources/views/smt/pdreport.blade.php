@@ -640,39 +640,45 @@ SMT - PD report
 				</i-col>
 			</i-row>
 
+
 			&nbsp;
 			<i-row :gutter="16">
 				<br><br>
-				<i-col span="1">
-					&nbsp;
-				</i-col>
-				<i-col span="23">
-					<p>
-						<span id="jiadonglv">...</span>
-						<br><br>
-						<span id="jizhongqiehuan">...</span>
-						<br><br>
-						<span id="bupinbuchong">...</span>
-						<br><br>
-						<span id="tingzhishijian">...</span>
-					
-					</p>
-					<script>
-						katex.render("\\text{1.稼动率} = \\dfrac{\\text{实际时间}}{\\text{持续时间 - 无计划}} \\times \\text{100}\\%", jiadonglv, {
-							throwOnError: false
-						});
-						katex.render("\\text{2.机种切换（1次）} = \\dfrac{\\text{机种切换（时间）}}{\\text{机种切换（次数）}}", jizhongqiehuan, {
-							throwOnError: false
-						});
-						katex.render("\\text{3.部品补充时间} = \\text{手动生产时间} - \\text{实际生产时间} - \\text{停止时间}", bupinbuchong, {
-							throwOnError: false
-						});
-						katex.render("\\text{4.停止时间} = \\text{机种切换（时间） + 等待部品 + 无计划 + 前后工程等待 + 无部品 + 部品安排等待 + 定期点检 + 故障 + 试作}", tingzhishijian, {
-							throwOnError: false
-						});
-					</script>
+				<i-col span="24">
+					<Collapse simple v-model="collapse_tongji">
+						<Panel name="1">
+							汇总公式参考
+							<p slot="content">
+
+								<span id="jiadonglv"></span>
+								<br><br>
+								<span id="jizhongqiehuan"></span>
+								<br><br>
+								<span id="bupinbuchong"></span>
+								<br><br>
+								<span id="tingzhishijian"></span>
+
+								<script>
+									katex.render("\\text{1.稼动率} = \\dfrac{\\text{实际时间}}{\\text{持续时间 - 无计划}} \\times \\text{100}\\%", jiadonglv, {
+										throwOnError: false
+									});
+									katex.render("\\text{2.机种切换（1次）} = \\dfrac{\\text{机种切换（时间）}}{\\text{机种切换（次数）}}", jizhongqiehuan, {
+										throwOnError: false
+									});
+									katex.render("\\text{3.部品补充时间} = \\text{手动生产时间} - \\text{实际生产时间} - \\text{停止时间}", bupinbuchong, {
+										throwOnError: false
+									});
+									katex.render("\\text{4.停止时间} = \\text{机种切换（时间） + 等待部品 + 无计划 + 前后工程等待 + 无部品 + 部品安排等待 + 定期点检 + 故障 + 试作}", tingzhishijian, {
+										throwOnError: false
+									});
+								</script>
+								&nbsp;
+							</p>
+						</Panel>
+					</Collapse>
 				</i-col>
 			</i-row>
+			
 
 			&nbsp;
 			<Divider orientation="left">打点稼动率计算表</Divider>
@@ -687,33 +693,35 @@ SMT - PD report
 			&nbsp;
 			<i-row :gutter="16">
 				<br><br>
-				<i-col span="1">
-					&nbsp;
-				</i-col>
-				<i-col span="23">
-					<p>
-					<span id="lilundadianshu">...</span>
-					<br><br>
-					<span id="jiadongshijian">...</span>
-					<br><br>
-					<span id="dadianjiadonglv">...</span>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<font color="#2db7f5">* 设备能力为常数，单位为K点，可在配置页面中调整。</font>
-					</p>
-					<script>
-						katex.render("\\text{理论打点数 (ld)} = \\text{设备能力 (N)} \\times \\text{稼动时间 (js)}", lilundadianshu, {
-							throwOnError: false
-						});
-						katex.render("\\text{稼动时间 (js)} = \\text{持续时间 (chs)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)}", jiadongshijian, {
-							throwOnError: false
-						});
-						katex.render("\\text{打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(持续时间 (chs)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)})}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
-							throwOnError: false
-						});
-					</script>
+				<i-col span="24">
+				<Collapse simple v-model="collapse_dadianjiadonglv">
+						<Panel name="2">
+							打点稼动率公式参考
+							<p slot="content">
+								<span id="lilundadianshu"></span>
+								<br><br>
+								<span id="jiadongshijian"></span>
+								<br><br>
+								<span id="dadianjiadonglv"></span>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="#2db7f5">* 设备能力为常数，单位为K点，可在配置页面中调整。</font>
+
+								<script>
+									katex.render("\\text{1.理论打点数 (ld)} = \\text{设备能力 (N)} \\times \\text{稼动时间 (js)}", lilundadianshu, {
+										throwOnError: false
+									});
+									katex.render("\\text{2.稼动时间 (js)} = \\text{持续时间 (chs)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)}", jiadongshijian, {
+										throwOnError: false
+									});
+									katex.render("\\text{3.打点稼动率 (v)} = \\dfrac{\\text{实际打点数 (sd)}}{ \\frac{\\text{(持续时间 (chs)} - \\text{无计划 (w)} - \\text{试作 (s)} - \\text{定期点检(dq)})}{\\text{1440分}} \\times \\text{设备能力 (N)} \\times \\text{1000} } \\times \\text{100}\\%", dadianjiadonglv, {
+										throwOnError: false
+									});
+								</script>
+							</p>
+						</Panel>
+					</Collapse>
 				</i-col>
 			</i-row>
-
 
 		</Tab-pane>
 
@@ -2422,6 +2430,11 @@ var vm_app = new Vue({
 		shizuo_edit: '',
 		jizaishixiang_edit: '',
 
+		// 汇总公式下拉
+		collapse_tongji: '',
+
+		// 打点稼动率下拉
+		collapse_dadianjiadonglv: '',
 
 
 
