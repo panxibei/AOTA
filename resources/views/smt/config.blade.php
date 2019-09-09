@@ -35,6 +35,9 @@ SMT (Config) -
 				<p slot="title">
 					生产日报配置
 				</p>
+				<p>
+					<Icon type="ios-warning-outline"></Icon> <font color="#ff9900">注意：配置项填写不应有多余的空格和回车符！</font><br>&nbsp;<br>
+				</p>
 				<p v-for="item in CardListSmtPdreport">
 					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;
 					
@@ -72,6 +75,9 @@ SMT (Config) -
 			<Card>
 				<p slot="title">
 					品质日报配置
+				</p>
+				<p>
+					<Icon type="ios-warning-outline"></Icon> <font color="#ff9900">注意：配置项填写不应有多余的空格和回车符！</font><br>&nbsp;<br>
 				</p>
 				<p v-for="item in CardListSmtQcreport">
 					&nbsp;&nbsp;@{{ item.title }}&nbsp;&nbsp;

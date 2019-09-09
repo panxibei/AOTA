@@ -402,20 +402,20 @@ SMT - PD report
 					</Poptip>
 					&nbsp;&nbsp;
 				</i-col>
-				<i-col span="3">
+				<i-col span="4">
 					担当者&nbsp;&nbsp;
-					<i-select v-model.lazy="select_dandangzhe" :disabled="disabled_dandangzhe" @on-change="value => dandangzhechange(value)" clearable style="width:80px" size="small" placeholder="">
+					<i-select v-model.lazy="select_dandangzhe" :disabled="disabled_dandangzhe" @on-change="value => dandangzhechange(value)" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_dandangzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
-				<i-col span="3">
+				<i-col span="4">
 					确认者&nbsp;&nbsp;
-					<i-select v-model.lazy="select_querenzhe" :disabled="disabled_querenzhe" @on-change="value => querenzhechange(value)" clearable style="width:80px" size="small" placeholder="">
+					<i-select v-model.lazy="select_querenzhe" :disabled="disabled_querenzhe" @on-change="value => querenzhechange(value)" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_querenzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				
-				<i-col span="16">
+				<i-col span="14">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
 					<div style="text-align:right"><strong>合计信息 （枚数：@{{ xiaoji_meishu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;插件点数：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;生产时间：@{{ (xiaoji_shengchanshijian/60).toFixed(0).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;浪费时间：@{{ (xiaoji_langfeishijian/60).toFixed(0).toLocaleString() + '分' }} &nbsp;&nbsp;&nbsp;&nbsp;部品补充时间：@{{ (xiaoji_bupinbuchongshijian/60).toFixed(0).toLocaleString() + '分' }}）</strong>&nbsp;&nbsp;</div>
 				</i-col>

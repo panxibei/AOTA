@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 
 class zrcfx_resultExport implements FromCollection, WithStrictNullComparison, ShouldAutoSize
 {
-	
 	public function __construct($data){
 		$this->data = $data;
 	}

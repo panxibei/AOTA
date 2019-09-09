@@ -966,8 +966,8 @@ class qcreportController extends Controller
 		// 	'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
 		// 	->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
 		// 	->get()->toArray();
-		// $res = Smt_qcreport::select(DB::raw('LEFT(jianchariqi, 10)'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
-		$res = Smt_qcreport::select('jianchariqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+		$res = Smt_qcreport::select(DB::raw('LEFT(jianchariqi, 10) AS jianchariqi'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
+		// $res = Smt_qcreport::select('jianchariqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
 			'buliangxinxi', 'created_at', 'updated_at')
 			->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
@@ -979,7 +979,6 @@ class qcreportController extends Controller
 
 		$qcreport = [];
 		$arr = [];
-		$tmp = $res;
 		$tmp_empty = [
 			'jianchariqi' => null,
 			'xianti' => null,
@@ -996,10 +995,29 @@ class qcreportController extends Controller
 			'ppm' => null,
 			'created_at' => null,
 			'updated_at' => null,
-
 		];
+
 		if (!empty($res)) {
 			foreach ($res as $key=>$value) {
+
+				$tmp = [
+					'jianchariqi' => $value['jianchariqi'],
+					'xianti' => $value['xianti'],
+					'banci' => $value['banci'],
+					'jizhongming' => $value['jizhongming'],
+					'pinming' => $value['pinming'],
+					'gongxu' => $value['gongxu'],
+					'spno' => $value['spno'],
+					'lotshu' => $value['lotshu'],
+					'dianmei' => $value['dianmei'],
+					'meishu' => $value['meishu'],
+					'hejidianshu' => $value['hejidianshu'],
+					'bushihejianshuheji' => $value['bushihejianshuheji'],
+					'ppm' => $value['ppm'],
+					'created_at' => $value['created_at'],
+					'updated_at' => $value['updated_at'],
+				];
+
 				if (!empty($value['buliangxinxi'])) {
 					foreach ($value['buliangxinxi'] as $k=>$v) {
 						$arr['buliangneirong'] = $v['buliangneirong'];
@@ -1008,23 +1026,24 @@ class qcreportController extends Controller
 						$arr['jianchajileixing'] = $v['jianchajileixing'];
 						$arr['jianchazhe'] = $v['jianchazhe'];
 
-						unset($tmp[$key]['buliangxinxi']);
+						// unset($tmp[$key]['buliangxinxi']);
 
 						if ($k==0) {
-							array_push($qcreport, array_merge($tmp[$key], $arr));
+							// array_push($qcreport, array_merge($tmp[$key], $arr));
+							array_push($qcreport, array_merge($tmp, $arr));
 						} else {
 							array_push($qcreport, array_merge($tmp_empty, $arr));
 						}
-								
+						
 					}
+				} else {
+					array_push($qcreport, $tmp);
 				}
-
 
 			}
 		}
 		// dd($qcreport);
 		
-
 
         // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
 		// $cellData = [
