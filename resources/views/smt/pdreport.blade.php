@@ -937,7 +937,7 @@ var vm_app = new Vue({
 		tablecolumns1: [
 			{
 				type: 'selection',
-				width: 50,
+				width: 60,
 				align: 'center',
 				fixed: 'left'
 			},
