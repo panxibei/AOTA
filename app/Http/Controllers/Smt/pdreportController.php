@@ -1109,9 +1109,9 @@ class pdreportController extends Controller
 					DB::raw('SUM(chajiandianshu) AS shijidianshu'),
 					DB::raw('SUM(bupinbuchongshijian) AS bupinbuchong'),
 
-					DB::raw('SUM(xinchan) + SUM(liangchan) AS jizhongqiehuanshijian'),
+					DB::raw('SUM(IFNULL(xinchan, 0) + IFNULL(liangchan, 0)) AS jizhongqiehuanshijian'),
 					DB::raw('SUM(qiehuancishu) AS jizhongqiehuancishu'),
-					DB::raw('ROUND((SUM(xinchan) + SUM(liangchan))/SUM(qiehuancishu)) AS jizhongqiehuanyici'),
+					DB::raw('ROUND(SUM(IFNULL(xinchan, 0) + IFNULL(liangchan, 0))/SUM(qiehuancishu)) AS jizhongqiehuanyici'),
 
 					DB::raw('SUM(dengdaibupin) AS dengdaibupin'),
 					DB::raw('SUM(wujihua) AS wujihua'),
