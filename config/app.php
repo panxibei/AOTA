@@ -168,7 +168,7 @@ return [
 		Mews\Captcha\CaptchaServiceProvider::class,
 		Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        Tightenco\Ziggy\ZiggyServiceProvider::class,
+        // Tightenco\Ziggy\ZiggyServiceProvider::class,
 
     ],
 
@@ -224,7 +224,7 @@ return [
 		'Adldap' => Adldap\Laravel\Facades\Adldap::class,
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        'Ziggy' => Tightenco\Ziggy\ZiggyServiceProvider::class,
+        // 'Ziggy' => Tightenco\Ziggy\ZiggyServiceProvider::class,
 
     ],
 
