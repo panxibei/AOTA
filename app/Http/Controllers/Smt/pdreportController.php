@@ -279,7 +279,7 @@ class pdreportController extends Controller
 			$dianmei = null;
 			$meishu = null;
 			$shijishengchanshijian =null;
-			$bupinbuchongshijian = null;
+			$bupinbuchongshijian = $dailyreport['wujihua'];
 			$chajiandianshu = null;
 			$jiadonglv = null;
 
@@ -1212,11 +1212,15 @@ class pdreportController extends Controller
 			->where('id', $id)
 			->first()->toArray();
 		
-		$bupinbuchongshijian = $shoudongshengchanshijian - $ss['shijishengchanshijian'] / 60
-			- $ss['xinchan'] - $ss['liangchan'] - $ss['dengdaibupin']
-			- $ss['wujihua'] - $ss['qianhougongchengdengdai'] - $ss['wubupin']
-			- $ss['bupinanpaidengdai'] - $ss['dingqidianjian'] - $ss['guzhang']
-			- $ss['shizuo'];
+		if (empty($jizhongming) && empty($pinming) && empty($gongxu)) {
+			$bupinbuchongshijian = $ss['wujihua'];
+		} else {
+			$bupinbuchongshijian = $shoudongshengchanshijian - $ss['shijishengchanshijian'] / 60
+				- $ss['xinchan'] - $ss['liangchan'] - $ss['dengdaibupin']
+				- $ss['wujihua'] - $ss['qianhougongchengdengdai'] - $ss['wubupin']
+				- $ss['bupinanpaidengdai'] - $ss['dingqidianjian'] - $ss['guzhang']
+				- $ss['shizuo'];
+		}
 		// dump($bupinbuchongshijian);
 
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
@@ -1291,17 +1295,21 @@ class pdreportController extends Controller
 
 		// dd($id);
 
-		$ss = Smt_pdreport::select('shoudongshengchanshijian', 'shijishengchanshijian')
+		$ss = Smt_pdreport::select('jizhongming', 'pinming', 'gongxu', 'shoudongshengchanshijian', 'shijishengchanshijian')
 			->where('id', $id)
 			->first()->toArray();
 		$shoudongshengchanshijian = $ss['shoudongshengchanshijian'];
 		$shijishengchanshijian = $ss['shijishengchanshijian'];
 		
-		$bupinbuchongshijian = $shoudongshengchanshijian - $shijishengchanshijian / 60
-			- $xinchan - $liangchan - $dengdaibupin
-			- $wujihua - $qianhougongchengdengdai - $wubupin
-			- $bupinanpaidengdai - $dingqidianjian - $guzhang
-			- $shizuo;
+		if (empty($ss['jizhongming']) && empty($ss['pinming']) && empty($ss['gongxu'])) {
+			$bupinbuchongshijian = $wujihua;
+		} else {
+			$bupinbuchongshijian = $shoudongshengchanshijian - $shijishengchanshijian / 60
+				- $xinchan - $liangchan - $dengdaibupin
+				- $wujihua - $qianhougongchengdengdai - $wubupin
+				- $bupinanpaidengdai - $dingqidianjian - $guzhang
+				- $shizuo;
+		}
 
 		// 获取录入者名称，用户信息：$user['id']、$user['name'] 等
 		$me = response()->json(auth()->user());
