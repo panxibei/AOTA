@@ -1267,7 +1267,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.buliangneirong)
+										}, item.buliangneirong == null ? '-' : item.buliangneirong)
 									}))
 								]);
 							}
@@ -1288,7 +1288,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.weihao)
+										}, item.weihao == null ? '-' : item.weihao)
 									}))
 								]);
 							}
@@ -1309,7 +1309,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.shuliang)
+										}, item.shuliang == null ? '-' : item.shuliang)
 									}))
 								]);
 							}
@@ -2611,7 +2611,7 @@ var vm_app = new Vue({
 					flag = false;break;
 				}
 			}
-			console.log('flag: ' + flag);return false;
+			// console.log('flag: ' + flag);return false;
 
 			if (flag == false) {
 				_this.warning(false, '警告', '批量录入内容为空或不正确！');
@@ -2639,7 +2639,11 @@ var vm_app = new Vue({
 				}
 
 			}
-			// console.log(piliangluru_tmp);
+			if (piliangluru_tmp.length == 0) {
+				_this.warning(false, '警告', '批量录入内容为空！');
+				return false;
+			}
+			// console.log(piliangluru_tmp);return false;
 			// console.log(_this.piliangluru);return false;
 
 			var piliangluru = piliangluru_tmp;

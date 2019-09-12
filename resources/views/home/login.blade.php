@@ -177,7 +177,7 @@ var vm_app = new Vue({
 							}
 
 							_this.formInline.password = '**********';
-							_this.formInline.loginmessage = '<font color="blue">登录成功！ 请稍等...</font>';
+							_this.formInline.loginmessage = '<font color="blue">登录成功！ 跳转中...</font>';
 							window.setTimeout(function(){
 								_this.loginreset;
 								var url = "{{ route('portal') }}";
@@ -191,7 +191,7 @@ var vm_app = new Vue({
 					})
 					.catch(function (error) {
 						// console.log(error);
-						_this.formInline.loginmessage = '<font color="red">用户过期或未知错误！请刷新再试！</font>';
+						_this.formInline.loginmessage = '<font color="red">会话过期或未知错误！ 请刷新再试！</font>';
 						_this.logindisabled(false);
 					})
 					// _this.captchaclick();
