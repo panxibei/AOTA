@@ -1028,13 +1028,15 @@ class qcreportController extends Controller
 
 						// unset($tmp[$key]['buliangxinxi']);
 
-						if ($k==0) {
-							// array_push($qcreport, array_merge($tmp[$key], $arr));
-							array_push($qcreport, array_merge($tmp, $arr));
-						} else {
-							array_push($qcreport, array_merge($tmp_empty, $arr));
-						}
+						// 第一行显示主记录
+						// if ($k==0) {
+						// 	array_push($qcreport, array_merge($tmp, $arr));
+						// } else {
+						// 	array_push($qcreport, array_merge($tmp_empty, $arr));
+						// }
 						
+						array_push($qcreport, array_merge($tmp, $arr));
+
 					}
 				} else {
 					array_push($qcreport, $tmp);
