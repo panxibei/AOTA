@@ -2562,7 +2562,7 @@ var vm_app = new Vue({
 			var flag = true;
 			for (var v of _this.piliangluru) {
 
-				// 全部为空，则OK
+				// 全部不为空，则OK
 				if (v.jianchajileixing != '' && v.jianchajileixing != undefined
 					&& v.buliangneirong != '' && v.buliangneirong != undefined
 					&& v.weihao != '' && v.weihao != undefined
@@ -2573,33 +2573,48 @@ var vm_app = new Vue({
 					continue;
 				}
 
+				// 全部为空，也为OK
+				if ((v.jianchajileixing == '' || v.jianchajileixing == undefined)
+					&& (v.buliangneirong == '' || v.buliangneirong == undefined)
+					&& (v.weihao == '' || v.weihao == undefined)
+					&& (v.shuliang == '' || v.shuliang == undefined)
+					&& (v.jianchazhe == '' || v.jianchazhe == undefined)) {
+					// console.log('所有OK');
+					// flag = true;
+					continue;
+				}
+
 				// 任何一行记录，只要有一项填写，就必须都填写
-				if (v.jianchajileixing != '' && v.jianchajileixing != undefined) {
-					// console.log('jianchajileixing');
-					flag = false;
-					break;
-				} else if (v.buliangneirong != '' && v.buliangneirong != undefined) {
-					// console.log('buliangneirong');
-					flag = false;
-					break;
-				} else if (v.weihao != '' && v.weihao != undefined) {
-					// console.log('weihao');
-					flag = false;
-					break;
-				} else if (v.shuliang != '' && v.shuliang != undefined) {
-					// console.log('shuliang');
-					flag = false;
-					break;
-				} else if (v.jianchazhe != '' && v.jianchazhe != undefined) {
-					// console.log('jianchazhe');
-					flag = false;
-					break;
+				// if (v.jianchajileixing != '' && v.jianchajileixing != undefined) {
+				// 	flag = false;
+				// 	break;
+				// } else if (v.buliangneirong != '' && v.buliangneirong != undefined) {
+				// 	flag = false;
+				// 	break;
+				// } else if (v.weihao != '' && v.weihao != undefined) {
+				// 	flag = false;
+				// 	break;
+				// } else if (v.shuliang != '' && v.shuliang != undefined) {
+				// 	flag = false;
+				// 	break;
+				// } else if (v.jianchazhe != '' && v.jianchazhe != undefined) {
+				// 	flag = false;
+				// 	break;
+				// }
+
+				// 任何一行记录，检查机类型和检查者必须同时填写，其他可为空
+				if ((v.jianchajileixing != '' || v.jianchajileixing != undefined)
+					&& (v.jianchazhe == '' || v.jianchazhe == undefined)) {
+					flag = false;break;
+				} else if ((v.jianchazhe != '' || v.jianchazhe != undefined)
+					&& (v.jianchajileixing == '' || v.jianchajileixing == undefined)) {
+					flag = false;break;
 				}
 			}
-			// console.log('flag: ' + flag);return false;
+			console.log('flag: ' + flag);return false;
 
 			if (flag == false) {
-				_this.warning(false, '警告', '批量录入的不良内容为空或不正确！');
+				_this.warning(false, '警告', '批量录入内容为空或不正确！');
 				return false;
 			}
 
