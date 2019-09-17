@@ -413,11 +413,11 @@ class qcreportController extends Controller
 
 						// 不良信息
 						$b['jianchariqi'] = $value['jianchariqi'];
-						$b['buliangneirong'] = $v['buliangneirong'];
-						$b['weihao'] = $v['weihao'];
-						$b['shuliang'] = $v['shuliang'];
-						$b['jianchajileixing'] = $v['jianchajileixing'];
-						$b['jianchazhe'] = $v['jianchazhe'];
+						$b['buliangneirong'] = $v['buliangneirong'] ?? '';
+						$b['weihao'] = $v['weihao'] ?? '';
+						$b['shuliang'] = $v['shuliang'] ?? 0;
+						$b['jianchajileixing'] = $v['jianchajileixing'] ?? '';
+						$b['jianchazhe'] = $v['jianchazhe'] ?? '';
 
 						array_push($result_buliangxinxi, $b);
 					}
@@ -1020,11 +1020,11 @@ class qcreportController extends Controller
 
 				if (!empty($value['buliangxinxi'])) {
 					foreach ($value['buliangxinxi'] as $k=>$v) {
-						$arr['buliangneirong'] = $v['buliangneirong'];
-						$arr['weihao'] = $v['weihao'];
-						$arr['shuliang'] = $v['shuliang'];
-						$arr['jianchajileixing'] = $v['jianchajileixing'];
-						$arr['jianchazhe'] = $v['jianchazhe'];
+						$arr['buliangneirong'] = $v['buliangneirong'] ?? '';
+						$arr['weihao'] = $v['weihao'] ?? '';
+						$arr['shuliang'] = $v['shuliang'] ?? '';
+						$arr['jianchajileixing'] = $v['jianchajileixing'] ?? '';
+						$arr['jianchazhe'] = $v['jianchazhe'] ?? '';
 
 						// unset($tmp[$key]['buliangxinxi']);
 
