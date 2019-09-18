@@ -1507,7 +1507,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu1',
 						align: 'center',
-						width: 100,
+						width: 110,
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu1.toLocaleString()
@@ -1546,7 +1546,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu2',
 						align: 'center',
-						width: 100,
+						width: 110,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -1588,7 +1588,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu3',
 						align: 'center',
-						width: 100,
+						width: 110,
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu3.toLocaleString()
@@ -1627,7 +1627,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu4',
 						align: 'center',
-						width: 100,
+						width: 110,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -1669,7 +1669,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu5',
 						align: 'center',
-						width: 100,
+						width: 110,
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu5.toLocaleString()
@@ -1708,7 +1708,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu6',
 						align: 'center',
-						width: 100,
+						width: 110,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -1750,7 +1750,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu7',
 						align: 'center',
-						width: 100,
+						width: 110,
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu7.toLocaleString()
@@ -1789,7 +1789,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu8',
 						align: 'center',
-						width: 100,
+						width: 110,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -1831,7 +1831,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu9',
 						align: 'center',
-						width: 100,
+						width: 110,
 						render: (h, params) => {
 							return h('div', [
 								params.row.hejidianshu9.toLocaleString()
@@ -1870,7 +1870,7 @@ var vm_app = new Vue({
 						title: '合计点数',
 						key: 'hejidianshu10',
 						align: 'center',
-						width: 100,
+						width: 110,
 						className: 'table-info-column',
 						render: (h, params) => {
 							return h('div', [
@@ -1908,7 +1908,7 @@ var vm_app = new Vue({
 				title: '合计点数求和',
 				key: 'hejidianshuqiuhe',
 				align: 'center',
-				width: 100,
+				width: 110,
 				renderHeader: (h, params) => {
 					return h('div', [
 						h('span', {
