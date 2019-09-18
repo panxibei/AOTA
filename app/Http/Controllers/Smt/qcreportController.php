@@ -684,11 +684,11 @@ class qcreportController extends Controller
 		$buliangxinxi = '';
 		// $buliangxinxi = '"id":' . $count_of_buliangxinxi_append . ',';
 		foreach ($a as $key => $value) {
-			if ($key == 'shuliang') {
-				$buliangxinxi .= '"'. $key . '":' . $value . ',';
-			} else {
+			// if ($key == 'shuliang') {
+				// $buliangxinxi .= '"'. $key . '":' . $value . ',';
+			// } else {
 				$buliangxinxi .= '"'. $key . '":"' . $value . '",';
-			}
+			// }
 		}
 		$buliangxinxi = substr($buliangxinxi, 0, strlen($buliangxinxi)-1);
 		// dd($buliangxinxi);

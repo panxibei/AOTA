@@ -1267,7 +1267,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.buliangneirong == null ? '-' : item.buliangneirong)
+										}, item.buliangneirong == null || item.buliangneirong == '' ? '-' : item.buliangneirong)
 									}))
 								]);
 							}
@@ -1288,7 +1288,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.weihao == null ? '-' : item.weihao)
+										}, item.weihao == null || item.weihao == '' ? '-' : item.weihao)
 									}))
 								]);
 							}
@@ -1309,7 +1309,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.shuliang == null ? '-' : item.shuliang)
+										}, item.shuliang == null || item.shuliang == 0 || item.shuliang == '' ? '-' : item.shuliang)
 									}))
 								]);
 							}
@@ -1330,7 +1330,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.jianchajileixing)
+										}, item.jianchajileixing == null || item.jianchajileixing == '' ? '-' : item.jianchajileixing)
 									}))
 								]);
 							}
@@ -1351,7 +1351,7 @@ var vm_app = new Vue({
 								}, [
 									h('ul', params.row.buliangxinxi.map(item => {
 										return h('li', {
-										}, item.jianchazhe)
+										}, item.jianchazhe == null || item.jianchazhe == '' ? '-' : item.jianchazhe)
 									}))
 								]);
 							}
@@ -2202,7 +2202,7 @@ var vm_app = new Vue({
 		jianchajileixing_append: '',
 		buliangneirong_append: '',
 		weihao_append: '',
-		shuliang_append: [0, 0], //第一下标为原始值，第二下标为变化值
+		shuliang_append: ['', ''], //第一下标为原始值，第二下标为变化值
 		jianchazhe_append: '',
 		count_of_buliangxinxi_append: 0,
 
@@ -4251,11 +4251,42 @@ var vm_app = new Vue({
 			var jianchazhe = _this.jianchazhe_edit;
 
 			// 数量为0时，清空不良内容、位号和数量
-			if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
-				_this.warning(false, '警告', '[数量] 不能为空！');
+			// if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
+			// 	_this.warning(false, '警告', '[数量] 不能为空！');
+			// 	return false;
+			// }
+
+			var flag = true;
+
+			// 全部不为空，则OK
+			if (jianchajileixing != '' && jianchajileixing != undefined
+				&& buliangneirong != '' && buliangneirong != undefined
+				&& weihao != '' && weihao != undefined
+				&& shuliang[1] != '' && shuliang[1] != undefined
+				&& jianchazhe != '' && jianchazhe != undefined) {
+			}
+			// 全部为空，也为OK
+			else if ((jianchajileixing == '' || jianchajileixing == undefined)
+				&& (buliangneirong == '' || buliangneirong == undefined)
+				&& (weihao == '' || weihao == undefined)
+				&& (shuliang[1] == '' || shuliang[1] == undefined)
+				&& (jianchazhe == '' || jianchazhe == undefined)) {
+					return false;
+			}
+			// 任何一行记录，检查机类型和检查者必须同时填写，其他可为空
+			else if ((jianchajileixing != '' || jianchajileixing != undefined)
+				&& (jianchazhe == '' || jianchazhe == undefined)) {
+				flag = false;
+			} else if ((jianchazhe != '' || jianchazhe != undefined)
+				&& (jianchajileixing == '' || jianchajileixing == undefined)) {
+				flag = false;
+			}
+
+			if (flag == false) {
+				_this.warning(false, '警告', '不良内容不正确！');
 				return false;
 			}
-			
+
 			var url = "{{ route('smt.qcreport.qcreportupdatesub') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
@@ -4341,26 +4372,50 @@ var vm_app = new Vue({
 			var jianchazhe = _this.jianchazhe_append;
 			var count_of_buliangxinxi_append = _this.count_of_buliangxinxi_append;
 			
-			// 任何一行记录，只要有一项填写，就必须都填写
 			var flag = true;
 
-			if (jianchajileixing == '' || jianchajileixing == undefined) {
+			// 任何一行记录，只要有一项填写，就必须都填写
+			// if (jianchajileixing == '' || jianchajileixing == undefined) {
+			// 	flag = false;
+			// } else if (buliangneirong == '' || buliangneirong == undefined) {
+			// 	flag = false;
+			// } else if (weihao == '' || weihao == undefined) {
+			// 	flag = false;
+			// } else if (shuliang == '' || shuliang == undefined) {
+			// 	flag = false;
+			// } else if (jianchazhe == '' || jianchazhe == undefined) {
+			// 	flag = false;
+			// }
+
+			// 全部不为空，则OK
+			if (jianchajileixing != '' && jianchajileixing != undefined
+				&& buliangneirong != '' && buliangneirong != undefined
+				&& weihao != '' && weihao != undefined
+				&& shuliang != '' && shuliang != undefined
+				&& jianchazhe != '' && jianchazhe != undefined) {
+			}
+			// 全部为空，也为OK
+			else if ((jianchajileixing == '' || jianchajileixing == undefined)
+				&& (buliangneirong == '' || buliangneirong == undefined)
+				&& (weihao == '' || weihao == undefined)
+				&& (shuliang == '' || shuliang == undefined)
+				&& (jianchazhe == '' || jianchazhe == undefined)) {
+			}
+			// 任何一行记录，检查机类型和检查者必须同时填写，其他可为空
+			else if ((jianchajileixing != '' || jianchajileixing != undefined)
+				&& (jianchazhe == '' || jianchazhe == undefined)) {
 				flag = false;
-			} else if (buliangneirong == '' || buliangneirong == undefined) {
-				flag = false;
-			} else if (weihao == '' || weihao == undefined) {
-				flag = false;
-			} else if (shuliang == '' || shuliang == undefined) {
-				flag = false;
-			} else if (jianchazhe == '' || jianchazhe == undefined) {
+			} else if ((jianchazhe != '' || jianchazhe != undefined)
+				&& (jianchajileixing == '' || jianchajileixing == undefined)) {
 				flag = false;
 			}
 
 			if (flag == false) {
-				_this.warning(false, '警告', '不良内容为空或不正确！');
+				_this.warning(false, '警告', '不良内容不正确！');
 				return false;
 			}
 
+			// console.log(flag);return false;
 			var url = "{{ route('smt.qcreport.qcreportappend') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
@@ -4388,7 +4443,7 @@ var vm_app = new Vue({
 					_this.weihao_append = '';
 					_this.created_at_append = '';
 					_this.updated_at_append = '';
-					_this.shuliang_append = [0, 0];
+					_this.shuliang_append = ['', ''];
 					_this.jianchazhe_append = '';
 
 					_this.success(false, '成功', '追加成功！');
