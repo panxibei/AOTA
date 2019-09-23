@@ -166,7 +166,7 @@ return [
 		Maatwebsite\Excel\ExcelServiceProvider::class,
 		Adldap\Laravel\AdldapServiceProvider::class,
 		Mews\Captcha\CaptchaServiceProvider::class,
-		Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+		// Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         // Tightenco\Ziggy\ZiggyServiceProvider::class,
 
@@ -223,7 +223,7 @@ return [
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 		'Adldap' => Adldap\Laravel\Facades\Adldap::class,
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
-        'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        // 'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         // 'Ziggy' => Tightenco\Ziggy\ZiggyServiceProvider::class,
 
     ],
