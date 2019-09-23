@@ -17,9 +17,6 @@ class mainController extends Controller
 	// logout
 	public function logout()
 	{
-		// 删除cookie
-		Cookie::queue(Cookie::forget('token'));
-
 		// 重置login_ttl为0
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
@@ -38,6 +35,9 @@ class mainController extends Controller
 		// Pass true to force the token to be blacklisted "forever"
 		// auth()->logout(true);
 		auth()->logout();
+		
+		// 删除cookie
+		Cookie::queue(Cookie::forget('token'));
 
 		// 返回登录页面
 		return redirect()->route('login');
