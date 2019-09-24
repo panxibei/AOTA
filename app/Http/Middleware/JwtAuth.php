@@ -39,30 +39,10 @@ class JwtAuth
 
 		// 判断数组为空，以此来判断是否有有效用户登录
 		// 通过判断IP决定是否更换了登录地点
-		dd($user['login_ip'] . ' | ' . $user['login_time']);
-		if (! sizeof($user) || $user['login_ip'] != $_SERVER['REMOTE_ADDR']) {
+		if (! sizeof($user)) {
 			// 无有效用户登录，则认证失败，退回登录界面
 			// dd('credentials are invalid');
 
-			// if (! empty($user['id'])) {
-				// try	{
-				// 	User::where('id', $user['id'])
-				// 	->update([
-				// 		'login_ttl'	=> 0
-				// 	]);
-				// }
-				// catch (Exception $e) {
-				// 	// echo 'Message: ' .$e->getMessage();
-				// }
-			
-				// auth()->logout();
-			
-			// }
-	
-		
-			// 删除cookie
-			Cookie::queue(Cookie::forget('token'));
-	
 			if($request->ajax()){
 				// 如果是ajax请求，则返回空数组，由axios处理返回登录页面
 				// return response()->json();
