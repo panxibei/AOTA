@@ -39,7 +39,7 @@ class JwtAuth
 
 		// 判断数组为空，以此来判断是否有有效用户登录
 		// 通过判断IP决定是否更换了登录地点
-		dd($user['login_ip'] . ' | ' . $_SERVER['REMOTE_ADDR']);
+		// dd($user['login_ip'] . ' | ' . $_SERVER['REMOTE_ADDR']);
 		if (! sizeof($user) || $user['login_ip'] != $_SERVER['REMOTE_ADDR']) {
 			// 无有效用户登录，则认证失败，退回登录界面
 			// dd('credentials are invalid');
@@ -55,7 +55,7 @@ class JwtAuth
 				// 	// echo 'Message: ' .$e->getMessage();
 				// }
 			
-				auth()->logout();
+				// auth()->logout();
 			
 			// }
 	
