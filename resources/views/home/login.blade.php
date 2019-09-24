@@ -190,7 +190,7 @@ var vm_app = new Vue({
 						}
 					})
 					.catch(function (error) {
-						console.log(error);
+						// console.log(error);
 						_this.formInline.loginmessage = '<font color="red">会话过期或未知错误！ 请刷新再试！</font>';
 						_this.logindisabled(false);
 					})

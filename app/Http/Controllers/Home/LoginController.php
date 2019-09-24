@@ -62,11 +62,11 @@ class LoginController extends Controller
 
 
 		// 判断单用户登录
-		$singleUser = User::select('login_time', 'login_ttl')->where('name', $name)->first();
-		$user_login_time = strtotime($singleUser['login_time']);
-		$user_login_ttl = $singleUser['login_ttl'] * 60;
-		$user_login_expire = $user_login_time + $user_login_ttl;
-		$user_now = time();
+		// $singleUser = User::select('login_time', 'login_ttl')->where('name', $name)->first();
+		// $user_login_time = strtotime($singleUser['login_time']);
+		// $user_login_ttl = $singleUser['login_ttl'] * 60;
+		// $user_login_expire = $user_login_time + $user_login_ttl;
+		// $user_now = time();
 		
 		// if ($user_now < $user_login_expire) {
 			// return $user_login_time . '|' . $user_login_ttl . '|' .$user_now . 'singleuser';
