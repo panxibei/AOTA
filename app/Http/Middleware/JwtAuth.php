@@ -29,10 +29,10 @@ class JwtAuth
 		$site_key = $config['SITE_KEY'];
 		if ($app_key != $site_key) die();
 
-
+		
 		// 获取JSON格式的jwt-auth用户响应
 		$me = response()->json(auth()->user());
-		
+
 		// 获取JSON格式的jwt-auth用户信息（$me->getContent()），就是$me的data部分
 		$user = json_decode($me->getContent(), true);
 		// 用户信息：$user['id']、$user['name'] 等
@@ -43,6 +43,8 @@ class JwtAuth
 			// 无有效用户登录，则认证失败，退回登录界面
 			// dd('credentials are invalid');
 
+			// Cookie::queue(Cookie::forget('token'));
+			// Cookie::queue(Cookie::forget('singletoken'));
 			if($request->ajax()){
 				// 如果是ajax请求，则返回空数组，由axios处理返回登录页面
 				// return response()->json();
@@ -52,6 +54,22 @@ class JwtAuth
 				// 如果是正常请求，则直接返回登录页面
 				return redirect()->route('login');
 			}
+		
+		} else {
+			$token_local = Cookie::get('singletoken');
+			// $singletoken = md5($user['login_ip'] . $user['name'] . $user[login_time]);
+			$token_remote = $user['remember_token'];
+
+			// dump($token_local);
+			// dump('<br><br>');
+			// dd($token_remote);
+
+			if (empty($token_remote) || $token_local != $token_remote) {
+					Cookie::queue(Cookie::forget('token'));
+					Cookie::queue(Cookie::forget('singletoken'));
+					return $request->ajax() ? response()->json(['jwt' => 'logout']) : redirect()->route('login');
+			}
+
 		}
 
 

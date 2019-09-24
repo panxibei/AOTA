@@ -55,6 +55,12 @@ class LoginController extends Controller
 		$name = $request->input('name');
 		$password = $request->input('password');
 
+		$nowtime = date("Y-m-d H:i:s",time());
+		$ip = $request->getClientIp();
+
+		$singletoken = substr(md5($ip . $name . $nowtime), 0, 100);
+
+
 		// 判断单用户登录
 		$singleUser = User::select('login_time', 'login_ttl')->where('name', $name)->first();
 		$user_login_time = strtotime($singleUser['login_time']);
@@ -62,10 +68,10 @@ class LoginController extends Controller
 		$user_login_expire = $user_login_time + $user_login_ttl;
 		$user_now = time();
 		
-		if ($user_now < $user_login_expire) {
+		// if ($user_now < $user_login_expire) {
 			// return $user_login_time . '|' . $user_login_ttl . '|' .$user_now . 'singleuser';
-			return 'nosingleuser';
-		}
+			// return 'nosingleuser';
+		// }
 
 
 		// $minutes = 480;
@@ -100,7 +106,6 @@ class LoginController extends Controller
 				$ldapname = $name;
 
 				// 同步本地用户密码
-				$nowtime = date("Y-m-d H:i:s",time());
 				try	{
 					$result = User::where('name', $name)
 						->increment('login_counts', 1, [
@@ -110,7 +115,8 @@ class LoginController extends Controller
 							'displayname'=> $displayname,
 							'login_time' => $nowtime,
 							'login_ttl'	 => $minutes,
-							'login_ip'   => $_SERVER['REMOTE_ADDR'],
+							'login_ip'   => $ip, //$_SERVER['REMOTE_ADDR'],
+							'remember_token'=> $singletoken,
 						]);
 
 					// 4.如果没有这个用户，则自动新增用户
@@ -123,9 +129,9 @@ class LoginController extends Controller
 							'password'      => bcrypt($password),
 							'login_time'    => $nowtime,
 							'login_ttl'	 	=> $minutes,
-							'login_ip'      => $_SERVER['REMOTE_ADDR'],
+							'login_ip'      => $ip, //$_SERVER['REMOTE_ADDR'],
 							'login_counts'  => 1,
-							'remember_token'=> '',
+							'remember_token'=> $singletoken,
 							'created_at'    => $nowtime,
 							'updated_at'    => $nowtime,
 							'deleted_at'    => NULL
@@ -158,24 +164,24 @@ class LoginController extends Controller
 		// 如果没有经过ldap, 则更新本地用户信息
 		if (! $adldap) {
 			try	{
-				$nowtime = date("Y-m-d H:i:s",time());
 					
 				$result = User::where('name', $name)
 					->increment('login_counts', 1, [
 						'login_time' => $nowtime,
 						'login_ttl' => $minutes,
-						'login_ip'   => $_SERVER['REMOTE_ADDR'],
+						'login_ip'   => $ip, //$_SERVER['REMOTE_ADDR'],
+						'remember_token'   => $singletoken,
 					]);
 			}
 			catch (Exception $e) {//捕获异常
-				// echo 'Message: ' .$e->getMessage();
-				// $result = $e->getMessage();
+				// dd('Message: ' .$e->getMessage());
 				$result = null;
 			}
 		}
 
 		// return $this->respondWithToken($token);
 		Cookie::queue('token', $token, $minutes);
+		Cookie::queue('singletoken', $singletoken, $minutes);
 		return $token;
 		
   }

@@ -37,6 +37,7 @@ class mainController extends Controller
 		auth()->logout();
 		
 		// 删除cookie
+		Cookie::queue(Cookie::forget('singletoken'));
 		Cookie::queue(Cookie::forget('token'));
 
 		// 返回登录页面
