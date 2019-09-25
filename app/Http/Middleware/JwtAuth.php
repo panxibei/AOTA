@@ -42,8 +42,6 @@ class JwtAuth
 			// 无有效用户登录，则认证失败，退回登录界面
 			// dd('credentials are invalid');
 
-			// Cookie::queue(Cookie::forget('token'));
-			// Cookie::queue(Cookie::forget('singletoken'));
 			if($request->ajax()){
 				// 如果是ajax请求，则返回空数组，由axios处理返回登录页面
 				// return response()->json();
@@ -58,10 +56,6 @@ class JwtAuth
 			$token_local = Cookie::get('singletoken');
 			// $singletoken = md5($user['login_ip'] . $user['name'] . $user[login_time]);
 			$token_remote = $user['remember_token'];
-
-			// dump($token_local);
-			// dump('<br><br>');
-			// dd($token_remote);
 
 			if (empty($token_remote) || $token_local != $token_remote) {
 				Cookie::queue(Cookie::forget('token'));

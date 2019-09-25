@@ -3435,7 +3435,7 @@ var vm_app = new Vue({
 					var res = [
 						{
 							'shengchanriqi': month.Format("yyyy-MM"), 'xianti': 'SMT-1', 'shebei': shebei.shebei_smt1,
-							'chixushijian': 0, 'shijishijian': 200, 'jiadonglv': 0,
+							'chixushijian': 0, 'shijishijian': 0, 'jiadonglv': 0,
 							'shijidianshu': 0, 'dadianjiadonglv': 0,
 							'jizhongqiehuancishu': 0, 'jizhongqiehuanshijian': 0,  'jizhongqiehuanyici': 0,
 							'dengdaibupin': 0, 'wujihua': 0, 'qianhougongchengdengdai': 0,
