@@ -58,7 +58,8 @@ class LoginController extends Controller
 		$nowtime = date("Y-m-d H:i:s",time());
 		$ip = $request->getClientIp();
 
-		$singletoken = substr(md5($ip . $name . $nowtime), 0, 100);
+		// $singletoken = substr(md5($ip . $name . $nowtime), 0, 100);
+		$singletoken = md5($ip . $name . $nowtime);
 
 
 		// 判断单用户登录
@@ -151,7 +152,8 @@ class LoginController extends Controller
 		}
 
 		// 5.jwt-auth，判断用户认证
-		$credentials = $request->only('name', 'password');
+		// $credentials = $request->only('name', 'password');
+		$credentials = ['name' => $name, 'password' => $password];
 
 		$token = auth()->attempt($credentials);
 		if (! $token) {
@@ -182,7 +184,8 @@ class LoginController extends Controller
 		// return $this->respondWithToken($token);
 		Cookie::queue('token', $token, $minutes);
 		Cookie::queue('singletoken', $singletoken, $minutes);
-		return $token;
+		// return $token;
+		return 1;
 		
   }
 

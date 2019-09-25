@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Admin\Config;
-use App\Models\Admin\User;
 use Cookie;
 
 class JwtAuth
@@ -24,7 +23,7 @@ class JwtAuth
 
 
 		// 验证sitekey和appkey
-		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+		$config = Config::where('cfg_name', 'SITE_KEY')->pluck('cfg_value', 'cfg_name')->toArray();
 		$app_key = substr(config('app.key'), 19, 12);
 		$site_key = $config['SITE_KEY'];
 		if ($app_key != $site_key) die();
