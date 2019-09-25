@@ -24,8 +24,8 @@ class JwtAuth
 
 		// 验证sitekey和appkey
 		$config = Config::where('cfg_name', 'SITE_KEY')->pluck('cfg_value', 'cfg_name')->toArray();
-		$app_key = substr(config('app.key'), 19, 12);
 		$site_key = $config['SITE_KEY'];
+		$app_key = substr(config('app.key'), 19, 12);
 		if ($app_key != $site_key) die();
 
 		
@@ -64,9 +64,9 @@ class JwtAuth
 			// dd($token_remote);
 
 			if (empty($token_remote) || $token_local != $token_remote) {
-					Cookie::queue(Cookie::forget('token'));
-					Cookie::queue(Cookie::forget('singletoken'));
-					return $request->ajax() ? response()->json(['jwt' => 'logout']) : redirect()->route('login');
+				Cookie::queue(Cookie::forget('token'));
+				Cookie::queue(Cookie::forget('singletoken'));
+				return $request->ajax() ? response()->json(['jwt' => 'logout']) : redirect()->route('login');
 			}
 
 		}
