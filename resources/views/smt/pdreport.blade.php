@@ -54,7 +54,13 @@ SMT - PD report
 
 <div id="app" v-cloak>
 
+	@hasanyrole('role_smt_pdreport_write|role_super_admin')
 	<Tabs type="card" v-model="currenttabs" :animated="false">
+	@else
+	<Tabs type="card" active-key="0" :animated="false">
+	@endhasanyrole
+
+		@hasanyrole('role_smt_pdreport_write|role_super_admin')
 		<Tab-pane label="生产计划导入">
 
 			<i-row :gutter="16">
@@ -334,6 +340,7 @@ SMT - PD report
 			&nbsp;<br><br><br><br><br><br>
 
 		</Tab-pane>
+		@endhasanyrole
 
 
 		<Tab-pane label="生产信息表">
@@ -396,6 +403,7 @@ SMT - PD report
 			
 			<i-row :gutter="16">
 				
+				@hasanyrole('role_smt_pdreport_write|role_super_admin')
 				<i-col span="2">
 					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete" @on-cancel="" transfer="true">
 					<i-button :disabled="boo_delete" icon="ios-trash-outline" type="warning" size="small">删除</i-button>
@@ -414,6 +422,17 @@ SMT - PD report
 						<i-option v-for="item in option_querenzhe" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
+				@else
+				<i-col span="2">
+				&nbsp;
+				</i-col>
+				<i-col span="4">
+				&nbsp;
+				</i-col>
+				<i-col span="4">
+				&nbsp;
+				</i-col>
+				@endhasanyrole
 				
 				<i-col span="14">
 					<!-- <strong>插件点数小计：@{{ xiaoji_chajiandianshu.toLocaleString() }} &nbsp;&nbsp;&nbsp;&nbsp;稼动率小计：@{{ parseFloat(xiaoji_jiadonglv * 100) + '%' }} &nbsp;&nbsp;&nbsp;&nbsp;合计（分）：@{{ hejifen }}</strong>&nbsp;&nbsp; -->
@@ -935,12 +954,14 @@ var vm_app = new Vue({
 		
 		// 表头1
 		tablecolumns1: [
+			@hasanyrole('role_smt_pdreport_write|role_super_admin')
 			{
 				type: 'selection',
 				width: 60,
 				align: 'center',
 				fixed: 'left'
 			},
+			@endhasanyrole
 			{
 				type: 'index',
 				align: 'center',
@@ -1179,6 +1200,7 @@ var vm_app = new Vue({
 					// }
 				]
 			},
+			@hasanyrole('role_smt_pdreport_write|role_super_admin')
 			{
 				title: '操作',
 				key: 'action',
@@ -1204,6 +1226,7 @@ var vm_app = new Vue({
 				},
 				fixed: 'right'
 			},
+			@endhasanyrole
 			// {
 			// 	title: '创建日期',
 			// 	key: 'created_at',
@@ -1537,6 +1560,7 @@ var vm_app = new Vue({
 					}
 				]
 			},
+			@hasanyrole('role_smt_pdreport_write|role_super_admin')
 			{
 				title: '操作',
 				key: 'action',
@@ -1562,6 +1586,7 @@ var vm_app = new Vue({
 				},
 				fixed: 'right'
 			},
+			@endhasanyrole
 		],
 		tabledata2: [],
 		
@@ -3914,6 +3939,7 @@ var vm_app = new Vue({
 		
 	},
 	mounted () {
+		@hasanyrole('role_smt_pdreport_write|role_super_admin')
 		// 设置input背景色
 		var id_meimiao = document.getElementById("id_meimiao");
 		id_meimiao.style.background = "#E1F5FE";
@@ -3956,6 +3982,7 @@ var vm_app = new Vue({
 
 		var id_jizaishixiang = document.getElementById("id_jizaishixiang");
 		id_jizaishixiang.style.background = "#E1F5FE";
+		@endhasanyrole
 
 		var _this = this;
 		_this.configgets();
