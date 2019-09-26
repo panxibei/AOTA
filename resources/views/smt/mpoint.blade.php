@@ -19,6 +19,7 @@ SMT - MPoint
 
 <div id="app" v-cloak>
 
+	@hasanyrole('role_smt_mpoint_write|role_super_admin')
 	<Divider orientation="left">信息录入</Divider>
 
 	<i-row :gutter="16">
@@ -120,17 +121,23 @@ SMT - MPoint
 		
 		</div>	
 	</Modal>
-
 	<br><br>
+	@endhasanyrole
+
+
 	<Divider orientation="left">数据查询</Divider>
 	
 	<div>
 	
 		<i-row :gutter="16">
 			<i-col span="3">
+				@hasanyrole('role_smt_mpoint_write|role_super_admin')
 				<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
 					<i-button :disabled="boo_delete" icon="ios-trash-outline" type="warning" size="small">删除</i-button>&nbsp;&nbsp;
 				</Poptip>
+				@else
+				&nbsp;
+				@endhasanyrole
 			</i-col>
 			<i-col span="6">
 				* 日期范围&nbsp;&nbsp;
@@ -209,12 +216,14 @@ var vm_app = new Vue({
 
 		// 表头
 		tablecolumns: [
+			@hasanyrole('role_smt_mpoint_write|role_super_admin')
 			{
 				type: 'selection',
 				width: 60,
 				align: 'center',
 				fixed: 'left'
 			},
+			@endhasanyrole
 			{
 				type: 'index',
 				align: 'center',
@@ -287,6 +296,7 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 160
 			},
+			@hasanyrole('role_smt_mpoint_write|role_super_admin')
 			{
 				title: '操作',
 				key: 'action',
@@ -310,9 +320,11 @@ var vm_app = new Vue({
 							}
 						}, '编辑')
 					]);
+					
 				},
 				fixed: 'right'
 			}
+			@endhasanyrole
 		],
 		tabledata: [],
 		
@@ -554,7 +566,7 @@ var vm_app = new Vue({
 			
 			if (jizhongming == '' || pinming == '' || gongxu == '' || diantai == '' || pinban == ''
 				|| jizhongming == undefined || pinming == undefined || gongxu == undefined || diantai == undefined || pinban == undefined) {
-				_this.warning(false, 'Warning', 'Values are incorrect!');
+				_this.warning(false, '警告', '内容为空或不正确！');
 				return false;
 			}
 

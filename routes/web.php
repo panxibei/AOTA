@@ -126,14 +126,23 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 
 
 // MPoint页面
-Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_mpoint|permission_super_admin']], function() {
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_mpoint_read|permission_super_admin']], function() {
 	Route::get('mpoint', 'pdreportController@mpoint')->name('smt.pdreport.mpoint');
 	Route::get('mpointgets', 'pdreportController@mpointGets')->name('smt.pdreport.mpointgets');
+	// Route::post('mpointcreate', 'pdreportController@mpointCreate')->name('smt.pdreport.mpointcreate');
+	// Route::post('mpointupdate', 'pdreportController@mpointUpdate')->name('smt.pdreport.mpointupdate');
+	// Route::post('mpointdelete', 'pdreportController@mpointDelete')->name('smt.pdreport.mpointdelete');
+	// Route::post('mpointimport', 'pdreportController@mpointImport')->name('smt.pdreport.mpointimport');
+	Route::get('mpointdownload', 'pdreportController@mpointDownload')->name('smt.pdreport.mpointdownload');
+});
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_mpoint_write|permission_super_admin']], function() {
+	// Route::get('mpoint', 'pdreportController@mpoint')->name('smt.pdreport.mpoint');
+	// Route::get('mpointgets', 'pdreportController@mpointGets')->name('smt.pdreport.mpointgets');
 	Route::post('mpointcreate', 'pdreportController@mpointCreate')->name('smt.pdreport.mpointcreate');
 	Route::post('mpointupdate', 'pdreportController@mpointUpdate')->name('smt.pdreport.mpointupdate');
 	Route::post('mpointdelete', 'pdreportController@mpointDelete')->name('smt.pdreport.mpointdelete');
 	Route::post('mpointimport', 'pdreportController@mpointImport')->name('smt.pdreport.mpointimport');
-	Route::get('mpointdownload', 'pdreportController@mpointDownload')->name('smt.pdreport.mpointdownload');
+	// Route::get('mpointdownload', 'pdreportController@mpointDownload')->name('smt.pdreport.mpointdownload');
 });
 
 
