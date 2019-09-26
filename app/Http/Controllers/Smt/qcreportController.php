@@ -465,9 +465,8 @@ class qcreportController extends Controller
 		return $qcreport;
 	}	
 	
-// 此函数暂未用到
 	/**
-	 * getSaomiao
+	 * getSaomiao 暂未使用
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response

@@ -68,6 +68,8 @@ SMT(QC report) -
 <div id="app" v-cloak>
 
 	<Tabs type="card" v-model="currenttabs" :animated="false">
+
+		@hasanyrole('role_smt_pdreport_write|role_super_admin')
 		<Tab-pane label="工程内不良录入">
 
 			<br>
@@ -214,6 +216,7 @@ SMT(QC report) -
 			</span>
 
 		</Tab-pane>
+		@endhasanyrole
 
 		<Tab-pane label="品质管理日报">
 
@@ -299,9 +302,11 @@ SMT(QC report) -
 					<i-row :gutter="16">
 						<br>
 						<i-col span="2">
+							@hasanyrole('role_smt_pdreport_write|role_super_admin')
 							<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
 								<i-button :disabled="boo_delete" type="warning" size="small" icon="ios-trash-outline">删除</i-button>
 							</Poptip>
+							@endhasanyrole
 							&nbsp;<br>&nbsp;
 						</i-col>
 						<i-col span="8">
@@ -883,12 +888,14 @@ var vm_app = new Vue({
 		
 		// 表头1
 		tablecolumns1: [
+			@hasanyrole('role_smt_pdreport_write|role_super_admin')
 			{
 				type: 'selection',
 				width: 60,
 				align: 'center',
 				fixed: 'left'
 			},
+			@endhasanyrole
 			{
 				type: 'index',
 				align: 'center',
@@ -915,134 +922,24 @@ var vm_app = new Vue({
 				key: 'xianti',
 				align: 'center',
 				width: 80,
-				// filters: [
-					// {
-						// label: 'SMT-1',
-						// value: 'SMT-1'
-					// },
-					// {
-						// label: 'SMT-2',
-						// value: 'SMT-2'
-					// },
-					// {
-						// label: 'SMT-3',
-						// value: 'SMT-3'
-					// },
-					// {
-						// label: 'SMT-4',
-						// value: 'SMT-4'
-					// },
-					// {
-						// label: 'SMT-5',
-						// value: 'SMT-5'
-					// },
-					// {
-						// label: 'SMT-6',
-						// value: 'SMT-6'
-					// },
-					// {
-						// label: 'SMT-7',
-						// value: 'SMT-7'
-					// },
-					// {
-						// label: 'SMT-8',
-						// value: 'SMT-8'
-					// },
-					// {
-						// label: 'SMT-9',
-						// value: 'SMT-9'
-					// },
-					// {
-						// label: 'SMT-10',
-						// value: 'SMT-10'
-					// },
-				// ],
-				// filterMultiple: false,
-				// filterMethod: function (value, row) {
-					// if (value === 'SMT-1') {
-						// return row.xianti === 'SMT-1';
-					// } else if (value === 'SMT-2') {
-						// return row.xianti === 'SMT-2';
-					// } else if (value === 'SMT-3') {
-						// return row.xianti === 'SMT-3';
-					// } else if (value === 'SMT-4') {
-						// return row.xianti === 'SMT-4';
-					// } else if (value === 'SMT-5') {
-						// return row.xianti === 'SMT-5';
-					// } else if (value === 'SMT-6') {
-						// return row.xianti === 'SMT-6';
-					// } else if (value === 'SMT-7') {
-						// return row.xianti === 'SMT-7';
-					// } else if (value === 'SMT-8') {
-						// return row.xianti === 'SMT-8';
-					// } else if (value === 'SMT-9') {
-						// return row.xianti === 'SMT-9';
-					// } else if (value === 'SMT-10') {
-						// return row.xianti === 'SMT-10';
-					// }
-				// }
 			},
 			{
 				title: '班次',
 				key: 'banci',
 				align: 'center',
 				width: 60,
-				// filters: [
-					// {
-						// label: 'A-1',
-						// value: 'A-1'
-					// },
-					// {
-						// label: 'A-2',
-						// value: 'A-2'
-					// },
-					// {
-						// label: 'A-3',
-						// value: 'A-3'
-					// },
-					// {
-						// label: 'B-1',
-						// value: 'B-1'
-					// },
-					// {
-						// label: 'B-2',
-						// value: 'B-2'
-					// },
-					// {
-						// label: 'B-3',
-						// value: 'B-3'
-					// }
-				// ],
-				// filterMultiple: false,
-				// filterMethod: function (value, row) {
-					// if (value === 'A-1') {
-						// return row.banci === 'A-1';
-					// } else if (value === 'A-2') {
-						// return row.banci === 'A-2';
-					// } else if (value === 'A-3') {
-						// return row.banci === 'A-3';
-					// } else if (value === 'B-1') {
-						// return row.banci === 'B-1';
-					// } else if (value === 'B-2') {
-						// return row.banci === 'B-2';
-					// } else if (value === 'B-3') {
-						// return row.banci === 'B-3';
-					// }
-				// }
 			},
 			{
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
 				width: 110,
-				// sortable: true
 			},
 			{
 				title: '品名',
 				key: 'pinming',
 				align: 'center',
 				width: 80,
-				// sortable: true
 			},
 			{
 				title: '工序',
@@ -1055,14 +952,12 @@ var vm_app = new Vue({
 				key: 'spno',
 				align: 'center',
 				width: 130,
-				// sortable: true
 			},
 			{
 				title: 'LOT数',
 				key: 'lotshu',
 				align: 'center',
 				width: 80,
-				// sortable: true,
 				render: (h, params) => {
 					return h('div', [
 						params.row.lotshu.toLocaleString()
@@ -1357,6 +1252,7 @@ var vm_app = new Vue({
 							}
 						}
 					},
+					@hasanyrole('role_smt_pdreport_write|role_super_admin')
 					{
 						title: '操作',
 						key: 'action',
@@ -1427,9 +1323,10 @@ var vm_app = new Vue({
 							}
 						},
 					},
+					@endhasanyrole
 				]
 			},
-
+			@hasanyrole('role_smt_pdreport_write|role_super_admin')
 			{
 				title: '操作',
 				key: 'action',
@@ -1469,6 +1366,7 @@ var vm_app = new Vue({
 				},
 				fixed: 'right'
 			},
+			@endhasanyrole
 			// {
 			// 	title: '创建日期',
 			// 	key: 'created_at',
@@ -2453,7 +2351,7 @@ var vm_app = new Vue({
 		},
 		
 
-		// 加载扫描相应信息（暂未用到）
+		// 加载扫描相应信息（暂未使用）
 		load_saomiao: function () {
 			var _this = this;
 			if (_this.saomiao.trim() == '') {
@@ -4930,16 +4828,16 @@ var vm_app = new Vue({
 			
 	},
 	mounted () {
+		@hasanyrole('role_smt_pdreport_write|role_super_admin')
 		var id_saomiao = document.getElementById("id_saomiao");
 		id_saomiao.style.background = "#FFF8E1";
 
 		// var id_dianmei = document.getElementById("id_dianmei");
 		// id_dianmei.style.background = "#c5c8ce";
+		@endhasanyrole
 
 		var _this = this;
 		_this.configgets();
-		// _this.qcdate_filter = new Date().Format("yyyy-MM-dd");
-		// _this.qcreportgets(1, 1); // page: 1, last_page: 1
 	}
 })
 </script>
