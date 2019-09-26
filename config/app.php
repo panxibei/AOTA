@@ -164,7 +164,7 @@ return [
 		
 		// 自定义
 		Maatwebsite\Excel\ExcelServiceProvider::class,
-		Adldap\Laravel\AdldapServiceProvider::class,
+		// Adldap\Laravel\AdldapServiceProvider::class,
 		Mews\Captcha\CaptchaServiceProvider::class,
 		// Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
@@ -221,7 +221,7 @@ return [
 		
 		// 自定义
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-		'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+		// 'Adldap' => Adldap\Laravel\Facades\Adldap::class,
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
         // 'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         // 'Ziggy' => Tightenco\Ziggy\ZiggyServiceProvider::class,

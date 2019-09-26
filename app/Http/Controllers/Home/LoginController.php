@@ -83,27 +83,127 @@ class LoginController extends Controller
 		$adldap = false;
 		if (config('ldap.ldap_use_ldap') == 'ldap') {
 
-			try {
-				$adldap = Adldap::auth()->attempt(
-					// $user['name'] . env('ADLDAP_ADMIN_ACCOUNT_SUFFIX'),
-					$name,
-					$password
-				);
+			// 判断是否启用connection_01
+			$provider01 = false;
+			if (config('ldap.ldap_use_connection_01') == 'connection01') {
+				$ad01 = new \Adldap\Adldap();
+
+				$config = [
+					// Mandatory Configuration Options
+					'hosts'            => config('ldap.connections.connection_01.settings.hosts'),
+					'base_dn'          => config('ldap.connections.connection_01.settings.base_dn'),
+					'username'         => config('ldap.connections.connection_01.settings.username'),
+					'password'         => config('ldap.connections.connection_01.settings.password'),
+
+					// Optional Configuration Options
+					'schema'           => config('ldap.connections.connection_01.settings.schema'),
+					'account_prefix'   => config('ldap.connections.connection_01.settings.account_prefix'),
+					'account_suffix'   => config('ldap.connections.connection_01.settings.account_suffix'),
+					'port'             => config('ldap.connections.connection_01.settings.port'),
+					'follow_referrals' => false,
+					'use_ssl'          => false,
+					'use_tls'          => false,
+					'version'          => 3,
+					'timeout'          => 5,
+				];
+
+				$connectionName01 = 'connection_01';
+				$ad01->addProvider($config, $connectionName01);
+
+				try {
+					$provider01 = $ad01->connect($connectionName01);
+				} catch (\Adldap\Auth\BindException $e) {
+					$provider01 = false;
+				}
 			}
-			// catch (Exception $e) {
-			catch (\Adldap\Auth\BindException $e) { //捕获异常
+
+			// 判断是否启用connection_02
+			$provider02 = false;
+			if (config('ldap.ldap_use_connection_02') == 'connection02') {
+				$ad02 = new \Adldap\Adldap();
+
+				$config = [
+					// Mandatory Configuration Options
+					'hosts'            => config('ldap.connections.connection_02.settings.hosts'),
+					'base_dn'          => config('ldap.connections.connection_02.settings.base_dn'),
+					'username'         => config('ldap.connections.connection_02.settings.username'),
+					'password'         => config('ldap.connections.connection_02.settings.password'),
+
+					// Optional Configuration Options
+					'schema'           => config('ldap.connections.connection_02.settings.schema'),
+					'account_prefix'   => config('ldap.connections.connection_02.settings.account_prefix'),
+					'account_suffix'   => config('ldap.connections.connection_02.settings.account_suffix'),
+					'port'             => config('ldap.connections.connection_02.settings.port'),
+					'follow_referrals' => false,
+					'use_ssl'          => false,
+					'use_tls'          => false,
+					'version'          => 3,
+					'timeout'          => 5,
+				];
+
+				$connectionName02 = 'connection_02';
+				$ad02->addProvider($config, $connectionName02);
+
+				try {
+					$provider02 = $ad02->connect($connectionName02);
+				} catch (\Adldap\Auth\BindException $e) {
+					$provider02 = false;
+				}
+			}
+
+			// default ldap test
+			try {
+				$adldap = Adldap::auth()->attempt($name, $password);
+			}
+			catch (\Adldap\Auth\BindException $e) {
 				// echo 'Message: ' .$e->getMessage();
 				$adldap = false;
+			}
+
+			// connection01 ldap test
+			if ($adldap == false && $provider01) {
+
+				try {
+					$adldap = $provider01->auth()->attempt($name, $password);
+				}
+				catch (\Adldap\Auth\BindException $e) {
+					$adldap = false;
+				}
+			}
+
+			// connection02 ldap test
+			if ($adldap == false && $provider02) {
+
+				try {
+					$adldap = $provider02->auth()->attempt($name, $password);
+				}
+				catch (\Adldap\Auth\BindException $e) {
+					$adldap = false;
+				}
 			}
 
 			// 3.如果adldap认证成功，则同步本地用户的密码
 			//   否则认证失败再由jwt-auth本地判断
 			if ($adldap) {
-				
+
 				// 获取用户email
 				$user_tmp = Adldap::search()->users()->find($name);
-				$email = $user_tmp['mail'][0];
-				$displayname = $user_tmp['displayname'][0];
+
+				if (empty($user_tmp) && $provider01) {
+					$user_tmp = $provider01->search()->users()->find($name);
+				}
+
+				if (empty($user_tmp) && $provider02) {
+					$user_tmp = $provider02->search()->users()->find($name);
+				}
+
+				if (!empty($user_tmp)) {
+					$email = $user_tmp['mail'][0];
+					$displayname = $user_tmp['displayname'][0];
+				} else {
+					$email = $name . '@aota.local';
+					$displayname = $name;
+				}
 				$ldapname = $name;
 
 				// 同步本地用户密码
@@ -177,7 +277,7 @@ class LoginController extends Controller
 			}
 			catch (Exception $e) {//捕获异常
 				// dd('Message: ' .$e->getMessage());
-				$result = null;
+				return null;
 			}
 		}
 
