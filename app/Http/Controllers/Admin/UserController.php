@@ -66,15 +66,15 @@ class UserController extends Controller
 		$page = $queryParams['page'] ?? 1;
 
         // 获取用户信息
-		// $perPage = $request->input('perPage');
-		// $page = $request->input('page');
-		
 		$queryfilter_name = $request->input('queryfilter_name');
 		$queryfilter_logintime = $request->input('queryfilter_logintime');
 		$queryfilter_email = $request->input('queryfilter_email');
 		$queryfilter_loginip = $request->input('queryfilter_loginip');
+		$queryfilter_displayname = $request->input('queryfilter_displayname');
+		$queryfilter_department = $request->input('queryfilter_department');
+		$queryfilter_disableduser = $request->input('queryfilter_disableduser');
 
-		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ttl', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'department', 'login_time', 'login_ttl', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})
@@ -87,9 +87,19 @@ class UserController extends Controller
 			->when($queryfilter_loginip, function ($query) use ($queryfilter_loginip) {
 				return $query->where('login_ip', 'like', '%'.$queryfilter_loginip.'%');
 			})
+			->when($queryfilter_displayname, function ($query) use ($queryfilter_displayname) {
+				return $query->where('displayname', 'like', '%'.$queryfilter_displayname.'%');
+			})
+			->when($queryfilter_department, function ($query) use ($queryfilter_department) {
+				return $query->where('department', 'like', '%'.$queryfilter_department.'%');
+			})
+			->when($queryfilter_disableduser, function ($query) use ($queryfilter_disableduser) {
+				// return $query->withTrashed();
+				return $query->onlyTrashed();
+			})
 			->limit(1000)
 			->orderBy('created_at', 'desc')
-			->withTrashed()
+			// ->withTrashed()
 			->paginate($perPage, ['*'], 'page', $page);
 
 		return $user;

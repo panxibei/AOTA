@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('ldapname')->nullable()->unique()->comment('ldap用户名');
             $table->string('email')->unique();
             $table->string('displayname');
+            $table->string('department');
             $table->string('password');
 			$table->timestamp('login_time')->comment('登录时间');
 			$table->integer('login_ttl')->default(0)->comment('登录有效时间');

@@ -24,12 +24,12 @@ Admin(User) -
 				<p slot="content">
 				
 					<i-row :gutter="16">
-						<i-col span="8">
+						<i-col span="7">
 							* login time&nbsp;&nbsp;
-							<Date-picker v-model.lazy="queryfilter_logintime" @on-change="usergets(page_current, page_last);onselectchange();" type="daterange" size="small" placement="top" style="width:200px"></Date-picker>
+							<Date-picker v-model.lazy="queryfilter_logintime" @on-change="usergets(page_current, page_last);onselectchange();" type="daterange" size="small" placement="top" style="width:180px"></Date-picker>
 						</i-col>
-						<i-col span="4">
-							name&nbsp;&nbsp;
+						<i-col span="5">
+							login name&nbsp;&nbsp;
 							<i-input v-model.lazy="queryfilter_name" @on-change="usergets(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
 						</i-col>
 						<i-col span="4">
@@ -42,6 +42,21 @@ Admin(User) -
 						</i-col>
 						<i-col span="4">
 							&nbsp;
+						</i-col>
+					</i-row>
+
+					<br><br>
+					<i-row :gutter="16">
+						<i-col span="6">
+							display name&nbsp;&nbsp;
+							<i-input v-model.lazy="queryfilter_displayname" @on-change="usergets(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
+						</i-col>
+						<i-col span="6">
+							department&nbsp;&nbsp;
+							<i-input v-model.lazy="queryfilter_department" @on-change="usergets(page_current, page_last)" size="small" clearable style="width: 100px"></i-input>
+						</i-col>
+						<i-col span="12">
+							<i-switch v-model.lazy="queryfilter_disableduser" @on-change="usergets(page_current, page_last)" size="small"></i-switch>&nbsp;&nbsp;disabled user(s)
 						</i-col>
 					</i-row>
 				
@@ -234,6 +249,11 @@ var vm_app = new Vue({
 				width: 180
 			},
 			{
+				title: 'department',
+				key: 'department',
+				width: 180
+			},
+			{
 				title: 'login TTL',
 				key: 'login_ttl',
 				align: 'center',
@@ -373,6 +393,9 @@ var vm_app = new Vue({
 		queryfilter_email: "{{ $config['FILTERS_USER_EMAIL'] }}",
 		queryfilter_logintime: "{{ $config['FILTERS_USER_LOGINTIME'] }}" || [],
 		queryfilter_loginip: "{{ $config['FILTERS_USER_LOGINIP'] }}",
+		queryfilter_displayname: '',
+		queryfilter_department: '',
+		queryfilter_disableduser: false,
 		
 		// 查询过滤器下拉
 		collapse_query: '',
@@ -568,6 +591,8 @@ var vm_app = new Vue({
 			var queryfilter_email = _this.queryfilter_email;
 			var queryfilter_displayname = _this.queryfilter_displayname;
 			var queryfilter_loginip = _this.queryfilter_loginip;
+			var queryfilter_department = _this.queryfilter_department;
+			var queryfilter_disableduser = _this.queryfilter_disableduser ? 1 : 0;
 
 			_this.loadingbarstart();
 			var url = "{{ route('admin.user.list') }}";
@@ -581,6 +606,8 @@ var vm_app = new Vue({
 					queryfilter_email: queryfilter_email,
 					queryfilter_displayname: queryfilter_displayname,
 					queryfilter_loginip: queryfilter_loginip,
+					queryfilter_department: queryfilter_department,
+					queryfilter_disableduser: queryfilter_disableduser,
 				}
 			})
 			.then(function (response) {
