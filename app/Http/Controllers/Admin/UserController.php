@@ -278,10 +278,8 @@ class UserController extends Controller
     }
 
 
-
-
 	// 用户列表Excel文件导出
-    public function excelExport()
+    public function exportUser()
     {
 		
 		// if (! $request->ajax()) { return null; }
@@ -350,6 +348,44 @@ class UserController extends Controller
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
 		return Excel::download(new userExport($data), 'users'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		
+    }
+
+
+	// 导出用户所属角色
+    public function exportRoleOfUser()
+    {
+		
+		// if (! $request->ajax()) { return null; }
+
+		// 获取扩展名配置值
+		$config = Config::select('cfg_name', 'cfg_value')
+			->pluck('cfg_value', 'cfg_name')->toArray();
+		$EXPORTS_EXTENSION_TYPE = $config['EXPORTS_EXTENSION_TYPE'];
+		
+		// 重置角色和权限的缓存
+		app()['cache']->forget('spatie.permission.cache');
+		
+		// 获取当前用户拥有的角色
+		$userhasrole = DB::table('users')
+			->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+			->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+			// ->where('users.id', $userid)
+			// ->pluck('roles.name', 'roles.id')->toArray();
+			->select('users.id', 'users.name', 'users.ldapname', 'users.email', 'users.displayname', 'users.department', 'users.login_time', 'users.login_ip', 'users.login_counts', 'users.created_at', 'users.updated_at', 'users.deleted_at', 'roles.id as roleid', 'roles.name as rolename')
+			->get()->toArray();
+		// dd($userhasrole);
+
+
+		// Excel标题第一行，可修改为任意名字，包括中文
+		$title[] = ['id', 'name', 'ldapname', 'email', 'displayname', 'department', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at', 'roleid', 'rolename'];
+
+		// 合并Excel的标题和数据为一个整体
+		$data = array_merge($title, $userhasrole);
+
+		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
+		// dd(Excel::download($user, '学生成绩.xlsx'));
+		return Excel::download(new userExport($data), 'roleofusers'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
     }
 

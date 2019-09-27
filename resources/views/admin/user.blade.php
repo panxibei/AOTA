@@ -81,7 +81,7 @@ Admin(User) -
 			<i-col span="2">
 				&nbsp;
 			</i-col>
-			<i-col span="15">
+			<i-col span="8">
 				<Tooltip content="输入角色选择" placement="top">
 					<i-select v-model.lazy="give_role_select" filterable remote :remote-method="remoteMethod_sync_role" :loading="give_role_loading" @on-change="" clearable placeholder="输入角色" :disabled="disabled_give_role_input" style="width: 200px;" size="small">
 						<i-option v-for="item in give_role_options" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
@@ -89,6 +89,9 @@ Admin(User) -
 				</Tooltip>
 				&nbsp;&nbsp;
 				<i-button type="default" size="small" @click="giveroletouser()" :disabled="disabled_give_role_button"><Icon type="ios-sync"></Icon> 赋予角色到用户</i-button>
+			</i-col>
+			<i-col span="7">
+				<i-button type="default" size="small" @click="onexport_roleofuser()"><Icon type="ios-download-outline"></Icon> 导出用户所属角色</i-button>
 			</i-col>
 		</i-row>
 		
@@ -889,7 +892,16 @@ var vm_app = new Vue({
 		
 		// 导出用户
 		onexport_user: function(){
-			var url = "{{ route('admin.user.excelexport') }}";
+			var url = "{{ route('admin.user.exportuser') }}";
+			window.setTimeout(function(){
+				window.location.href = url;
+			}, 1000);
+			return false;
+		},
+		
+		// 导出用户所属角色
+		onexport_roleofuser: function(){
+			var url = "{{ route('admin.user.exportroleofuser') }}";
 			window.setTimeout(function(){
 				window.location.href = url;
 			}, 1000);

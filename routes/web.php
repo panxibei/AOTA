@@ -221,8 +221,11 @@ Route::group(['prefix'=>'user', 'namespace'=>'Admin', 'middleware'=>['jwtauth','
 	// 编辑user
 	Route::post('userUpdate', 'UserController@userUpdate')->name('admin.user.update');
 
-	// 测试excelExport
-	Route::get('excelExport', 'UserController@excelExport')->name('admin.user.excelexport');
+	// 导出用户列表
+	Route::get('exportUser', 'UserController@exportUser')->name('admin.user.exportuser');
+
+	// 导出用户所属角色
+	Route::get('exportroleofuser', 'UserController@exportRoleOfUser')->name('admin.user.exportroleofuser');
 
 	// 清除user的ttl
 	Route::post('userclsttl', 'UserController@userClsttl')->name('admin.user.clsttl');
