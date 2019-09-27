@@ -122,24 +122,32 @@ class UserController extends Controller
 		// $ldapname = $request->input('ldapname');
 		$email = $request->input('email');
 		$displayname = $request->input('displayname');
+		$department = $request->input('department');
 		$password = $request->input('password');
 		
 		$logintime = date("Y-m-d H:i:s", 86400);
 		
-		$result = User::create([
-			'name'     		=> $name,
-			// 'ldapname'     	=> $ldapname,
-			'email'    		=> $email,
-			'displayname'	=> $displayname,
-			'password' 		=> bcrypt($password),
-			'login_time' 	=> $logintime,
-			'login_ip' 		=> '255.255.255.255',
-			'login_counts' 	=> 0,
-			'remember_token'=> '',
-			// 'created_at' => $nowtime,
-			// 'updated_at' => $nowtime,
-			// 'deleted_at' => NULL
-		]);
+		try	{
+			$result = User::create([
+				'name'     		=> $name,
+				// 'ldapname'     	=> $ldapname,
+				'email'    		=> $email,
+				'displayname'	=> $displayname,
+				'department'	=> $department,
+				'password' 		=> bcrypt($password),
+				'login_time' 	=> $logintime,
+				'login_ip' 		=> '255.255.255.255',
+				'login_counts' 	=> 0,
+				'remember_token'=> '',
+				// 'created_at' => $nowtime,
+				// 'updated_at' => $nowtime,
+				// 'deleted_at' => NULL
+			]);
+		}
+		catch (\Exception $e) {
+			// echo 'Message: ' .$e->getMessage();
+			$result = 0;
+		}
 
 		return $result;
     }
@@ -233,6 +241,7 @@ class UserController extends Controller
 		// $ldapname = $request->input('ldapname');
 		$email = $request->input('email');
 		$displayname = $request->input('displayname');
+		$department = $request->input('department');
 		$password = $request->input('password');
 		// $created_at = $request->input('created_at');
 		// $updated_at = $request->input('updated_at');
@@ -246,6 +255,7 @@ class UserController extends Controller
 						// 'ldapname'		=>	$ldapname,
 						'email'			=>	$email,
 						'displayname'	=>	$displayname,
+						'department'	=>	$department,
 						'password'		=>	bcrypt($password)
 					]);
 			} else {
@@ -254,7 +264,8 @@ class UserController extends Controller
 						'name'			=>	$name,
 						// 'ldapname'		=>	$ldapname,
 						'email'			=>	$email,
-						'displayname'	=>	$displayname
+						'displayname'	=>	$displayname,
+						'department'	=>	$department
 					]);
 			}
 		}

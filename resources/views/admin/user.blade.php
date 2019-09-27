@@ -118,8 +118,12 @@ Admin(User) -
 							&nbsp;&nbsp;&nbsp;&nbsp;
  -->							
 							displayname&nbsp;&nbsp;
-							<i-input v-model.lazy="user_add_displayname" placeholder="" size="small" clearable style="width: 160px"></i-input>
+							<i-input v-model.lazy="user_add_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+							
+							&nbsp;&nbsp;&nbsp;&nbsp;
 
+							department&nbsp;&nbsp;
+							<i-input v-model.lazy="user_add_department" placeholder="" size="small" clearable style="width: 120px"></i-input>
 							<br><br>
 
 							password&nbsp;&nbsp;
@@ -153,7 +157,12 @@ Admin(User) -
 							&nbsp;&nbsp;&nbsp;&nbsp;
  -->
 							displayname&nbsp;&nbsp;
-							<i-input v-model.lazy="user_edit_displayname" placeholder="" size="small" clearable style="width: 160px"></i-input>
+							<i-input v-model.lazy="user_edit_displayname" placeholder="" size="small" clearable style="width: 120px"></i-input>
+ 
+							&nbsp;&nbsp;&nbsp;&nbsp;
+
+							department&nbsp;&nbsp;
+							<i-input v-model.lazy="user_edit_department" placeholder="" size="small" clearable style="width: 120px"></i-input>
 							
 							<br><br>
 
@@ -367,6 +376,7 @@ var vm_app = new Vue({
 		user_add_ldapname: '',
 		user_add_email: '',
 		user_add_displayname: '',
+		user_add_department: '',
 		user_add_password: '',
 		
 		// 编辑
@@ -376,6 +386,7 @@ var vm_app = new Vue({
 		user_edit_ldapname: '',
 		user_edit_email: '',
 		user_edit_displayname: '',
+		user_edit_department: '',
 		user_edit_password: '',
 		
 		// 删除
@@ -661,6 +672,7 @@ var vm_app = new Vue({
 			// _this.user_edit_ldapname = row.ldapname;
 			_this.user_edit_email = row.email;
 			_this.user_edit_displayname = row.displayname;
+			_this.user_edit_department = row.department;
 			// _this.user_edit_password = row.password;
 			// _this.relation_xuqiushuliang_edit[0] = row.xuqiushuliang;
 			// _this.relation_xuqiushuliang_edit[1] = row.xuqiushuliang;
@@ -680,6 +692,7 @@ var vm_app = new Vue({
 			// var ldapname = _this.user_edit_ldapname;
 			var email = _this.user_edit_email;
 			var displayname = _this.user_edit_displayname;
+			var department = _this.user_edit_department;
 			var password = _this.user_edit_password;
 			// var created_at = _this.relation_created_at_edit;
 			// var updated_at = _this.relation_updated_at_edit;
@@ -687,7 +700,8 @@ var vm_app = new Vue({
 			if (name == '' || name == null || name == undefined
 				// || ldapname == '' || ldapname == null || ldapname == undefined
 				|| email == '' || email == null || email == undefined
-				|| displayname == '' || displayname == null || displayname == undefined) {
+				|| displayname == '' || displayname == null || displayname == undefined
+				|| department == '' || department == null || department == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
 				return false;
 			}
@@ -706,6 +720,7 @@ var vm_app = new Vue({
 				// ldapname: ldapname,
 				email: email,
 				displayname: displayname,
+				department: department,
 				password: password,
 				// xuqiushuliang: xuqiushuliang[1],
 				// created_at: created_at,
@@ -730,6 +745,7 @@ var vm_app = new Vue({
 					// _this.user_edit_ldapname = '';
 					_this.user_edit_email = '';
 					_this.user_edit_displayname = '';
+					_this.user_edit_department = '';
 					_this.user_edit_password = '';
 					
 					// _this.relation_xuqiushuliang_edit = [0, 0];
@@ -816,12 +832,14 @@ var vm_app = new Vue({
 			// var ldapname = _this.user_add_ldapname;
 			var email = _this.user_add_email;
 			var displayname = _this.user_add_displayname;
+			var department = _this.user_add_department;
 			var password = _this.user_add_password;
 			
 			if (name == '' || name == null || name == undefined
 				// || ldapname == '' || ldapname == null || ldapname == undefined
 				|| email == '' || email == null || email == undefined
 				|| displayname == '' || displayname == null || displayname == undefined
+				|| department == '' || department == null || department == undefined
 				|| password == '' || password == null || password == undefined) {
 				_this.warning(false, '警告', '内容不能为空！');
 				return false;
@@ -842,6 +860,7 @@ var vm_app = new Vue({
 				// ldapname: ldapname,
 				email: email,
 				displayname: displayname,
+				department: department,
 				password: password
 			})
 			.then(function (response) {
@@ -856,6 +875,7 @@ var vm_app = new Vue({
 					// _this.user_add_ldapname = '';
 					_this.user_add_email = '';
 					_this.user_add_displayname = '';
+					_this.user_add_department = '';
 					_this.user_add_password = '';
 					_this.usergets(_this.page_current, _this.page_last);
 				} else {
