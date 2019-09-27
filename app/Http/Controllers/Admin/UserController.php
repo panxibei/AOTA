@@ -295,6 +295,8 @@ class UserController extends Controller
 		$FILTERS_USER_EMAIL = $config['FILTERS_USER_EMAIL'];
 		$FILTERS_USER_LOGINTIME = $config['FILTERS_USER_LOGINTIME'];
 		$FILTERS_USER_LOGINIP = $config['FILTERS_USER_LOGINIP'];
+		$FILTERS_USER_DEPARTMENT = $config['FILTERS_USER_DEPARTMENT'];
+		$FILTERS_USER_DISABLEDUSER = $config['FILTERS_USER_DISABLEDUSER'];
 
         // 获取用户信息
 		// Excel数据，最好转换成数组，以便传递过去
@@ -302,8 +304,10 @@ class UserController extends Controller
 		$queryfilter_email = $FILTERS_USER_EMAIL ?: '';
 		$queryfilter_logintime = $FILTERS_USER_LOGINTIME ?: ['1970-01-01', '9999-12-31'];
 		$queryfilter_loginip = $FILTERS_USER_LOGINIP ?: '';
+		$queryfilter_department = $FILTERS_USER_DEPARTMENT ?: '';
+		$queryfilter_disableduser = $FILTERS_USER_DISABLEDUSER ?: '';
 		
-		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
+		$user = User::select('id', 'name', 'ldapname', 'email', 'displayname', 'department', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at')
 			->when($queryfilter_logintime, function ($query) use ($queryfilter_logintime) {
 				return $query->whereBetween('login_time', $queryfilter_logintime);
 			})
@@ -316,9 +320,15 @@ class UserController extends Controller
 			->when($queryfilter_loginip, function ($query) use ($queryfilter_loginip) {
 				return $query->where('login_ip', 'like', '%'.$queryfilter_loginip.'%');
 			})
+			->when($queryfilter_department, function ($query) use ($queryfilter_department) {
+				return $query->where('department', 'like', '%'.$queryfilter_department.'%');
+			})
+			->when($queryfilter_disableduser, function ($query) use ($queryfilter_disableduser) {
+				return $query->onlyTrashed();
+			})
 			->limit(5000)
 			->orderBy('created_at', 'asc')
-			->withTrashed()
+			// ->withTrashed()
 			->get()->toArray();		
 
         // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
@@ -332,7 +342,7 @@ class UserController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['id', 'name', 'ldapname', 'email', 'displayname', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at'];
+		$title[] = ['id', 'name', 'ldapname', 'email', 'displayname', 'department', 'login_time', 'login_ip', 'login_counts', 'created_at', 'updated_at', 'deleted_at'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $user);

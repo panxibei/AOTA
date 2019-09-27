@@ -405,8 +405,8 @@ var vm_app = new Vue({
 		queryfilter_logintime: "{{ $config['FILTERS_USER_LOGINTIME'] }}" || [],
 		queryfilter_loginip: "{{ $config['FILTERS_USER_LOGINIP'] }}",
 		queryfilter_displayname: '',
-		queryfilter_department: '',
-		queryfilter_disableduser: false,
+		queryfilter_department:  "{{ $config['FILTERS_USER_DEPARTMENT'] }}",
+		queryfilter_disableduser:  "{{ $config['FILTERS_USER_DISABLEDUSER'] }}" || false,
 		
 		// 查询过滤器下拉
 		collapse_query: '',

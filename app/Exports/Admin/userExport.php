@@ -3,11 +3,13 @@
 namespace App\Exports\Admin;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use App\Models\Admin\User;
 
 use Illuminate\Support\Collection;
 
-class userExport implements FromCollection
+class userExport implements FromCollection, WithStrictNullComparison, ShouldAutoSize
 {
 	public function __construct($data){
 		$this->data = $data;

@@ -144,9 +144,9 @@ class ConfigsTableSeeder extends Seeder
             12 => 
             array (
                 'cfg_id' => 13,
-                'cfg_name' => 'PERPAGE_RECORDS_FOR_FIELD',
-                'cfg_value' => '5',
-				'cfg_description' => 'FIELD页每页记录数',
+                'cfg_name' => 'FILTERS_USER_DEPARTMENT',
+                'cfg_value' => '',
+				'cfg_description' => '过滤器，部门',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
@@ -154,9 +154,9 @@ class ConfigsTableSeeder extends Seeder
             13 => 
             array (
                 'cfg_id' => 14,
-                'cfg_name' => 'PERPAGE_RECORDS_FOR_SLOT',
-                'cfg_value' => '5',
-				'cfg_description' => 'SOLT页每页记录数',
+                'cfg_name' => 'FILTERS_USER_DISABLEDUSER',
+                'cfg_value' => '',
+				'cfg_description' => '过滤器，已禁用用户',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
@@ -164,9 +164,9 @@ class ConfigsTableSeeder extends Seeder
             14 => 
             array (
                 'cfg_id' => 15,
-                'cfg_name' => 'PERPAGE_RECORDS_FOR_TEMPLATE',
+                'cfg_name' => 'PERPAGE_RECORDS_FOR_FIELD',
                 'cfg_value' => '5',
-				'cfg_description' => 'TEMPLATE页每页记录数',
+				'cfg_description' => 'FIELD页每页记录数',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
@@ -174,9 +174,9 @@ class ConfigsTableSeeder extends Seeder
             15 => 
             array (
                 'cfg_id' => 16,
-                'cfg_name' => 'PERPAGE_RECORDS_FOR_MAILINGLIST',
+                'cfg_name' => 'PERPAGE_RECORDS_FOR_SLOT',
                 'cfg_value' => '5',
-				'cfg_description' => 'MAILINGLIST页每页记录数',
+				'cfg_description' => 'SOLT页每页记录数',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
@@ -184,9 +184,9 @@ class ConfigsTableSeeder extends Seeder
             16 => 
             array (
                 'cfg_id' => 17,
-                'cfg_name' => 'PERPAGE_RECORDS_FOR_CIRCULATION',
+                'cfg_name' => 'PERPAGE_RECORDS_FOR_TEMPLATE',
                 'cfg_value' => '5',
-				'cfg_description' => 'CIRCULATION页每页记录数',
+				'cfg_description' => 'TEMPLATE页每页记录数',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
@@ -194,9 +194,9 @@ class ConfigsTableSeeder extends Seeder
             17 => 
             array (
                 'cfg_id' => 18,
-                'cfg_name' => 'FILTERS_MAILINGLIST_NAME',
-                'cfg_value' => '',
-				'cfg_description' => '过滤器，MAILINGLIST名称',
+                'cfg_name' => 'PERPAGE_RECORDS_FOR_MAILINGLIST',
+                'cfg_value' => '5',
+				'cfg_description' => 'MAILINGLIST页每页记录数',
                 'created_at' => $nowtime,
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
@@ -204,6 +204,26 @@ class ConfigsTableSeeder extends Seeder
             18 => 
             array (
                 'cfg_id' => 19,
+                'cfg_name' => 'PERPAGE_RECORDS_FOR_CIRCULATION',
+                'cfg_value' => '5',
+				'cfg_description' => 'CIRCULATION页每页记录数',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+                'deleted_at' => NULL,
+            ),
+            19 => 
+            array (
+                'cfg_id' => 20,
+                'cfg_name' => 'FILTERS_MAILINGLIST_NAME',
+                'cfg_value' => '',
+				'cfg_description' => '过滤器，MAILINGLIST名称',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+                'deleted_at' => NULL,
+            ),
+            20 => 
+            array (
+                'cfg_id' => 21,
                 'cfg_name' => 'FILTERS_MAILINGLIST_CREATED_AT',
                 'cfg_value' => '',
 				'cfg_description' => '过滤器，MAILINGLIST创建日期',
