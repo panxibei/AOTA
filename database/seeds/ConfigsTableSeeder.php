@@ -231,6 +231,26 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
             ),
+            21 => 
+            array (
+                'cfg_id' => 22,
+                'cfg_name' => 'SITE_MAINTENANCE_ALLOWED',
+                'cfg_value' => '127.0.0.1',
+				'cfg_description' => '站点系统维护允许IP，逗号分隔',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+                'deleted_at' => NULL,
+            ),
+            22 => 
+            array (
+                'cfg_id' => 23,
+                'cfg_name' => 'SITE_MAINTENANCE_MESSAGE',
+                'cfg_value' => '',
+				'cfg_description' => '站点系统维护消息',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+                'deleted_at' => NULL,
+            ),
         ));
     }
 }
