@@ -258,7 +258,7 @@ class pdreportController extends Controller
 			'gongxu',
 			'xinchan',
 			'liangchan',
-			'qiehuancishu',
+			// 'qiehuancishu',
 			'dengdaibupin',
 			'wujihua',
 			'qianhougongchengdengdai',
@@ -269,6 +269,12 @@ class pdreportController extends Controller
 			'shizuo',
 			'jizaishixiang'
 		);
+
+		// 切换次数
+		$qiehuancishu = 0;
+		if (!empty($dailyreport['xinchan'])) $qiehuancishu++;
+		if (!empty($dailyreport['liangchan'])) $qiehuancishu++;
+		
 		// dd($dailyreport);
 		// dd($dailyreport['banci']);
 		
@@ -349,7 +355,7 @@ class pdreportController extends Controller
 
 				'xinchan'					=> $dailyreport['xinchan'],
 				'liangchan'					=> $dailyreport['liangchan'],
-				'qiehuancishu'				=> $dailyreport['qiehuancishu'],
+				'qiehuancishu'				=> $qiehuancishu,
 				'dengdaibupin'				=> $dailyreport['dengdaibupin'],
 				'wujihua'					=> $dailyreport['wujihua'],
 				'qianhougongchengdengdai'	=> $dailyreport['qianhougongchengdengdai'],
@@ -1293,6 +1299,10 @@ class pdreportController extends Controller
 		$shizuo = $request->input('shizuo');
 		$jizaishixiang = $request->input('jizaishixiang');
 
+		// 切换次数
+		$qiehuancishu = 0;
+		if (!empty($xinchan)) $qiehuancishu++;
+		if (!empty($liangchan)) $qiehuancishu++;
 		// dd($id);
 
 		$ss = Smt_pdreport::select('jizhongming', 'pinming', 'gongxu', 'shoudongshengchanshijian', 'shijishengchanshijian')
@@ -1328,6 +1338,7 @@ class pdreportController extends Controller
 			->update([
 				'xinchan' => $xinchan,
 				'liangchan' => $liangchan,
+				'qiehuancishu' => $qiehuancishu,
 				'dengdaibupin' => $dengdaibupin,
 				'wujihua' => $wujihua,
 				'qianhougongchengdengdai' => $qianhougongchengdengdai,

@@ -2696,9 +2696,9 @@ var vm_app = new Vue({
 			var xinchan = _this.xinchan;
 			var liangchan = _this.liangchan;
 
-			var qiehuancishu = 0;
-			if (xinchan!=='' && xinchan!==undefined && xinchan!==null) {qiehuancishu++;}
-			if (liangchan!=='' && liangchan!==undefined && liangchan!==null) {qiehuancishu++;}
+			// var qiehuancishu = 0;
+			// if (xinchan!=='' && xinchan!==undefined && xinchan!==null) {qiehuancishu++;}
+			// if (liangchan!=='' && liangchan!==undefined && liangchan!==null) {qiehuancishu++;}
 
 			var dengdaibupin = _this.dengdaibupin;
 			var wujihua = _this.wujihua;
@@ -2747,7 +2747,7 @@ var vm_app = new Vue({
 				shoudongshengchanshijian: shoudongshengchanshijian,
 				xinchan: xinchan,
 				liangchan: liangchan,
-				qiehuancishu: qiehuancishu,
+				// qiehuancishu: qiehuancishu,
 				dengdaibupin: dengdaibupin,
 				wujihua: wujihua,
 				qianhougongchengdengdai: qianhougongchengdengdai,
