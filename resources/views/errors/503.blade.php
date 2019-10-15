@@ -22,7 +22,9 @@
 	<font color="#035C98" style="font-size:36px;"><strong>ALPSALPINE</strong></font><br>
 	<font color="#035C98" style="font-size:18px;">ALPS ALPINE GROUP</font><br><br>
 	<font color="#ed4014" style="font-size:128px;"><strong>503</strong></font>
+	<div style="white-space: pre-line;">
 	<h3>{{ $exception->getMessage() ?? '很抱歉，系统维护中！ 请稍后再试！'}}</h3>
+	</div>
 	<!-- <span>@{{ time }} 秒后返回上一页</span> -->
 	<a href="{{route('portal')}}">返回首页</a>
 

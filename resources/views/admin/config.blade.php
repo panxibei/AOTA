@@ -20,7 +20,7 @@ Admin(Config) -
 	<i-row>
 		<i-col span="6" v-for="(val, index) in gets">
 			<strong>@{{ val.cfg_name }}</strong><br>
-			<i-input type="text" :id="val.cfg_name" :value="val.cfg_value" @on-blur="event=>configchange(event)" style="width:200px;" placeholder="暂无配置值" size="small" clearable></i-input>
+			<i-input type="textarea" :id="val.cfg_name" :value="val.cfg_value" @on-blur="event=>configchange(event)" style="width:200px;" placeholder="暂无配置值" size="small" clearable></i-input>
 			<p style="color: rgb(128, 132, 143);">&nbsp;@{{ val.cfg_description }}</p><br>
 		</i-col>
 	</i-row>
