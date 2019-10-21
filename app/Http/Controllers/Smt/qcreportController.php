@@ -579,7 +579,7 @@ class qcreportController extends Controller
 
 		} else {
 			foreach ($piliangluru as $value) {
-				if ($value['shuliang'] != 0) {
+				if ($value['shuliang'] != null && $value['shuliang'] != '' && $value['shuliang'] != 0) {
 					$s['bushihejianshuheji'] += $value['shuliang'];
 				}
 			}
@@ -810,6 +810,8 @@ class qcreportController extends Controller
 		$buliangneirong = $request->input('buliangneirong');
 		$weihao = $request->input('weihao');
 		$shuliang = $request->input('shuliang');
+		if ($shuliang[0] == null || $shuliang[0] == '') $shuliang[0] = 0;
+		if ($shuliang[1] == null || $shuliang[1] == '') $shuliang[1] = 0;
 		$jianchazhe = $request->input('jianchazhe');
 
 		// 判断如果不是最新的记录，不可被编辑
@@ -826,12 +828,12 @@ class qcreportController extends Controller
 		$bushihejianshuheji = $res['bushihejianshuheji'] + $shuliang[1] - $shuliang[0];
 		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
 
-		$sql = 'JSON_REPLACE(buliangxinxi, ';
-		$sql .= '\'$[' . $subid . '].jianchajileixing\', "' . $jianchajileixing . '", ';
-		$sql .= '\'$[' . $subid . '].buliangneirong\', "' . $buliangneirong . '", ';
-		$sql .= '\'$[' . $subid . '].weihao\', "' . $weihao . '", ';
-		$sql .= '\'$[' . $subid . '].shuliang\', ' . $shuliang[1] . ', ';
-		$sql .= '\'$[' . $subid . '].jianchazhe\', "' . $jianchazhe . '")';
+		// $sql = 'JSON_REPLACE(buliangxinxi, ';
+		// $sql .= '\'$[' . $subid . '].jianchajileixing\', "' . $jianchajileixing . '", ';
+		// $sql .= '\'$[' . $subid . '].buliangneirong\', "' . $buliangneirong . '", ';
+		// $sql .= '\'$[' . $subid . '].weihao\', "' . $weihao . '", ';
+		// $sql .= '\'$[' . $subid . '].shuliang\', ' . $shuliang[1] . ', ';
+		// $sql .= '\'$[' . $subid . '].jianchazhe\', "' . $jianchazhe . '")';
 		// dd($sql);
 
 		$nowtime = date("Y-m-d H:i:s",time());
@@ -840,12 +842,23 @@ class qcreportController extends Controller
 		try	{
 			DB::beginTransaction();
 
-			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
+			// if (empty($buliangneirong) && empty($weihao) && empty($shuliang[1])) {
+				// $result = DB::update('update smt_qcreports set bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
+			// } else {
+				$sql = 'JSON_REPLACE(buliangxinxi, ';
+				$sql .= '\'$[' . $subid . '].jianchajileixing\', "' . $jianchajileixing . '", ';
+				$sql .= '\'$[' . $subid . '].buliangneirong\', "' . $buliangneirong . '", ';
+				$sql .= '\'$[' . $subid . '].weihao\', "' . $weihao . '", ';
+				$sql .= '\'$[' . $subid . '].shuliang\', ' . $shuliang[1] . ', ';
+				$sql .= '\'$[' . $subid . '].jianchazhe\', "' . $jianchazhe . '")';
+
+				$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
+			// }
 			$result = 1;
 		}
 		catch (\Exception $e) {
 			DB::rollBack();
-			// dd('Message: ' .$e->getMessage());
+			dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		DB::commit();

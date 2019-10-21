@@ -3294,7 +3294,7 @@ var vm_app = new Vue({
 				
 				if (response.data) {
 					var chartdata1 = response.data.data;
-					// console.log(chartdata1);
+					// console.log(chartdata1);return false;
 					chartdata1.map(function (v,j) {
 						switch(v.xianti.trim())
 						{
@@ -3321,10 +3321,20 @@ var vm_app = new Vue({
 							default:
 							  
 						}
-					
-						hejidianshu[i] += v.hejidianshu;
-						bushihejianshuheji[i] += v.bushihejianshuheji;
-						shuliang[i] += v.shuliang;
+
+						let tt = 0;
+						tt = v.hejidianshu == null || v.hejidianshu == '' ? 0 : v.hejidianshu;
+						// hejidianshu[i] += v.hejidianshu;
+						hejidianshu[i] += tt;
+						
+						tt = v.bushihejianshuheji == null || v.bushihejianshuheji == '' ? 0 : v.bushihejianshuheji;
+						// bushihejianshuheji[i] += v.bushihejianshuheji;
+						bushihejianshuheji[i] += tt;
+
+						tt = v.shuliang == null || v.shuliang == '' ? 0 : v.shuliang;
+						// shuliang[i] += v.shuliang;
+						shuliang[i] += tt;
+						// console.log(shuliang);return false;
 
 						// if (hejidianshu[i] == 0) {
 							// ppm[i] = 0;
@@ -3432,15 +3442,15 @@ var vm_app = new Vue({
 				return false;
 			}
 			
-			var shuliang = [];
-			for (var i=0;i<24;i++) {
-				shuliang[i] = 0;
-			}
+			// var shuliang = [];
+			// for (var i=0;i<24;i++) {
+			// 	shuliang[i] = 0;
+			// }
 
-			var shuliang_huizong = [];
-			for (var i=0;i<6;i++) {
-				shuliang_huizong[i] = 0;
-			}
+			// var shuliang_huizong = [];
+			// for (var i=0;i<6;i++) {
+			// 	shuliang_huizong[i] = 0;
+			// }
 			
 			var xianti_filter = _this.xianti_filter;
 			var banci_filter = _this.banci_filter;
@@ -3489,6 +3499,17 @@ var vm_app = new Vue({
 				if (response.data) {
 					var chartdata2 = response.data;			
 			
+			
+					var shuliang = [];
+					for (var i=0;i<24;i++) {
+						shuliang[i] = 0;
+					}
+
+					var shuliang_huizong = [];
+					for (var i=0;i<6;i++) {
+						shuliang_huizong[i] = 0;
+					}
+
 					chartdata2.map(function (v,j) {
 						switch(v.buliangneirong)
 						{
@@ -3543,12 +3564,15 @@ var vm_app = new Vue({
 							default:
 							  
 						}
-					
 						// bushihejianshuheji[i] += v.bushihejianshuheji;
-						shuliang[i] += v.shuliang;
-						shuliang_huizong[j] += v.shuliang;
+						let tt = 0;
+						tt = v.shuliang == null || v.shuliang == '' ? 0 : v.shuliang;
+						// shuliang[i] += v.shuliang;
+						// shuliang_huizong[j] += v.shuliang;
+						shuliang[i] += tt;
+						shuliang_huizong[j] += tt;
 					});
-					
+					// console.log(shuliang);return false;
 					// var data = 
 					// [
 					// 	{value: shuliang[0], name:'连焊'},
@@ -3624,7 +3648,7 @@ var vm_app = new Vue({
 					if (shuliang_huizong[4]!=0) {data_huizong.push({value: shuliang_huizong[4], name:'部品系'});}
 					if (shuliang_huizong[5]!=0) {data_huizong.push({value: shuliang_huizong[5], name:'其他系'});}
 					
-					// console.log(data_huizong);return false;
+					// console.log(data);return false;
 
 					_this.chart2_option_series_data = data;
 					_this.chart2_option_series_data_huizong = data_huizong;
