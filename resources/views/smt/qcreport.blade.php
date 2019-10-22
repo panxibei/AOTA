@@ -3322,18 +3322,22 @@ var vm_app = new Vue({
 							  
 						}
 
-						let tt = 0;
-						tt = v.hejidianshu == null || v.hejidianshu == '' ? 0 : v.hejidianshu;
-						// hejidianshu[i] += v.hejidianshu;
-						hejidianshu[i] += tt;
-						
-						tt = v.bushihejianshuheji == null || v.bushihejianshuheji == '' ? 0 : v.bushihejianshuheji;
-						// bushihejianshuheji[i] += v.bushihejianshuheji;
-						bushihejianshuheji[i] += tt;
+						hejidianshu[i] += Number(v.hejidianshu);
+						bushihejianshuheji[i] += Number(v.bushihejianshuheji);
+						shuliang[i] += Number(v.shuliang);
 
-						tt = v.shuliang == null || v.shuliang == '' ? 0 : v.shuliang;
-						// shuliang[i] += v.shuliang;
-						shuliang[i] += tt;
+						// let tt = 0;
+						// tt = v.hejidianshu == null || v.hejidianshu == '' ? 0 : v.hejidianshu;
+						// // hejidianshu[i] += v.hejidianshu;
+						// hejidianshu[i] += tt;
+						
+						// tt = v.bushihejianshuheji == null || v.bushihejianshuheji == '' ? 0 : v.bushihejianshuheji;
+						// // bushihejianshuheji[i] += v.bushihejianshuheji;
+						// bushihejianshuheji[i] += tt;
+
+						// tt = v.shuliang == null || v.shuliang == '' ? 0 : v.shuliang;
+						// // shuliang[i] += v.shuliang;
+						// shuliang[i] += tt;
 						// console.log(shuliang);return false;
 
 						// if (hejidianshu[i] == 0) {
@@ -3565,12 +3569,12 @@ var vm_app = new Vue({
 							  
 						}
 						// bushihejianshuheji[i] += v.bushihejianshuheji;
-						let tt = 0;
-						tt = v.shuliang == null || v.shuliang == '' ? 0 : v.shuliang;
-						// shuliang[i] += v.shuliang;
-						// shuliang_huizong[j] += v.shuliang;
-						shuliang[i] += tt;
-						shuliang_huizong[j] += tt;
+						// let tt = 0;
+						// tt = v.shuliang == null || v.shuliang == '' ? 0 : v.shuliang;
+						shuliang[i] += Number(v.shuliang);
+						shuliang_huizong[j] += Number(v.shuliang);
+						// shuliang[i] += tt;
+						// shuliang_huizong[j] += tt;
 					});
 					// console.log(shuliang);return false;
 					// var data = 
@@ -4019,7 +4023,7 @@ var vm_app = new Vue({
 		
 		
 		// 主编辑前查看
-		qcreport_edit: function (row) {
+		qcreport_edit (row) {
 			var _this = this;
 			
 			_this.id_edit = row.id;
@@ -4078,7 +4082,7 @@ var vm_app = new Vue({
 		
 		
 		// 主编辑后保存
-		qcreport_edit_ok: function () {
+		qcreport_edit_ok () {
 			var _this = this;
 			
 			var id = _this.id_edit;

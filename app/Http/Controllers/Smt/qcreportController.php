@@ -318,6 +318,7 @@ class qcreportController extends Controller
 			foreach ($chart2 as $key => $value) {
 				if (!empty($value['buliangxinxi'])) {
 					foreach ($value['buliangxinxi'] as $k => $v) {
+						if ($v['shuliang'] == null || $v['shuliang'] == '') $v['shuliang'] = 0;
 						array_push($result, $v);
 					}
 				}
@@ -607,6 +608,9 @@ class qcreportController extends Controller
 			foreach ($piliangluru as $key => $value) {
 				$piliangluru[$key]['id'] = $i;
 				$i++;
+				if ($value['shuliang'] == null || $value['shuliang'] == '') {
+					$piliangluru[$key]['shuliang'] = 0;
+				}
 			}
 
 			$s['buliangxinxi'] = $piliangluru;
@@ -656,6 +660,7 @@ class qcreportController extends Controller
 		$buliangneirong = $request->input('buliangneirong');
 		$weihao = $request->input('weihao');
 		$shuliang = $request->input('shuliang');
+		if ($shuliang == null || $shuliang == '') $shuliang = 0;
 		$jianchazhe = $request->input('jianchazhe');
 		$count_of_buliangxinxi_append = $request->input('count_of_buliangxinxi_append');
 
@@ -669,14 +674,23 @@ class qcreportController extends Controller
 		// dd($count_of_buliangxinxi_append);
 
 		// 获取不良件数与合计点数
-		$bupin = Smt_qcreport::select('hejidianshu', 'bushihejianshuheji')
+		$bupin = Smt_qcreport::select('hejidianshu', 'bushihejianshuheji', DB::raw("JSON_EXTRACT(buliangxinxi, '$**.shuliang') AS shuliang"))
 			->where('id', $id)
 			->first();
 
 		$hejidianshu = $bupin['hejidianshu'];
-		$bushihejianshuheji = $bupin['bushihejianshuheji'];
-		$bushihejianshuheji += $shuliang;
+		// $bushihejianshuheji = $bupin['bushihejianshuheji'];
+		// $bushihejianshuheji += $shuliang;
+		// $ppm = $bushihejianshuheji / $hejidianshu * 1000000;
+
+		$sl = 0;
+		$sl_arr = json_decode($bupin['shuliang'], true);
+		foreach ($sl_arr as $value) {
+			if ($value != null || $value != '')	$sl += intval($value);
+		}
+		$bushihejianshuheji = $sl + $shuliang;
 		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
+
 
 		// 确认json id
 		// $count_of_buliangxinxi_append++;
@@ -816,16 +830,22 @@ class qcreportController extends Controller
 
 		// 判断如果不是最新的记录，不可被编辑
 		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Smt_qcreport::select('updated_at', 'hejidianshu', 'bushihejianshuheji')
+		$res = Smt_qcreport::select('updated_at', 'hejidianshu', 'bushihejianshuheji', DB::raw("JSON_EXTRACT(buliangxinxi, '$**.shuliang') AS shuliang"))
 			->where('id', $id)
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
-		
+		// dd(json_decode($res['shuliang'], true));
 		if ($updated_at != $res_updated_at) return 0;
 		
 		// 获取json数据 buliangxinxi，修改对应subid项内容
 		$hejidianshu = $res['hejidianshu'];
-		$bushihejianshuheji = $res['bushihejianshuheji'] + $shuliang[1] - $shuliang[0];
+		// $bushihejianshuheji = $res['bushihejianshuheji'] + $shuliang[1] - $shuliang[0];
+		$sl = 0;
+		$sl_arr = json_decode($res['shuliang'], true);
+		foreach ($sl_arr as $value) {
+			if ($value != null || $value != '')	$sl += intval($value);
+		}
+		$bushihejianshuheji = $sl + $shuliang[1] - $shuliang[0];
 		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
 
 		// $sql = 'JSON_REPLACE(buliangxinxi, ';
@@ -907,18 +927,28 @@ class qcreportController extends Controller
 		$id = $request->input('id');
 		$subid = $request->input('subid');
 		$shuliang = $request->input('shuliang');
+		if ($shuliang == null || $shuliang == '') $shuliang = 0;
 
 		$sql = 'JSON_REMOVE(buliangxinxi, \'$[' . $subid . ']\')';
 		// dd($sql);
 
 		// 获取合计点数和不良数量
-		$res = Smt_qcreport::select('hejidianshu', 'bushihejianshuheji')
+		$res = Smt_qcreport::select('hejidianshu', 'bushihejianshuheji', DB::raw("JSON_EXTRACT(buliangxinxi, '$**.shuliang') AS shuliang"))
 			->where('id', $id)
 			->first();
 		
 		$hejidianshu = $res['hejidianshu'];
-		$bushihejianshuheji = $res['bushihejianshuheji'] - $shuliang;
-		if ($bushihejianshuheji == 0) {
+		// $bushihejianshuheji = $res['bushihejianshuheji'] - $shuliang;
+
+		$sl = 0;
+		$sl_arr = json_decode($res['shuliang'], true);
+		foreach ($sl_arr as $value) {
+			if ($value != null || $value != '')	$sl += intval($value);
+		}
+		$bushihejianshuheji = $sl - $shuliang;
+
+		if ($bushihejianshuheji <= 0) {
+			$bushihejianshuheji = 0;
 			$ppm = 0;
 		} else {
 			$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
@@ -931,7 +961,7 @@ class qcreportController extends Controller
 			$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
 		}
 		catch (\Exception $e) {
-			dd('Message: ' .$e->getMessage());
+			// dd('Message: ' .$e->getMessage());
 			$result = 0;
 		}
 		
