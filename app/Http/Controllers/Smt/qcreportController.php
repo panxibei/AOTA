@@ -403,7 +403,7 @@ class qcreportController extends Controller
 			
 			Cache::put($fullUrl, $chart3, now()->addSeconds(10));
 		}
-
+// dd($chart3);
 		$result_jibenxinxi = [];
 		$result_buliangxinxi = [];
 

@@ -3853,11 +3853,11 @@ var vm_app = new Vue({
 								
 							// i为不良内容分类，j为月份
 							// console.log(v.shuliang + '|' + i + '|' + j);
-							if (v.shuliang != null) {
-								_this.chart3_option_series_data[i][j] += v.shuliang;
+							if (v.shuliang != null || v.shuliang != '') {
+								_this.chart3_option_series_data[i][j] += Number(v.shuliang);
 							
 								// 每月份的汇总
-								_this.chart3_option_series_data_huizong[j] += v.shuliang;
+								_this.chart3_option_series_data_huizong[j] += Number(v.shuliang);
 							}
 							
 						}
@@ -3910,7 +3910,7 @@ var vm_app = new Vue({
 							}
 						}
 						// console.log(v.hejidianshu);
-						_this.chart3_option_series_data_hejidianshu[j] += v.hejidianshu;
+						_this.chart3_option_series_data_hejidianshu[j] += Number(v.hejidianshu);
 
 					});
 					// console.log(_this.chart3_option_series_data_hejidianshu);return false;
