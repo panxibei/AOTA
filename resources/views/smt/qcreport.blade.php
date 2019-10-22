@@ -1009,7 +1009,13 @@ var vm_app = new Vue({
 				title: 'PPM',
 				key: 'ppm',
 				align: 'center',
-				width: 90
+				width: 90,
+				render: (h, params) => {
+					return h('div', [
+						// parseFloat(params.row.hejidianshu * 100) + '%'
+						params.row.ppm.toLocaleString()
+					]);
+				}
 			},
 			// {
 			// 	title: '不良内容',
