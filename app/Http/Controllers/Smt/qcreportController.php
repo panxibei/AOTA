@@ -212,12 +212,12 @@ class qcreportController extends Controller
 				})
 				->orderBy('jianchariqi', 'desc')
 				// ->get()
-				->groupBy('created_at')
+				// ->groupBy('created_at')
 				->paginate($perPage, ['*'], 'page', $page);
 			
 			Cache::put($fullUrl, $dailyreport, now()->addSeconds(10));
 		}
-		
+		// dd($dailyreport);
 		return $dailyreport;
 	}	
 	
@@ -306,7 +306,7 @@ class qcreportController extends Controller
 				})
 				->orderBy('jianchariqi', 'desc')
 				// ->get()
-				->groupBy('created_at')
+				// ->groupBy('created_at')
 				// ->paginate($perPage, ['*'], 'page', $page);
 				->get()->toArray();
 			
