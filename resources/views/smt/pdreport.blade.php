@@ -631,7 +631,7 @@ SMT - PD report
 				</div>	
 			</Modal>
 
-			<Modal v-model="modal_pdreport_edit2" @on-ok="pdreport_edit_ok2" ok-text="保存" title="编辑 - 生产信息表" width="680">
+			<Modal v-model="modal_pdreport_edit2" @on-ok="pdreport_edit_ok2" ok-text="保存" title="编辑 - 生产信息表" width="760">
 				<div style="text-align:left">
 				<p>
 					生产日期：@{{ shengchanriqi_edit }}
@@ -667,58 +667,132 @@ SMT - PD report
 						
 				<p>
 
-					1.新产切换&nbsp;&nbsp;
-					<Input-number v-model.lazy="xinchan_edit" :min="1" size="small" style="width: 80px"></Input-number>
+					<i-row :gutter="16">
+						<i-col span="8">
 
-					&nbsp;&nbsp;
+							1.新产&nbsp;&nbsp;
+							<Input-number v-model.lazy="xinchan_edit" :min="1" size="small" style="width: 60px"></Input-number>
 
-					1.量产切换&nbsp;&nbsp;
-					<Input-number v-model.lazy="liangchan_edit" :min="1" size="small" style="width: 80px"></Input-number>
+							&nbsp;&nbsp;
 
-					&nbsp;&nbsp;&nbsp;&nbsp;
+							1.量产&nbsp;&nbsp;
+							<Input-number v-model.lazy="liangchan_edit" :min="1" size="small" style="width: 60px"></Input-number>
 
-					2.等待部品&nbsp;&nbsp;
-					<Input-number v-model.lazy="dengdaibupin_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+						<i-col span="8">
 
-					&nbsp;&nbsp;&nbsp;&nbsp;
+							2.等待部品&nbsp;&nbsp;
+							<Input-number v-model.lazy="dengdaibupin_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
-					3.无计划&nbsp;&nbsp;
-					<Input-number v-model.lazy="wujihua_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+						<i-col span="8">
 
-					<br><br>
+							3.无计划&nbsp;&nbsp;
+							<Input-number v-model.lazy="wujihua_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						
+						</i-col>
+					</i-row>
 
-					4.前后工程等待&nbsp;&nbsp;
-					<Input-number v-model.lazy="qianhougongchengdengdai_edit" :min="1" size="small" style="width: 80px"></Input-number>
+					<i-row :gutter="16">
+						<i-col span="24">
+							&nbsp;
+						</i-col>
+					</i-row>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-row :gutter="16">
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+					</i-row>
 
-					5.部品欠品&nbsp;&nbsp;
-					<Input-number v-model.lazy="wubupin_edit" :min="1" size="small" style="width: 80px"></Input-number>
+					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-row :gutter="16">
+						<i-col span="8">
+							4.前后工程等待&nbsp;&nbsp;
+							<Input-number v-model.lazy="qianhougongchengdengdai_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+						<i-col span="8">
+							5.部品欠品&nbsp;&nbsp;
+							<Input-number v-model.lazy="wubupin_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+						<i-col span="8">
+							6.部品准备等待&nbsp;&nbsp;
+							<Input-number v-model.lazy="bupinanpaidengdai_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+					</i-row>
 
-					6.部品准备等待&nbsp;&nbsp;
-					<Input-number v-model.lazy="bupinanpaidengdai_edit" :min="1" size="small" style="width: 80px"></Input-number>
+					<i-row :gutter="16">
+						<i-col span="24">
+							&nbsp;
+						</i-col>
+					</i-row>
 
-					<br><br>
+					<i-row :gutter="16">
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+					</i-row>
 
-					7.定期点检&nbsp;&nbsp;
-					<Input-number v-model.lazy="dingqidianjian_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;
 
-					8.故障&nbsp;&nbsp;
-					<Input-number v-model.lazy="guzhang_edit" :min="1" size="small" style="width: 80px"></Input-number>
+					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;
+					<i-row :gutter="16">
+						<i-col span="8">
+							7.定期点检&nbsp;&nbsp;
+							<Input-number v-model.lazy="dingqidianjian_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+						<i-col span="8">
+							8.故障&nbsp;&nbsp;
+							<Input-number v-model.lazy="guzhang_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+						<i-col span="8">
+							9.新机种生产时间（试作）&nbsp;&nbsp;
+							<Input-number v-model.lazy="shizuo_edit" :min="1" size="small" style="width: 80px"></Input-number>
+						</i-col>
+					</i-row>
 
-					9.新机种生产时间（试作）&nbsp;&nbsp;
-					<Input-number v-model.lazy="shizuo_edit" :min="1" size="small" style="width: 80px"></Input-number>
+					<i-row :gutter="16">
+						<i-col span="24">
+							&nbsp;
+						</i-col>
+					</i-row>
 
-					<br><br>
+					<i-row :gutter="16">
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+						<i-col span="8">
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+						</i-col>
+					</i-row>
 
-					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-					<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
+
+					<i-row :gutter="16">
+						<i-col span="24">
+							其他记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
+							<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
+						</i-col>
+					</i-row>
+
+
 				
 				</p>
 					
