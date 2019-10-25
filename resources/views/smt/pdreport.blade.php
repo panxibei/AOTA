@@ -3176,8 +3176,8 @@ var vm_app = new Vue({
 				jizaishixiang: jizaishixiang,
 			})
 			.then(function (response) {
-				console.log(response.data);
-				return false;
+				// console.log(response.data);
+				// return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();

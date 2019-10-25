@@ -658,8 +658,8 @@ class pdreportController extends Controller
 		$smt_pdreport = Smt_pdreport::select(DB::raw('LEFT(shengchanriqi, 10)'), 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 		// $smt_pdreport = Smt_pdreport::select('shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming',
 			'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'bupinbuchongshijian', 'taishu', 'lotcan', 'chajiandianshu',
-			'xinchan', 'liangchan', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai',
-			'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo',
+			'xinchan', 'liangchan', 'jizaishixiang1', 'dengdaibupin', 'jizaishixiang2', 'wujihua', 'jizaishixiang3', 'qianhougongchengdengdai', 'jizaishixiang4',
+			'wubupin', 'jizaishixiang5', 'bupinanpaidengdai', 'jizaishixiang6', 'dingqidianjian', 'jizaishixiang7', 'guzhang', 'jizaishixiang8', 'shizuo', 'jizaishixiang9',
 			'jizaishixiang', 'luruzhe', 'bianjizhe', 'dandangzhe', 'querenzhe')
 			->whereBetween('shengchanriqi', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
@@ -679,9 +679,9 @@ class pdreportController extends Controller
 		// Excel标题第一行，可修改为任意名字，包括中文
 		$title[] = ['生产日期', '线体', '班次', '机种名', 'SP NO.', '品名',
 			'LOT数', '工序', '点/枚', '枚/秒', '枚数', '实际生产时间', '手动生产时间', '部品补充时间', '台数', 'LOT残', '插件点数',
-			'新产', '量产', '等待部品', '无计划', '前后工程等待',
-			'部品欠品', '部品准备等待', '定期点检', '故障', '试作',
-			'记载事项', '录入者', '编辑者', '担当者', '确认者'];
+			'新产', '量产', '记载事项1', '等待部品', '记载事项2', '无计划', '记载事项3', '前后工程等待', '记载事项4',
+			'部品欠品', '记载事项5', '部品准备等待', '记载事项6', '定期点检', '记载事项7', '故障', '记载事项8', '试作', '记载事项9',
+			'其他记载事项', '录入者', '编辑者', '担当者', '确认者'];
 
 		// 合并Excel的标题和数据为一个整体
 		$data = array_merge($title, $smt_pdreport);
