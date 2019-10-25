@@ -9,7 +9,7 @@ class Smt_pdreport extends Model
 {
 	protected $fillable = [
         'shengchanriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'lotshu', 'gongxu', 'dianmei', 'meimiao', 'meishu', 'shijishengchanshijian', 'shoudongshengchanshijian', 'bupinbuchongshijian', 'taishu', 'lotcan', 'chajiandianshu', 'jiadonglv',
-		'xinchan', 'liangchan', 'qiehuancishu', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo', 'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe',
+		'xinchan', 'liangchan', 'qiehuancishu', 'dengdaibupin', 'wujihua', 'qianhougongchengdengdai', 'wubupin', 'bupinanpaidengdai', 'dingqidianjian', 'guzhang', 'shizuo', 'jizaishixiang1', 'jizaishixiang2', 'jizaishixiang3', 'jizaishixiang4', 'jizaishixiang5', 'jizaishixiang6', 'jizaishixiang7', 'jizaishixiang8', 'jizaishixiang9', 'jizaishixiang', 'luruzhe', 'dandangzhe', 'querenzhe',
     ];
 	
     //批量更新

@@ -45,6 +45,15 @@ class CreateSmtPdreportsTable extends Migration
 			$table->integer('guzhang')->unsigned()->nullable();
 			// $table->integer('xinjizhongshengchanshijian')->unsigned()->nullable();
 			$table->integer('shizuo')->unsigned()->nullable()->comment('新机种生产时间（试作）');
+			$table->text('jizaishixiang1')->nullable();
+			$table->text('jizaishixiang2')->nullable();
+			$table->text('jizaishixiang3')->nullable();
+			$table->text('jizaishixiang4')->nullable();
+			$table->text('jizaishixiang5')->nullable();
+			$table->text('jizaishixiang6')->nullable();
+			$table->text('jizaishixiang7')->nullable();
+			$table->text('jizaishixiang8')->nullable();
+			$table->text('jizaishixiang9')->nullable();
 			$table->text('jizaishixiang')->nullable();
 			$table->string('luruzhe', 20)->nullable();
 			$table->string('bianjizhe', 20)->nullable();

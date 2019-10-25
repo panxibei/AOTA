@@ -267,6 +267,15 @@ class pdreportController extends Controller
 			'dingqidianjian',
 			'guzhang',
 			'shizuo',
+			'jizaishixiang1',
+			'jizaishixiang2',
+			'jizaishixiang3',
+			'jizaishixiang4',
+			'jizaishixiang5',
+			'jizaishixiang6',
+			'jizaishixiang7',
+			'jizaishixiang8',
+			'jizaishixiang9',
 			'jizaishixiang'
 		);
 
@@ -365,6 +374,15 @@ class pdreportController extends Controller
 				'guzhang'					=> $dailyreport['guzhang'],
 				// 'xinjizhongshengchanshijian'				=> $dailyreport['xinjizhongshengchanshijian'],
 				'shizuo'					=> $dailyreport['shizuo'],
+				'jizaishixiang1'			=> $dailyreport['jizaishixiang1'],
+				'jizaishixiang2'			=> $dailyreport['jizaishixiang2'],
+				'jizaishixiang3'			=> $dailyreport['jizaishixiang3'],
+				'jizaishixiang4'			=> $dailyreport['jizaishixiang4'],
+				'jizaishixiang5'			=> $dailyreport['jizaishixiang5'],
+				'jizaishixiang6'			=> $dailyreport['jizaishixiang6'],
+				'jizaishixiang7'			=> $dailyreport['jizaishixiang7'],
+				'jizaishixiang8'			=> $dailyreport['jizaishixiang8'],
+				'jizaishixiang9'			=> $dailyreport['jizaishixiang9'],
 				'jizaishixiang'				=> $dailyreport['jizaishixiang'],
 				'luruzhe'					=> $luruzhe,
 			]);

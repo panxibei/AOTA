@@ -1385,13 +1385,73 @@ var vm_app = new Vue({
 										title: '新产',
 										key: 'xinchan',
 										align: 'center',
-										width: 70
+										width: 70,
+										render: (h, params) => {
+											if (params.row.jizaishixiang1) {
+												return h('div', [
+													h('Button', {
+														props: {
+															type: 'text',
+															size: 'small'
+														},
+														on: {
+															click: () => {
+																let jizaishixiang_detail = params.row.jizaishixiang1 || '无内容'
+																vm_app.jizaishixiang_detail = jizaishixiang_detail
+																vm_app.modal_jizhaishixiang_detail = true
+															}
+														}
+													}, [
+														h('span', {
+														}, [
+															h('Poptip', {
+																props: {
+																	'word-wrap': params.row.jizaishixiang1.length>20 ? true : false,
+																	'trigger': 'hover',
+																	'content': params.row.jizaishixiang1
+																}
+															}, params.row.xinchan)
+														])
+													]),
+												]);
+											}
+										},
 									},
 									{
 										title: '量产',
 										key: 'liangchan',
 										align: 'center',
-										width: 70
+										width: 70,
+										render: (h, params) => {
+											if (params.row.jizaishixiang1) {
+												return h('div', [
+													h('Button', {
+														props: {
+															type: 'text',
+															size: 'small'
+														},
+														on: {
+															click: () => {
+																let jizaishixiang_detail = params.row.jizaishixiang1 || '无内容'
+																vm_app.jizaishixiang_detail = jizaishixiang_detail
+																vm_app.modal_jizhaishixiang_detail = true
+															}
+														}
+													}, [
+														h('span', {
+														}, [
+															h('Poptip', {
+																props: {
+																	'word-wrap': params.row.jizaishixiang1.length>20 ? true : false,
+																	'trigger': 'hover',
+																	'content': params.row.jizaishixiang1
+																}
+															}, params.row.liangchan)
+														])
+													]),
+												]);
+											}
+										},
 									}
 								]
 							}
@@ -1415,7 +1475,37 @@ var vm_app = new Vue({
 										h('span', {
 										}, '部品')
 									]);
-								}
+								},
+								render: (h, params) => {
+									if (params.row.jizaishixiang2) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang2 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang2.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang2
+														}
+													}, params.row.dengdaibupin)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1427,7 +1517,37 @@ var vm_app = new Vue({
 								title: '无计划',
 								key: 'wujihua',
 								align: 'center',
-								width: 70
+								width: 70,
+								render: (h, params) => {
+									if (params.row.jizaishixiang4) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang3 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang3.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang3
+														}
+													}, params.row.wujihua)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1440,16 +1560,36 @@ var vm_app = new Vue({
 								key: 'qianhougongchengdengdai',
 								align: 'center',
 								width: 80,
-								// renderHeader: (h, params) => {
-								// 	return h('div', [
-								// 		h('span', {
-								// 		}, '前后工'),
-								// 		h('br', {
-								// 		}, ''),
-								// 		h('span', {
-								// 		}, '程等待')
-								// 	]);
-								// }
+								render: (h, params) => {
+									if (params.row.jizaishixiang4) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang4 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang4.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang4
+														}
+													}, params.row.qianhougongchengdengdai)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1471,7 +1611,37 @@ var vm_app = new Vue({
 										h('span', {
 										}, '欠品')
 									]);
-								}
+								},
+								render: (h, params) => {
+									if (params.row.jizaishixiang5) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang5 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang5.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang5
+														}
+													}, params.row.wubupin)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1484,16 +1654,36 @@ var vm_app = new Vue({
 								key: 'bupinanpaidengdai',
 								align: 'center',
 								width: 80,
-								// renderHeader: (h, params) => {
-								// 	return h('div', [
-								// 		h('span', {
-								// 		}, '部品安'),
-								// 		h('br', {
-								// 		}, ''),
-								// 		h('span', {
-								// 		}, '排等待')
-								// 	]);
-								// }
+								render: (h, params) => {
+									if (params.row.jizaishixiang6) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang6 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang6.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang6
+														}
+													}, params.row.bupinanpaidengdai)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1506,16 +1696,36 @@ var vm_app = new Vue({
 								key: 'dingqidianjian',
 								align: 'center',
 								width: 70,
-								// renderHeader: (h, params) => {
-								// 	return h('div', [
-								// 		h('span', {
-								// 		}, '定期'),
-								// 		h('br', {
-								// 		}, ''),
-								// 		h('span', {
-								// 		}, '点检')
-								// 	]);
-								// }
+								render: (h, params) => {
+									if (params.row.jizaishixiang7) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang7 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang7.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang7
+														}
+													}, params.row.dingqidianjian)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1527,7 +1737,37 @@ var vm_app = new Vue({
 								title: '故障',
 								key: 'guzhang',
 								align: 'center',
-								width: 70
+								width: 70,
+								render: (h, params) => {
+									if (params.row.jizaishixiang8) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang8 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang8.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang8
+														}
+													}, params.row.guzhang)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1550,7 +1790,37 @@ var vm_app = new Vue({
 										h('span', {
 										}, '时间（试作）')
 									]);
-								}
+								},
+								render: (h, params) => {
+									if (params.row.jizaishixiang9) {
+										return h('div', [
+											h('Button', {
+												props: {
+													type: 'text',
+													size: 'small'
+												},
+												on: {
+													click: () => {
+														let jizaishixiang_detail = params.row.jizaishixiang9 || '无内容'
+														vm_app.jizaishixiang_detail = jizaishixiang_detail
+														vm_app.modal_jizhaishixiang_detail = true
+													}
+												}
+											}, [
+												h('span', {
+												}, [
+													h('Poptip', {
+														props: {
+															'word-wrap': params.row.jizaishixiang9.length>20 ? true : false,
+															'trigger': 'hover',
+															'content': params.row.jizaishixiang9
+														}
+													}, params.row.shizuo)
+												])
+											]),
+										]);
+									}
+								},
 							}
 						]
 					},
@@ -1567,14 +1837,14 @@ var vm_app = new Vue({
 					// 	]
 					// },
 					{
-						title: '记载事项<br>查看说明',
+						title: '其他记载事项<br>查看说明',
 						key: 'jizaishixiang',
 						align: 'center',
 						width: 110,
 						renderHeader: (h, params) => {
 							return h('div', [
 								h('span', {
-								}, '记 载 事 项'),
+								}, '其他记载事项'),
 								h('br', {
 								}, ''),
 								h('Button', {
@@ -2787,6 +3057,15 @@ var vm_app = new Vue({
 			_this.guzhang = '';
 			// _this.xinjizhongshengchanshijian = '';
 			_this.shizuo = '';
+			_this.jizaishixiang1 = '';
+			_this.jizaishixiang2 = '';
+			_this.jizaishixiang3 = '';
+			_this.jizaishixiang4 = '';
+			_this.jizaishixiang5 = '';
+			_this.jizaishixiang6 = '';
+			_this.jizaishixiang7 = '';
+			_this.jizaishixiang8 = '';
+			_this.jizaishixiang9 = '';
 			_this.jizaishixiang = '';
 			// _this.$refs.planresult.clearCurrentRow();
 			_this.rowClassName_planresultX = -1;
@@ -2828,6 +3107,15 @@ var vm_app = new Vue({
 			var guzhang = _this.guzhang;
 			// var xinjizhongshengchanshijian = _this.xinjizhongshengchanshijian;
 			var shizuo = _this.shizuo;
+			var jizaishixiang1 = _this.jizaishixiang1;
+			var jizaishixiang2 = _this.jizaishixiang2;
+			var jizaishixiang3 = _this.jizaishixiang3;
+			var jizaishixiang4 = _this.jizaishixiang4;
+			var jizaishixiang5 = _this.jizaishixiang5;
+			var jizaishixiang6 = _this.jizaishixiang6;
+			var jizaishixiang7 = _this.jizaishixiang7;
+			var jizaishixiang8 = _this.jizaishixiang8;
+			var jizaishixiang9 = _this.jizaishixiang9;
 			var jizaishixiang = _this.jizaishixiang;
 
 			if (shengchanriqi == '' || xianti == '' || banci == ''
@@ -2876,11 +3164,20 @@ var vm_app = new Vue({
 				guzhang: guzhang,
 				// xinjizhongshengchanshijian: xinjizhongshengchanshijian,
 				shizuo: shizuo,
+				jizaishixiang1: jizaishixiang1,
+				jizaishixiang2: jizaishixiang2,
+				jizaishixiang3: jizaishixiang3,
+				jizaishixiang4: jizaishixiang4,
+				jizaishixiang5: jizaishixiang5,
+				jizaishixiang6: jizaishixiang6,
+				jizaishixiang7: jizaishixiang7,
+				jizaishixiang8: jizaishixiang8,
+				jizaishixiang9: jizaishixiang9,
 				jizaishixiang: jizaishixiang,
 			})
 			.then(function (response) {
-				// console.log(response.data);
-				// return false;
+				console.log(response.data);
+				return false;
 
 				if (response.data['jwt'] == 'logout') {
 					_this.alert_logout();
