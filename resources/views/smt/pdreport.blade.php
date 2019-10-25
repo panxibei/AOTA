@@ -1605,7 +1605,7 @@ var vm_app = new Vue({
 								align: 'center',
 								width: 70,
 								render: (h, params) => {
-									if (params.row.jizaishixiang4) {
+									if (params.row.jizaishixiang3) {
 										return h('div', [
 											h('Button', {
 												props: {
