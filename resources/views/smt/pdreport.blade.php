@@ -701,13 +701,13 @@ SMT - PD report
 
 					<i-row :gutter="16">
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit1" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit2" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit3" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
 
@@ -736,13 +736,13 @@ SMT - PD report
 
 					<i-row :gutter="16">
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit4" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit5" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit6" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
 
@@ -773,13 +773,13 @@ SMT - PD report
 
 					<i-row :gutter="16">
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit7" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit8" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit9" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
 
@@ -788,7 +788,7 @@ SMT - PD report
 					<i-row :gutter="16">
 						<i-col span="24">
 							其他记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-							<i-input type="textarea" :rows="3" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
+							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
 						</i-col>
 					</i-row>
 
@@ -1488,6 +1488,10 @@ var vm_app = new Vue({
 														])
 													]),
 												]);
+											} else {
+												return h('div', [
+													params.row.xinchan
+												]);
 											}
 										},
 									},
@@ -1523,6 +1527,10 @@ var vm_app = new Vue({
 															}, params.row.liangchan)
 														])
 													]),
+												]);
+											} else {
+												return h('div', [
+													params.row.liangchan
 												]);
 											}
 										},
@@ -1578,6 +1586,10 @@ var vm_app = new Vue({
 												])
 											]),
 										]);
+									} else {
+										return h('div', [
+											params.row.dengdaibupin
+										]);
 									}
 								},
 							}
@@ -1620,6 +1632,10 @@ var vm_app = new Vue({
 												])
 											]),
 										]);
+									} else {
+										return h('div', [
+											params.row.wujihua
+										]);
 									}
 								},
 							}
@@ -1661,6 +1677,10 @@ var vm_app = new Vue({
 													}, params.row.qianhougongchengdengdai)
 												])
 											]),
+										]);
+									} else {
+										return h('div', [
+											params.row.qianhougongchengdengdai
 										]);
 									}
 								},
@@ -1714,6 +1734,10 @@ var vm_app = new Vue({
 												])
 											]),
 										]);
+									} else {
+										return h('div', [
+											params.row.wubupin
+										]);
 									}
 								},
 							}
@@ -1755,6 +1779,10 @@ var vm_app = new Vue({
 													}, params.row.bupinanpaidengdai)
 												])
 											]),
+										]);
+									} else {
+										return h('div', [
+											params.row.bupinanpaidengdai
 										]);
 									}
 								},
@@ -1798,6 +1826,10 @@ var vm_app = new Vue({
 												])
 											]),
 										]);
+									} else {
+										return h('div', [
+											params.row.dingqidianjian
+										]);
 									}
 								},
 							}
@@ -1839,6 +1871,10 @@ var vm_app = new Vue({
 													}, params.row.guzhang)
 												])
 											]),
+										]);
+									} else {
+										return h('div', [
+											params.row.guzhang
 										]);
 									}
 								},
@@ -1892,6 +1928,10 @@ var vm_app = new Vue({
 													}, params.row.shizuo)
 												])
 											]),
+										]);
+									} else {
+										return h('div', [
+											params.row.shizuo
 										]);
 									}
 								},
@@ -2916,6 +2956,15 @@ var vm_app = new Vue({
 		dingqidianjian_edit: '',
 		guzhang_edit: '',
 		shizuo_edit: '',
+		jizaishixiang_edit1: '',
+		jizaishixiang_edit2: '',
+		jizaishixiang_edit3: '',
+		jizaishixiang_edit4: '',
+		jizaishixiang_edit5: '',
+		jizaishixiang_edit6: '',
+		jizaishixiang_edit7: '',
+		jizaishixiang_edit8: '',
+		jizaishixiang_edit9: '',
 		jizaishixiang_edit: '',
 
 		// 汇总公式下拉
@@ -4335,6 +4384,15 @@ var vm_app = new Vue({
 			_this.dingqidianjian_edit = row.dingqidianjian;
 			_this.guzhang_edit = row.guzhang;
 			_this.shizuo_edit = row.shizuo;
+			_this.jizaishixiang_edit1 = row.jizaishixiang1;
+			_this.jizaishixiang_edit2 = row.jizaishixiang2;
+			_this.jizaishixiang_edit3 = row.jizaishixiang3;
+			_this.jizaishixiang_edit4 = row.jizaishixiang4;
+			_this.jizaishixiang_edit5 = row.jizaishixiang5;
+			_this.jizaishixiang_edit6 = row.jizaishixiang6;
+			_this.jizaishixiang_edit7 = row.jizaishixiang7;
+			_this.jizaishixiang_edit8 = row.jizaishixiang8;
+			_this.jizaishixiang_edit9 = row.jizaishixiang9;
 			_this.jizaishixiang_edit = row.jizaishixiang;
 
 			_this.modal_pdreport_edit2 = true;
@@ -4363,6 +4421,15 @@ var vm_app = new Vue({
 			var guzhang = _this.guzhang_edit;
 			var shizuo = _this.shizuo_edit;
 			var jizaishixiang = _this.jizaishixiang_edit;
+			var jizaishixiang1 = _this.jizaishixiang_edit1;
+			var jizaishixiang2 = _this.jizaishixiang_edit2;
+			var jizaishixiang3 = _this.jizaishixiang_edit3;
+			var jizaishixiang4 = _this.jizaishixiang_edit4;
+			var jizaishixiang5 = _this.jizaishixiang_edit5;
+			var jizaishixiang6 = _this.jizaishixiang_edit6;
+			var jizaishixiang7 = _this.jizaishixiang_edit7;
+			var jizaishixiang8 = _this.jizaishixiang_edit8;
+			var jizaishixiang9 = _this.jizaishixiang_edit9;
 
 			var url = "{{ route('smt.pdreport.dailyreportupdate2') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
@@ -4380,6 +4447,15 @@ var vm_app = new Vue({
 				dingqidianjian: dingqidianjian,
 				guzhang: guzhang,
 				shizuo: shizuo,
+				jizaishixiang1: jizaishixiang1,
+				jizaishixiang2: jizaishixiang2,
+				jizaishixiang3: jizaishixiang3,
+				jizaishixiang4: jizaishixiang4,
+				jizaishixiang5: jizaishixiang5,
+				jizaishixiang6: jizaishixiang6,
+				jizaishixiang7: jizaishixiang7,
+				jizaishixiang8: jizaishixiang8,
+				jizaishixiang9: jizaishixiang9,
 				jizaishixiang: jizaishixiang
 			})
 			.then(function (response) {
@@ -4415,6 +4491,15 @@ var vm_app = new Vue({
 					_this.dingqidianjian_edit = '';
 					_this.guzhang_edit = '';
 					_this.shizuo_edit = '';
+					_this.jizaishixiang_edit1 = '';
+					_this.jizaishixiang_edit2 = '';
+					_this.jizaishixiang_edit3 = '';
+					_this.jizaishixiang_edit4 = '';
+					_this.jizaishixiang_edit5 = '';
+					_this.jizaishixiang_edit6 = '';
+					_this.jizaishixiang_edit7 = '';
+					_this.jizaishixiang_edit8 = '';
+					_this.jizaishixiang_edit9 = '';
 					_this.jizaishixiang_edit = '';
 					
 				} else {

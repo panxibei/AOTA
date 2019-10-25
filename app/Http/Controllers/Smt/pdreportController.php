@@ -1315,6 +1315,15 @@ class pdreportController extends Controller
 		$dingqidianjian = $request->input('dingqidianjian');
 		$guzhang = $request->input('guzhang');
 		$shizuo = $request->input('shizuo');
+		$jizaishixiang1 = $request->input('jizaishixiang1');
+		$jizaishixiang2 = $request->input('jizaishixiang2');
+		$jizaishixiang3 = $request->input('jizaishixiang3');
+		$jizaishixiang4 = $request->input('jizaishixiang4');
+		$jizaishixiang5 = $request->input('jizaishixiang5');
+		$jizaishixiang6 = $request->input('jizaishixiang6');
+		$jizaishixiang7 = $request->input('jizaishixiang7');
+		$jizaishixiang8 = $request->input('jizaishixiang8');
+		$jizaishixiang9 = $request->input('jizaishixiang9');
 		$jizaishixiang = $request->input('jizaishixiang');
 
 		// 切换次数
@@ -1365,6 +1374,15 @@ class pdreportController extends Controller
 				'dingqidianjian' => $dingqidianjian,
 				'guzhang' => $guzhang,
 				'shizuo' => $shizuo,
+				'jizaishixiang1' => $jizaishixiang1,
+				'jizaishixiang2' => $jizaishixiang2,
+				'jizaishixiang3' => $jizaishixiang3,
+				'jizaishixiang4' => $jizaishixiang4,
+				'jizaishixiang5' => $jizaishixiang5,
+				'jizaishixiang6' => $jizaishixiang6,
+				'jizaishixiang7' => $jizaishixiang7,
+				'jizaishixiang8' => $jizaishixiang8,
+				'jizaishixiang9' => $jizaishixiang9,
 				'jizaishixiang' => $jizaishixiang,
 				'bianjizhe'		=> $bianjizhe,
 				'bupinbuchongshijian' => $bupinbuchongshijian
