@@ -69,7 +69,7 @@ SMT(QC report) -
 
 	<Tabs type="card" v-model="currenttabs" :animated="false">
 
-		@hasanyrole('role_smt_pdreport_write|role_super_admin')
+		@hasanyrole('role_smt_qcreport_write|role_super_admin')
 		<Tab-pane label="工程内不良录入">
 
 			<br>

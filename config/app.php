@@ -167,7 +167,7 @@ return [
 		// Adldap\Laravel\AdldapServiceProvider::class,
 		Mews\Captcha\CaptchaServiceProvider::class,
 		// Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
+        // Spatie\Permission\PermissionServiceProvider::class,
         // Tightenco\Ziggy\ZiggyServiceProvider::class,
 
     ],

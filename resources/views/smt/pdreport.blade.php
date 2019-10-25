@@ -264,7 +264,7 @@ SMT - PD report
 
 			<Divider orientation="left">机器未运转时间（分）</Divider>
 
-			<i-row :gutter="16">
+			<!-- <i-row :gutter="16">
 				<i-col span="3">
 					1.新产切换&nbsp;&nbsp;
 					<Input-number element-id="id_xinchan" v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
@@ -315,20 +315,130 @@ SMT - PD report
 				</i-col>
 				<i-col span="4">
 				&nbsp;
-					<!-- 10.试作&nbsp;&nbsp;
-					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number> -->
+					10.试作&nbsp;&nbsp;
+					<Input-number v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number> 
 				</i-col>
 				<i-col span="2">
 					&nbsp;
 				</i-col>
 			</i-row>
-			
-			<br><br>
-			
+			<br><br> -->
+
 			<i-row :gutter="16">
 				<i-col span="8">
-					记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-					<i-input element-id="id_jizaishixiang" type="textarea" :rows="3" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					1.新产切换&nbsp;&nbsp;
+					<Input-number element-id="id_xinchan" v-model.lazy="xinchan" :min="1" size="small" style="width: 80px"></Input-number>
+					&nbsp;&nbsp;
+					1.量产切换&nbsp;&nbsp;
+					<Input-number element-id="id_liangchan" v-model.lazy="liangchan" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="8">
+					2.等待部品&nbsp;&nbsp;
+					<Input-number element-id="id_dengdaibupin" v-model.lazy="dengdaibupin" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="8">
+					3.无计划&nbsp;&nbsp;
+					<Input-number element-id="id_wujihua" v-model.lazy="wujihua" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang1" type="textarea" :rows="1" v-model.lazy="jizaishixiang1" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang2" type="textarea" :rows="1" v-model.lazy="jizaishixiang2" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang3" type="textarea" :rows="1" v-model.lazy="jizaishixiang3" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="24">
+				&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+				
+			<i-row :gutter="16">
+				<i-col span="8">
+					4.前后工程等待&nbsp;&nbsp;
+					<Input-number element-id="id_qianhougongchengdengdai" v-model.lazy="qianhougongchengdengdai" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="8">
+					5.部品欠品&nbsp;&nbsp;
+					<Input-number element-id="id_wubupin" v-model.lazy="wubupin" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="8">
+					6.部品准备等待&nbsp;&nbsp;
+					<Input-number element-id="id_bupinanpaidengdai" v-model.lazy="bupinanpaidengdai" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang4" type="textarea" :rows="1" v-model.lazy="jizaishixiang4" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang5" type="textarea" :rows="1" v-model.lazy="jizaishixiang5" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang6" type="textarea" :rows="1" v-model.lazy="jizaishixiang6" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="24">
+				&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="8">
+					7.定期点检&nbsp;&nbsp;
+					<Input-number element-id="id_dingqidianjian" v-model.lazy="dingqidianjian" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="8">
+					8.故障&nbsp;&nbsp;
+					<Input-number element-id="id_guzhang" v-model.lazy="guzhang" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+				<i-col span="8">
+					9.新机种生产时间（试作）&nbsp;&nbsp;
+					<Input-number element-id="id_shizuo" v-model.lazy="shizuo" :min="1" size="small" style="width: 80px"></Input-number>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang7" type="textarea" :rows="1" v-model.lazy="jizaishixiang7" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang8" type="textarea" :rows="1" v-model.lazy="jizaishixiang8" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+				<i-col span="8">
+					<i-input element-id="id_jizaishixiang9" type="textarea" :rows="1" v-model.lazy="jizaishixiang9" size="small" placeholder="" clearable style="width: 400px"></i-input>
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="24">
+				&nbsp;
+				</i-col>
+			</i-row>
+			<br><br>
+
+			<i-row :gutter="16">
+				<i-col span="8">
+					其他记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
+					<i-input element-id="id_jizaishixiang" type="textarea" :rows="1" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="16">
 					<br>&nbsp;&nbsp;
@@ -949,6 +1059,15 @@ var vm_app = new Vue({
 		guzhang: '',
 		// xinjizhongshengchanshijian: '',
 		shizuo: '',
+		jizaishixiang1: '',
+		jizaishixiang2: '',
+		jizaishixiang3: '',
+		jizaishixiang4: '',
+		jizaishixiang5: '',
+		jizaishixiang6: '',
+		jizaishixiang7: '',
+		jizaishixiang8: '',
+		jizaishixiang9: '',
 		jizaishixiang: '',
 		
 		
@@ -3980,6 +4099,24 @@ var vm_app = new Vue({
 		var id_shizuo = document.getElementById("id_shizuo");
 		id_shizuo.style.background = "#E1F5FE";
 
+		var id_jizaishixiang1 = document.getElementById("id_jizaishixiang1");
+		id_jizaishixiang1.style.background = "#E1F5FE";
+		var id_jizaishixiang2 = document.getElementById("id_jizaishixiang2");
+		id_jizaishixiang2.style.background = "#E1F5FE";
+		var id_jizaishixiang3 = document.getElementById("id_jizaishixiang3");
+		id_jizaishixiang3.style.background = "#E1F5FE";
+		var id_jizaishixiang4 = document.getElementById("id_jizaishixiang4");
+		id_jizaishixiang4.style.background = "#E1F5FE";
+		var id_jizaishixiang5 = document.getElementById("id_jizaishixiang5");
+		id_jizaishixiang5.style.background = "#E1F5FE";
+		var id_jizaishixiang6 = document.getElementById("id_jizaishixiang6");
+		id_jizaishixiang6.style.background = "#E1F5FE";
+		var id_jizaishixiang7 = document.getElementById("id_jizaishixiang7");
+		id_jizaishixiang7.style.background = "#E1F5FE";
+		var id_jizaishixiang8 = document.getElementById("id_jizaishixiang8");
+		id_jizaishixiang8.style.background = "#E1F5FE";
+		var id_jizaishixiang9 = document.getElementById("id_jizaishixiang9");
+		id_jizaishixiang9.style.background = "#E1F5FE";
 		var id_jizaishixiang = document.getElementById("id_jizaishixiang");
 		id_jizaishixiang.style.background = "#E1F5FE";
 		@endhasanyrole
