@@ -345,13 +345,13 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang1" type="textarea" :rows="1" v-model.lazy="jizaishixiang1" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang1" type="textarea" :rows="2" v-model.lazy="jizaishixiang1" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang2" type="textarea" :rows="1" v-model.lazy="jizaishixiang2" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang2" type="textarea" :rows="2" v-model.lazy="jizaishixiang2" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang3" type="textarea" :rows="1" v-model.lazy="jizaishixiang3" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang3" type="textarea" :rows="2" v-model.lazy="jizaishixiang3" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -381,13 +381,13 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang4" type="textarea" :rows="1" v-model.lazy="jizaishixiang4" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang4" type="textarea" :rows="2" v-model.lazy="jizaishixiang4" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang5" type="textarea" :rows="1" v-model.lazy="jizaishixiang5" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang5" type="textarea" :rows="2" v-model.lazy="jizaishixiang5" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang6" type="textarea" :rows="1" v-model.lazy="jizaishixiang6" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang6" type="textarea" :rows="2" v-model.lazy="jizaishixiang6" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -417,13 +417,13 @@ SMT - PD report
 
 			<i-row :gutter="16">
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang7" type="textarea" :rows="1" v-model.lazy="jizaishixiang7" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang7" type="textarea" :rows="2" v-model.lazy="jizaishixiang7" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang8" type="textarea" :rows="1" v-model.lazy="jizaishixiang8" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang8" type="textarea" :rows="2" v-model.lazy="jizaishixiang8" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="8">
-					<i-input element-id="id_jizaishixiang9" type="textarea" :rows="1" v-model.lazy="jizaishixiang9" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang9" type="textarea" :rows="2" v-model.lazy="jizaishixiang9" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 			</i-row>
 			<br><br>
@@ -438,7 +438,7 @@ SMT - PD report
 			<i-row :gutter="16">
 				<i-col span="8">
 					其他记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-					<i-input element-id="id_jizaishixiang" type="textarea" :rows="1" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
+					<i-input element-id="id_jizaishixiang" type="textarea" :rows="2" v-model.lazy="jizaishixiang" size="small" placeholder="" clearable style="width: 400px"></i-input>
 				</i-col>
 				<i-col span="16">
 					<br>&nbsp;&nbsp;
@@ -736,13 +736,13 @@ SMT - PD report
 
 					<i-row :gutter="16">
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit4" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit4" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit5" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit5" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit6" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit6" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
 
@@ -773,13 +773,13 @@ SMT - PD report
 
 					<i-row :gutter="16">
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit7" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit7" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit8" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit8" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit9" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit9" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
 
@@ -788,7 +788,7 @@ SMT - PD report
 					<i-row :gutter="16">
 						<i-col span="24">
 							其他记载事项&nbsp;<i-button @click="modal_jizhaishixiang=true" type="text" size="small"><font color="#2db7f5">[查看说明]</font></i-button><br>
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit" size="small" placeholder="" clearable style="width: 400px"></i-input>
 						</i-col>
 					</i-row>
 
