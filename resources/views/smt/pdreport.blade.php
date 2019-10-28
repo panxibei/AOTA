@@ -701,13 +701,13 @@ SMT - PD report
 
 					<i-row :gutter="16">
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit1" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit1" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit2" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit2" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 						<i-col span="8">
-							<i-input type="textarea" :rows="1" v-model.lazy="jizaishixiang_edit3" size="small" placeholder="" clearable style="width: 200px"></i-input>
+							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit3" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
 
