@@ -567,7 +567,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表1 - 工程内不良记录（PPM）">
 
-					<i-button @click="onchart1()" type="info" size="small" icon="ios-podium">刷新图表1 ↘</i-button>
+					<i-button @click="onchart1()" :disabled="disabled_chart1" type="info" size="small" icon="ios-podium">刷新图表1 ↘</i-button>
 					<!--
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<Upload
@@ -589,7 +589,7 @@ SMT(QC report) -
 
 				<Tab-pane label="图表2 - 按不良内容统计不良占有率">
 
-					<i-button @click="onchart2()" type="info" size="small" icon="ios-podium">刷新图表2 ↘</i-button>
+					<i-button @click="onchart2()" :disabled="disabled_chart2" type="info" size="small" icon="ios-podium">刷新图表2 ↘</i-button>
 					<br><br>
 					<i-row :gutter="16">
 						<i-col span="24">
@@ -606,7 +606,7 @@ SMT(QC report) -
 
 		<Tab-pane label="图表3 - 按月份对比不良率和PPM">
 
-			<i-button @click="onchart3()" type="info" size="small" icon="ios-podium">刷新图表3 ↘</i-button>
+			<i-button @click="onchart3()" :disabled="disabled_chart3" type="info" size="small" icon="ios-podium">刷新图表3 ↘</i-button>
 			<br><br>
 			<i-row :gutter="16">
 				<i-col span="24">
@@ -1962,7 +1962,10 @@ var vm_app = new Vue({
 		// 统计日期过滤（年）
 		tongji_date_filter: '',
 		
-		
+		disabled_chart1: false,
+		disabled_chart2: false,
+		disabled_chart3: false,
+
 		// echarts ajax使用 这个才是实际使用的
 		// chart1_type: 'bar',
 		
@@ -3280,6 +3283,7 @@ var vm_app = new Vue({
 			
 			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 
+			_this.disabled_chart1 = true;
 			var url = "{{ route('smt.qcreport.qcreportgetschart1') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -3439,6 +3443,10 @@ var vm_app = new Vue({
 					_this.chart1_function();				
 				
 				}
+
+				window.setTimeout(function () {
+					_this.disabled_chart1 = false;
+				}, 2000);
 				
 			})
 			.catch(function (error) {
@@ -3488,6 +3496,7 @@ var vm_app = new Vue({
 			
 			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			
+			_this.disabled_chart2 = true;
 			var url = "{{ route('smt.qcreport.qcreportgetschart2') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -3670,7 +3679,11 @@ var vm_app = new Vue({
 					_this.chart2_function();
 			
 				}
-				
+
+				window.setTimeout(function () {
+					_this.disabled_chart2 = false;
+				}, 2000);
+
 			})
 			.catch(function (error) {
 				// _this.loadingbarerror();
@@ -3704,6 +3717,7 @@ var vm_app = new Vue({
 			var gongxu_filter = _this.gongxu_filter;
 			var buliangneirong_filter = _this.buliangneirong_filter;
 			
+			_this.disabled_chart3 = true;
 			var url = "{{ route('smt.qcreport.qcreportgetschart3') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
@@ -3936,6 +3950,11 @@ var vm_app = new Vue({
 					_this.chart3_function();
 			
 				}
+
+				window.setTimeout(function () {
+					_this.disabled_chart3 = false;
+				}, 2000);
+
 			})
 			.catch(function (error) {
 				// _this.loadingbarerror();
