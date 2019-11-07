@@ -94,10 +94,9 @@
 					
 					<!--头部导航菜单-->
                     <div class="layout-nav">
-					
 						<Submenu name="1">
 							<template slot="title">
-								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
+								<Icon type="ios-person" size="20"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
 							@hasanyrole('role_admin_changepassword|role_super_admin')
 							<Menu-Item name="1-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
@@ -106,8 +105,11 @@
 							@endhasanyrole
 							<Menu-Item name="1-2"><Icon type="ios-exit-outline"></Icon>退出登录</Menu-Item>
 						</Submenu>
-					
                     </div>
+					<div class="layout-nav">
+						<Icon v-if="isfullscreen" type="ios-contract" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						<Icon v-else type="ios-expand" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+					</div>
 
                 </i-menu>
 				</Layout>

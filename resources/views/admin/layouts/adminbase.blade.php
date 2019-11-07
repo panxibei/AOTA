@@ -52,10 +52,17 @@
 }
 .layout-nav{
 	float: right;
-	position: relative;
+	<!--position: relative;-->
     <!--width: 420px;-->
     margin: 0 auto;
     margin-right: 210px;
+}
+.layout-nav1{
+	float: right;
+	<!--position: relative;-->
+    <!--width: 420px;-->
+    margin: 0 auto;
+    margin-right: 10px;
 }
 .layout-footer-center{
     text-align: center;
@@ -79,6 +86,7 @@
 			<div style="z-index: 999;">
             <Header :style="{position: 'fixed', width: '100%', marginLeft: '200px'}">
                 <Layout>
+
 				<i-menu mode="horizontal" theme="light" active-name="3" @on-select="name=>topmenuselect(name)">
                     <!--<div class="layout-logo">qqqqqqqqqqqq</div>-->
 					
@@ -93,6 +101,7 @@
 					
 					<!--头部导航菜单-->
                     <div class="layout-nav">
+
 						<!--Item 1-->
                         <Menu-item name="1">
 							<Badge dot :offset="[20, 0]">
@@ -100,6 +109,7 @@
 							</Badge>
                             
                         </Menu-item>
+
 						<!--Item 2-->
                         <Menu-item name="2">
 							<Dropdown @click.native="event => dropdownuser(event.target.innerText.trim())">
@@ -122,10 +132,11 @@
 								</Dropdown-menu>
 							</Dropdown>
                         </Menu-item>
+
 						<!--Item 3-->
 						<Submenu name="3">
 							<template slot="title">
-								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
+								<Icon type="ios-person" size="20"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
 							<!--
 							<Menu-Group title="使用">
@@ -139,7 +150,14 @@
 						</Submenu>
 
                     </div>
+
+					<div class="layout-nav1">
+						<Icon v-if="isfullscreen" type="ios-contract" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						<Icon v-else type="ios-expand" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+					</div>
+
                 </i-menu>
+
 				</Layout>
 
 				<!--上部标签组-->

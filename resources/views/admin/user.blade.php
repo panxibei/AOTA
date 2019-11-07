@@ -219,6 +219,9 @@ var vm_app = new Vue({
 		sideractivename: '3-1',
 		sideropennames: ['3'],
 
+		// 是否全屏
+		isfullscreen: false,
+
 		// 修改密码界面
 		modal_password_edit: false,
 

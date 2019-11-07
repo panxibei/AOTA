@@ -45,6 +45,9 @@ var vm_app = new Vue({
 		sideractivename: '1-1',
 		sideropennames: ['1'],
 
+		// 是否全屏
+		isfullscreen: false,
+
 		gets: {}
     },
 	methods: {
