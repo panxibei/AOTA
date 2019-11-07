@@ -107,8 +107,12 @@
 						</Submenu>
                     </div>
 					<div class="layout-nav">
-						<Icon v-if="isfullscreen" type="ios-contract" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
-						<Icon v-else type="ios-expand" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						<Tooltip v-if="isfullscreen" placement="bottom" content="关闭全屏" transfer="true">
+							<Icon type="ios-contract" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						</Tooltip>
+						<Tooltip v-else placement="bottom" content="全屏" transfer="true">
+							<Icon type="ios-expand" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						</Tooltip>
 					</div>
 
                 </i-menu>

@@ -96,7 +96,7 @@
                     <div class="layout-nav">
 						<Submenu name="1">
 							<template slot="title">
-								<Icon type="ios-person"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
+								<Icon type="ios-person" size="20"></Icon>{{ $user['displayname'] ?? 'Unknown User'}}
 							</template>
 							@hasanyrole('role_admin_changepassword|role_super_admin')
 							<Menu-Item name="1-1"><Icon type="ios-create-outline"></Icon>修改密码</Menu-Item>
@@ -107,8 +107,12 @@
 						</Submenu>
                     </div>
 					<div class="layout-nav">
-						<Icon v-if="isfullscreen" type="ios-contract" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
-						<Icon v-else type="ios-expand" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						<Tooltip v-if="isfullscreen" placement="bottom" content="关闭全屏" transfer="true">
+							<Icon type="ios-contract" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						</Tooltip>
+						<Tooltip v-else placement="bottom" content="全屏" transfer="true">
+							<Icon type="ios-expand" size="20" @click.native="handleFullScreen()" style="cursor:pointer;"></Icon>
+						</Tooltip>
 					</div>
 
                 </i-menu>

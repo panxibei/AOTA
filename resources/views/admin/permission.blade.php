@@ -179,6 +179,9 @@ var vm_app = new Vue({
 		
 		sideractivename: '3-3',
 		sideropennames: ['3'],
+
+		// 是否全屏
+		isfullscreen: false,
 		
 		tablecolumns: [
 			{
