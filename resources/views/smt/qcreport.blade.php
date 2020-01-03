@@ -204,7 +204,7 @@ SMT(QC report) -
 			&nbsp;<br>
 			<i-row :gutter="16">
 				<i-col span="24">
-					&nbsp;&nbsp;<i-button @click="oncreate()" type="primary" icon="ios-create-outline">记入</i-button>
+					&nbsp;&nbsp;<i-button @click="oncreate()" icon="ios-create-outline" :disabled="disabled_create" type="primary">记入</i-button>
 					&nbsp;&nbsp;<i-button @click="onclear()" icon="ios-close-circle-outline">清除</i-button>
 				</i-col>
 			</i-row>
@@ -2070,7 +2070,8 @@ var vm_app = new Vue({
 		chart3_option_series_data_hejidianshu: [0,0,0,0,0,0,0,0,0,0,0,0,0],
 		chart3_option_series_data_ppm: [],
 		
-		
+		disabled_create: false,
+
 		//分页
 		pagecurrent: 1,
 		pagetotal: 1,
@@ -2444,6 +2445,8 @@ var vm_app = new Vue({
 		oncreate () {
 			var _this = this;
 
+			_this.disabled_create = true;
+
 			var saomiao = _this.saomiao;
 			var jianchariqi = _this.jianchariqi;
 			var xianti = _this.xianti;
@@ -2458,12 +2461,14 @@ var vm_app = new Vue({
 				|| dianmei == '' || dianmei == undefined || dianmei == 0
 				|| meishu == '' || meishu == undefined || meishu == 0) {
 				_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
+				_this.disabled_create = false;
 				return false;
 			}
 
 			// 枚数不大于LOT数
 			if (_this.meishu > _this.lotshu) {
 				_this.warning(false, '警告', '枚数不可大于LOT数！');
+				_this.disabled_create = false;
 				return false;
 			}
 			
@@ -2525,6 +2530,7 @@ var vm_app = new Vue({
 
 			if (flag == false) {
 				_this.warning(false, '警告', '批量录入内容为空或不正确！');
+				_this.disabled_create = false;
 				return false;
 			}
 
@@ -2551,6 +2557,7 @@ var vm_app = new Vue({
 			}
 			if (piliangluru_tmp.length == 0) {
 				_this.warning(false, '警告', '批量录入内容为空！');
+				_this.disabled_create = false;
 				return false;
 			}
 			// console.log(piliangluru_tmp);return false;
@@ -2594,9 +2601,16 @@ var vm_app = new Vue({
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
+
+				window.setTimeout(function () {
+					_this.disabled_create = false;
+				}, 500);
 			})
 			.catch(function (error) {
 				_this.error(false, '错误', '记入失败！');
+				window.setTimeout(function () {
+					_this.disabled_create = false;
+				}, 1000);
 			})
 		},		
 		
