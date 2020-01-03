@@ -1360,7 +1360,19 @@ class qcreportController extends Controller
 		if (Cache::has($fullUrl)) {
 			$tongji = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			$tongji = Smt_qcreport::select('jianchariqi', 'xianti', 'hejidianshu', 'bushihejianshuheji')
+			// $tongji = Smt_qcreport::select('jianchariqi', 'xianti', 'hejidianshu', 'bushihejianshuheji')
+			// 	->when($tongji_date_filter, function ($query) use ($tongji_date_filter) {
+			// 		return $query->whereBetween('jianchariqi', $tongji_date_filter);
+			// 	})
+			// 	->orderBy('jianchariqi', 'asc')
+			// 	->get()->toArray();
+			
+			$tongji = Smt_qcreport::leftJoin('smt_mpoints', function ($join) {
+					$join->on('smt_mpoints.jizhongming', '=', 'smt_qcreports.jizhongming')
+					->on('smt_mpoints.pinming', '=', 'smt_qcreports.pinming')
+					->on('smt_mpoints.gongxu', '=', 'smt_qcreports.gongxu');
+				})	
+				->select('smt_qcreports.jianchariqi', 'smt_qcreports.xianti', 'smt_qcreports.hejidianshu', 'smt_qcreports.bushihejianshuheji', DB::raw('smt_qcreports.meishu * smt_mpoints.pinban AS hejitaishu'))
 				->when($tongji_date_filter, function ($query) use ($tongji_date_filter) {
 					return $query->whereBetween('jianchariqi', $tongji_date_filter);
 				})
