@@ -410,7 +410,7 @@ var vm_app = new Vue({
 		
 		//分页
 		pagecurrent: 1,
-		pagetotal: 1,
+		pagetotal: 0,
 		pagepagesize: 10,
 		pagelast: 1,
 		

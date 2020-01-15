@@ -405,19 +405,19 @@ var vm_app = new Vue({
 
 		//表relation分页
 		pagecurrent_relation: 1,
-		pagetotal_relation: 1,
+		pagetotal_relation: 0,
 		pagepagesize_relation: 10,
 		pagelast_relation: 1,
 
 		//表result1分页
 		pagecurrent_result1: 1,
-		pagetotal_result1: 1,
+		pagetotal_result1: 0,
 		pagepagesize_result1: 15,
 		pagelast_result1: 1,
 
 		//表result2分页
 		pagecurrent_result2: 1,
-		pagetotal_result2: 1,
+		pagetotal_result2: 0,
 		pagepagesize_result2: 15,
 		pagelast_result2: 1,
 		
