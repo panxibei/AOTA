@@ -25,7 +25,7 @@ class CreateSmtPdplanresultsTable extends Migration
 			$table->integer('lotshu')->unsigned()->comment('LOT数');
 			$table->integer('jihuachanliang')->unsigned()->comment('计划产量');
             $table->timestamps();
-            $table->unique(['suoshuriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'gongxu']);
+            $table->unique(['suoshuriqi', 'xianti', 'banci', 'jizhongming', 'spno', 'pinming', 'gongxu'], 'smt_pdplanresults_unique');
             $table->engine = 'InnoDB';
         });
     }
