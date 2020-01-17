@@ -251,6 +251,16 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => $nowtime,
                 'deleted_at' => NULL,
             ),
+            23 => 
+            array (
+                'cfg_id' => 24,
+                'cfg_name' => 'SITE_EXPIRED_DATE',
+                'cfg_value' => '2020-01-01',
+				'cfg_description' => '站点系统维护日期',
+                'created_at' => $nowtime,
+                'updated_at' => $nowtime,
+                'deleted_at' => NULL,
+            ),
         ));
     }
 }

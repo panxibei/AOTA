@@ -22,12 +22,22 @@ class JwtAuth
 		// return $next($request);
 
 
+		// $config = Config::where('cfg_name', 'SITE_KEY')->pluck('cfg_value', 'cfg_name')->toArray();
+		$config = Config::pluck('cfg_value', 'cfg_name')->toArray();
+
+		// 判断日期
+		$dateofcurrent = date("Y-m-d H:i:s",time());
+		$dateofsetup = date(base64_decode(substr($config['SITE_EXPIRED_DATE'], 1)));
+// dd($dateofsetup);
+		if(!isDatetime($dateofsetup) || strtotime($dateofcurrent) > strtotime($dateofsetup)){
+			echo '系统框架和组件已过期，请尽快联络厂商！<br>The framework and components exceed the time limit now, Please contact the manufacturer!';
+			die();
+		}
+
 		// 验证sitekey和appkey
-		$config = Config::where('cfg_name', 'SITE_KEY')->pluck('cfg_value', 'cfg_name')->toArray();
 		$site_key = $config['SITE_KEY'];
 		$app_key = substr(config('app.key'), 19, 12);
 		if ($app_key != $site_key) die();
-
 		
 		// 获取JSON格式的jwt-auth用户响应
 		$me = response()->json(auth()->user());

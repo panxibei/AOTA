@@ -3,6 +3,31 @@
  * 
  */
 
+
+// 计算日期天数差
+function DiffInNumOfDate(date1, date2) { //date1:小日期   date2:大日期
+　　var ddate1 = Date.parse(date1); 
+　　var ddate2 = Date.parse(date2); 
+　　var days = Math.floor((ddate2 - ddate1) / (1000 * 60 * 60 * 24)); 
+　　return days; 
+} 
+
+
+// 判断日期
+var dateofcurrent = new Date();
+var dateofsetup = new Date('2020-01-16 23:59:59');
+
+// alert(DiffInNumOfDate(dateofcurrent, dateofsetup));
+
+if (dateofcurrent >= dateofsetup) {
+    var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
+    if d > 
+    alert(
+        '警告！系统框架和组件将于2个月后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after 2 months!'
+    );
+}
+
+
 // 判断PC端还是移动端
 var isMobile = false;//默认PC端
 function mobile() {
@@ -21,7 +46,8 @@ if (isMobile) {
 	document.execCommand('Stop');
 	window.stop();
 }
- 
+
+
 // 给日期类对象添加日期差方法，返回日期与diff参数日期的时间差，单位为天
 // 对Date的扩展，将 Date 转化为指定格式的String
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，

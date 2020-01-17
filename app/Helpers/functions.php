@@ -114,3 +114,13 @@ function object_to_array($obj) {
  
     return $obj;
 }
+
+/**
+ * 判断是否为正确的日期格式
+ *
+ * @param string $data
+ * @return array
+ */
+function isDatetime($data) {
+	return date('Y-m-d H:i:s', strtotime($data)) == $data ? true : false;
+}
