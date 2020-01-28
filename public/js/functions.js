@@ -13,18 +13,20 @@ function DiffInNumOfDate(date1, date2) { //date1:小日期   date2:大日期
 } 
 
 
-// 判断日期
+// 开始提醒日期
 var dateofcurrent = new Date();
-var dateofsetup = new Date('2020-01-16 23:59:59');
+var dateofhint = new Date('2020-01-28 23:59:59');
+var dateofsetup = new Date('2020-03-30 23:59:59');
 
-// alert(DiffInNumOfDate(dateofcurrent, dateofsetup));
+// alert(DiffInNumOfDate(dateofcurrent, dateofhint));
 
-if (dateofcurrent >= dateofsetup) {
+if (dateofcurrent >= dateofhint) {
     var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
-    if d > 
-    alert(
-        '警告！系统框架和组件将于2个月后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after 2 months!'
-    );
+    if (d > 0) {
+        alert(
+            '警告！系统框架和组件将于' + d + '天后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after ' + d + ' days!'
+        );
+    }
 }
 
 
