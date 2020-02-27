@@ -3912,14 +3912,31 @@ var vm_app = new Vue({
 					// 去年和今年的日期范围
 					var dd = new Date();
 					var current_year = dd.getFullYear();
+					var current_month = dd.getMonth();
 					var last_year = dd.getFullYear() - 1;
+					var before_last_year = dd.getFullYear() - 2;
 
-					var last_date_range = [new Date(last_year + '-01-01 00:00:00'), new Date(last_year + '-12-31 23:59:59')];
-					var current_date_range = [new Date(current_year + '-01-01 00:00:00'), new Date(current_year + '-12-31 23:59:59')];
+					// var last_date_range = [new Date(last_year + '-01-01 00:00:00'), new Date(last_year + '-12-31 23:59:59')];
+					// var current_date_range = [new Date(current_year + '-01-01 00:00:00'), new Date(current_year + '-12-31 23:59:59')];
 
-					// console.log(last_date_range);
-					// console.log(current_date_range);
-					// return false;
+					// 判断是否过了3月
+					if (current_month > 2) {
+						// 如果当前是2020-04-01，则日期范围为
+						// 去年：2019-04-01 ~ 2020-03-31
+						// 今年：2020-04-01 ~ 2020-12-31
+						var last_date_range = [new Date(last_year + '-04-01 00:00:00'), new Date(current_year + '-03-31 23:59:59')];
+						var current_date_range = [new Date(current_year + '-04-01 00:00:00'), new Date(current_year + '-12-31 23:59:59')];
+					} else {
+						// 如果当前是2020-03-30，则日期范围为
+						// 去年：2018-04-01 ~ 2019-03-31
+						// 今年：2019-04-01 ~ 2020-03-30
+						var last_date_range = [new Date(before_last_year + '-04-01 00:00:00'), new Date(last_year + '-03-31 23:59:59')];
+						var current_date_range = [new Date(current_year + '-04-01 00:00:00'), new Date(current_year + '-03-31 23:59:59')];
+					}
+
+					console.log(last_date_range);
+					console.log(current_date_range);
+					return false;
 
 					// console.log('原始：');
 					// console.log(chartdata3);return false;
