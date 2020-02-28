@@ -3847,18 +3847,25 @@ var vm_app = new Vue({
 			var _this = this;
 
 			// 2018-12-31
-			var current_year = new Date();
-			var current_date = current_year.getFullYear() + '-12-31';
+			var current_datetime = new Date();
+			var current_date = current_datetime.getFullYear() + '-12-31';
+			
 			
 			// 2017-01-01
-			var last_year = current_year.getFullYear() - 1;
+			var last_year = current_datetime.getFullYear() - 1;
+			var before_last_year = current_datetime.getFullYear() - 2;
 			var last_date = last_year + '-01-01';
 			
 			// 查询去年到今年的日期范围
 			var qcdate_filter = [last_date, current_date];
 			
 			// 修正表X轴文字，去年“FY2017平均”字样。
-			_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '平均';
+			var current_month = current_datetime.getMonth();
+			if (current_month > 2) {
+				_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '平均';
+			} else {
+				_this.chart3_option_xAxis_data[0] = 'FY' + before_last_year + '平均';
+			}
 			
 			var xianti_filter = _this.xianti_filter;
 			var banci_filter = _this.banci_filter;
@@ -3929,14 +3936,14 @@ var vm_app = new Vue({
 					} else {
 						// 如果当前是2020-03-30，则日期范围为
 						// 去年：2018-04-01 ~ 2019-03-31
-						// 今年：2019-04-01 ~ 2020-03-30
+						// 今年：2019-04-01 ~ 2020-03-31
 						var last_date_range = [new Date(before_last_year + '-04-01 00:00:00'), new Date(last_year + '-03-31 23:59:59')];
-						var current_date_range = [new Date(current_year + '-04-01 00:00:00'), new Date(current_year + '-03-31 23:59:59')];
+						var current_date_range = [new Date(last_year + '-04-01 00:00:00'), new Date(current_year + '-03-31 23:59:59')];
 					}
 
-					console.log(last_date_range);
-					console.log(current_date_range);
-					return false;
+					// console.log(last_date_range);
+					// console.log(current_date_range);
+					// return false;
 
 					// console.log('原始：');
 					// console.log(chartdata3);return false;
