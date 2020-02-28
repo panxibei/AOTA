@@ -3862,9 +3862,9 @@ var vm_app = new Vue({
 			// 修正表X轴文字，去年“FY2017平均”字样。
 			var current_month = current_datetime.getMonth();
 			if (current_month > 2) {
-				_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '平均';
+				_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '';
 			} else {
-				_this.chart3_option_xAxis_data[0] = 'FY' + before_last_year + '平均';
+				_this.chart3_option_xAxis_data[0] = 'FY' + before_last_year + '';
 			}
 			
 			var xianti_filter = _this.xianti_filter;
