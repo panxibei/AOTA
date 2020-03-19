@@ -1,7 +1,7 @@
 @extends('smt.layouts.mainbase')
 
 @section('my_title')
-SMT(QC report) - 
+SMT(网板管理) - 
 @parent
 @endsection
 
@@ -59,7 +59,7 @@ SMT(QC report) -
 @endsection
 
 @section('my_project')
-<strong>SMT QC Report</strong>
+<strong>SMT 网板管理</strong>
 @endsection
 
 @section('my_body')
@@ -70,7 +70,7 @@ SMT(QC report) -
 	<Tabs type="card" v-model="currenttabs" :animated="false">
 
 		@hasanyrole('role_smt_qcreport_write|role_super_admin')
-		<Tab-pane label="工程内不良录入">
+		<Tab-pane label="网板录入">
 
 			<br>
 			<i-row :gutter="16">
@@ -218,7 +218,7 @@ SMT(QC report) -
 		</Tab-pane>
 		@endhasanyrole
 
-		<Tab-pane label="品质管理日报">
+		<Tab-pane label="网板记录">
 
 			<br>
 			<i-row :gutter="16">
@@ -230,17 +230,17 @@ SMT(QC report) -
 				</i-col>
 				<i-col span="6">
 					* 检查日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="qcdate_filter" :options="qcdate_filter_options" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
+					<Date-picker v-model.lazy="qcdate_filter" :options="qcdate_filter_options" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="3">
 					线体&nbsp;&nbsp;
-					<i-select v-model.lazy="xianti_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
+					<i-select v-model.lazy="xianti_filter" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
 						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="3">
 					班次&nbsp;&nbsp;
-					<i-select v-model.lazy="banci_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
+					<i-select v-model.lazy="banci_filter" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
 						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
@@ -256,23 +256,23 @@ SMT(QC report) -
 				</i-col>
 				<i-col span="4">
 					机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+					<i-input v-model.lazy="jizhongming_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 				</i-col>
 				<i-col span="4">
 					品名&nbsp;&nbsp;
-					<i-select v-model.lazy="pinming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:120px" size="small" placeholder="">
+					<i-select v-model.lazy="pinming_filter" @on-change="wbglgets(pagecurrent, pagelast)" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="3">
 					工序&nbsp;&nbsp;
-					<i-select v-model.lazy="gongxu_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:80px" size="small" placeholder="">
+					<i-select v-model.lazy="gongxu_filter" @on-change="wbglgets(pagecurrent, pagelast)" clearable style="width:80px" size="small" placeholder="">
 						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
 				</i-col>
 				<i-col span="10">
 					不良内容&nbsp;&nbsp;
-					<i-select v-model.lazy="buliangneirong_filter" @on-change="qcreportgets(pagecurrent, pagelast);onselectchange1();" multiple size="small" clearable style="width:200px" placeholder="例：连焊">
+					<i-select v-model.lazy="buliangneirong_filter" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" multiple size="small" clearable style="width:200px" placeholder="例：连焊">
 						<Option-group label="****** 印刷系 ******">
 							<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 						</Option-group>
@@ -604,50 +604,7 @@ SMT(QC report) -
 
 		</Tab-pane>
 
-		<Tab-pane label="图表3 - 按月份对比不良率和PPM">
 
-			<i-button @click="onchart3()" :disabled="disabled_chart3" type="info" size="small" icon="ios-podium">刷新图表3 ↘</i-button>
-			<br><br>
-			<i-row :gutter="16">
-				<i-col span="24">
-					<div id="chart3" style="height:600px"></div>
-				</i-col>
-			</i-row>
-
-		</Tab-pane>
-
-		<Tab-pane label="按线体统计点数和不良件数以及PPM">
-
-			<i-row :gutter="16">
-				<br>
-				<i-col span="2">
-					&nbsp;
-				</i-col>
-				<i-col span="3">
-					查询：&nbsp;&nbsp;
-					<Date-picker v-model.lazy="tongji_date_filter" @on-change="tongjigets(tongji_date_filter)" type="year" size="small" style="width:100px"></Date-picker>
-				</i-col>
-				<i-col span="1">
-					&nbsp;
-				</i-col>
-				<i-col span="18">
-					导出：
-					&nbsp;&nbsp;
-					<Poptip confirm title="确定要导出当前表格数据吗？" placement="right-start" @on-ok="exportData_tongji" @on-cancel="" transfer="true">
-						<i-button type="default" size="small" icon="ios-download-outline">导出数据</i-button>
-					</Poptip>
-				</i-col>
-			</i-row>
-
-			&nbsp;
-			<i-row :gutter="16">
-				<br>
-				<i-col span="24">
-					<i-table ref="table2" height="460" size="small" border :columns="tablecolumns2" :data="tabledata2"></i-table>
-				</i-col>
-			</i-row>
-
-		</Tab-pane>
 
 	</Tabs>
 	
@@ -1020,116 +977,6 @@ var vm_app = new Vue({
 					]);
 				}
 			},
-			// {
-			// 	title: '不良内容',
-			// 	key: 'buliangneirong',
-			// 	align: 'center',
-			// 	width: 160,
-				// filters: [
-					// {value: '连焊', label: '连焊'}, 
-					// {value: '引脚焊锡量少', label: '引脚焊锡量少'},
-					// {value: 'CHIP部品焊锡少', label: 'CHIP部品焊锡少'},
-					// {value: '焊锡球', label: '焊锡球'},
-					// {value: '1005部品浮起.竖立', label: '1005部品浮起.竖立'},
-					// {value: 'CHIP部品横立', label: 'CHIP部品横立'},
-					// {value: '部品浮起.竖立', label: '部品浮起.竖立'},
-					// {value: '欠品', label: '欠品'},
-					// {value: '焊锡未熔解', label: '焊锡未熔解'},
-					// {value: '位置偏移', label: '位置偏移'},
-					// {value: '部品打反', label: '部品打反'},
-					// {value: '部品错误', label: '部品错误'},
-					// {value: '多余部品', label: '多余部品'},
-					// {value: '异物', label: '异物'}, 
-					// {value: '极性错误', label: '极性错误'},
-					// {value: '炉后部品破损', label: '炉后部品破损'},
-					// {value: '引脚弯曲', label: '引脚弯曲'},
-					// {value: '基板/部品变形后引脚浮起', label: '基板/部品变形后引脚浮起'},
-					// {value: '引脚不上锡', label: '引脚不上锡'},
-					// {value: '基板不上锡', label: '基板不上锡'},
-					// {value: 'CHIP部品不上锡', label: 'CHIP部品不上锡'},
-					// {value: '基板不良', label: '基板不良'},
-					// {value: '部品不良', label: '部品不良'},
-					// {value: '其他', label: '其他'},
-				// ],
-				// filterMultiple: false,
-				// filterMethod: function (value, row) {
-					// var result = '';
-					// if (value === '连焊') {
-						// result = row.buliangneirong === '连焊';
-					// } else if (value === '引脚焊锡量少') {
-						// result = row.buliangneirong === '引脚焊锡量少';
-					// } else if (value === 'CHIP部品焊锡少') {
-						// result = row.buliangneirong === 'CHIP部品焊锡少';
-					// } else if (value === '焊锡球') {
-						// result = row.buliangneirong === '焊锡球';
-					// } else if (value === '1005部品浮起.竖立') {
-						// result = row.buliangneirong === '1005部品浮起.竖立';
-					// } else if (value === 'CHIP部品横立') {
-						// result = row.buliangneirong === 'CHIP部品横立';
-					// } else if (value === '部品浮起.竖立') {
-						// result = row.buliangneirong === '部品浮起.竖立';
-					// } else if (value === '欠品') {
-						// result = row.buliangneirong === '欠品';
-					// } else if (value === '焊锡未熔解') {
-						// result = row.buliangneirong === '焊锡未熔解';
-					// } else if (value === '位置偏移') {
-						// result = row.buliangneirong === '位置偏移';
-					// } else if (value === '部品打反') {
-						// result = row.buliangneirong === '部品打反';
-					// } else if (value === '部品错误') {
-						// result = row.buliangneirong === '部品错误';
-					// } else if (value === '多余部品') {
-						// result = row.buliangneirong === '多余部品';
-					// } else if (value === '异物') {
-						// result = row.buliangneirong === '异物';
-					// } else if (value === '极性错误') {
-						// result = row.buliangneirong === '极性错误';
-					// } else if (value === '炉后部品破损') {
-						// result = row.buliangneirong === '炉后部品破损';
-					// } else if (value === '引脚弯曲') {
-						// result = row.buliangneirong === '引脚弯曲';
-					// } else if (value === '基板/部品变形后引脚浮起') {
-						// result = row.buliangneirong === '基板/部品变形后引脚浮起';
-					// } else if (value === '引脚不上锡') {
-						// result = row.buliangneirong === '引脚不上锡';
-					// } else if (value === '基板不上锡') {
-						// result = row.buliangneirong === '基板不上锡';
-					// } else if (value === 'CHIP部品不上锡') {
-						// result = row.buliangneirong === 'CHIP部品不上锡';
-					// } else if (value === '基板不良') {
-						// result = row.buliangneirong === '基板不良';
-					// } else if (value === '部品不良') {
-						// result = row.buliangneirong === '部品不良';
-					// } else if (value === '其他') {
-						// result = row.buliangneirong === '其他';
-					// }
-					// return result;
-				// }
-			// },
-			// {
-			// 	title: '位号',
-			// 	key: 'weihao',
-			// 	align: 'center',
-			// 	width: 120
-			// },
-			// {
-			// 	title: '数量',
-			// 	key: 'shuliang',
-			// 	align: 'center',
-			// 	width: 80
-			// },
-			// {
-			// 	title: '检查机类型',
-			// 	key: 'jianchajileixing',
-			// 	align: 'center',
-			// 	width: 120
-			// },
-			// {
-			// 	title: '检查者',
-			// 	key: 'jianchazhe',
-			// 	align: 'center',
-			// 	width: 120
-			// },
 			{
 				title: '不良信息',
 				align: 'center',
@@ -2295,7 +2142,7 @@ var vm_app = new Vue({
 		
 		// 切换当前页
 		oncurrentpagechange (currentpage) {
-			this.qcreportgets(currentpage, this.pagelast);
+			this.wbglgets(currentpage, this.pagelast);
 		},
 		
 		// 把laravel返回的结果转换成select能接受的格式
@@ -2314,7 +2161,7 @@ var vm_app = new Vue({
 		configgets () {
 			var _this = this;
 
-			var url = "{{ route('smt.configgetsqcreport') }}";
+			var url = "{{ route('smt.configgetswbgl') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -2382,8 +2229,8 @@ var vm_app = new Vue({
 			})
 		},		
 		
-		// qcreport列表
-		qcreportgets (page, last_page) {
+		// wbgl列表
+		wbglgets (page, last_page) {
 			var _this = this;
 			
 			if (page > last_page) {
@@ -2439,7 +2286,7 @@ var vm_app = new Vue({
 			
 			qcdate_filter = [qcdate_filter[0].Format("yyyy-MM-dd 00:00:00"), qcdate_filter[1].Format("yyyy-MM-dd 23:59:59")];
 			
-			var url = "{{ route('smt.qcreport.qcreportgets') }}";
+			var url = "{{ route('smt.wbgl.wbglgets') }}";
 			axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 			axios.get(url,{
 				params: {
@@ -2731,7 +2578,7 @@ var vm_app = new Vue({
 					_this.tableselect1 = [];
 
 					if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
-						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+						_this.wbglgets(_this.pagecurrent, _this.pagelast);
 					}
 
 				} else {
@@ -2768,7 +2615,7 @@ var vm_app = new Vue({
 					_this.success(false, '成功', '删除成功！');
 					_this.boo_delete = true;
 					_this.tableselect1 = [];
-					_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+					_this.wbglgets(_this.pagecurrent, _this.pagelast);
 					
 					// var t = [];
 					// for (var i in tableselect1) {
@@ -4344,7 +4191,7 @@ var vm_app = new Vue({
 					return false;
 				}
 				
-				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+				_this.wbglgets(_this.pagecurrent, _this.pagelast);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
@@ -4438,7 +4285,7 @@ var vm_app = new Vue({
 					return false;
 				}
 				
-				_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+				_this.wbglgets(_this.pagecurrent, _this.pagelast);
 				
 				if (response.data) {
 					_this.success(false, '成功', '更新成功！');
@@ -4578,7 +4425,7 @@ var vm_app = new Vue({
 
 					_this.success(false, '成功', '追加成功！');
 					// if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
-						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+						_this.wbglgets(_this.pagecurrent, _this.pagelast);
 					// }
 
 				} else {
@@ -4622,7 +4469,7 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.success(false, '成功', '删除成功！');
 					// if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
-						_this.qcreportgets(_this.pagecurrent, _this.pagelast);
+						_this.wbglgets(_this.pagecurrent, _this.pagelast);
 					// }
 				} else {
 					_this.error(false, '失败', '删除失败！');
@@ -5099,8 +4946,8 @@ var vm_app = new Vue({
 		// id_dianmei.style.background = "#c5c8ce";
 		@endhasanyrole
 
-		var _this = this;
-		_this.configgets();
+		// var _this = this;
+		// _this.configgets();
 	}
 })
 </script>

@@ -66,6 +66,7 @@ Route::group(['prefix'=>'bpjg', 'namespace'=>'Bpjg', 'middleware'=>['jwtauth','p
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_config_read|permission_super_admin']], function() {
 	Route::get('configGetsPdreport', 'configController@configGetsPdreport')->name('smt.configgetspdreport');
 	Route::get('configGetsQcreport', 'configController@configGetsQcreport')->name('smt.configgetsqcreport');
+	Route::get('configGetsWbgl', 'configController@configGetsWbgl')->name('smt.configgetswbgl');
 });
 
 // SMT 配置页面 可写
@@ -76,7 +77,22 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::post('configUpdateQcreport', 'configController@configUpdateQcreport')->name('smt.configupdateqcreport');
 });
 
-// SMT 品质日报页面 只读
+// SMT 网板管理页面 只读
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_wbgl_read|permission_super_admin']], function() {
+	Route::get('wbglIndex', 'wbglController@wbglIndex')->name('smt.wbgl.index');
+	Route::get('wbglgets', 'wbglController@wbglGets')->name('smt.wbgl.wbglgets');
+
+
+
+});
+
+// SMT 网板管理页面 可写
+Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_wbgl_write|permission_super_admin']], function() {
+
+
+});
+
+	// SMT 品质日报页面 只读
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_qcreport_read|permission_super_admin']], function() {
 	Route::get('qcreportIndex', 'qcreportController@qcreportIndex')->name('smt.qcreport.index');
 	Route::get('qcreportgets', 'qcreportController@qcreportGets')->name('smt.qcreport.qcreportgets');

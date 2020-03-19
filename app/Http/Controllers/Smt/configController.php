@@ -55,6 +55,17 @@ class configController extends Controller
 		return $configgets;
 	}
 
+	public function configGetsWbgl (Request $request) {
+
+		if (! $request->ajax()) return null;
+
+		$configgets = Smt_config::select('title', 'name', 'value')
+			->where('suoshu', 'wbgl')
+			->get();
+			
+		return $configgets;
+	}
+
 	// 未使用
 	public function configCreate (Request $request) {
 

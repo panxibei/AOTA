@@ -133,19 +133,24 @@ var vm_app = new Vue({
 
 		CardListSmt: [
 			{
-				name: 'Mpoint (RC)',
+				name: 'Mpoint (GA)',
 				url: "{{ route('smt.pdreport.mpoint') }}", //'http://172.22.15.199:8888/smt/mpoint',
 				percent: 100,
 			},
 			{
-				name: '生产日报 (RC)',
+				name: '生产日报 (GA)',
 				url: "{{ route('smt.pdreport.index') }}",
-				percent: 97,
+				percent: 100,
 			},
 			{
 				name: '品质日报 (RC)',
 				url: "{{ route('smt.qcreport.index') }}",
 				percent: 98,
+			},
+			{
+				name: '网板管理 (RC)',
+				url: "{{ route('smt.wbgl.index') }}",
+				percent: 10,
 			},
 		],
 
