@@ -3862,9 +3862,9 @@ var vm_app = new Vue({
 			// 修正表X轴文字，去年“FY2017平均”字样。
 			var current_month = current_datetime.getMonth();
 			if (current_month > 2) {
-				_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '';
+				_this.chart3_option_xAxis_data[0] = 'FY' + last_year + '平均';
 			} else {
-				_this.chart3_option_xAxis_data[0] = 'FY' + before_last_year + '';
+				_this.chart3_option_xAxis_data[0] = 'FY' + before_last_year + '平均';
 			}
 			
 			var xianti_filter = _this.xianti_filter;
@@ -4052,7 +4052,7 @@ var vm_app = new Vue({
 							// console.log(v.shuliang + '|' + i + '|' + j);
 							if (v.shuliang != null || v.shuliang != '') {
 								_this.chart3_option_series_data[i][j] += Number(v.shuliang);
-							
+
 								// 每月份的汇总
 								_this.chart3_option_series_data_huizong[j] += Number(v.shuliang);
 							}
@@ -4060,8 +4060,17 @@ var vm_app = new Vue({
 						}
 
 					});
-					// console.log(_this.chart3_option_series_data);return false;
-					// console.log(_this.chart3_option_series_data_huizong);return false;
+
+					// 前一FY年度取12个月的平均值，向上取整
+					_this.chart3_option_series_data.map(function (v,k) {
+						_this.chart3_option_series_data[k][0] = Math.ceil(v[0] / 12);
+					});
+
+					// 前一FY年度取12个月的平均值，向上取整
+					_this.chart3_option_series_data_huizong[0] = Math.ceil(_this.chart3_option_series_data_huizong[0] / 12);
+
+					// console.log(_this.chart3_option_series_data);
+					// console.log(_this.chart3_option_series_data_huizong);
 					// _this.chart3_function();return false;
 
 					chartdata3.jibenxinxi.map(function (v,k) {
