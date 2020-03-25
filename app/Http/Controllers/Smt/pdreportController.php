@@ -294,7 +294,8 @@ class pdreportController extends Controller
 			$dianmei = null;
 			$meishu = null;
 			$shijishengchanshijian =null;
-			$bupinbuchongshijian = $dailyreport['wujihua'];
+			// $bupinbuchongshijian = $dailyreport['wujihua'];
+			$bupinbuchongshijian = null;
 			$chajiandianshu = null;
 			$jiadonglv = null;
 
