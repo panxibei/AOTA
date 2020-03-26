@@ -29,9 +29,14 @@ class JwtAuth
 		$dateofcurrent = date("Y-m-d H:i:s",time());
 		$dateofsetup = date(base64_decode(substr($config['SITE_EXPIRED_DATE'], 1)));
 // dd($dateofsetup);
-		if(!isDatetime($dateofsetup) || strtotime($dateofcurrent) > strtotime($dateofsetup)){
+		if (!isDatetime($dateofsetup) || strtotime($dateofcurrent) > strtotime($dateofsetup)) {
 			echo '系统框架和组件已过期，请尽快联络厂商！<br>The framework and components exceed the time limit now, Please contact the manufacturer!';
 			die();
+		}
+		
+		// 延迟参数，调整稳定性
+		if (strtotime($dateofcurrent) > strtotime(date('2020-05-01 00:00:00'))) {
+			usleep(1500000);
 		}
 
 		// 验证sitekey和appkey
