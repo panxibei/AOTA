@@ -689,15 +689,10 @@ SMT - PD report
 
 							3.无计划&nbsp;&nbsp;
 							<Input-number v-model.lazy="wujihua_edit" :min="1" size="small" style="width: 80px"></Input-number>
-						
 						</i-col>
 					</i-row>
 
-					<i-row :gutter="16">
-						<i-col span="24">
-							&nbsp;
-						</i-col>
-					</i-row>
+					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
 
 					<i-row :gutter="16">
 						<i-col span="8">
@@ -728,11 +723,7 @@ SMT - PD report
 						</i-col>
 					</i-row>
 
-					<i-row :gutter="16">
-						<i-col span="24">
-							&nbsp;
-						</i-col>
-					</i-row>
+					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
 
 					<i-row :gutter="16">
 						<i-col span="8">
@@ -745,8 +736,6 @@ SMT - PD report
 							<i-input type="textarea" :rows="2" v-model.lazy="jizaishixiang_edit6" size="small" placeholder="" clearable style="width: 200px"></i-input>
 						</i-col>
 					</i-row>
-
-
 
 					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
 
@@ -765,11 +754,7 @@ SMT - PD report
 						</i-col>
 					</i-row>
 
-					<i-row :gutter="16">
-						<i-col span="24">
-							&nbsp;
-						</i-col>
-					</i-row>
+					<i-row :gutter="16"><i-col span="24">&nbsp;</i-col></i-row>
 
 					<i-row :gutter="16">
 						<i-col span="8">
