@@ -1238,7 +1238,8 @@ class pdreportController extends Controller
 			->first()->toArray();
 		
 		if (empty($jizhongming) && empty($pinming) && empty($gongxu)) {
-			$bupinbuchongshijian = $ss['wujihua'];
+			// $bupinbuchongshijian = $ss['wujihua'];
+			$bupinbuchongshijian = null;
 		} else {
 			$bupinbuchongshijian = $shoudongshengchanshijian - $ss['shijishengchanshijian'] / 60
 				- $ss['xinchan'] - $ss['liangchan'] - $ss['dengdaibupin']
