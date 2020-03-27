@@ -147,11 +147,11 @@ var vm_app = new Vue({
 				url: "{{ route('smt.qcreport.index') }}",
 				percent: 98,
 			},
-			{
-				name: '网板管理 (RC)',
-				url: "{{ route('smt.wbgl.index') }}",
-				percent: 10,
-			},
+			// {
+			// 	name: '网板管理 (RC)',
+			// 	url: "{{ route('smt.wbgl.index') }}",
+			// 	percent: 10,
+			// },
 		],
 
 		CardListBupinjiagong: [
