@@ -4067,8 +4067,7 @@ var vm_app = new Vue({
 					});
 
 					// 前一FY年度取12个月的平均值，向上取整
-					// _this.chart3_option_series_data_huizong[0] = Math.ceil(_this.chart3_option_series_data_huizong[0] / 12);
-					_this.chart3_option_series_data_huizong[0] = Math.ceil(_this.chart3_option_series_data_huizong[0]);
+					_this.chart3_option_series_data_huizong[0] = Math.ceil(_this.chart3_option_series_data_huizong[0] / 12);
 
 					// console.log(_this.chart3_option_series_data);
 					// console.log(_this.chart3_option_series_data_huizong);
