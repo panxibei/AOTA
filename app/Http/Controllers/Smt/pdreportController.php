@@ -1341,7 +1341,8 @@ class pdreportController extends Controller
 		$shijishengchanshijian = $ss['shijishengchanshijian'];
 		
 		if (empty($ss['jizhongming']) && empty($ss['pinming']) && empty($ss['gongxu'])) {
-			$bupinbuchongshijian = $wujihua;
+			// $bupinbuchongshijian = $wujihua;
+			$bupinbuchongshijian = null;
 		} else {
 			$bupinbuchongshijian = $shoudongshengchanshijian - $shijishengchanshijian / 60
 				- $xinchan - $liangchan - $dengdaibupin
