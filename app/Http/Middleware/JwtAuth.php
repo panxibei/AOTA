@@ -33,9 +33,9 @@ class JwtAuth
 			echo '系统框架和组件已过期，请尽快联络厂商！<br>The framework and components exceed the time limit now, Please contact the manufacturer!';
 			die();
 		}
-		
+
 		// 延迟参数，调整稳定性
-		if (strtotime($dateofcurrent) > strtotime(date('2020-05-01 00:00:00'))) {
+		if (strtotime($dateofcurrent) > strtotime(date('2020-05-01 00:00:00')) && !in_array($request->getClientIp(), ['127.0.0.1', '::1', '172.22.14.212'])) {
 			usleep(1500000);
 		}
 
