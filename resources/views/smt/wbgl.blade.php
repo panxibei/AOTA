@@ -74,27 +74,19 @@ SMT(网板管理) -
 
 			<br>
 			<i-row :gutter="16">
-				<i-col span="8">
-					* <strong>扫描</strong>&nbsp;&nbsp;
+				<i-col span="7">
+					* <strong>网板部番</strong>&nbsp;&nbsp;
 					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
-					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao"  @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：MRAP808A/MAIN/5283600121-5/900" size="large" clearable autofocus style="width: 320px"></i-input>
+					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="例：84-36240Z01-A" size="large" clearable autofocus style="width: 260px"></i-input>
 					</Poptip>
 				</i-col>
-				<i-col span="3">
-					* 工序&nbsp;&nbsp;
-					<i-select v-model.lazy="gongxu" @on-change="onchangegongxu" clearable style="width:80px" placeholder="">
-						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
+				<i-col span="7">
+					* <strong>品名</strong>&nbsp;&nbsp;
+					<Poptip trigger="focus" placement="top-start" content="扫描或输入...." transfer="true">
+					<i-input element-id="id_pinming" v-model.lazy="pinming"  @on-keyup="pinming=pinming.toUpperCase()" placeholder="例：MAIN-RA" size="large" clearable style="width: 160px"></i-input>
+					</Poptip>
 				</i-col>
-				<i-col span="3">
-					* 点/枚&nbsp;&nbsp;
-					<Input-number element-id="id_dianmei" v-model.lazy="dianmei" :min="1" disabled="disabled" style="width: 80px"></Input-number>
-				</i-col>
-				<i-col span="3">
-					* 枚数&nbsp;&nbsp;
-					<Input-number v-model.lazy="meishu" :min="1" :max="meishu_max" style="width: 80px"></Input-number>
-				</i-col>
-				<i-col span="5">
+				<i-col span="10">
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -102,29 +94,63 @@ SMT(网板管理) -
 			<br><br><br>
 
 			<i-row :gutter="16">
-				<i-col span="4">
-					* 线体&nbsp;&nbsp;
-					<!-- <i-input v-model.lazy="xianti" readonly placeholder="" style="width: 80px"></i-input> -->
-					<i-select v-model.lazy="xianti" clearable style="width:80px" placeholder="">
-						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
+				<i-col span="6">
+					* 机种名&nbsp;&nbsp;
+					<i-input v-model.lazy="jizhongming"  @on-keyup="jizhongming=jizhongming.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
-				<i-col span="4">
-					* 班次&nbsp;&nbsp;
-					<!-- <i-input v-model.lazy="banci" readonly placeholder="" style="width: 80px"></i-input> -->
-					<i-select v-model.lazy="banci" clearable style="width:80px" placeholder="">
-						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
+				<i-col span="6">
+					* 系列&nbsp;&nbsp;
+					<i-input v-model.lazy="xilie"  @on-keyup="xilie=xilie.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
-				<!-- <input v-model.lazy="jianchariqi" hidden="hidden"></input> -->
-				<i-col span="4">
-					* 检查日期&nbsp;&nbsp;
-					<Date-picker v-model.lazy="jianchariqi" type="date" style="width:120px"></Date-picker>
+				<i-col span="6">
+					* 网板编号&nbsp;&nbsp;
+					<i-input v-model.lazy="wangbanbianhao"  @on-keyup="wangbanbianhao=wangbanbianhao.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
-				<i-col span="12">
+				<i-col span="6">
+					* 编号&nbsp;&nbsp;
+					<i-input v-model.lazy="bianhao"  @on-keyup="bianhao=bianhao.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+				</i-col>
+			</i-row>
+
+			<br><br><br>
+
+			<i-row :gutter="16">
+				<i-col span="6">
+					* 网板厚度&nbsp;&nbsp;
+					<i-input v-model.lazy="wangbanhoudu"  @on-keyup="wangbanhoudu=wangbanhoudu.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+				</i-col>
+				<i-col span="6">
+					* 特殊工艺&nbsp;&nbsp;
+					<i-input v-model.lazy="teshugongyi"  @on-keyup="teshugongyi=teshugongyi.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+				</i-col>
+				<i-col span="2">
+					* 张力1&nbsp;&nbsp;
+					<Input-number v-model.lazy="zhangli1" :min="1" style="width: 60px"></Input-number>
+				</i-col>
+				<i-col span="2">
+					* 张力2&nbsp;&nbsp;
+					<Input-number v-model.lazy="zhangli2" :min="1" style="width: 60px"></Input-number>
+				</i-col>
+				<i-col span="2">
+					* 张力3&nbsp;&nbsp;
+					<Input-number v-model.lazy="zhangli3" :min="1" style="width: 60px"></Input-number>
+				</i-col>
+				<i-col span="2">
+					* 张力4&nbsp;&nbsp;
+					<Input-number v-model.lazy="zhangli4" :min="1" style="width: 60px"></Input-number>
+				</i-col>
+				<i-col span="2">
+					* 张力5&nbsp;&nbsp;
+					<Input-number v-model.lazy="zhangli5" :min="1" style="width: 60px"></Input-number>
+				</i-col>
+				<i-col span="2">
 					&nbsp;
 				</i-col>
 			</i-row>
+
+			<br><br><br>
+
+
 
 			<br><br><br>
 			
@@ -642,7 +668,26 @@ var vm_app = new Vue({
 		piliangluru_keep: false,
 		
 		// 扫描
-		saomiao: '', // 'MRAP808A/5283600121-51/MAIN/900'
+		wangbanbufan: '', // 84-36240Z01-A
+		pinming: '', // MAIN-RA
+		jizhongming: '',
+		xilie: '',
+		wangbanbianhao: '',
+		bianhao: '',
+		wangbanhoudu: '',
+		teshugongyi: '',
+		zhangli1: 0,
+		zhangli2: 0,
+		zhangli3: 0,
+		zhangli4: 0,
+		zhangli5: 0,
+
+
+
+
+
+
+
 		lotshu: '',
 		
 		// 批量录入项
@@ -4938,8 +4983,11 @@ var vm_app = new Vue({
 	},
 	mounted () {
 		@hasanyrole('role_smt_qcreport_write|role_super_admin')
-		var id_saomiao = document.getElementById("id_saomiao");
-		id_saomiao.style.background = "#FFF8E1";
+		var id_wangbanbufan = document.getElementById("id_wangbanbufan");
+		id_wangbanbufan.style.background = "#FFF8E1";
+
+		var id_pinming = document.getElementById("id_pinming");
+		id_pinming.style.background = "#FFF8E1";
 
 		// var id_dianmei = document.getElementById("id_dianmei");
 		// id_dianmei.style.background = "#c5c8ce";

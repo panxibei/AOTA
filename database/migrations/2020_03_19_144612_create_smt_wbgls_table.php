@@ -15,11 +15,11 @@ class CreateSmtWbglsTable extends Migration
     {
         Schema::create('smt_wbgls', function (Blueprint $table) {
 			$table->increments('id');
+			$table->string('wangbanbufan', 50);
 			$table->string('jizhongming', 50);
 			$table->string('pinming', 50);
-			$table->string('gongxu', 20);
+			// $table->string('gongxu', 20);
 			$table->string('xilie', 50);
-			$table->string('wangbanbufan', 50);
 			$table->string('bianhao', 10);
 			$table->string('wangbanhoudu', 50)->nullable();
 			$table->string('teshugongyi', 50)->nullable();
