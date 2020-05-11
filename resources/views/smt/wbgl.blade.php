@@ -241,312 +241,274 @@ SMT(网板管理) -
 					</i-select>
 				</i-col>
 			</i-row>
-			<br><br><br>
 
-			<Tabs type="card" v-model="currentsubtabs" :animated="false">
-				<Tab-pane label="品质管理日报查询表">
+			<br><br>
 
-					<i-row :gutter="16">
-						<br>
-						<i-col span="2">
-							@hasanyrole('role_smt_pdreport_write|role_super_admin')
-							<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
-								<i-button :disabled="boo_delete" type="warning" size="small" icon="ios-trash-outline">删除</i-button>
-							</Poptip>
-							@endhasanyrole
-							&nbsp;<br>&nbsp;
-						</i-col>
-						<i-col span="8">
-							导出：&nbsp;&nbsp;
-							<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_db" @on-cancel="" transfer="true">
-								<i-button type="default" size="small" icon="ios-download-outline">导出后台数据</i-button>
-							</Poptip>
-						</i-col>
-						<i-col span="10">
-							&nbsp;
-						</i-col>
-						<i-col span="4">
-							<!-- &nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp; -->
-						</i-col>
-					</i-row>
+			<i-row :gutter="16">
+				<br>
+				<i-col span="2">
+					@hasanyrole('role_smt_pdreport_write|role_super_admin')
+					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
+						<i-button :disabled="boo_delete" type="warning" size="small" icon="ios-trash-outline">删除</i-button>
+					</Poptip>
+					@endhasanyrole
+					&nbsp;<br>&nbsp;
+				</i-col>
+				<i-col span="8">
+					导出：&nbsp;&nbsp;
+					<Poptip confirm title="确定要导出后台数据吗？" placement="right-start" @on-ok="exportData_db" @on-cancel="" transfer="true">
+						<i-button type="default" size="small" icon="ios-download-outline">导出后台数据</i-button>
+					</Poptip>
+				</i-col>
+				<i-col span="10">
+					&nbsp;
+				</i-col>
+				<i-col span="4">
+					<!-- &nbsp;&nbsp;&nbsp;<strong>不良件数小计：@{{ buliangjianshuheji.toLocaleString() }} </strong>&nbsp;&nbsp; -->
+				</i-col>
+			</i-row>
 
-					<i-row :gutter="16">
-						<i-col span="24">
-							<i-table ref="table1" height="460" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
-							<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
-						</i-col>
-					</i-row>
+			<i-row :gutter="16">
+				<i-col span="24">
+					<i-table ref="table1" height="460" size="small" border :columns="tablecolumns1" :data="tabledata1" @on-selection-change="selection => onselectchange1(selection)"></i-table>
+					<br><Page :current="pagecurrent" :total="pagetotal" :page-size="pagepagesize" @on-change="currentpage => oncurrentpagechange(currentpage)" show-total show-elevator></Page><br><br>
+				</i-col>
+			</i-row>
 
-					<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 工程内不良记录" width="540">
-						<div style="text-align:left">
-						<p>
-								创建时间：@{{ created_at_edit }}
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								更新时间：@{{ updated_at_edit }}
-							
-							</p><br>
-
-							<p>
-								机种名：@{{ jizhongming_edit }}
-							
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								品名：@{{ pinming_edit }}
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								工序：@{{ gongxu_edit }}
-							
-							</p>
-							
-							<Divider></Divider>
-									
-							<!--<span v-for="(item, index) in piliangbianji">-->
-							<p>
-								枚数&nbsp;&nbsp;
-								<Input-number v-model="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-							
-							</p><br>
-							<!--</span>-->
-							
-							&nbsp;
+			<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 工程内不良记录" width="540">
+				<div style="text-align:left">
+				<p>
+						创建时间：@{{ created_at_edit }}
 						
-						</div>	
-					</Modal>
-
-					<!-- 子编辑窗口 -->
-					<Modal v-model="modal_qcreport_edit_sub" @on-ok="qcreport_edit_sub_ok" ok-text="保存" title="编辑 - 不良信息" width="540">
-						<div style="text-align:left">
-							<p>
-								创建时间：@{{ created_at_edit }}
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								更新时间：@{{ updated_at_edit }}
-							
-							</p><br>
-
-							<p>
-								机种名：@{{ jizhongming_edit }}
-							
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								品名：@{{ pinming_edit }}
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								工序：@{{ gongxu_edit }}
-							
-							</p>
-							
-							<Divider></Divider>
-
-							<!--<span v-for="(item, index) in piliangbianji">-->
-							<p>
-								检查机类型&nbsp;&nbsp;
-								<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
-									<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-								</i-select>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-
-								不良内容&nbsp;&nbsp;
-								<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
-									<Option-group label="****** 印刷系 ******">
-										<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 装着系 ******">
-										<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 异物系 ******">
-										<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 人系 ******">
-										<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 部品系 ******">
-										<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 其他 ******">
-										<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-								</i-select>
-
-								
-							</p><br>
-							
-							<p>
-								位号&nbsp;&nbsp;
-								<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								数量&nbsp;&nbsp;
-								<Input-number v-model.lazy="shuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								检查者&nbsp;&nbsp;
-								<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
-									<Option-group label="*** 一组 ***">
-										<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="*** 二组 ***">
-										<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="*** 三组 ***">
-										<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-								</i-select>
-
-
-							</p><br>
-							<!--</span>-->
-							
-							&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;
 						
-							<!-- <p>
-							※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
-							</p> -->
+						更新时间：@{{ updated_at_edit }}
+					
+					</p><br>
+
+					<p>
+						机种名：@{{ jizhongming_edit }}
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;
 						
-						</div>	
-					</Modal>
-
-					<!-- 不良追加窗口 -->
-					<Modal v-model="modal_qcreport_append" @on-ok="qcreport_append_ok" ok-text="追加" title="追加 - 不良信息" width="540">
-						<div style="text-align:left">
-							<p>
-								创建时间：@{{ created_at_append }}
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								更新时间：@{{ updated_at_append }}
-							
-							</p><br>
-
-							<p>
-								机种名：@{{ jizhongming_append }}
-							
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								品名：@{{ pinming_append }}
-								
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								工序：@{{ gongxu_append }}
-							
-							</p>
-							
-							<Divider></Divider>
-
-							<!--<span v-for="(item, index) in piliangbianji">-->
-							<p>
-								检查机类型&nbsp;&nbsp;
-								<i-select v-model.lazy="jianchajileixing_append" size="small" clearable style="width:120px" placeholder="">
-									<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-								</i-select>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-
-								不良内容&nbsp;&nbsp;
-								<i-select v-model.lazy="buliangneirong_append" size="small" clearable style="width:200px" placeholder="例：部品不良">
-									<Option-group label="****** 印刷系 ******">
-										<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 装着系 ******">
-										<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 异物系 ******">
-										<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 人系 ******">
-										<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 部品系 ******">
-										<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="****** 其他 ******">
-										<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-								</i-select>
-
-								
-							</p><br>
-							
-							<p>
-								位号&nbsp;&nbsp;
-								<i-input v-model.lazy="weihao_append" @on-keyup="weihao_append=weihao_append.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								数量&nbsp;&nbsp;
-								<Input-number v-model.lazy="shuliang_append[1]" :min="1" size="small" style="width: 80px"></Input-number>
-
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								
-								检查者&nbsp;&nbsp;
-								<i-select v-model.lazy="jianchazhe_append" size="small" clearable style="width:100px" placeholder="">
-									<Option-group label="*** 一组 ***">
-										<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="*** 二组 ***">
-										<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-									<Option-group label="*** 三组 ***">
-										<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-									</Option-group>
-								</i-select>
-
-
-							</p><br>
-							<!--</span>-->
-							
-							&nbsp;
+						品名：@{{ pinming_edit }}
 						
-						</div>	
-					</Modal>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						工序：@{{ gongxu_edit }}
+					
+					</p>
+					
+					<Divider></Divider>
+							
+					<!--<span v-for="(item, index) in piliangbianji">-->
+					<p>
+						枚数&nbsp;&nbsp;
+						<Input-number v-model="meishu_edit" :min="1" size="small" style="width: 80px"></Input-number>
 
-				</Tab-pane>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					</p><br>
+					<!--</span>-->
+					
+					&nbsp;
+				
+				</div>	
+			</Modal>
 
-				<Tab-pane label="图表1 - 工程内不良记录（PPM）">
+			<!-- 子编辑窗口 -->
+			<Modal v-model="modal_qcreport_edit_sub" @on-ok="qcreport_edit_sub_ok" ok-text="保存" title="编辑 - 不良信息" width="540">
+				<div style="text-align:left">
+					<p>
+						创建时间：@{{ created_at_edit }}
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						更新时间：@{{ updated_at_edit }}
+					
+					</p><br>
 
-					<i-button @click="onchart1()" :disabled="disabled_chart1" type="info" size="small" icon="ios-podium">刷新图表1 ↘</i-button>
-					<!--
-					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					<Upload
-						:before-upload="handleUpload"
-						action="{{ route('smt.qcreport.qcreportimport') }}">
-						<i-button icon="ios-cloud-upload-outline">Upload files</i-button>
-					</Upload>
-					<div v-if="file !== null">Upload file: @{{ file.name }} <i-button @click="upload" :loading="loadingStatus" size="small">@{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</i-button></div>
-					-->
+					<p>
+						机种名：@{{ jizhongming_edit }}
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						品名：@{{ pinming_edit }}
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						工序：@{{ gongxu_edit }}
+					
+					</p>
+					
+					<Divider></Divider>
 
-					<br><br>
-					<i-row :gutter="16">
-						<i-col span="24">
-							<div id="chart1" style="height:600px"></div>
-						</i-col>
-					</i-row>
+					<!--<span v-for="(item, index) in piliangbianji">-->
+					<p>
+						检查机类型&nbsp;&nbsp;
+						<i-select v-model.lazy="jianchajileixing_edit" size="small" clearable style="width:120px" placeholder="">
+							<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</i-select>
 
-				</Tab-pane>
+						&nbsp;&nbsp;&nbsp;&nbsp;
 
-				<Tab-pane label="图表2 - 按不良内容统计不良占有率">
+						不良内容&nbsp;&nbsp;
+						<i-select v-model.lazy="buliangneirong_edit" size="small" clearable style="width:200px" placeholder="例：部品不良">
+							<Option-group label="****** 印刷系 ******">
+								<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 装着系 ******">
+								<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 异物系 ******">
+								<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 人系 ******">
+								<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 部品系 ******">
+								<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 其他 ******">
+								<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+						</i-select>
 
-					<i-button @click="onchart2()" :disabled="disabled_chart2" type="info" size="small" icon="ios-podium">刷新图表2 ↘</i-button>
-					<br><br>
-					<i-row :gutter="16">
-						<i-col span="24">
-							<div id="chart2" style="height:500px"></div>
-						</i-col>
-					</i-row>
+						
+					</p><br>
+					
+					<p>
+						位号&nbsp;&nbsp;
+						<i-input v-model.lazy="weihao_edit" @on-keyup="weihao_edit=weihao_edit.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
 
-				</Tab-pane>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						数量&nbsp;&nbsp;
+						<Input-number v-model.lazy="shuliang_edit[1]" :min="1" size="small" style="width: 80px"></Input-number>
 
-			</Tabs>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						检查者&nbsp;&nbsp;
+						<i-select v-model.lazy="jianchazhe_edit" size="small" clearable style="width:100px" placeholder="">
+							<Option-group label="*** 一组 ***">
+								<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="*** 二组 ***">
+								<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="*** 三组 ***">
+								<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+						</i-select>
+
+
+					</p><br>
+					<!--</span>-->
+					
+					&nbsp;
+				
+					<!-- <p>
+					※ 数量为 0 保存时，自动清除 “不良内容” 和 “位号” 。
+					</p> -->
+				
+				</div>	
+			</Modal>
+
+			<!-- 不良追加窗口 -->
+			<Modal v-model="modal_qcreport_append" @on-ok="qcreport_append_ok" ok-text="追加" title="追加 - 不良信息" width="540">
+				<div style="text-align:left">
+					<p>
+						创建时间：@{{ created_at_append }}
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						更新时间：@{{ updated_at_append }}
+					
+					</p><br>
+
+					<p>
+						机种名：@{{ jizhongming_append }}
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						品名：@{{ pinming_append }}
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						工序：@{{ gongxu_append }}
+					
+					</p>
+					
+					<Divider></Divider>
+
+					<!--<span v-for="(item, index) in piliangbianji">-->
+					<p>
+						检查机类型&nbsp;&nbsp;
+						<i-select v-model.lazy="jianchajileixing_append" size="small" clearable style="width:120px" placeholder="">
+							<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+						</i-select>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
+						不良内容&nbsp;&nbsp;
+						<i-select v-model.lazy="buliangneirong_append" size="small" clearable style="width:200px" placeholder="例：部品不良">
+							<Option-group label="****** 印刷系 ******">
+								<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 装着系 ******">
+								<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 异物系 ******">
+								<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 人系 ******">
+								<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 部品系 ******">
+								<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="****** 其他 ******">
+								<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+						</i-select>
+
+						
+					</p><br>
+					
+					<p>
+						位号&nbsp;&nbsp;
+						<i-input v-model.lazy="weihao_append" @on-keyup="weihao_append=weihao_append.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						数量&nbsp;&nbsp;
+						<Input-number v-model.lazy="shuliang_append[1]" :min="1" size="small" style="width: 80px"></Input-number>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						检查者&nbsp;&nbsp;
+						<i-select v-model.lazy="jianchazhe_append" size="small" clearable style="width:100px" placeholder="">
+							<Option-group label="*** 一组 ***">
+								<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="*** 二组 ***">
+								<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+							<Option-group label="*** 三组 ***">
+								<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
+							</Option-group>
+						</i-select>
+
+
+					</p><br>
+					<!--</span>-->
+					
+					&nbsp;
+				
+				</div>	
+			</Modal>
+
+
 
 
 		</Tab-pane>
@@ -576,18 +538,11 @@ var vm_app = new Vue({
 		// 修改密码界面
 		modal_password_edit: false,
 
-		// 批量录入
-		piliangluru: [
-			{
-				jianchajileixing: '',
-				buliangneirong: '',
-				weihao: '',
-				shuliang: '',
-				jianchazhe: ''
-			},
-		],
-		piliangluru_keep: false,
-		
+		// tabs索引
+		currenttabs: 1,
+		currentsubtabs: 0,
+
+
 		// 扫描
 		wangbanbufan: '', // 84-36240Z01-A
 		pinming: '', // MAIN-RA
@@ -608,6 +563,19 @@ var vm_app = new Vue({
 
 
 
+
+		// 批量录入
+		piliangluru: [
+			{
+				jianchajileixing: '',
+				buliangneirong: '',
+				weihao: '',
+				shuliang: '',
+				jianchazhe: ''
+			},
+		],
+		piliangluru_keep: false,
+		
 
 		lotshu: '',
 		
@@ -2065,9 +2033,6 @@ var vm_app = new Vue({
 		jianchazhe_append: '',
 		count_of_buliangxinxi_append: 0,
 
-		// tabs索引
-		currenttabs: 0,
-		currentsubtabs: 0,
 
 	},
 	methods: {

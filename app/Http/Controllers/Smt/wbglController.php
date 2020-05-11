@@ -564,10 +564,6 @@ class wbglController extends Controller
 		$s['zhangli4'] = $zhangli4;
 		$s['zhangli5'] = $zhangli5;
 
-
-		// dd($wangbanbufan);
-		// dd($s);
-		// dd($p);
 		
 		// 写入数据库
 		try	{
