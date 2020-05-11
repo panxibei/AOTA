@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Smt_wbgl extends Model
 {
 	protected $fillable = [
-        'jizhongming', 'pinming', 'gongxu', 'xilie', 'wangbanbufan',
+        'jizhongming', 'pinming', 'xilie', 'wangbanbufan',
          'bianhao', 'wangbanhoudu', 'teshugongyi',
         'zhangli1', 'zhangli2', 'zhangli3', 'zhangli4',  'zhangli5', 
         'luruzhe', 'bianjizhe',

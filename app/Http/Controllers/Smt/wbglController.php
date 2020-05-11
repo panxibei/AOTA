@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Admin\Config;
-use App\Models\Smt\Smt_mpoint;
-use App\Models\Smt\Smt_pdreport;
-use App\Models\Smt\Smt_qcreport;
+use App\Models\Smt\Smt_wbgl;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\qcreportExport;
@@ -524,99 +522,50 @@ class wbglController extends Controller
 
 
 	/**
-	 * qcreportCreate
+	 * wbglCreate
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function qcreportCreate(Request $request)
+	public function wbglCreate(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 		
-		$saomiao = $request->input('saomiao');
-		$jianchariqi = $request->input('jianchariqi');
-		$xianti = $request->input('xianti');
-		$banci = $request->input('banci');
-		$gongxu = $request->input('gongxu');
-		$dianmei = $request->input('dianmei');
-		$meishu = $request->input('meishu');
-		$piliangluru = $request->input('piliangluru');
+		$wangbanbufan = $request->input('wangbanbufan');
+		$pinming = $request->input('pinming');
+		$jizhongming = $request->input('jizhongming');
+		$xilie = $request->input('xilie');
+		$wangbanbianhao = $request->input('wangbanbianhao');
+		$bianhao = $request->input('bianhao');
+		$wangbanhoudu = $request->input('wangbanhoudu');
+		$teshugongyi = $request->input('teshugongyi');
+		$zhangli1 = $request->input('zhangli1');
+		$zhangli2 = $request->input('zhangli2');
+		$zhangli3 = $request->input('zhangli3');
+		$zhangli4 = $request->input('zhangli4');
+		$zhangli5 = $request->input('zhangli5');
 
-		if ($dianmei == 0 || $meishu == 0) {
+
+		if (empty($wangbanbufan) || empty($pinming) || empty($jizhongming)) {
 			return 0;
 		}
-// dd($jianchariqi);
-		$saomiao_arr = explode('/', $saomiao);
-		
-		$s['jizhongming'] = substr($saomiao_arr[0], 0, 8);
-		$s['pinming'] = $saomiao_arr[1];
-		$s['spno'] = $saomiao_arr[2];
-		$s['lotshu'] = $saomiao_arr[3];
 
-		// 获取生产日期
-		// $jianchariqi = Smt_pdreport::select('jianchariqi')
-		// ->where('jizhongming', $s['jizhongming'])
-		// ->where('spno', $s['spno'])
-		// ->where('pinming', $s['pinming'])
-		// ->first();
-		// dd($jianchariqi['jianchariqi']);
-		$s['jianchariqi'] = $jianchariqi;
-		$s['xianti'] = $xianti;
-		$s['banci'] = $banci;
-		$s['gongxu'] = $gongxu;
-		$s['dianmei'] = $dianmei;
-		$s['meishu'] = $meishu;
-		$s['hejidianshu'] = $dianmei * $meishu;
-		
-		$s['bushihejianshuheji'] = 0;
+		$s['wangbanbufan'] = $wangbanbufan;
+		$s['pinming'] = $pinming;
+		$s['jizhongming'] = $jizhongming;
+		$s['xilie'] = $xilie;
+		$s['wangbanbianhao'] = $wangbanbianhao;
+		$s['bianhao'] = $bianhao;
+		$s['wangbanhoudu'] = $wangbanhoudu;
+		$s['teshugongyi'] = $teshugongyi;
+		$s['zhangli1'] = $zhangli1;
+		$s['zhangli2'] = $zhangli2;
+		$s['zhangli3'] = $zhangli3;
+		$s['zhangli4'] = $zhangli4;
+		$s['zhangli5'] = $zhangli5;
 
 
-		$p = [];
-		// 如果批量不良录入为空
-		if (empty($piliangluru)) {
-			$s['bushihejianshuheji'] = 0;
-			$s['ppm'] = 0;
-			// $p[] = $s;
-
-		} else {
-			foreach ($piliangluru as $value) {
-				if ($value['shuliang'] != null && $value['shuliang'] != '' && $value['shuliang'] != 0) {
-					$s['bushihejianshuheji'] += $value['shuliang'];
-				}
-			}
-
-			if ($s['bushihejianshuheji'] == 0) {
-				$s['ppm'] = 0;
-			} else {
-				$s['ppm'] = $s['bushihejianshuheji'] / $s['hejidianshu'] * 1000000;
-			}
-
-			// dd($s);
-			
-			// foreach ($piliangluru as $value) {
-			// 	$p[] = array_merge($value, $s);
-			// }
-
-		}
-
-		if (!empty($piliangluru)) {
-			// 	$s['buliangxinxi'] =  json_encode(
-			// 		$piliangluru, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-			// 	);
-
-			$i = 1;
-			foreach ($piliangluru as $key => $value) {
-				$piliangluru[$key]['id'] = $i;
-				$i++;
-				if ($value['shuliang'] == null || $value['shuliang'] == '') {
-					$piliangluru[$key]['shuliang'] = 0;
-				}
-			}
-
-			$s['buliangxinxi'] = $piliangluru;
-		}
-
-		// dd($piliangluru);
+		// dd($wangbanbufan);
 		// dd($s);
 		// dd($p);
 		
@@ -626,13 +575,12 @@ class wbglController extends Controller
 			
 			// 此处如用insert可以直接参数为二维数组，但不能更新created_at和updated_at字段。
 			// foreach ($p as $value) {
-				Smt_qcreport::create($s);
+				Smt_wbgl::create($s);
 			// }
 
 			$result = 1;
 		}
 		catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
 			DB::rollBack();
 			// dd('Message: ' .$e->getMessage());
 			return 0;

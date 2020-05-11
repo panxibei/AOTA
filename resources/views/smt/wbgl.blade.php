@@ -77,13 +77,13 @@ SMT(网板管理) -
 				<i-col span="7">
 					* <strong>网板部番</strong>&nbsp;&nbsp;
 					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
-					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="例：84-36240Z01-A" size="large" clearable autofocus style="width: 260px"></i-input>
+					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="84-36240Z01-A" size="large" clearable autofocus style="width: 260px"></i-input>
 					</Poptip>
 				</i-col>
 				<i-col span="7">
 					* <strong>品名</strong>&nbsp;&nbsp;
 					<Poptip trigger="focus" placement="top-start" content="扫描或输入...." transfer="true">
-					<i-input element-id="id_pinming" v-model.lazy="pinming"  @on-keyup="pinming=pinming.toUpperCase()" placeholder="例：MAIN-RA" size="large" clearable style="width: 160px"></i-input>
+					<i-input element-id="id_pinming" v-model.lazy="pinming"  @on-keyup="pinming=pinming.toUpperCase()" placeholder="MAIN-RA" size="large" clearable style="width: 160px"></i-input>
 					</Poptip>
 				</i-col>
 				<i-col span="10">
@@ -96,19 +96,19 @@ SMT(网板管理) -
 			<i-row :gutter="16">
 				<i-col span="6">
 					* 机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="jizhongming"  @on-keyup="jizhongming=jizhongming.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+					<i-input v-model.lazy="jizhongming"  @on-keyup="jizhongming=jizhongming.toUpperCase()" placeholder="RH00202A" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 				<i-col span="6">
 					* 系列&nbsp;&nbsp;
-					<i-input v-model.lazy="xilie"  @on-keyup="xilie=xilie.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+					<i-input v-model.lazy="xilie"  @on-keyup="xilie=xilie.toUpperCase()" placeholder="T7AW" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 				<i-col span="6">
 					* 网板编号&nbsp;&nbsp;
-					<i-input v-model.lazy="wangbanbianhao"  @on-keyup="wangbanbianhao=wangbanbianhao.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+					<i-input v-model.lazy="wangbanbianhao"  @on-keyup="wangbanbianhao=wangbanbianhao.toUpperCase()" placeholder="SZ19-7708" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 				<i-col span="6">
 					* 编号&nbsp;&nbsp;
-					<i-input v-model.lazy="bianhao"  @on-keyup="bianhao=bianhao.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+					<i-input v-model.lazy="bianhao"  @on-keyup="bianhao=bianhao.toUpperCase()" placeholder="6-1" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 			</i-row>
 
@@ -117,11 +117,11 @@ SMT(网板管理) -
 			<i-row :gutter="16">
 				<i-col span="6">
 					* 网板厚度&nbsp;&nbsp;
-					<i-input v-model.lazy="wangbanhoudu"  @on-keyup="wangbanhoudu=wangbanhoudu.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+					<i-input v-model.lazy="wangbanhoudu"  @on-keyup="wangbanhoudu=wangbanhoudu.toUpperCase()" placeholder="T:0.13~0.11" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 				<i-col span="6">
 					* 特殊工艺&nbsp;&nbsp;
-					<i-input v-model.lazy="teshugongyi"  @on-keyup="teshugongyi=teshugongyi.toUpperCase()" placeholder="" size="large" clearable style="width: 180px"></i-input>
+					<i-input v-model.lazy="teshugongyi"  @on-keyup="teshugongyi=teshugongyi.toUpperCase()" placeholder="纳米, 0603" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 				<i-col span="2">
 					* 张力1&nbsp;&nbsp;
@@ -147,85 +147,6 @@ SMT(网板管理) -
 					&nbsp;
 				</i-col>
 			</i-row>
-
-			<br><br><br>
-
-
-
-			<br><br><br>
-			
-			<i-row :gutter="16">
-				<i-col span="24">
-					↓ 批量录入&nbsp;&nbsp;
-					<Input-number v-model.lazy="piliangluruxiang" @on-change="value=>piliangluru_generate(value)" :min="1" :max="10" size="small" style="width: 60px"></Input-number>
-					&nbsp;项（最多10项）&nbsp;&nbsp;
-					<i-switch v-model="piliangluru_keep" size="small"></i-switch>&nbsp;锁定批量录入数
-				</i-col>
-			</i-row>
-			
-			<br>
-
-			<span v-for="(item, index) in piliangluru">
-			<br>
-			<i-row :gutter="16">
-				<i-col span="1">
-					&nbsp;No.@{{index+1}}
-				</i-col>
-				<i-col span="5">
-					检查机类型&nbsp;&nbsp;
-					<i-select v-model.lazy="item.jianchajileixing" size="small" clearable style="width:120px" placeholder="">
-						<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-				</i-col>
-				<i-col span="6">
-					不良内容&nbsp;&nbsp;
-					<i-select v-model.lazy="item.buliangneirong" size="small" clearable style="width:200px" placeholder="例：部品不良">
-						<Option-group label="****** 印刷系 ******">
-							<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 装着系 ******">
-							<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 异物系 ******">
-							<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 人系 ******">
-							<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 部品系 ******">
-							<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 其他 ******">
-							<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-					</i-select>
-				</i-col>
-				<i-col span="4">
-					位号&nbsp;&nbsp;
-					<i-input v-model.lazy="item.weihao" @on-keyup="item.weihao=item.weihao.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
-				</i-col>
-				<i-col span="3">
-					数量&nbsp;&nbsp;
-					<Input-number v-model.lazy="item.shuliang" :min="1" size="small" style="width: 80px"></Input-number>
-				</i-col>
-				<i-col span="5">
-					检查者&nbsp;&nbsp;
-					<i-select v-model.lazy="item.jianchazhe" size="small" clearable style="width:140px" placeholder="">
-						<Option-group label="****** 一组 ******">
-							<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 二组 ******">
-							<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 三组 ******">
-							<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-					</i-select>
-				</i-col>
-				
-			</i-row>
-			&nbsp;
-			</span>
 
 			&nbsp;<br>
 			<i-row :gutter="16">
@@ -2430,10 +2351,22 @@ var vm_app = new Vue({
 		},
 		
 		// onclear
-		onclear: function () {
+		onclear() {
 			var _this = this;
 
-			// var piliangluruxiang = _this.piliangluruxiang;
+			_this.wangbanbufan = '';
+			_this.pinming = '';
+			_this.jizhongming = '';
+			_this.xilie = '';
+			_this.wangbanbianhao = '';
+			_this.bianhao = '';
+			_this.wangbanhoudu = '';
+			_this.teshugongyi = '';
+			_this.zhangli1 = 0;
+			_this.zhangli2 = 0;
+			_this.zhangli3 = 0;
+			_this.zhangli4 = 0;
+			_this.zhangli5 = 0;
 
 			_this.saomiao = '';
 			_this.jianchariqi = '';
@@ -2444,27 +2377,6 @@ var vm_app = new Vue({
 			_this.meishu = '';
 			_this.meishu_max = '';
 			
-			if (_this.piliangluru_keep) {
-				_this.piliangluru.map(function (v,i) {
-					v.jianchajileixing = '';
-					v.buliangneirong = '';
-					v.weihao = '';
-					v.shuliang = '';
-					v.jianchazhe = '';
-				});
-			} else {
-				_this.piliangluru = [
-					{
-						jianchajileixing: '',
-						buliangneirong: '',
-						weihao: '',
-						shuliang: '',
-						jianchazhe: '',
-					}
-				];
-				_this.piliangluruxiang = 1;
-			}
-			
 			_this.$refs.saomiao.focus();
 		},
 		
@@ -2474,136 +2386,48 @@ var vm_app = new Vue({
 
 			_this.disabled_create = true;
 
-			var saomiao = _this.saomiao;
-			var jianchariqi = _this.jianchariqi;
-			var xianti = _this.xianti;
-			var banci = _this.banci;
-			var gongxu = _this.gongxu;
-			var dianmei = _this.dianmei;
-			var meishu = _this.meishu;
-			
+			var wangbanbufan = _this.wangbanbufan;
+			var pinming = _this.pinming;
+			var jizhongming = _this.jizhongming;
+			var xilie = _this.xilie;
+			var wangbanbianhao = _this.wangbanbianhao;
+			var bianhao = _this.bianhao;
+			var wangbanhoudu = _this.wangbanhoudu;
+			var teshugongyi = _this.teshugongyi;
+			var zhangli1 = _this.zhangli1;
+			var zhangli2 = _this.zhangli2;
+			var zhangli3 = _this.zhangli3;
+			var zhangli4 = _this.zhangli4;
+			var zhangli5 = _this.zhangli5;
+
+
 			// 基本信息不能为空
-			if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
-				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined
-				|| dianmei == '' || dianmei == undefined || dianmei == 0
-				|| meishu == '' || meishu == undefined || meishu == 0) {
+			if (wangbanbufan == '' || wangbanbufan == undefined
+				|| jizhongming == '' || jizhongming == undefined
+				|| pinming == '' || pinming == undefined) {
 				_this.warning(false, '警告', '基本信息输入内容为空或不正确！');
 				_this.disabled_create = false;
 				return false;
 			}
 
-			// 枚数不大于LOT数
-			if (_this.meishu > _this.lotshu) {
-				_this.warning(false, '警告', '枚数不可大于LOT数！');
-				_this.disabled_create = false;
-				return false;
-			}
-			
-			// 批量信息录入判定
-			// 其他循环不支持跳出
-			var flag = true;
-			for (var v of _this.piliangluru) {
 
-				// 全部不为空，则OK
-				if (v.jianchajileixing != '' && v.jianchajileixing != undefined
-					&& v.buliangneirong != '' && v.buliangneirong != undefined
-					&& v.weihao != '' && v.weihao != undefined
-					&& v.shuliang != '' && v.shuliang != undefined
-					&& v.jianchazhe != '' && v.jianchazhe != undefined) {
-					// console.log('所有OK');
-					// flag = true;
-					continue;
-				}
-
-				// 全部为空，也为OK
-				if ((v.jianchajileixing == '' || v.jianchajileixing == undefined)
-					&& (v.buliangneirong == '' || v.buliangneirong == undefined)
-					&& (v.weihao == '' || v.weihao == undefined)
-					&& (v.shuliang == '' || v.shuliang == undefined)
-					&& (v.jianchazhe == '' || v.jianchazhe == undefined)) {
-					// console.log('所有OK');
-					// flag = true;
-					continue;
-				}
-
-				// 任何一行记录，只要有一项填写，就必须都填写
-				// if (v.jianchajileixing != '' && v.jianchajileixing != undefined) {
-				// 	flag = false;
-				// 	break;
-				// } else if (v.buliangneirong != '' && v.buliangneirong != undefined) {
-				// 	flag = false;
-				// 	break;
-				// } else if (v.weihao != '' && v.weihao != undefined) {
-				// 	flag = false;
-				// 	break;
-				// } else if (v.shuliang != '' && v.shuliang != undefined) {
-				// 	flag = false;
-				// 	break;
-				// } else if (v.jianchazhe != '' && v.jianchazhe != undefined) {
-				// 	flag = false;
-				// 	break;
-				// }
-
-				// 任何一行记录，检查机类型和检查者必须同时填写，其他可为空
-				if ((v.jianchajileixing != '' || v.jianchajileixing != undefined)
-					&& (v.jianchazhe == '' || v.jianchazhe == undefined)) {
-					flag = false;break;
-				} else if ((v.jianchazhe != '' || v.jianchazhe != undefined)
-					&& (v.jianchajileixing == '' || v.jianchajileixing == undefined)) {
-					flag = false;break;
-				}
-			}
-			// console.log('flag: ' + flag);return false;
-
-			if (flag == false) {
-				_this.warning(false, '警告', '批量录入内容为空或不正确！');
-				_this.disabled_create = false;
-				return false;
-			}
-
-			// 不良数量不可大于检查枚数（作废）
-			// var shuliang_tmp = 0;
-			// for (var v of _this.piliangluru) {
-			// 	shuliang_tmp += v.shuliang;
-			// }
-			// if (shuliang_tmp > _this.meishu) {
-			// 	_this.warning(false, '警告', '批量录入的不良数量不可大于检查枚数！');
-			// 	return false;
-			// }
-			// console.log(shuliang_tmp);return false;
-
-			// 删除空json节点
-			var piliangluru_tmp = [];
-			for (var v of _this.piliangluru) {
-				if (v.jianchajileixing == '' || v.jianchajileixing == undefined) {
-					
-				} else {
-					piliangluru_tmp.push(v);
-				}
-
-			}
-			if (piliangluru_tmp.length == 0) {
-				_this.warning(false, '警告', '批量录入内容为空！');
-				_this.disabled_create = false;
-				return false;
-			}
-			// console.log(piliangluru_tmp);return false;
-			// console.log(_this.piliangluru);return false;
-
-			var piliangluru = piliangluru_tmp;
-			var tableselect1 = _this.tableselect1;
-
-			var url = "{{ route('smt.qcreport.qcreportcreate') }}";
+			var url = "{{ route('smt.wbgl.wbglcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
-				saomiao: saomiao,
-				jianchariqi: jianchariqi.Format("yyyy-MM-dd 00:00:00"),
-				xianti: xianti,
-				banci: banci,
-				gongxu: gongxu,
-				dianmei: dianmei,
-				meishu: meishu,
-				piliangluru: piliangluru
+				// jianchariqi: jianchariqi.Format("yyyy-MM-dd 00:00:00"),
+				wangbanbufan: wangbanbufan,
+				pinming: pinming,
+				jizhongming: jizhongming,
+				xilie: xilie,
+				wangbanbianhao: wangbanbianhao,
+				bianhao: bianhao,
+				wangbanhoudu: wangbanhoudu,
+				teshugongyi: teshugongyi,
+				zhangli1: zhangli1,
+				zhangli2: zhangli2,
+				zhangli3: zhangli3,
+				zhangli4: zhangli4,
+				zhangli5: zhangli5,
 			})
 			.then(function (response) {
 				// console.log(response.data);
@@ -2617,14 +2441,6 @@ var vm_app = new Vue({
 				if (response.data) {
 					_this.onclear();
 					_this.success(false, '成功', '记入成功！');
-
-					_this.boo_delete = true;
-					_this.tableselect1 = [];
-
-					if (_this.qcdate_filter[0] != '' && _this.qcdate_filter != undefined) {
-						_this.wbglgets(_this.pagecurrent, _this.pagelast);
-					}
-
 				} else {
 					_this.error(false, '失败', '记入失败！');
 				}
