@@ -39,12 +39,12 @@ class wbglController extends Controller
 	
 	
 	/**
-	 * qcreportGets
+	 * wbglGets
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function qcreportGets(Request $request)
+	public function wbglGets(Request $request)
 	{
 		if (! $request->ajax()) return null;
 
@@ -56,13 +56,13 @@ class wbglController extends Controller
 
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
-		$xianti_filter = $request->input('xianti_filter');
-		$banci_filter = $request->input('banci_filter');
-		$jizhongming_filter = $request->input('jizhongming_filter');
-		$pinming_filter = $request->input('pinming_filter');
-		$gongxu_filter = $request->input('gongxu_filter');
+		// $xianti_filter = $request->input('xianti_filter');
+		// $banci_filter = $request->input('banci_filter');
+		// $jizhongming_filter = $request->input('jizhongming_filter');
+		// $pinming_filter = $request->input('pinming_filter');
+		// $gongxu_filter = $request->input('gongxu_filter');
 
-		$buliangneirong_filter = $request->input('buliangneirong_filter');
+		// $buliangneirong_filter = $request->input('buliangneirong_filter');
 		
 		// $usecache = $request->input('usecache');
 		
@@ -91,48 +91,31 @@ class wbglController extends Controller
 			// $qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
 			// 	})
-			$qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-					return $query->whereBetween('jianchariqi', $qcdate_filter);
+			$wbgl = Smt_wbgl::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+					return $query->whereBetween('created_at', $qcdate_filter);
 				})
-				->when($xianti_filter, function ($query) use ($xianti_filter) {
-					return $query->where('xianti', '=', $xianti_filter);
-				})
-				->when($banci_filter, function ($query) use ($banci_filter) {
-					return $query->where('banci', 'like', $banci_filter.'%');
-				})
-				->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
-					return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
-				})
-				->when($pinming_filter, function ($query) use ($pinming_filter) {
-					return $query->where('pinming', '=', $pinming_filter);
-				})
-				->when($gongxu_filter, function ($query) use ($gongxu_filter) {
-					return $query->where('gongxu', '=', $gongxu_filter);
-				})
-				->when($buliangneirong_filter, function ($query) use ($buliangneirong_filter) {
-					// return $query->whereIn('buliangneirong', $buliangneirong_filter);
-					// return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.weihao", \'["BBB"]\')');
-					// return $query->whereRaw('JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'[' . $buliangneirong_filter . ']\')');
-					
-					// 不良内容按or查询
-					// if (!empty($buliangneirong_filter)) {
-						$sql = '';
-						foreach ($buliangneirong_filter as $value) {
-							$sql .= ' JSON_CONTAINS(buliangxinxi->"$**.buliangneirong", \'["' . $value . '"]\')' . ' or';
-						}
-						$sql = substr($sql, 0, strlen($sql)-3);
-					// }
-					// dd($sql);
-					
-					return $query->whereRaw($sql);
-				})
-				->orderBy('jianchariqi', 'asc')
+				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
+				// 	return $query->where('xianti', '=', $xianti_filter);
+				// })
+				// ->when($banci_filter, function ($query) use ($banci_filter) {
+				// 	return $query->where('banci', 'like', $banci_filter.'%');
+				// })
+				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				// })
+				// ->when($pinming_filter, function ($query) use ($pinming_filter) {
+				// 	return $query->where('pinming', '=', $pinming_filter);
+				// })
+				// ->when($gongxu_filter, function ($query) use ($gongxu_filter) {
+				// 	return $query->where('gongxu', '=', $gongxu_filter);
+				// })
+				->orderBy('created_at', 'asc')
 				->paginate($perPage, ['*'], 'page', $page);
 			
-			Cache::put($fullUrl, $qcreport, now()->addSeconds(10));
+			Cache::put($fullUrl, $wbgl, now()->addSeconds(10));
 		}
 		
-		return $qcreport;
+		return $wbgl;
 	}	
 	
 	/**
