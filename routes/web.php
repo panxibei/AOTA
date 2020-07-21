@@ -89,7 +89,8 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 // SMT 网板管理页面 可写
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_wbgl_write|permission_super_admin']], function() {
 	Route::post('wbglcreate', 'wbglController@wbglCreate')->name('smt.wbgl.wbglcreate');
-
+	Route::post('wbglupdate', 'wbglController@wbglUpdate')->name('smt.wbgl.wbglupdate');
+	Route::post('wbgldelete', 'wbglController@wbglDelete')->name('smt.wbgl.wbgldelete');
 
 });
 

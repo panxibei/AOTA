@@ -275,7 +275,7 @@ SMT(网板管理) -
 				</i-col>
 			</i-row>
 
-			<Modal v-model="modal_qcreport_edit" @on-ok="qcreport_edit_ok" ok-text="保存" title="编辑 - 工程内不良记录" width="640">
+			<Modal v-model="modal_qcreport_edit" @on-ok="wbgl_edit_ok" ok-text="保存" title="编辑 - 网板记录" width="640">
 				<div style="text-align:left">
 				<p>
 						创建时间：@{{ created_at_edit }}
@@ -295,7 +295,7 @@ SMT(网板管理) -
 						
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						
-						工序：@{{ gongxu_edit }}
+						网板部番：@{{ wangbanbufan_edit }}
 					
 					</p>
 					
@@ -332,104 +332,6 @@ SMT(网板管理) -
 				
 				</div>	
 			</Modal>
-
-
-
-			<!-- 不良追加窗口 -->
-			<Modal v-model="modal_qcreport_append" @on-ok="qcreport_append_ok" ok-text="追加" title="追加 - 不良信息" width="540">
-				<div style="text-align:left">
-					<p>
-						创建时间：@{{ created_at_append }}
-						
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						更新时间：@{{ updated_at_append }}
-					
-					</p><br>
-
-					<p>
-						机种名：@{{ jizhongming_append }}
-					
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						品名：@{{ pinming_append }}
-						
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						工序：@{{ gongxu_append }}
-					
-					</p>
-					
-					<Divider></Divider>
-
-					<!--<span v-for="(item, index) in piliangbianji">-->
-					<p>
-						检查机类型&nbsp;&nbsp;
-						<i-select v-model.lazy="jianchajileixing_append" size="small" clearable style="width:120px" placeholder="">
-							<i-option v-for="item in option_jianchajileixing" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</i-select>
-
-						&nbsp;&nbsp;&nbsp;&nbsp;
-
-						不良内容&nbsp;&nbsp;
-						<i-select v-model.lazy="buliangneirong_append" size="small" clearable style="width:200px" placeholder="例：部品不良">
-							<Option-group label="****** 印刷系 ******">
-								<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 装着系 ******">
-								<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 异物系 ******">
-								<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 人系 ******">
-								<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 部品系 ******">
-								<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="****** 其他 ******">
-								<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-						</i-select>
-
-						
-					</p><br>
-					
-					<p>
-						位号&nbsp;&nbsp;
-						<i-input v-model.lazy="weihao_append" @on-keyup="weihao_append=weihao_append.toUpperCase()" placeholder="例：IC801" size="small" clearable style="width: 120px"></i-input>
-
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						数量&nbsp;&nbsp;
-						<Input-number v-model.lazy="shuliang_append[1]" :min="1" size="small" style="width: 80px"></Input-number>
-
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						检查者&nbsp;&nbsp;
-						<i-select v-model.lazy="jianchazhe_append" size="small" clearable style="width:100px" placeholder="">
-							<Option-group label="*** 一组 ***">
-								<i-option v-for="item in option_jianchazhe1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="*** 二组 ***">
-								<i-option v-for="item in option_jianchazhe2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-							<Option-group label="*** 三组 ***">
-								<i-option v-for="item in option_jianchazhe3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-							</Option-group>
-						</i-select>
-
-
-					</p><br>
-					<!--</span>-->
-					
-					&nbsp;
-				
-				</div>
-			</Modal>
-
-
 
 
 		</Tab-pane>
@@ -2156,14 +2058,14 @@ var vm_app = new Vue({
 		},		
 		
 		// ondelete
-		ondelete: function () {
+		ondelete () {
 			var _this = this;
 			
 			var tableselect1 = _this.tableselect1;
 			
 			if (tableselect1[0] == undefined) return false;
 
-			var url = "{{ route('smt.qcreport.qcreportdelete') }}";
+			var url = "{{ route('smt.wbgl.wbgldelete') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				tableselect1: tableselect1
@@ -3673,7 +3575,7 @@ var vm_app = new Vue({
 		
 		
 		// 主编辑后保存
-		qcreport_edit_ok () {
+		wbgl_edit_ok() {
 			var _this = this;
 			
 			var id = _this.id_edit;
@@ -3684,28 +3586,13 @@ var vm_app = new Vue({
 			// var buliangneirong = _this.buliangneirong_edit;
 			// var weihao = _this.weihao_edit;
 			// var shuliang = _this.shuliang_edit;
-			// var jianchazhe = _this.jianchazhe_edit;
-			var dianmei = _this.dianmei_edit;
-			var meishu = _this.meishu_edit;
-			var hejidianshu = _this.hejidianshu_edit;
-			var bushihejianshuheji = _this.bushihejianshuheji_edit;
-			var ppm = _this.ppm_edit;
+			var zhangli1 = _this.zhangli1_edit;
+			var zhangli2 = _this.zhangli2_edit;
+			var zhangli3 = _this.zhangli3_edit;
+			var zhangli4 = _this.zhangli4_edit;
+			var zhangli5 = _this.zhangli5_edit;
 
-			// 重新计算枚数、合计点数、不良件数合计和PPM
-			hejidianshu = dianmei * meishu;
-			// bushihejianshuheji = bushihejianshuheji + shuliang[1] - shuliang[0];
-			ppm = bushihejianshuheji / hejidianshu * 1000000;
-
-			// 不良检查件数不可大于检查枚数（无此逻辑关系，作废）
-			// if (bushihejianshuheji > meishu) {
-			// 	_this.warning(false, '警告', '保存失败！数量不正确，不良合计件数不可大于检查枚数！');
-			// 	return false;
-			// }
-			
-			// console.log(buliangneirong);
-			// return false;
-			
-			var url = "{{ route('smt.qcreport.qcreportupdate') }}";
+			var url = "{{ route('smt.wbgl.wbglupdate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 			axios.post(url, {
 				id: id,
@@ -3716,11 +3603,14 @@ var vm_app = new Vue({
 				// buliangneirong: buliangneirong,
 				// weihao: weihao,
 				// shuliang: shuliang[1],
-				// jianchazhe: jianchazhe,
-				meishu: meishu,
-				hejidianshu: hejidianshu,
+				// meishu: meishu,
+				// hejidianshu: hejidianshu,
 				// bushihejianshuheji: bushihejianshuheji,
-				ppm: ppm
+				zhangli1: zhangli1,
+				zhangli2: zhangli2,
+				zhangli3: zhangli3,
+				zhangli4: zhangli4,
+				zhangli5: zhangli5,
 			})
 			.then(function (response) {
 				// console.log(response.data);
@@ -3738,13 +3628,17 @@ var vm_app = new Vue({
 					
 					_this.id_edit = '';
 					_this.jizhongming_edit = '';
-					_this.created_at_edit = '';
+					// _this.created_at_edit = '';
 					_this.updated_at_edit = '';
-					_this.jianchajileixing_edit = '';
-					_this.buliangneirong_edit = '';
-					_this.weihao_edit = '';
-					_this.shuliang_edit = [0, 0];
-					_this.jianchazhe_edit = '';
+					// _this.jianchajileixing_edit = '';
+					// _this.buliangneirong_edit = '';
+					// _this.weihao_edit = '';
+					// _this.shuliang_edit = [0, 0];
+					_this.zhangli1_edit = '';
+					_this.zhangli2_edit = '';
+					_this.zhangli3_edit = '';
+					_this.zhangli4_edit = '';
+					_this.zhangli5_edit = '';
 				} else {
 					_this.error(false, '失败', '更新失败！请确认录入是否正确！');
 				}
@@ -3754,101 +3648,6 @@ var vm_app = new Vue({
 			})			
 		},
 		
-		// 子编辑后保存
-		qcreport_edit_sub_ok () {
-			var _this = this;
-			
-			var id = _this.id_edit;
-			var subid = _this.subid_edit;
-			var updated_at = _this.updated_at_edit;
-			var jianchajileixing = _this.jianchajileixing_edit;
-			var buliangneirong = _this.buliangneirong_edit;
-			var weihao = _this.weihao_edit;
-			var shuliang = _this.shuliang_edit;
-			var jianchazhe = _this.jianchazhe_edit;
-
-			// 数量为0时，清空不良内容、位号和数量
-			// if (shuliang[1] == 0 || shuliang[1] == null || shuliang[1] == undefined) {
-			// 	_this.warning(false, '警告', '[数量] 不能为空！');
-			// 	return false;
-			// }
-
-			var flag = true;
-
-			// 全部不为空，则OK
-			if (jianchajileixing != '' && jianchajileixing != undefined
-				&& buliangneirong != '' && buliangneirong != undefined
-				&& weihao != '' && weihao != undefined
-				&& shuliang[1] != '' && shuliang[1] != undefined
-				&& jianchazhe != '' && jianchazhe != undefined) {
-			}
-			// 全部为空，也为OK
-			else if ((jianchajileixing == '' || jianchajileixing == undefined)
-				&& (buliangneirong == '' || buliangneirong == undefined)
-				&& (weihao == '' || weihao == undefined)
-				&& (shuliang[1] == '' || shuliang[1] == undefined)
-				&& (jianchazhe == '' || jianchazhe == undefined)) {
-					return false;
-			}
-			// 任何一行记录，检查机类型和检查者必须同时填写，其他可为空
-			else if ((jianchajileixing != '' || jianchajileixing != undefined)
-				&& (jianchazhe == '' || jianchazhe == undefined)) {
-				flag = false;
-			} else if ((jianchazhe != '' || jianchazhe != undefined)
-				&& (jianchajileixing == '' || jianchajileixing == undefined)) {
-				flag = false;
-			}
-
-			if (flag == false) {
-				_this.warning(false, '警告', '不良内容不正确！');
-				return false;
-			}
-
-			var url = "{{ route('smt.qcreport.qcreportupdatesub') }}";
-			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-			axios.post(url, {
-				id: id,
-				subid: subid,
-				updated_at: updated_at,
-				jianchajileixing: jianchajileixing,
-				buliangneirong: buliangneirong,
-				weihao: weihao,
-				shuliang: shuliang,
-				jianchazhe: jianchazhe,
-			})
-			.then(function (response) {
-				// console.log(response.data);
-				// return false;
-
-				if (response.data['jwt'] == 'logout') {
-					_this.alert_logout();
-					return false;
-				}
-				
-				_this.wbglgets(_this.pagecurrent, _this.pagelast);
-				
-				if (response.data) {
-					_this.success(false, '成功', '更新成功！');
-					
-					_this.id_edit = '';
-					_this.subid_edit = '';
-					_this.jizhongming_edit = '';
-					_this.created_at_edit = '';
-					_this.updated_at_edit = '';
-					_this.jianchajileixing_edit = '';
-					_this.buliangneirong_edit = '';
-					_this.weihao_edit = '';
-					_this.shuliang_edit = [0, 0];
-					_this.jianchazhe_edit = '';
-				} else {
-					_this.error(false, '失败', '更新失败！请刷新查询条件后再试！');
-				}
-			})
-			.catch(function (error) {
-				_this.error(false, '错误', '更新失败！');
-			})			
-		},
-
 
 		// 不良追加前查看
 		qcreport_append (row) {

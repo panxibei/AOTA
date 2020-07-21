@@ -667,12 +667,12 @@ class wbglController extends Controller
 	}
 
 	/**
-	 * qcreportUpdate
+	 * wbglUpdate
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function qcreportUpdate(Request $request)
+	public function wbglUpdate(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
@@ -685,17 +685,18 @@ class wbglController extends Controller
 		// $weihao = $request->input('weihao');
 		// $shuliang = $request->input('shuliang');
 		// $jianchazhe = $request->input('jianchazhe');
-		$meishu = $request->input('meishu');
-		$hejidianshu = $request->input('hejidianshu');
-		// $bushihejianshuheji = $request->input('bushihejianshuheji');
-		$ppm = $request->input('ppm');
+		$zhangli1 = $request->input('zhangli1');
+		$zhangli2 = $request->input('zhangli2');
+		$zhangli3 = $request->input('zhangli3');
+		$zhangli4 = $request->input('zhangli4');
+		$zhangli5 = $request->input('zhangli5');
 
 		// dd($id);
 		// dd($updated_at);
 		
 		// 判断如果不是最新的记录，不可被编辑
 		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Smt_qcreport::select('updated_at')
+		$res = Smt_wbgl::select('updated_at')
 			->where('id', $id)
 			->first();
 		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
@@ -708,15 +709,24 @@ class wbglController extends Controller
 			return 0;
 		}
 
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+		$bianjizhe = $user['name'];
+		
 		// 尝试更新
 		try	{
 			DB::beginTransaction();
-			$result = Smt_qcreport::where('id', $id)
+			$result = Smt_wbgl::where('id', $id)
 				->update([
-					'meishu'				=> $meishu,
-					'hejidianshu'			=> $hejidianshu,
+					// 'meishu'				=> $meishu,
+					// 'hejidianshu'			=> $hejidianshu,
 					// 'bushihejianshuheji'	=> $bushihejianshuheji,
-					'ppm'					=> $ppm,
+					'zhangli1'					=> $zhangli1,
+					'zhangli2'					=> $zhangli2,
+					'zhangli3'					=> $zhangli3,
+					'zhangli4'					=> $zhangli4,
+					'zhangli5'					=> $zhangli5,
+					'bianjizhe'					=> $bianjizhe,
 				]);
 			$result = 1;
 		}
@@ -732,104 +742,21 @@ class wbglController extends Controller
 
 	}
 
+
 	/**
-	 * qcreportUpdateSub
+	 * wbglDelete
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function qcreportUpdateSub(Request $request)
-	{
-		if (! $request->isMethod('post') || ! $request->ajax()) return null;
-
-		$id = $request->input('id');
-		$subid = $request->input('subid');
-
-		$updated_at = $request->input('updated_at');
-
-		$jianchajileixing = $request->input('jianchajileixing');
-		$buliangneirong = $request->input('buliangneirong');
-		$weihao = $request->input('weihao');
-		$shuliang = $request->input('shuliang');
-		if ($shuliang[0] == null || $shuliang[0] == '') $shuliang[0] = 0;
-		if ($shuliang[1] == null || $shuliang[1] == '') $shuliang[1] = 0;
-		$jianchazhe = $request->input('jianchazhe');
-
-		// 判断如果不是最新的记录，不可被编辑
-		// 因为可能有其他人在你当前表格未刷新的情况下已经更新过了
-		$res = Smt_qcreport::select('updated_at', 'hejidianshu', 'bushihejianshuheji', DB::raw("JSON_EXTRACT(buliangxinxi, '$**.shuliang') AS shuliang"))
-			->where('id', $id)
-			->first();
-		$res_updated_at = date('Y-m-d H:i:s', strtotime($res['updated_at']));
-		// dd(json_decode($res['shuliang'], true));
-		if ($updated_at != $res_updated_at) return 0;
-		
-		// 获取json数据 buliangxinxi，修改对应subid项内容
-		$hejidianshu = $res['hejidianshu'];
-		// $bushihejianshuheji = $res['bushihejianshuheji'] + $shuliang[1] - $shuliang[0];
-		$sl = 0;
-		$sl_arr = json_decode($res['shuliang'], true);
-		foreach ($sl_arr as $value) {
-			if ($value != null || $value != '')	$sl += intval($value);
-		}
-		$bushihejianshuheji = $sl + $shuliang[1] - $shuliang[0];
-		$ppm = $bushihejianshuheji / $hejidianshu * 1000000;
-
-		// $sql = 'JSON_REPLACE(buliangxinxi, ';
-		// $sql .= '\'$[' . $subid . '].jianchajileixing\', "' . $jianchajileixing . '", ';
-		// $sql .= '\'$[' . $subid . '].buliangneirong\', "' . $buliangneirong . '", ';
-		// $sql .= '\'$[' . $subid . '].weihao\', "' . $weihao . '", ';
-		// $sql .= '\'$[' . $subid . '].shuliang\', ' . $shuliang[1] . ', ';
-		// $sql .= '\'$[' . $subid . '].jianchazhe\', "' . $jianchazhe . '")';
-		// dd($sql);
-
-		$nowtime = date("Y-m-d H:i:s",time());
-
-		// 尝试更新json
-		try	{
-			DB::beginTransaction();
-
-			// if (empty($buliangneirong) && empty($weihao) && empty($shuliang[1])) {
-				// $result = DB::update('update smt_qcreports set bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
-			// } else {
-				$sql = 'JSON_REPLACE(buliangxinxi, ';
-				$sql .= '\'$[' . $subid . '].jianchajileixing\', "' . $jianchajileixing . '", ';
-				$sql .= '\'$[' . $subid . '].buliangneirong\', "' . $buliangneirong . '", ';
-				$sql .= '\'$[' . $subid . '].weihao\', "' . $weihao . '", ';
-				$sql .= '\'$[' . $subid . '].shuliang\', ' . $shuliang[1] . ', ';
-				$sql .= '\'$[' . $subid . '].jianchazhe\', "' . $jianchazhe . '")';
-
-				$result = DB::update('update smt_qcreports set buliangxinxi = ' . $sql . ', bushihejianshuheji = ' . $bushihejianshuheji . ', ppm = ' . $ppm . ', updated_at = "' . $nowtime . '" where id = ?', [$id]);
-			// }
-			$result = 1;
-		}
-		catch (\Exception $e) {
-			DB::rollBack();
-			dd('Message: ' .$e->getMessage());
-			$result = 0;
-		}
-		DB::commit();
-		Cache::flush();
-		// dd($result);
-		return $result;
-
-	}
-
-
-	/**
-	 * qcreportDelete
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function qcreportDelete(Request $request)
+	public function wbglDelete(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
 		$id = $request->input('tableselect1');
 
 		try	{
-			$result = Smt_qcreport::whereIn('id', $id)->delete();
+			$result = Smt_wbgl::whereIn('id', $id)->delete();
 		}
 		catch (\Exception $e) {
 			// echo 'Message: ' .$e->getMessage();
