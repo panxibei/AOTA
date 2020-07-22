@@ -9,7 +9,7 @@ use App\Models\Admin\Config;
 use App\Models\Smt\Smt_wbgl;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\Smt\qcreportExport;
+use App\Exports\Smt\wbglExport;
 use App\Imports\qcreportImport;
 use App\Charts\Smt\ECharts;
 
@@ -826,12 +826,12 @@ class wbglController extends Controller
 
 
 	/**
-	 * qcreportExport
+	 * wbglExport
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function qcreportExport(Request $request)
+	public function wbglExport(Request $request)
 	{
 		// if (! $request->ajax()) { return null; }
 		
@@ -857,90 +857,12 @@ class wbglController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-
-		// $qcreport = Smt_qcreport::select('id', 'jianchariqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
-		// 	'buliangneirong', 'weihao', 'shuliang', 'jianchajileixing', 'jianchazhe', 'created_at')
-		// 	->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
-		// 	->get()->toArray();
-		$res = Smt_qcreport::select(DB::raw('LEFT(jianchariqi, 10) AS jianchariqi'), 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
-		// $res = Smt_qcreport::select('jianchariqi', 'xianti', 'banci', 'jizhongming', 'pinming', 'gongxu', 'spno', 'lotshu', 'dianmei', 'meishu', 'hejidianshu', 'bushihejianshuheji', 'ppm',
-			'buliangxinxi', 'created_at', 'updated_at')
-			->whereBetween('jianchariqi', [$queryfilter_datefrom, $queryfilter_dateto])
+		$res = Smt_wbgl::select(DB::raw('LEFT(created_at, 10) AS zuochengriqi'), 'wangbanbufan', 'jizhongming', 'pinming', 'xilie', 'bianhao',
+			'wangbanhoudu', 'teshugongyi', 'zhangli1', 'zhangli2', 'zhangli3', 'zhangli4', 'zhangli5',
+			'created_at', 'luruzhe', 'updated_at', 'bianjizhe')
+			->whereBetween('created_at', [$queryfilter_datefrom, $queryfilter_dateto])
 			->get()->toArray();
-		
-		// foreach ($res as $key=>$value) {
-		// 	unset($res[$key]['buliangxinxi']);
-		// }
 		// dd($res);
-
-		$qcreport = [];
-		$arr = [];
-		$tmp_empty = [
-			'jianchariqi' => null,
-			'xianti' => null,
-			'banci' => null,
-			'jizhongming' => null,
-			'pinming' => null,
-			'gongxu' => null,
-			'spno' => null,
-			'lotshu' => null,
-			'dianmei' => null,
-			'meishu' => null,
-			'hejidianshu' => null,
-			'bushihejianshuheji' => null,
-			'ppm' => null,
-			'created_at' => null,
-			'updated_at' => null,
-		];
-
-		if (!empty($res)) {
-			foreach ($res as $key=>$value) {
-
-				$tmp = [
-					'jianchariqi' => $value['jianchariqi'],
-					'xianti' => $value['xianti'],
-					'banci' => $value['banci'],
-					'jizhongming' => $value['jizhongming'],
-					'pinming' => $value['pinming'],
-					'gongxu' => $value['gongxu'],
-					'spno' => $value['spno'],
-					'lotshu' => $value['lotshu'],
-					'dianmei' => $value['dianmei'],
-					'meishu' => $value['meishu'],
-					'hejidianshu' => $value['hejidianshu'],
-					'bushihejianshuheji' => $value['bushihejianshuheji'],
-					'ppm' => $value['ppm'],
-					'created_at' => $value['created_at'],
-					'updated_at' => $value['updated_at'],
-				];
-
-				if (!empty($value['buliangxinxi'])) {
-					foreach ($value['buliangxinxi'] as $k=>$v) {
-						$arr['buliangneirong'] = $v['buliangneirong'] ?? '';
-						$arr['weihao'] = $v['weihao'] ?? '';
-						$arr['shuliang'] = $v['shuliang'] ?? '';
-						$arr['jianchajileixing'] = $v['jianchajileixing'] ?? '';
-						$arr['jianchazhe'] = $v['jianchazhe'] ?? '';
-
-						// unset($tmp[$key]['buliangxinxi']);
-
-						// 第一行显示主记录
-						// if ($k==0) {
-						// 	array_push($qcreport, array_merge($tmp, $arr));
-						// } else {
-						// 	array_push($qcreport, array_merge($tmp_empty, $arr));
-						// }
-						
-						array_push($qcreport, array_merge($tmp, $arr));
-
-					}
-				} else {
-					array_push($qcreport, $tmp);
-				}
-
-			}
-		}
-		// dd($qcreport);
 		
 
         // 示例数据，不能直接使用，只能把数组变成Exports类导出后才有数据
@@ -954,17 +876,15 @@ class wbglController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		// $title[] = ['检查日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
-		// 	'不良内容', '位号', '数量', '检查机类型', '检查者', '创建日期'];
-		$title[] = ['检查日期', '线体', '班次', '机种名', '品名', '工序', 'SP NO.', 'LOT数', '点/枚', '枚数', '合计点数', '不适合件数合计', 'PPM',
-			'创建日期', '更新日期', '不良内容', '位号', '数量', '检查机类型', '检查者'];
+		$title[] = ['作成日期', '网板编号', '机种名', '品名', '系列', '编号', '网板厚度', '特殊工艺', '张力1', '张力2', '张力3', '张力4', '张力5',
+			'创建日期', '录入者', '更新日期', '编辑者'];
 
 		// 合并Excel的标题和数据为一个整体
-		$data = array_merge($title, $qcreport);
+		$data = array_merge($title, $res);
 
 		// dd(Excel::download($user, '学生成绩', 'Xlsx'));
 		// dd(Excel::download($user, '学生成绩.xlsx'));
-		return Excel::download(new qcreportExport($data), 'smt_qc_report_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
+		return Excel::download(new wbglExport($data), 'smt_wbgl_'.date('YmdHis',time()).'.'.$EXPORTS_EXTENSION_TYPE);
 		
 	}
 	

@@ -2119,7 +2119,7 @@ var vm_app = new Vue({
 			var queryfilter_datefrom = _this.qcdate_filter[0].Format("yyyy-MM-dd 00:00:00");
 			var queryfilter_dateto = _this.qcdate_filter[1].Format("yyyy-MM-dd 23:59:59");
 			
-			var url = "{{ route('smt.qcreport.qcreportexport') }}"
+			var url = "{{ route('smt.wbgl.wbglexport') }}"
 				+ "?queryfilter_datefrom=" + queryfilter_datefrom
 				+ "&queryfilter_dateto=" + queryfilter_dateto;
 				
