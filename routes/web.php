@@ -81,7 +81,7 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','permission:permission_smt_wbgl_read|permission_super_admin']], function() {
 	Route::get('wbglIndex', 'wbglController@wbglIndex')->name('smt.wbgl.index');
 	Route::get('wbglgets', 'wbglController@wbglGets')->name('smt.wbgl.wbglgets');
-
+	Route::get('wbglexport', 'wbglController@wbglExport')->name('smt.wbgl.wbglexport');
 
 
 });
@@ -91,7 +91,6 @@ Route::group(['prefix'=>'smt', 'namespace'=>'Smt', 'middleware'=>['jwtauth','per
 	Route::post('wbglcreate', 'wbglController@wbglCreate')->name('smt.wbgl.wbglcreate');
 	Route::post('wbglupdate', 'wbglController@wbglUpdate')->name('smt.wbgl.wbglupdate');
 	Route::post('wbgldelete', 'wbglController@wbglDelete')->name('smt.wbgl.wbgldelete');
-	Route::get('wbglexport', 'wbglController@wbglExport')->name('smt.wbgl.wbglexport');
 
 
 });

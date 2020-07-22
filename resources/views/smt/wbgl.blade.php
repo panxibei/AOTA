@@ -69,7 +69,7 @@ SMT(网板管理) -
 
 	<Tabs type="card" v-model="currenttabs" :animated="false">
 
-		@hasanyrole('role_smt_qcreport_write|role_super_admin')
+		@hasanyrole('role_smt_wbgl_write|role_super_admin')
 		<Tab-pane label="网板录入">
 
 			<br>
@@ -247,7 +247,7 @@ SMT(网板管理) -
 			<i-row :gutter="16">
 				<br>
 				<i-col span="2">
-					@hasanyrole('role_smt_pdreport_write|role_super_admin')
+					@hasanyrole('role_smt_wbgl_write|role_super_admin')
 					<Poptip confirm title="确定要删除选择的数据吗？" placement="right-start" @on-ok="ondelete()" @on-cancel="" transfer="true">
 						<i-button :disabled="boo_delete" type="warning" size="small" icon="ios-trash-outline">删除</i-button>
 					</Poptip>
@@ -362,7 +362,7 @@ var vm_app = new Vue({
 		modal_password_edit: false,
 
 		// tabs索引
-		currenttabs: 1,
+		currenttabs: 0,
 		currentsubtabs: 0,
 
 
@@ -606,7 +606,7 @@ var vm_app = new Vue({
 		
 		// 表头1
 		tablecolumns1: [
-			@hasanyrole('role_smt_pdreport_write|role_super_admin')
+			@hasanyrole('role_smt_wbgl_write|role_super_admin')
 			{
 				type: 'selection',
 				width: 60,
@@ -4277,7 +4277,7 @@ var vm_app = new Vue({
 			
 	},
 	mounted () {
-		@hasanyrole('role_smt_qcreport_write|role_super_admin')
+		@hasanyrole('role_smt_wbgl_write|role_super_admin')
 		var id_wangbanbufan = document.getElementById("id_wangbanbufan");
 		id_wangbanbufan.style.background = "#FFF8E1";
 

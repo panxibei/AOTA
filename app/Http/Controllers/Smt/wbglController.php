@@ -528,6 +528,9 @@ class wbglController extends Controller
 		$zhangli4 = $request->input('zhangli4');
 		$zhangli5 = $request->input('zhangli5');
 
+		$me = response()->json(auth()->user());
+		$user = json_decode($me->getContent(), true);
+		$luruzhe = $user['name'];
 
 		if (empty($wangbanbufan) || empty($pinming) || empty($jizhongming)) {
 			return 0;
@@ -546,6 +549,7 @@ class wbglController extends Controller
 		$s['zhangli3'] = $zhangli3;
 		$s['zhangli4'] = $zhangli4;
 		$s['zhangli5'] = $zhangli5;
+		$s['luruzhe'] = $luruzhe;
 
 		
 		// 写入数据库
