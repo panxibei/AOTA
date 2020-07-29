@@ -57,7 +57,7 @@ class wbglController extends Controller
 
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
-		// $xianti_filter = $request->input('xianti_filter');
+		$bianhao_filter = $request->input('bianhao_filter');
 		// $banci_filter = $request->input('banci_filter');
 		// $jizhongming_filter = $request->input('jizhongming_filter');
 		// $pinming_filter = $request->input('pinming_filter');
@@ -98,9 +98,9 @@ class wbglController extends Controller
 				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
 				// 	return $query->where('xianti', '=', $xianti_filter);
 				// })
-				// ->when($banci_filter, function ($query) use ($banci_filter) {
-				// 	return $query->where('banci', 'like', $banci_filter.'%');
-				// })
+				->when($bianhao_filter, function ($query) use ($bianhao_filter) {
+					return $query->where('bianhao', 'like', $bianhao_filter.'%');
+				})
 				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
 				// })

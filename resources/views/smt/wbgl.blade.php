@@ -209,65 +209,11 @@ SMT(网板管理) -
 					<Date-picker v-model.lazy="qcdate_filter" :options="qcdate_filter_options" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
 				</i-col>
 				<i-col span="3">
-					线体&nbsp;&nbsp;
-					<i-select v-model.lazy="xianti_filter" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
-						<i-option v-for="item in option_xianti" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
+					编号&nbsp;&nbsp;
+					<i-input v-model.lazy="bianhao_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="bianhao_filter=bianhao_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 				</i-col>
-				<i-col span="3">
-					班次&nbsp;&nbsp;
-					<i-select v-model.lazy="banci_filter" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" clearable size="small" style="width:80px" placeholder="">
-						<i-option v-for="item in option_banci" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-				</i-col>
-				<i-col span="9">
+				<i-col span="12">
 				&nbsp;
-				</i-col>
-			</i-row>
-			<br><br>
-
-			<i-row :gutter="16">
-				<i-col span="3">
-					&nbsp;
-				</i-col>
-				<i-col span="4">
-					机种名&nbsp;&nbsp;
-					<i-input v-model.lazy="jizhongming_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
-				</i-col>
-				<i-col span="4">
-					品名&nbsp;&nbsp;
-					<i-select v-model.lazy="pinming_filter" @on-change="wbglgets(pagecurrent, pagelast)" clearable style="width:120px" size="small" placeholder="">
-						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-				</i-col>
-				<i-col span="3">
-					工序&nbsp;&nbsp;
-					<i-select v-model.lazy="gongxu_filter" @on-change="wbglgets(pagecurrent, pagelast)" clearable style="width:80px" size="small" placeholder="">
-						<i-option v-for="item in option_gongxu" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select>
-				</i-col>
-				<i-col span="10">
-					不良内容&nbsp;&nbsp;
-					<i-select v-model.lazy="buliangneirong_filter" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" multiple size="small" clearable style="width:200px" placeholder="例：连焊">
-						<Option-group label="****** 印刷系 ******">
-							<i-option v-for="item in option_buliangneirong1" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 装着系 ******">
-							<i-option v-for="item in option_buliangneirong2" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 异物系 ******">
-							<i-option v-for="item in option_buliangneirong3" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 人系 ******">
-							<i-option v-for="item in option_buliangneirong4" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 部品系 ******">
-							<i-option v-for="item in option_buliangneirong5" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-						<Option-group label="****** 其他 ******">
-							<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-						</Option-group>
-					</i-select>
 				</i-col>
 			</i-row>
 
@@ -1500,23 +1446,8 @@ var vm_app = new Vue({
 			]
 		},
 
-		// 机种名
-		jizhongming_filter: '',
-		
-		// 线体过滤
-		xianti_filter: '',
-
-		// 班次过滤
-		banci_filter: '',
-
-		// 品名过滤
-		pinming_filter: '',
-
-		// 工序过滤
-		gongxu_filter: '',
-		
-		// 不良内容过滤
-		buliangneirong_filter: '',
+		// 编号过滤
+		bianhao_filter: '',
 		
 		// 删除disabled
 		boo_delete: true,
@@ -1838,7 +1769,7 @@ var vm_app = new Vue({
 				page = 1;
 			}
 			
-			// var xianti_filter = _this.xianti_filter;
+			var bianhao_filter = _this.bianhao_filter;
 			// var banci_filter = _this.banci_filter;
 			// var jizhongming_filter = _this.jizhongming_filter;
 			// var pinming_filter = _this.pinming_filter;
@@ -1892,7 +1823,7 @@ var vm_app = new Vue({
 					perPage: _this.pagepagesize,
 					page: page,
 					qcdate_filter: qcdate_filter,
-					// xianti_filter: xianti_filter,
+					bianhao_filter: bianhao_filter,
 					// banci_filter: banci_filter,
 					// jizhongming_filter: jizhongming_filter,
 					// pinming_filter: pinming_filter,
