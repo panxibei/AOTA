@@ -18,7 +18,8 @@ class CreateSmtWbglbasesTable extends Migration
 			$table->string('wangbanbufan', 50);
 			$table->string('jizhongming', 50);
 			$table->string('pinming', 50);
-			$table->string('xilie', 50)->nullable();
+            $table->string('xilie', 50)->nullable();
+            $table->dateTime('wangbanzuochengriqi')->nullable();
 			$table->string('wangbanbianhao', 10)->nullable();
 			$table->string('bianhao', 10)->nullable();
 			$table->string('wangbanhoudu', 50)->nullable();

@@ -132,6 +132,10 @@ SMT(网板管理) -
 					<i-input v-model.lazy="xilie"  @on-keyup="xilie=xilie.toUpperCase()" placeholder="T7AW" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
 				<i-col span="6">
+					* 网板作成日期&nbsp;&nbsp;
+					<Date-picker v-model.lazy="wangbanzuochengriqi" type="date" style="width:120px" size="large" placeholder=""></Date-picker>
+				</i-col>
+				<i-col span="6">
 					* 网板编号&nbsp;&nbsp;
 					<i-input v-model.lazy="wangbanbianhao"  @on-keyup="wangbanbianhao=wangbanbianhao.toUpperCase()" placeholder="SZ19-7708" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
@@ -205,14 +209,22 @@ SMT(网板管理) -
 					查询：
 				</i-col>
 				<i-col span="6">
-					* 作成日期&nbsp;&nbsp;
+					* 录入日期&nbsp;&nbsp;
 					<Date-picker v-model.lazy="qcdate_filter" :options="qcdate_filter_options" @on-change="wbglgets(pagecurrent, pagelast);onselectchange1();" type="daterange" size="small" style="width:200px"></Date-picker>
+				</i-col>
+				<i-col span="4">
+					网板部番&nbsp;&nbsp;
+					<i-input v-model.lazy="wangbanbufan_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="wangbanbufan_filter=wangbanbufan_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 				</i-col>
 				<i-col span="3">
 					编号&nbsp;&nbsp;
-					<i-input v-model.lazy="bianhao_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="bianhao_filter=bianhao_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+					<i-input v-model.lazy="bianhao_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="bianhao_filter=bianhao_filter.toUpperCase()" size="small" clearable style="width: 90px"></i-input>
 				</i-col>
-				<i-col span="12">
+				<i-col span="4">
+					特殊工艺&nbsp;&nbsp;
+					<i-input v-model.lazy="teshugongyi_filter" @on-change="wbglgets(pagecurrent, pagelast)" @on-keyup="teshugongyi_filter=teshugongyi_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
+				</i-col>
+				<i-col span="4">
 				&nbsp;
 				</i-col>
 			</i-row>
@@ -262,16 +274,21 @@ SMT(网板管理) -
 					</p><br>
 
 					<p>
+
+						网板部番：@{{ wangbanbufan_edit }}
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
+						网板作成日期：@{{ wangbanzuochengriqi_edit }}
+
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
 						机种名：@{{ jizhongming_edit }}
 					
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						
 						品名：@{{ pinming_edit }}
 						
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						
-						网板部番：@{{ wangbanbufan_edit }}
-					
 					</p>
 					
 					<Divider></Divider>
@@ -346,6 +363,7 @@ var vm_app = new Vue({
 		pinming: '', // MAIN-RA
 		jizhongming: '',
 		xilie: '',
+		wangbanzuochengriqi: '',
 		wangbanbianhao: '',
 		bianhao: '',
 		wangbanhoudu: '',
@@ -425,9 +443,6 @@ var vm_app = new Vue({
 				label: 'MD'
 			}
 		],
-		
-		// 作成日期
-		// jianchariqi: '',
 		
 
 
@@ -599,19 +614,8 @@ var vm_app = new Vue({
 					return row._index + 1 + vm_app.pagepagesize * (vm_app.pagecurrent - 1)
 				}
 			},
- 			{
-				title: '作成日期',
-				key: 'created_at',
-				align: 'center',
-				width: 110,
-				render: (h, params) => {
-					return h('div', [
-						params.row.created_at.substring(0, 10)
-					]);
-				}
-			},
 			{
-				title: '网板编号',
+				title: '网板部番',
 				key: 'wangbanbufan',
 				align: 'center',
 				width: 140,
@@ -633,6 +637,17 @@ var vm_app = new Vue({
 				key: 'xilie',
 				align: 'center',
 				width: 100
+			},
+			{
+				title: '网板作成日期',
+				key: 'wangbanzuochengriqi',
+				align: 'center',
+				width: 110,
+				render: (h, params) => {
+					return h('div', [
+						params.row.wangbanzuochengriqi  ? params.row.wangbanzuochengriqi.substring(0, 10) : ''
+					]);
+				}
 			},
 			{
 				title: '网板编号',
@@ -1448,6 +1463,12 @@ var vm_app = new Vue({
 
 		// 编号过滤
 		bianhao_filter: '',
+
+		// 网板部番过滤
+		wangbanbufan_filter: '',
+
+		// 特殊工艺过滤
+		teshugongyi_filter: '',
 		
 		// 删除disabled
 		boo_delete: true,
@@ -1584,6 +1605,7 @@ var vm_app = new Vue({
 		subid_edit: '',
 
 		wangbanbufan_edit: '',
+		wangbanzuochengriqi_edit: '',
 		jizhongming_edit: '',
 		pinming_edit: '',
 		gongxu_edit: '',
@@ -1770,8 +1792,8 @@ var vm_app = new Vue({
 			}
 			
 			var bianhao_filter = _this.bianhao_filter;
-			// var banci_filter = _this.banci_filter;
-			// var jizhongming_filter = _this.jizhongming_filter;
+			var wangbanbufan_filter = _this.wangbanbufan_filter;
+			var teshugongyi_filter = _this.teshugongyi_filter;
 			// var pinming_filter = _this.pinming_filter;
 			// var gongxu_filter = _this.gongxu_filter;
 			// var buliangneirong_filter = _this.buliangneirong_filter;
@@ -1824,8 +1846,8 @@ var vm_app = new Vue({
 					page: page,
 					qcdate_filter: qcdate_filter,
 					bianhao_filter: bianhao_filter,
-					// banci_filter: banci_filter,
-					// jizhongming_filter: jizhongming_filter,
+					wangbanbufan_filter: wangbanbufan_filter,
+					teshugongyi_filter: teshugongyi_filter,
 					// pinming_filter: pinming_filter,
 					// gongxu_filter: gongxu_filter,
 					// buliangneirong_filter: buliangneirong_filter,
@@ -1904,6 +1926,7 @@ var vm_app = new Vue({
 						_this.pinming = response.data.pinming;
 						_this.jizhongming = response.data.jizhongming;
 						_this.xilie = response.data.xilie;
+						_this.wangbanzuochengriqi = response.data.wangbanzuochengriqi;
 						_this.wangbanbianhao = response.data.wangbanbianhao;
 						_this.wangbanhoudu = response.data.wangbanhoudu;
 						_this.teshugongyi = response.data.teshugongyi;
@@ -1913,6 +1936,7 @@ var vm_app = new Vue({
 						_this.pinming = '';
 						_this.jizhongming = '';
 						_this.xilie = '';
+						_this.wangbanzuochengriqi = '';
 						_this.wangbanbianhao = '';
 						_this.wangbanhoudu = '';
 						_this.teshugongyi = '';
@@ -1929,6 +1953,7 @@ var vm_app = new Vue({
 				_this.pinming = '';
 				_this.jizhongming = '';
 				_this.xilie = '';
+				_this.wangbanzuochengriqi = '';
 				_this.wangbanbianhao = '';
 				_this.wangbanhoudu = '';
 				_this.teshugongyi = '';
@@ -1983,6 +2008,7 @@ var vm_app = new Vue({
 			_this.pinming = '';
 			_this.jizhongming = '';
 			_this.xilie = '';
+			_this.wangbanzuochengriqi = '';
 			_this.wangbanbianhao = '';
 			_this.bianhao = '';
 			_this.wangbanhoudu = '';
@@ -1993,15 +2019,6 @@ var vm_app = new Vue({
 			_this.zhangli4 = 0;
 			_this.zhangli5 = 0;
 
-			_this.saomiao = '';
-			_this.jianchariqi = '';
-			_this.xianti = '';
-			_this.banci = '';
-			_this.gongxu = '';
-			_this.dianmei = '';
-			_this.meishu = '';
-			_this.meishu_max = '';
-			
 			// _this.$refs.saomiao.focus();
 			_this.$refs.ref_bianhao.focus();
 		},
@@ -2016,6 +2033,7 @@ var vm_app = new Vue({
 			var pinming = _this.pinming;
 			var jizhongming = _this.jizhongming;
 			var xilie = _this.xilie;
+			var wangbanzuochengriqi = _this.wangbanzuochengriqi;
 			var wangbanbianhao = _this.wangbanbianhao;
 			var bianhao = _this.bianhao;
 			var wangbanhoudu = _this.wangbanhoudu;
@@ -2045,6 +2063,7 @@ var vm_app = new Vue({
 				pinming: pinming,
 				jizhongming: jizhongming,
 				xilie: xilie,
+				wangbanzuochengriqi: wangbanzuochengriqi.Format("yyyy-MM-dd 00:00:00"),
 				wangbanbianhao: wangbanbianhao,
 				bianhao: bianhao,
 				wangbanhoudu: wangbanhoudu,
@@ -3565,6 +3584,7 @@ var vm_app = new Vue({
 			
 			_this.id_edit = row.id;
 			_this.wangbanbufan_edit = row.wangbanbufan;
+			_this.wangbanzuochengriqi_edit = row.wangbanzuochengriqi.substring(0, 10);
 			_this.jizhongming_edit = row.jizhongming;
 			_this.pinming_edit = row.pinming;
 			_this.gongxu_edit = row.gongxu;

@@ -8,7 +8,7 @@ class Smt_wbglbase extends Model
 {
 	protected $fillable = [
         'jizhongming', 'pinming', 'xilie', 'wangbanbufan',
-        'wangbanbianhao', 'bianhao', 'wangbanhoudu', 'teshugongyi',
+        'wangbanzuochengriqi', 'wangbanbianhao', 'bianhao', 'wangbanhoudu', 'teshugongyi',
         
 
 	];

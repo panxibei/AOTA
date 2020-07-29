@@ -58,8 +58,8 @@ class wbglController extends Controller
 		// dd($queryParams);
 		$qcdate_filter = $request->input('qcdate_filter');
 		$bianhao_filter = $request->input('bianhao_filter');
-		// $banci_filter = $request->input('banci_filter');
-		// $jizhongming_filter = $request->input('jizhongming_filter');
+		$wangbanbufan_filter = $request->input('wangbanbufan_filter');
+		$teshugongyi_filter = $request->input('teshugongyi_filter');
 		// $pinming_filter = $request->input('pinming_filter');
 		// $gongxu_filter = $request->input('gongxu_filter');
 
@@ -100,6 +100,12 @@ class wbglController extends Controller
 				// })
 				->when($bianhao_filter, function ($query) use ($bianhao_filter) {
 					return $query->where('bianhao', 'like', $bianhao_filter.'%');
+				})
+				->when($wangbanbufan_filter, function ($query) use ($wangbanbufan_filter) {
+					return $query->where('wangbanbufan', 'like', '%'.$wangbanbufan_filter.'%');
+				})
+				->when($teshugongyi_filter, function ($query) use ($teshugongyi_filter) {
+					return $query->where('teshugongyi', 'like', '%'.$teshugongyi_filter.'%');
 				})
 				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
 				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
@@ -571,6 +577,7 @@ class wbglController extends Controller
 		$pinming = $request->input('pinming');
 		$jizhongming = $request->input('jizhongming');
 		$xilie = $request->input('xilie');
+		$wangbanzuochengriqi = $request->input('wangbanzuochengriqi');
 		$wangbanbianhao = $request->input('wangbanbianhao');
 		$bianhao = $request->input('bianhao');
 		$wangbanhoudu = $request->input('wangbanhoudu');
@@ -593,6 +600,7 @@ class wbglController extends Controller
 		$s['pinming'] = $pinming;
 		$s['jizhongming'] = $jizhongming;
 		$s['xilie'] = $xilie;
+		$s['wangbanzuochengriqi'] = $wangbanzuochengriqi;
 		$s['wangbanbianhao'] = $wangbanbianhao;
 		$s['bianhao'] = $bianhao;
 		$s['wangbanhoudu'] = $wangbanhoudu;
@@ -914,7 +922,7 @@ class wbglController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$res = Smt_wbgl::select(DB::raw('LEFT(created_at, 10) AS zuochengriqi'), 'wangbanbufan', 'jizhongming', 'pinming', 'xilie', 'wangbanbianhao', 'bianhao',
+		$res = Smt_wbgl::select(DB::raw('LEFT(created_at, 10) AS zuochengriqi'), 'wangbanbufan', 'jizhongming', 'pinming', 'xilie', 'wangbanzuochengriqi', 'wangbanbianhao', 'bianhao',
 			'wangbanhoudu', 'teshugongyi', 'zhangli1', 'zhangli2', 'zhangli3', 'zhangli4', 'zhangli5',
 			'created_at', 'luruzhe', 'updated_at', 'bianjizhe')
 			->whereBetween('created_at', [$queryfilter_datefrom, $queryfilter_dateto])
@@ -933,7 +941,7 @@ class wbglController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['作成日期', '网板编号', '机种名', '品名', '系列', '网板编号', '编号', '网板厚度', '特殊工艺', '张力1', '张力2', '张力3', '张力4', '张力5',
+		$title[] = ['作成日期', '网板编号', '机种名', '品名', '系列', '网板作成日期', '网板编号', '编号', '网板厚度', '特殊工艺', '张力1', '张力2', '张力3', '张力4', '张力5',
 			'创建日期', '录入者', '更新日期', '编辑者'];
 
 		// 合并Excel的标题和数据为一个整体
