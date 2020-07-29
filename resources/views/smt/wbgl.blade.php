@@ -1951,10 +1951,7 @@ var vm_app = new Vue({
 		onchange_bianhao () {
 			var _this = this;
 
-			if (_this.bianhao.length > 2) {
-				// alert(_this.bianhao.length);
-
-
+			if (_this.bianhao.length == 3 || _this.bianhao.length == 4) {
 
 				var url = "{{ route('smt.wbgl.bianhaogets') }}";
 				axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
@@ -1980,6 +1977,14 @@ var vm_app = new Vue({
 						_this.wangbanhoudu = response.data.wangbanhoudu;
 						_this.teshugongyi = response.data.teshugongyi;
 						
+					} else {
+						_this.wangbanbufan = '';
+						_this.pinming = '';
+						_this.jizhongming = '';
+						_this.xilie = '';
+						_this.wangbanbianhao = '';
+						_this.wangbanhoudu = '';
+						_this.teshugongyi = '';
 					}
 					
 				})
@@ -1988,6 +1993,14 @@ var vm_app = new Vue({
 					_this.error(false, 'Error', error);
 				})
 
+			} else {
+				_this.wangbanbufan = '';
+				_this.pinming = '';
+				_this.jizhongming = '';
+				_this.xilie = '';
+				_this.wangbanbianhao = '';
+				_this.wangbanhoudu = '';
+				_this.teshugongyi = '';
 			}
 
 		},

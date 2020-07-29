@@ -87,7 +87,7 @@ class wbglController extends Controller
 		
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl)) {
-			$qcreport = Cache::get($fullUrl);    //直接读取cache
+			$wbgl = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
 			// $qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
@@ -156,36 +156,19 @@ class wbglController extends Controller
 		
 		//首先查寻cache如果找到
 		if (Cache::has($fullUrl)) {
-			$qcreport = Cache::get($fullUrl);    //直接读取cache
+			$result = Cache::get($fullUrl);    //直接读取cache
 		} else {                                   //如果cache里面没有        
-			// $qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
-			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
+			// $result = Smt_wbglbase::when($bianhao, function ($query) use ($bianhao) {
+			// 		return $query->where('bianhao', '=', $bianhao);
 			// 	})
-			$wbgl = Smt_wbglbase::when($bianhao, function ($query) use ($bianhao) {
-					return $query->where('bianhao', '=', $bianhao);
-				})
-				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
-				// 	return $query->where('xianti', '=', $xianti_filter);
-				// })
-				// ->when($banci_filter, function ($query) use ($banci_filter) {
-				// 	return $query->where('banci', 'like', $banci_filter.'%');
-				// })
-				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
-				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
-				// })
-				// ->when($pinming_filter, function ($query) use ($pinming_filter) {
-				// 	return $query->where('pinming', '=', $pinming_filter);
-				// })
-				// ->when($gongxu_filter, function ($query) use ($gongxu_filter) {
-				// 	return $query->where('gongxu', '=', $gongxu_filter);
-				// })
-				// ->orderBy('created_at', 'asc')
-				->first();
+			// 	->first();
 			
-			Cache::put($fullUrl, $wbgl, now()->addSeconds(10));
+			$result = Smt_wbglbase::where('bianhao', $bianhao)->first();
+			
+			Cache::put($fullUrl, $result, now()->addSeconds(10));
 		}
-		// dd($wbgl);
-		return $wbgl;
+		// dd($result);
+		return $result;
 	}	
 	
 	/**
