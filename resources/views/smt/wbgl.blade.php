@@ -103,8 +103,8 @@ SMT(网板管理) -
 			<i-row :gutter="16">
 				<i-col span="6">
 					* 编号&nbsp;&nbsp;
-					<Poptip trigger="focus" placement="top-start" content="输入编号开始查询...." transfer="true">
-					<i-input v-model.lazy="bianhao" element-id="id_bianhao" @on-keyup="bianhao=bianhao.toUpperCase()" @on-change="onchange_bianhao();" placeholder="6-1" size="large" clearable autofocus style="width: 180px"></i-input>
+					<Poptip trigger="focus" placement="top-start" content="输入编号开始查询录入...." transfer="true">
+					<i-input ref="ref_bianhao" v-model.lazy="bianhao" element-id="id_bianhao" @on-keyup="bianhao=bianhao.toUpperCase()" @on-change="onchange_bianhao();" placeholder="6-1" size="large" clearable autofocus style="width: 180px"></i-input>
 					</Poptip>
 				</i-col>
 				<i-col span="7">
@@ -687,6 +687,12 @@ var vm_app = new Vue({
 				key: 'xilie',
 				align: 'center',
 				width: 100
+			},
+			{
+				title: '网板编号',
+				key: 'wangbanbianhao',
+				align: 'center',
+				width: 100,
 			},
 			{
 				title: '编号',
@@ -1964,25 +1970,17 @@ var vm_app = new Vue({
 					}
 					
 					if (response.data) {
-						console.log(response.data);return false;
+						// console.log(response.data);return false;
 
-						_this.pagecurrent = response.data.current_page;
-						_this.pagetotal = response.data.total;
-						_this.pagelast = response.data.last_page;
+						_this.wangbanbufan = response.data.wangbanbufan;
+						_this.pinming = response.data.pinming;
+						_this.jizhongming = response.data.jizhongming;
+						_this.xilie = response.data.xilie;
+						_this.wangbanbianhao = response.data.wangbanbianhao;
+						_this.wangbanhoudu = response.data.wangbanhoudu;
+						_this.teshugongyi = response.data.teshugongyi;
 						
-						_this.tabledata1 = response.data.data;
-						
-						// console.log(_this.tabledata1);
-						
-					} else {
-						_this.tabledata1 = [];
 					}
-					
-					// 合计
-					// _this.buliangjianshuheji = 0;
-					// for (var i in _this.tabledata1) {
-					// 	_this.buliangjianshuheji += _this.tabledata1[i].shuliang;
-					// }
 					
 				})
 				.catch(function (error) {
@@ -2060,7 +2058,8 @@ var vm_app = new Vue({
 			_this.meishu = '';
 			_this.meishu_max = '';
 			
-			_this.$refs.saomiao.focus();
+			// _this.$refs.saomiao.focus();
+			_this.$refs.ref_bianhao.focus();
 		},
 		
 		// oncreate
@@ -3626,6 +3625,7 @@ var vm_app = new Vue({
 			_this.pinming_edit = row.pinming;
 			_this.gongxu_edit = row.gongxu;
 			_this.xilie_edit = row.xilie;
+			_this.wangbanbianhao_edit = row.wangbanbianhao;
 			_this.bianhao_edit = row.bianhao;
 			_this.wangbanhoudu_edit = row.wangbanhoudu;
 			_this.teshugongyi_edit = row.teshugongyi;

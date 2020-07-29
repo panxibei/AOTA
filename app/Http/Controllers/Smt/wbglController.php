@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Admin\Config;
 use App\Models\Smt\Smt_wbgl;
+use App\Models\Smt\Smt_wbglbase;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\wbglExport;
@@ -160,7 +161,7 @@ class wbglController extends Controller
 			// $qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
 			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
 			// 	})
-			$wbgl = Smt_wbgl::when($bianhao, function ($query) use ($bianhao) {
+			$wbgl = Smt_wbglbase::when($bianhao, function ($query) use ($bianhao) {
 					return $query->where('bianhao', '=', $bianhao);
 				})
 				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
@@ -183,7 +184,7 @@ class wbglController extends Controller
 			
 			Cache::put($fullUrl, $wbgl, now()->addSeconds(10));
 		}
-		dd($wbgl);
+		// dd($wbgl);
 		return $wbgl;
 	}	
 	
@@ -930,7 +931,7 @@ class wbglController extends Controller
 		// $queryfilter_datefrom = strtotime($queryfilter_datefrom) ? $queryfilter_datefrom : '1970-01-01';
 		// $queryfilter_dateto = strtotime($queryfilter_dateto) ? $queryfilter_dateto : '9999-12-31';
 
-		$res = Smt_wbgl::select(DB::raw('LEFT(created_at, 10) AS zuochengriqi'), 'wangbanbufan', 'jizhongming', 'pinming', 'xilie', 'bianhao',
+		$res = Smt_wbgl::select(DB::raw('LEFT(created_at, 10) AS zuochengriqi'), 'wangbanbufan', 'jizhongming', 'pinming', 'xilie', 'wangbanbianhao', 'bianhao',
 			'wangbanhoudu', 'teshugongyi', 'zhangli1', 'zhangli2', 'zhangli3', 'zhangli4', 'zhangli5',
 			'created_at', 'luruzhe', 'updated_at', 'bianjizhe')
 			->whereBetween('created_at', [$queryfilter_datefrom, $queryfilter_dateto])
@@ -949,7 +950,7 @@ class wbglController extends Controller
         // ];
 
 		// Excel标题第一行，可修改为任意名字，包括中文
-		$title[] = ['作成日期', '网板编号', '机种名', '品名', '系列', '编号', '网板厚度', '特殊工艺', '张力1', '张力2', '张力3', '张力4', '张力5',
+		$title[] = ['作成日期', '网板编号', '机种名', '品名', '系列', '网板编号', '编号', '网板厚度', '特殊工艺', '张力1', '张力2', '张力3', '张力4', '张力5',
 			'创建日期', '录入者', '更新日期', '编辑者'];
 
 		// 合并Excel的标题和数据为一个整体
@@ -1002,6 +1003,10 @@ class wbglController extends Controller
 		
 		// 导入excel文件内容
 		try {
+			// 先清空表
+			Smt_wbglbase::truncate();
+			// DB::statement('delete from smt_wbglbases');
+			
 			$ret = Excel::import(new wbglbaseImport, 'excel/import.xlsx');
 			// dd($ret);
 			$result = 1;
