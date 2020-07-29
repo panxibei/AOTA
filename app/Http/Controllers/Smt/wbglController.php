@@ -10,7 +10,7 @@ use App\Models\Smt\Smt_wbgl;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Smt\wbglExport;
-use App\Imports\qcreportImport;
+use App\Imports\Smt\wbglbaseImport;
 use App\Charts\Smt\ECharts;
 
 use Illuminate\Support\Facades\Storage;
@@ -115,6 +115,75 @@ class wbglController extends Controller
 			Cache::put($fullUrl, $wbgl, now()->addSeconds(10));
 		}
 		
+		return $wbgl;
+	}
+
+
+	/**
+	 * bianhaoGets
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function bianhaoGets(Request $request)
+	{
+		if (! $request->ajax()) return null;
+
+		$url = request()->url();
+		$queryParams = request()->query();
+
+		// dd($queryParams);
+		$bianhao = $request->input('bianhao');
+		
+		//对查询参数按照键名排序
+		ksort($queryParams);
+
+		//将查询数组转换为查询字符串
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = sha1("{$url}?{$queryString}");
+		
+		// dd($fullUrl);
+		// dd($queryParams);
+		// dd($qcdate_filter);
+		
+		// 注意$usecache变量的类型
+		// if ($usecache == "false") {
+			// Cache::forget($fullUrl);
+			// Cache::flush();
+		// }
+		
+		//首先查寻cache如果找到
+		if (Cache::has($fullUrl)) {
+			$qcreport = Cache::get($fullUrl);    //直接读取cache
+		} else {                                   //如果cache里面没有        
+			// $qcreport = Smt_qcreport::when($qcdate_filter, function ($query) use ($qcdate_filter) {
+			// 		return $query->whereBetween('jianchariqi', $qcdate_filter);
+			// 	})
+			$wbgl = Smt_wbgl::when($bianhao, function ($query) use ($bianhao) {
+					return $query->where('bianhao', '=', $bianhao);
+				})
+				// ->when($xianti_filter, function ($query) use ($xianti_filter) {
+				// 	return $query->where('xianti', '=', $xianti_filter);
+				// })
+				// ->when($banci_filter, function ($query) use ($banci_filter) {
+				// 	return $query->where('banci', 'like', $banci_filter.'%');
+				// })
+				// ->when($jizhongming_filter, function ($query) use ($jizhongming_filter) {
+				// 	return $query->where('jizhongming', 'like', '%'.$jizhongming_filter.'%');
+				// })
+				// ->when($pinming_filter, function ($query) use ($pinming_filter) {
+				// 	return $query->where('pinming', '=', $pinming_filter);
+				// })
+				// ->when($gongxu_filter, function ($query) use ($gongxu_filter) {
+				// 	return $query->where('gongxu', '=', $gongxu_filter);
+				// })
+				// ->orderBy('created_at', 'asc')
+				->first();
+			
+			Cache::put($fullUrl, $wbgl, now()->addSeconds(10));
+		}
+		dd($wbgl);
 		return $wbgl;
 	}	
 	
@@ -894,12 +963,12 @@ class wbglController extends Controller
 	
 	
 	/**
-	 * qcreportImport
+	 * wbglbaseImport
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function qcreportImport(Request $request)
+	public function wbglbaseImport(Request $request)
 	{
 		if (! $request->isMethod('post') || ! $request->ajax()) return null;
 
@@ -933,7 +1002,7 @@ class wbglController extends Controller
 		
 		// 导入excel文件内容
 		try {
-			$ret = Excel::import(new qcreportImport, 'excel/import.xlsx');
+			$ret = Excel::import(new wbglbaseImport, 'excel/import.xlsx');
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
@@ -1164,7 +1233,17 @@ class wbglController extends Controller
 		return $tongji;
 	}
 	
-	
+	/**
+     * wbglbaseDownload 导入模板下载
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function wbglbaseDownload(Request $request)
+    {
+		return Storage::download('download/smt_wbglbaseimport.xlsx', 'MoBan_SmtWbglbase.xlsx');
+	}
+
 	
 	
 	

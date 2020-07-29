@@ -74,19 +74,48 @@ SMT(网板管理) -
 
 			<br>
 			<i-row :gutter="16">
+				<i-col span="1">
+				&nbsp;导入：
+				</i-col>
+				<i-col span="3">
+					<Upload
+						:before-upload="uploadstart_wbglbase"
+						:show-upload-list="false"
+						:format="['xls','xlsx']"
+						:on-format-error="handleFormatError"
+						:max-size="2048"
+						action="/">
+						<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '导入中...' : '导入网板基础数据表' }}</i-button>
+					</Upload>
+				</i-col>
+				<i-col span="2">
+					<i-button @click="download_wbglbase()" type="text"><font color="#2db7f5">[下载模板]</font></i-button>
+				</i-col>
+				<i-col span="18">
+					&nbsp;
+				</i-col>
+			</i-row>
+
+			<br>
+			<Divider></Divider>
+			<br>
+
+			<i-row :gutter="16">
+				<i-col span="6">
+					* 编号&nbsp;&nbsp;
+					<Poptip trigger="focus" placement="top-start" content="输入编号开始查询...." transfer="true">
+					<i-input v-model.lazy="bianhao" element-id="id_bianhao" @on-keyup="bianhao=bianhao.toUpperCase()" @on-change="onchange_bianhao();" placeholder="6-1" size="large" clearable autofocus style="width: 180px"></i-input>
+					</Poptip>
+				</i-col>
 				<i-col span="7">
 					* <strong>网板部番</strong>&nbsp;&nbsp;
-					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
-					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="84-36240Z01-A" size="large" clearable autofocus style="width: 260px"></i-input>
-					</Poptip>
+					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="84-36240Z01-A" size="large" clearable style="width: 260px"></i-input>
 				</i-col>
 				<i-col span="7">
 					* <strong>品名</strong>&nbsp;&nbsp;
-					<Poptip trigger="focus" placement="top-start" content="扫描或输入...." transfer="true">
 					<i-input element-id="id_pinming" v-model.lazy="pinming"  @on-keyup="pinming=pinming.toUpperCase()" placeholder="MAIN-RA" size="large" clearable style="width: 160px"></i-input>
-					</Poptip>
 				</i-col>
-				<i-col span="10">
+				<i-col span="4">
 					&nbsp;
 				</i-col>
 			</i-row>
@@ -106,10 +135,10 @@ SMT(网板管理) -
 					* 网板编号&nbsp;&nbsp;
 					<i-input v-model.lazy="wangbanbianhao"  @on-keyup="wangbanbianhao=wangbanbianhao.toUpperCase()" placeholder="SZ19-7708" size="large" clearable style="width: 180px"></i-input>
 				</i-col>
-				<i-col span="6">
+				<!-- <i-col span="6">
 					* 编号&nbsp;&nbsp;
 					<i-input v-model.lazy="bianhao"  @on-keyup="bianhao=bianhao.toUpperCase()" placeholder="6-1" size="large" clearable style="width: 180px"></i-input>
-				</i-col>
+				</i-col> -->
 			</i-row>
 
 			<br><br><br>
@@ -1611,9 +1640,6 @@ var vm_app = new Vue({
 		pagepagesize: 5,
 		pagelast: 1,
 		
-		file: null,
-		loadingStatus: false,
-		
 		// 编辑
 		modal_qcreport_edit: false,
 		modal_qcreport_edit_sub: false,
@@ -1666,6 +1692,10 @@ var vm_app = new Vue({
 		jianchazhe_append: '',
 		count_of_buliangxinxi_append: 0,
 
+		// 上传，批量导入
+		file: null,
+		loadingStatus: false,
+		uploaddisabled: false,
 
 	},
 	methods: {
@@ -1909,6 +1939,59 @@ var vm_app = new Vue({
 			
 			_this.boo_delete = _this.tableselect1[0] == undefined ? true : false;
 			
+		},
+
+		// 编号远程筛选
+		onchange_bianhao () {
+			var _this = this;
+
+			if (_this.bianhao.length > 2) {
+				// alert(_this.bianhao.length);
+
+
+
+				var url = "{{ route('smt.wbgl.bianhaogets') }}";
+				axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+				axios.get(url,{
+					params: {
+						bianhao: _this.bianhao,
+					}
+				})
+				.then(function (response) {
+					if (response.data['jwt'] == 'logout') {
+						_this.alert_logout();
+						return false;
+					}
+					
+					if (response.data) {
+						console.log(response.data);return false;
+
+						_this.pagecurrent = response.data.current_page;
+						_this.pagetotal = response.data.total;
+						_this.pagelast = response.data.last_page;
+						
+						_this.tabledata1 = response.data.data;
+						
+						// console.log(_this.tabledata1);
+						
+					} else {
+						_this.tabledata1 = [];
+					}
+					
+					// 合计
+					// _this.buliangjianshuheji = 0;
+					// for (var i in _this.tabledata1) {
+					// 	_this.buliangjianshuheji += _this.tabledata1[i].shuliang;
+					// }
+					
+				})
+				.catch(function (error) {
+					_this.loadingbarerror();
+					_this.error(false, 'Error', error);
+				})
+
+			}
+
 		},
 		
 
@@ -4274,18 +4357,101 @@ var vm_app = new Vue({
 				data: finaldata,
 			});
 		},
+
+		// upload function
+		handleFormatError (file) {
+			this.$Notice.warning({
+				title: 'The file format is incorrect',
+				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
+			});
+		},
+		handleMaxSize (file) {
+			this.$Notice.warning({
+				title: 'Exceeding file size limit',
+				desc: 'File  ' + file.name + ' is too large, no more than <strong>2M</strong>.'
+			});
+		},
+		handleUpload: function (file) {
+			this.file = file;
+			return false;
+		},
+		uploadstart_wbglbase: function (file) {
+			var _this = this;
+			_this.file = file;
+			_this.uploaddisabled = true;
+			_this.loadingStatus = true;
+
+			let formData = new FormData()
+			// formData.append('file',e.target.files[0])
+			formData.append('myfile',_this.file)
+			// console.log(formData.get('file'));
+			
+			// return false;
+			
+			var url = "{{ route('smt.wbgl.wbglbaseimport') }}";
+			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+			axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			axios({
+				url: url,
+				method: 'post',
+				data: formData,
+				processData: false,// 告诉axios不要去处理发送的数据(重要参数)
+				contentType: false, // 告诉axios不要去设置Content-Type请求头
+			})
+			.then(function (response) {
+				if (response.data['jwt'] == 'logout') {
+					_this.alert_logout();
+					return false;
+				}
+				
+				if (response.data) {
+					_this.success(false, '成功', '导入成功！');
+				} else {
+					_this.error(false, '失败', '注意内容文本格式并且内容不能为空！');
+				}
+				
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+				
+			})
+			.catch(function (error) {
+				_this.error(false, '错误', error);
+				setTimeout( function () {
+					_this.file = null;
+					_this.loadingStatus = false;
+					_this.uploaddisabled = false;
+				}, 1000);
+			})
+		},
+		uploadcancel: function () {
+			this.file = null;
+			// this.loadingStatus = false;
+		},
+		
+		// 计划上传模板下载
+		download_wbglbase: function () {
+			var url = "{{ route('smt.wbgl.wbglbasedownload') }}";
+			window.setTimeout(function () {
+				window.location.href = url;
+			}, 1000);
+		},
+
 			
 	},
 	mounted () {
 		@hasanyrole('role_smt_wbgl_write|role_super_admin')
-		var id_wangbanbufan = document.getElementById("id_wangbanbufan");
-		id_wangbanbufan.style.background = "#FFF8E1";
+		var id_bianhao = document.getElementById("id_bianhao");
+		id_bianhao.style.background = "#FFF8E1";
 
-		var id_pinming = document.getElementById("id_pinming");
-		id_pinming.style.background = "#FFF8E1";
+		// var id_wangbanbufan = document.getElementById("id_wangbanbufan");
+		// id_wangbanbufan.style.background = "#FFF8E1";
 
-		// var id_dianmei = document.getElementById("id_dianmei");
-		// id_dianmei.style.background = "#c5c8ce";
+		// var id_pinming = document.getElementById("id_pinming");
+		// id_pinming.style.background = "#FFF8E1";
+
 		@endhasanyrole
 
 		// var _this = this;
