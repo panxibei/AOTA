@@ -109,7 +109,7 @@ SMT(网板管理) -
 				</i-col>
 				<i-col span="7">
 					* <strong>网板部番</strong>&nbsp;&nbsp;
-					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="84-36240Z01-A" size="large" clearable style="width: 260px"></i-input>
+					<i-input ref="saomiao" element-id="id_wangbanbufan" v-model.lazy="wangbanbufan"  @on-keyup="wangbanbufan=wangbanbufan.toUpperCase()" placeholder="84-36240Z01-A" size="large" clearable style="width: 200px"></i-input>
 				</i-col>
 				<i-col span="7">
 					* <strong>品名</strong>&nbsp;&nbsp;
