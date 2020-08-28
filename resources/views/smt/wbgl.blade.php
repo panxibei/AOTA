@@ -2063,7 +2063,7 @@ var vm_app = new Vue({
 				pinming: pinming,
 				jizhongming: jizhongming,
 				xilie: xilie,
-				wangbanzuochengriqi: wangbanzuochengriqi.Format("yyyy-MM-dd 00:00:00"),
+				wangbanzuochengriqi: new Date(wangbanzuochengriqi).Format("yyyy-MM-dd 00:00:00"),
 				wangbanbianhao: wangbanbianhao,
 				bianhao: bianhao,
 				wangbanhoudu: wangbanhoudu,
