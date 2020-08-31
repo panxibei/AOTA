@@ -782,7 +782,13 @@ class wbglController extends Controller
 
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
-		$bianjizhe = $user['name'];
+		$user_tmp = explode(' ', $user['displayname']);
+
+		if (sizeof($user_tmp)>1) {
+			$bianjizhe = $user_tmp[0] . $user_tmp[1];
+		} else {
+			$bianjizhe = $user['displayname'];
+		}
 		
 		// 尝试更新
 		try	{
