@@ -590,7 +590,7 @@ class wbglController extends Controller
 
 		$me = response()->json(auth()->user());
 		$user = json_decode($me->getContent(), true);
-		$luruzhe = $user['name'];
+		$luruzhe = $user['displayname'];
 
 		if (empty($wangbanbufan) || empty($pinming) || empty($jizhongming)) {
 			return 0;
