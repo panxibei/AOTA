@@ -21,20 +21,23 @@ class wbglbaseImport implements ToModel, WithHeadingRow
 		// }
 	
 		
-		// Smt_qcreport::create([
-		return new Smt_wbglbase([
+		if ($row['网板部番']) {
+			// Smt_qcreport::create([
+			return new Smt_wbglbase([
 
-			'wangbanbufan' => $row['网板部番'] ?: '',
-			'jizhongming' => $row['机种名'] ?: '',
-			'pinming' => $row['品名'] ?: '',
-			'xilie' => $row['系列'] ?: '',
-			'wangbanzuochengriqi' => $row['网板作成日期'] ?: '',
-			'wangbanbianhao' => $row['网板编号'] ?: '',
-			'bianhao' => $row['编号'] ?: '',
-			'wangbanhoudu' => $row['网板厚度'] ?: '',
-			'teshugongyi' => $row['特殊工艺'] ?: '',
+				
+				'wangbanbufan' => $row['网板部番'] ?: '',
+				'jizhongming' => $row['机种名'] ?: '',
+				'pinming' => $row['品名'] ?: '',
+				'xilie' => $row['系列'] ?: '',
+				'wangbanzuochengriqi' => $row['网板作成日期'] ?: '',
+				'wangbanbianhao' => $row['网板编号'] ?: '',
+				'bianhao' => $row['编号'] ?: '',
+				'wangbanhoudu' => $row['网板厚度'] ?: '',
+				'teshugongyi' => $row['特殊工艺'] ?: '',
 			
-		]);
+			]);
+		}
 		
     }
 }

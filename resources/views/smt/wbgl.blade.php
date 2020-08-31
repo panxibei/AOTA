@@ -653,7 +653,7 @@ var vm_app = new Vue({
 				title: '网板编号',
 				key: 'wangbanbianhao',
 				align: 'center',
-				width: 100,
+				width: 120,
 			},
 			{
 				title: '编号',
