@@ -665,7 +665,7 @@ var vm_app = new Vue({
 				title: '网板厚度',
 				key: 'wangbanhoudu',
 				align: 'center',
-				width: 100,
+				width: 120,
 			},
 			{
 				title: '特殊工艺',
