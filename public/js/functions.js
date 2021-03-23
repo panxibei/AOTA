@@ -15,8 +15,8 @@ function DiffInNumOfDate(date1, date2) { //date1:小日期   date2:大日期
 
 // 开始提醒日期
 var dateofcurrent = new Date();
-var dateofhint = new Date('2021-01-28 23:59:59');
-var dateofsetup = new Date('2021-03-30 23:59:59');
+var dateofhint = new Date('2022-01-28 23:59:59');
+var dateofsetup = new Date('2022-03-30 23:59:59');
 
 // alert(DiffInNumOfDate(dateofcurrent, dateofhint));
 
