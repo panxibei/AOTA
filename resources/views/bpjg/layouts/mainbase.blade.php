@@ -65,10 +65,10 @@
 }
 </style>
 @yield('my_style')
-<script src="{{ asset('js/functions.js') }}"></script>
+<!-- <script src="{{ asset('js/functions.js') }}"></script>
 <script>
 	checkBrowser();
-</script>
+</script> -->
 @yield('my_js')
 </head>
 <body>
@@ -156,6 +156,10 @@
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
 <script src="{{ asset('js/httpVueLoader.js') }}"></script>
 <script src="{{ asset('statics/echarts/echarts.js') }}"></script>
+<script src="{{ asset('js/functions.js') }}"></script>
+<script>
+getdateofsetup("{{route('dateofsetup')}}");
+</script>
 @section('my_js_others')
 <script>
 function topmenuselect (name) {

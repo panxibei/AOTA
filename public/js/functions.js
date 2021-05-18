@@ -11,23 +11,49 @@ function DiffInNumOfDate(date1, date2) { //date1:小日期   date2:大日期
 　　var days = Math.floor((ddate2 - ddate1) / (1000 * 60 * 60 * 24)); 
 　　return days; 
 } 
+ 
 
+// 获取设定日期，开始提醒日期
+async function getdateofsetup (url) {
+    var dateofcurrent = new Date();
+    // var dateofhint1 = new Date(dateofcurrent.getFullYear() + '-01-28 23:59:59');
+    // var dateofhint2 = new Date(dateofcurrent.getFullYear() + '-03-30 23:59:59');
+    // var dateofhint = new Date();
+    var dateofsetup = new Date();
 
-// 开始提醒日期
-var dateofcurrent = new Date();
-var dateofhint = new Date('2022-01-28 23:59:59');
-var dateofsetup = new Date('2022-03-30 23:59:59');
+    // var url = "/dateofsetup";
 
-// alert(DiffInNumOfDate(dateofcurrent, dateofhint));
-
-if (dateofcurrent >= dateofhint) {
-    var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
-    if (d > 0) {
-        alert(
-            '警告！系统框架和组件将于' + d + '天后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after ' + d + ' days!'
-        );
-    }
+    axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+    await axios.get(url,{
+        params: {}
+    })
+    .then(function (response) {
+        if (response.data['jwt'] == 'logout') {
+            _this.alert_logout();
+            return false;
+        }
+        dateofsetup = response.data ? new Date(response.data) : '';
+    })
+    .catch(function (error) {
+    })
+    console.log(dateofcurrent);
+    console.log(dateofsetup);
+    // if (dateofcurrent >= dateofhint1 && dateofcurrent <= dateofhint2) {
+        var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
+        console.log(d);
+        if (d <= 60 && d >= 0) {
+            alert(
+                '警告！系统框架和组件将于' + d + '天后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after ' + d + ' days!'
+            );
+        }
+    // }
 }
+
+
+// (async()=>{
+// await getdateofsetup();
+// })();
+// getdateofsetup();
 
 
 // 判断PC端还是移动端
@@ -106,6 +132,8 @@ function checkBrowser () {
         window.stop();
 	};	
 }
+
+checkBrowser();
 
 // 201812301547
 // 获取某个月份的天数 例：getDays(2018-12)

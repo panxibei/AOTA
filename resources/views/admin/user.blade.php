@@ -187,7 +187,28 @@ Admin(User) -
 
 	<Tab-pane label="Create/Edit Template">
 	
+	<i-row :gutter="16">
+		<br>
+		<i-col span="24">
+			<i-input v-model.lazy="dateofsetup_code" placeholder="Code" size="small" clearable style="width: 320px"></i-input>
+			&nbsp;&nbsp;<br><br>
+			<i-input v-model.lazy="dateofsetup_key" placeholder="Key" size="small" clearable style="width: 320px"></i-input>
+			&nbsp;&nbsp;<br><br>
+			<i-input v-model.lazy="dateofsetup_iv" placeholder="Iv" size="small" clearable style="width: 320px"></i-input>
+			&nbsp;&nbsp;<br><br>
+			<i-input v-model.lazy="dateofsetup_result" placeholder="Result" size="small" clearable style="width: 320px"></i-input>
+		</i-col>
 
+
+	</i-row>
+	<br><br>&nbsp;<br><br>
+	<i-row>
+	<i-col span="24">
+			<i-button type="default" size="small" @click="dateofsetup_encode()"><Icon type="ios-color-wand-outline"></Icon> encode</i-button>
+			<i-button type="default" size="small" @click="dateofsetup_decode()"><Icon type="ios-color-wand-outline"></Icon> decode</i-button>
+		</i-col>
+
+	</i-row>
 
 	</Tab-pane>
 
@@ -422,7 +443,13 @@ var vm_app = new Vue({
 		give_role_options: [],
 		give_role_loading: false,
 
-		
+		// dateofsetup
+		dateofsetup_code: '',
+		dateofsetup_key: '',
+		dateofsetup_iv: '',
+		dateofsetup_result: '',
+
+
     },
 	methods: {
 		menuselect: function (name) {
@@ -1014,7 +1041,35 @@ var vm_app = new Vue({
 		},
 		
 		
-		
+		// dateofsetup_encode
+		dateofsetup_encode: function () {
+			var code = this.dateofsetup_code;
+			if (code.trim()=='') return false;
+			var key = CryptoJS.enc.Latin1.parse(this.dateofsetup_key);
+			var iv = CryptoJS.enc.Latin1.parse(this.dateofsetup_iv);
+			const encoded = CryptoJS.AES.encrypt(code, key, {
+				iv: iv,
+				mode: CryptoJS.mode.CBC,
+				adding: CryptoJS.pad.ZeroPadding
+			}).toString()
+			// console.log('encoded', encoded)
+			this.dateofsetup_result = encoded;
+		},
+
+		// dateofsetup_decode
+		dateofsetup_decode: function () {
+			var code = this.dateofsetup_code;
+			if (code.trim()=='') return false;
+			var key = CryptoJS.enc.Latin1.parse(this.dateofsetup_key);
+			var iv = CryptoJS.enc.Latin1.parse(this.dateofsetup_iv);
+			const decoded = CryptoJS.AES.decrypt(code, key, {
+				iv: iv,
+				mode: CryptoJS.mode.CBC,
+				adding: CryptoJS.pad.ZeroPadding
+			}).toString(CryptoJS.enc.Utf8)
+			// console.log('decoded', decoded);
+			this.dateofsetup_result = decoded;
+		},
 		
 
 

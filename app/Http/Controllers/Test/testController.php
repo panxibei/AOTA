@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Test;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Admin\Config;
 use Adldap\AdldapInterface;
 use Adldap\Laravel\Facades\Adldap;
 

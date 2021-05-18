@@ -177,6 +177,9 @@ Route::group(['prefix'=>'', 'namespace'=>'Main', 'middleware'=>['jwtauth']], fun
 
 	// logout
 	Route::get('logout', 'mainController@logout')->name('main.logout');
+
+	// dateofsetup
+	Route::get('dateofsetup', 'mainController@dateofsetup')->name('dateofsetup');
 });
 
 
@@ -373,5 +376,6 @@ Route::group(['prefix'=>'test', 'namespace'=>'Test', 'middleware'=>['jwtauth','p
 	Route::get('phpinfo', 'testController@phpinfo');
 	Route::get('ldap', 'testController@ldap');
 	Route::get('scroll', 'testController@scroll');
+	
 	// Route::get('config', 'testController@mainConfig');
 });

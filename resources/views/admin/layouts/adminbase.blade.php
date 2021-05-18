@@ -286,6 +286,7 @@
 <script src="{{ asset('js/bluebird.min.js') }}"></script>
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
 <script src="{{ asset('js/httpVueLoader.js') }}"></script>
+<script src="{{ asset('js/crypto-js.min.js') }}"></script>
 @section('my_js_others')
 <script>
 function navmenuselect (name) {

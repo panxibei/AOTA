@@ -124,3 +124,16 @@ function object_to_array($obj) {
 function isDatetime($data) {
 	return date('Y-m-d H:i:s', strtotime($data)) == $data ? true : false;
 }
+
+/**
+ * OpenSSL解密
+ *
+ * @param string $encoded
+ * @return array
+ */
+function decode4openssl($encoded) {
+	// $encoded = 'vU85fuhrpDjJxp5dH2YTgl15iuyc3jYp7TUQJQmMqA8=';
+	$key  = 'VyeYTpi4vrdoHI5SotTQKMDVjvusneZk';
+	$iv = 'RecoJNvzCMqdedu7';
+	return openssl_decrypt($encoded, 'AES-256-CBC', $key, 0,$iv);
+}
