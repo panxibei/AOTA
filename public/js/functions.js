@@ -36,11 +36,11 @@ async function getdateofsetup (url) {
     })
     .catch(function (error) {
     })
-    console.log(dateofcurrent);
-    console.log(dateofsetup);
+    // console.log(dateofcurrent);
+    // console.log(dateofsetup);
     // if (dateofcurrent >= dateofhint1 && dateofcurrent <= dateofhint2) {
         var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
-        console.log(d);
+        // console.log(d);
         if (d <= 60 && d >= 0) {
             alert(
                 '警告！系统框架和组件将于' + d + '天后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after ' + d + ' days!'
