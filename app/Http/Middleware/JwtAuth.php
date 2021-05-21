@@ -67,13 +67,13 @@ class JwtAuth
 			}
 		
 		} else {
-			$token_local = Cookie::get('singletoken');
+			$token_local = Cookie::get('singletoken'.md5($app_key));
 			// $singletoken = md5($user['login_ip'] . $user['name'] . $user[login_time]);
 			$token_remote = $user['remember_token'];
 
 			if (empty($token_remote) || $token_local != $token_remote) {
 				Cookie::queue(Cookie::forget('token'));
-				Cookie::queue(Cookie::forget('singletoken'));
+				Cookie::queue(Cookie::forget('singletoken'.md5($app_key)));
 				return $request->ajax() ? response()->json(['jwt' => 'logout']) : redirect()->route('login');
 			}
 
