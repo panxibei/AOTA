@@ -64,10 +64,7 @@
 }
 </style>
 @yield('my_style')
-<!-- <script src="{{ asset('js/functions.js') }}"></script>
-<script>
-	checkBrowser();
-</script> -->
+<!-- <script src="{{ asset('js/functions.js') }}"></script> -->
 @yield('my_js')
 </head>
 <body>
@@ -108,9 +105,7 @@
 <script src="{{ asset('js/bluebird.min.js') }}"></script>
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
 <script src="{{ asset('js/functions.js') }}"></script>
-<!-- <script>
-getdateofsetup("{{route('dateofsetup')}}");
-</script> -->
+<!-- <script>getdateofsetup("{{route('dateofsetup')}}");</script> -->
 @yield('my_js_others')
 </body>
 </html>

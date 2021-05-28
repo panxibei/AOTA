@@ -3,7 +3,6 @@
  * 
  */
 
-
 // 计算日期天数差
 function DiffInNumOfDate(date1, date2) { //date1:小日期   date2:大日期
 　　var ddate1 = Date.parse(date1); 
@@ -14,17 +13,11 @@ function DiffInNumOfDate(date1, date2) { //date1:小日期   date2:大日期
  
 
 // 获取设定日期，开始提醒日期
-async function getdateofsetup (url) {
+function getdateofsetup (url) {
     var dateofcurrent = new Date();
-    // var dateofhint1 = new Date(dateofcurrent.getFullYear() + '-01-28 23:59:59');
-    // var dateofhint2 = new Date(dateofcurrent.getFullYear() + '-03-30 23:59:59');
-    // var dateofhint = new Date();
     var dateofsetup = new Date();
-
-    // var url = "/dateofsetup";
-
     axios.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
-    await axios.get(url,{
+    axios.get(url,{
         params: {}
     })
     .then(function (response) {
@@ -32,21 +25,23 @@ async function getdateofsetup (url) {
             _this.alert_logout();
             return false;
         }
-        dateofsetup = response.data ? new Date(response.data) : '';
+
+        if (response.data) {
+            var base64Str = CryptoJS.enc.Base64.parse(response.data);
+            var utf8Str = CryptoJS.enc.Utf8.stringify(base64Str);
+            dateofsetup = new Date(utf8Str);
+
+            var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
+            if (d <= 60 && d >= 0) {
+                alert(
+                    '警告！系统框架和组件将于' + d + '天后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after ' + d + ' days!'
+                );
+            }
+        }
     })
     .catch(function (error) {
+        console.log(error);
     })
-    // console.log(dateofcurrent);
-    // console.log(dateofsetup);
-    // if (dateofcurrent >= dateofhint1 && dateofcurrent <= dateofhint2) {
-        var d = DiffInNumOfDate(dateofcurrent, dateofsetup);
-        // console.log(d);
-        if (d <= 60 && d >= 0) {
-            alert(
-                '警告！系统框架和组件将于' + d + '天后过期，请尽快升级以免影响使用！\n\nWarning! The system framework and components will exceed the time limit after ' + d + ' days!'
-            );
-        }
-    // }
 }
 
 
@@ -68,9 +63,8 @@ function mobile() {
     }
 }
 isMobile = mobile();
-// console.log(isMobile);
 if (isMobile) {
-	alert('仅有付费系统组件支持移动端！');
+	alert('仅付费系统组件支持移动端！');
 	document.execCommand('Stop');
 	window.stop();
 }
@@ -113,8 +107,8 @@ function checkBrowser () {
 	var isOpera = userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1;
 	if (isOpera) {
 		// alert("Opera");
-	}; //判断是否Firefox浏览器
-	if (isFirefox) {
+	} //判断是否Firefox浏览器
+	else if (isFirefox) {
 		// alert("FF");
 	} //判断是否Chrome浏览器
 	else if (isChrome){
@@ -127,10 +121,10 @@ function checkBrowser () {
 	//判断是否IE浏览器
 	else {
 		// alert("IE");
-		alert('系统不支持IE，请使用现代浏览器！');
+		alert('系统不支持IE，请使用现代浏览器（Chrome、Firefox 或新版 Microsoft Edge）！');
         document.execCommand('Stop');
         window.stop();
-	};	
+	}
 }
 
 checkBrowser();

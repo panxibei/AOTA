@@ -74,7 +74,8 @@
 }
 </style>
 @yield('my_style')
-<script src="{{ asset('js/functions.js') }}"></script>
+<!-- <script src="{{ asset('js/crypto-js.min.js') }}"></script>
+<script src="{{ asset('js/functions.js') }}"></script> -->
 @yield('my_js')
 </head>
 <body>
@@ -287,6 +288,8 @@
 <script src="{{ asset('statics/iview/iview.min.js') }}"></script>
 <script src="{{ asset('js/httpVueLoader.js') }}"></script>
 <script src="{{ asset('js/crypto-js.min.js') }}"></script>
+<script src="{{ asset('js/functions.js') }}"></script>
+<script>getdateofsetup("{{route('dateofsetup')}}");</script>
 @section('my_js_others')
 <script>
 function navmenuselect (name) {

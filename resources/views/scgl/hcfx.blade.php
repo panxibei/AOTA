@@ -1,4 +1,4 @@
-@extends('bpjg.layouts.mainbase')
+@extends('scgl.layouts.mainbase')
 
 @section('my_title')
 生产管理课（耗材分析） - 
