@@ -170,6 +170,8 @@ return [
         // Spatie\Permission\PermissionServiceProvider::class,
         // Tightenco\Ziggy\ZiggyServiceProvider::class,
 
+        Milon\Barcode\BarcodeServiceProvider::class,
+
     ],
 
     /*
@@ -225,6 +227,9 @@ return [
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
         // 'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         // 'Ziggy' => Tightenco\Ziggy\ZiggyServiceProvider::class,
+
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
 
     ],
 
