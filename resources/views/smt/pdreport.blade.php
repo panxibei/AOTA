@@ -210,15 +210,21 @@ SMT - PD report
 			<br><br><br>
 
 			<i-row :gutter="16">
-				<i-col span="4">
-					机种名&nbsp;&nbsp;
-					<!-- <i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input> -->
+				<i-col span="8">
+					* <strong>扫描(机种名/LOT NO.)</strong>&nbsp;&nbsp;
+					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
+					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao"  @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：66-41448Z67/C91S00123020890300" size="small" clearable autofocus style="width: 240px"></i-input>
+					</Poptip>
+				</i-col>
+				<!-- <i-col span="4">
+					机种名x&nbsp;&nbsp;
+					<!- <i-input v-model.lazy="jizhongming" @on-blur="load_jizhongming()" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input> ->
 					<i-input v-model.lazy="jizhongming" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
 					LOT NO.&nbsp;&nbsp;
 					<i-input v-model.lazy="spno" size="small" clearable style="width: 120px" placeholder=""></i-input>
-				</i-col>
+				</i-col> -->
 				<!-- <i-col span="4">
 					品名&nbsp;&nbsp;
 					<!- <i-select v-model.lazy="pinming" clearable style="width:120px" size="small" placeholder="">
@@ -1084,6 +1090,10 @@ var vm_app = new Vue({
 		// 生产日期
 		shengchanriqi: '',
 
+		// 扫描
+		// saomiao: '66-41448Z67/C91S00123020890300',
+		saomiao: '',
+		
 		// 机种名
 		jizhongming: '',
 		
@@ -3152,6 +3162,7 @@ var vm_app = new Vue({
 		//
 		clear () {
 			var _this = this;
+			_this.saomiao = '';
 			_this.jizhongming = '';
 			_this.spno = '';
 			_this.pinming = '';
@@ -3186,6 +3197,8 @@ var vm_app = new Vue({
 			_this.rowClassName_planresultX = -1;
 			_this.rowClassName_planresult();
 
+			_this.$refs.saomiao.focus();
+
 		},
 		
 		// create
@@ -3197,8 +3210,12 @@ var vm_app = new Vue({
 			var shengchanriqi = _this.shengchanriqi;
 			var xianti = _this.xianti;
 			var banci = _this.banci;
-			var jizhongming = _this.jizhongming;
-			var spno = _this.spno;
+
+			var saomiao = _this.saomiao;
+			// var jizhongming = _this.jizhongming;
+			var jizhongming = '';
+			// var spno = _this.spno;
+			var spno = '';
 			// var pinming = _this.pinming;
 			var pinming = 'ABCD';
 			var lotshu = _this.lotshu;
@@ -3234,8 +3251,8 @@ var vm_app = new Vue({
 			var jizaishixiang9 = _this.jizaishixiang9;
 			var jizaishixiang = _this.jizaishixiang;
 
-			if (shengchanriqi == '' || xianti == '' || banci == ''
-				|| shengchanriqi == undefined || xianti == undefined || banci == undefined) {
+			if (shengchanriqi == '' || xianti == '' || banci == '' || saomiao == '' 
+				|| shengchanriqi == undefined || xianti == undefined || banci == undefined || saomiao == undefined) {
 				_this.warning(false, '警告', '必填项输入内容为空或不正确！');
 				_this.disabled_create = false;
 				return false;
@@ -3260,6 +3277,7 @@ var vm_app = new Vue({
 				shengchanriqi: shengchanriqi.Format("yyyy-MM-dd 00:00:00"),
 				xianti: xianti,
 				banci: banci,
+				saomiao: saomiao,
 				jizhongming: jizhongming,
 				spno: spno,
 				pinming: pinming,

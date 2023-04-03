@@ -250,6 +250,7 @@ class pdreportController extends Controller
 			'shengchanriqi',
 			'xianti',
 			'banci',
+			'saomiao',
 			'jizhongming',
 			'spno',
 			'pinming',
@@ -288,6 +289,10 @@ class pdreportController extends Controller
 		
 		// dd($dailyreport);
 		// dd($dailyreport['banci']);
+
+		$saomiao_arr = explode('/', $dailyreport['saomiao']);
+		$dailyreport['jizhongming'] = $saomiao_arr[0];
+		$dailyreport['spno'] = $saomiao_arr[1];
 		
 		// 如果机种名等均为空，则判断为无计划
 		// if (empty($dailyreport['jizhongming']) && empty($dailyreport['pinming']) && empty($dailyreport['gongxu'])) {
