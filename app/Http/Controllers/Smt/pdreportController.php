@@ -124,7 +124,8 @@ class pdreportController extends Controller
 		try	{
 			// $result = DB::table('mpoints')->insert([
 			$result = Smt_mpoint::create([
-				'jizhongming'	=> substr($mpoint['jizhongming'], 0, 8),
+				// 'jizhongming'	=> substr($mpoint['jizhongming'], 0, 8),
+				'jizhongming'	=> $mpoint['jizhongming'],
 				'pinming'		=> $mpoint['pinming'],
 				'gongxu'			=> $mpoint['gongxu'],
 				'diantai'		=> $mpoint['diantai'],
@@ -210,7 +211,7 @@ class pdreportController extends Controller
 	 */
 	public function mpointDownload(Request $request)
 	{
-		return Storage::download('download/smt_mpointimport.xlsx', 'MoBan_Mpoint.xlsx');
+		return Storage::download('download/smt_mpointimport.xls', 'MoBan_Mpoint.xls');
 	}
 	
 	
@@ -626,12 +627,12 @@ class pdreportController extends Controller
 		try {
 			// 先清空表
 			Smt_mpoint::truncate();
-			
+
 			$ret = Excel::import(new mpointImport, 'excel/'.$filename);
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
-			// echo 'Message: ' .$e->getMessage();
+			echo 'Message: ' .$e->getMessage();
 			$result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);

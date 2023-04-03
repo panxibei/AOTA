@@ -21,7 +21,8 @@ class CreateSmtMpointsTable extends Migration
 			$table->integer('diantai')->unsigned();
 			$table->integer('pinban')->unsigned();
             $table->timestamps();
-            $table->unique(['jizhongming', 'pinming', 'gongxu']);
+            // $table->unique(['jizhongming', 'pinming', 'gongxu']);
+            $table->unique(['jizhongming', 'gongxu']);
 			$table->engine = 'InnoDB';
         });
     }

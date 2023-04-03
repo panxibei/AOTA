@@ -548,10 +548,14 @@ class qcreportController extends Controller
 // dd($jianchariqi);
 		$saomiao_arr = explode('/', $saomiao);
 		
-		$s['jizhongming'] = substr($saomiao_arr[0], 0, 8);
-		$s['pinming'] = $saomiao_arr[1];
-		$s['spno'] = $saomiao_arr[2];
-		$s['lotshu'] = $saomiao_arr[3];
+		// $s['jizhongming'] = substr($saomiao_arr[0], 0, 8);
+		// $s['pinming'] = $saomiao_arr[1];
+		// $s['spno'] = $saomiao_arr[2];
+		// $s['lotshu'] = $saomiao_arr[3];
+		$s['jizhongming'] = $saomiao_arr[0];
+		$s['pinming'] = 'ABCD';
+		$s['spno'] = $saomiao_arr[1];
+		$s['lotshu'] = $saomiao_arr[2];
 
 		// 获取生产日期
 		// $jianchariqi = Smt_pdreport::select('jianchariqi')

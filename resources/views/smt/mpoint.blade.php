@@ -27,7 +27,7 @@ SMT - MPoint
 			* 机种名&nbsp;&nbsp;
 			<i-input v-model.lazy="jizhongming" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 160px"></i-input>
 		</i-col>
-		<i-col span="5">
+		<i-col span="5" style="display:none">
 			* 品名&nbsp;&nbsp;
 			<i-input v-model.lazy="pinming" @on-keyup="pinming=pinming.toUpperCase()" size="small" clearable style="width: 160px"></i-input>
 		</i-col>
@@ -38,6 +38,15 @@ SMT - MPoint
 			</i-select>
 		</i-col>
 		<i-col span="2">
+			<!-- <Upload
+				:before-upload="uploadstart"
+				:show-upload-list="false"
+				:format="['xls','xlsx']"
+				:on-format-error="handleFormatError"
+				:max-size="2048"
+				action="/">
+				<i-button icon="ios-cloud-upload-outline" :loading="loadingStatus" :disabled="uploaddisabled" size="small">@{{ loadingStatus ? '上传中...' : '批量导入' }}</i-button>
+			</Upload> -->
 			<Upload
 				:before-upload="uploadstart"
 				:show-upload-list="false"
@@ -73,7 +82,7 @@ SMT - MPoint
 			<i-button @click="onclear()">清除</i-button>&nbsp;&nbsp;&nbsp;
 		</i-col>
 		<i-col span="7">
-			<font color="#ff9900">* 注意：原有数据会被覆盖！<br>[机种名] 、[品名] 和 [工序] 三项必须保持唯一。</font>
+			<font color="#ff9900">* 注意：原有数据会被覆盖！<br>[机种名] 和 [工序] 两项必须保持唯一。</font>
 		</i-col>
 	</i-row>
 
@@ -97,10 +106,12 @@ SMT - MPoint
 
 			&nbsp;&nbsp;&nbsp;&nbsp;
 
+			<span style="display:none">
 			* 品名&nbsp;&nbsp;
-			<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
+			<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px;" placeholder=""></i-input>
 
 			&nbsp;&nbsp;&nbsp;&nbsp;
+			</span>
 
 			* 工序&nbsp;&nbsp;
 			<i-input v-model.lazy="gongxu_edit" @on-keyup="gongxu_edit=gongxu_edit.toUpperCase()" size="small" clearable style="width: 80px" placeholder=""></i-input>
@@ -147,7 +158,7 @@ SMT - MPoint
 				机种名&nbsp;&nbsp;
 				<i-input v-model.lazy="jizhongming_filter" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 120px"></i-input>
 			</i-col>
-			<i-col span="4">
+			<i-col span="4" style="display:none">
 				品名&nbsp;&nbsp;
 				<i-input v-model.lazy="pinming_filter" @on-keyup="pinming_filter=pinming_filter.toUpperCase()" @on-change="mpointgets(pagecurrent, pagelast)" size="small" clearable style="width: 120px"></i-input>
 			</i-col>
@@ -196,7 +207,7 @@ var vm_app = new Vue({
 		jizhongming: '',
 
 		//品名
-		pinming: '',
+		pinming: 'ABCD',
 
 		// 工序
 		gongxu_select: '',
@@ -244,13 +255,13 @@ var vm_app = new Vue({
 				width: 120,
 				// sortable: true
 			},
-			{
-				title: '品名',
-				key: 'pinming',
-				align: 'center',
-				width: 110,
-				// sortable: true
-			},
+			// {
+			// 	title: '品名',
+			// 	key: 'pinming',
+			// 	align: 'center',
+			// 	width: 110,
+			// 	// sortable: true
+			// },
 			{
 				title: '工序',
 				key: 'gongxu',
@@ -562,7 +573,8 @@ var vm_app = new Vue({
 			var _this = this;
 			
 			var jizhongming = _this.jizhongming;
-			var pinming = _this.pinming;
+			// var pinming = _this.pinming;
+			var pinming = 'ABCD';
 			var gongxu = _this.gongxu_select;
 			var diantai = _this.diantai;
 			var pinban = _this.pinban;
@@ -801,7 +813,8 @@ var vm_app = new Vue({
 		handleFormatError (file) {
 			this.$Notice.warning({
 				title: 'The file format is incorrect',
-				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
+				// desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> or <strong>xlsx</strong>.'
+				desc: 'File format of ' + file.name + ' is incorrect, please select <strong>xls</strong> .'
 			});
 		},
 		handleMaxSize (file) {
@@ -847,7 +860,7 @@ var vm_app = new Vue({
 				if (response.data == 1) {
 					_this.success(false, '成功', '导入成功！');
 				} else {
-					_this.error(false, '失败', '导入失败！请确保 [机种名、品名及工序] 三项没有重复！');
+					_this.error(false, '失败', '导入失败！请确保 [机种名及工序] 两项没有重复！');
 				}
 				
 				setTimeout( function () {
