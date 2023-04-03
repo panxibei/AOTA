@@ -50,7 +50,7 @@ SMT - MPoint
 			<Upload
 				:before-upload="uploadstart"
 				:show-upload-list="false"
-				:format="['xls','xlsx']"
+				:format="['xls']"
 				:on-format-error="handleFormatError"
 				:max-size="2048"
 				action="/">

@@ -632,7 +632,7 @@ class pdreportController extends Controller
 			// dd($ret);
 			$result = 1;
 		} catch (\Exception $e) {
-			echo 'Message: ' .$e->getMessage();
+			// echo 'Message: ' .$e->getMessage();
 			$result = 0;
 		} finally {
 			Storage::delete('excel/'.$filename);

@@ -467,7 +467,7 @@ class qcreportController extends Controller
 	}	
 	
 	/**
-	 * getSaomiao 暂未使用
+	 * getSaomiao
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
@@ -478,20 +478,22 @@ class qcreportController extends Controller
 
 		$saomiao = $request->input('saomiao');
 		$gongxu = $request->input('gongxu');
-		
+
 		if ($saomiao == null || $gongxu == null) return 0;
 		
 		try {
 			$saomiao_arr = explode('/', $saomiao);
 			
-			$jizhongming = substr($saomiao_arr[0], 0, 8);
-			$pinming = $saomiao_arr[1];
-			$spno = $saomiao_arr[2];
-			$lotshu = $saomiao_arr[3];
+			// $jizhongming = substr($saomiao_arr[0], 0, 8);
+			$jizhongming = $saomiao_arr[0];
+			// $pinming = $saomiao_arr[1];
+			$pinming = 'ABCD';
+			$spno = $saomiao_arr[1];
+			$lotshu = $saomiao_arr[2];
 
 			$res = Smt_mpoint::select('diantai', 'pinban')
 				->where('jizhongming', $jizhongming)
-				->where('pinming', $pinming)
+				// ->where('pinming', $pinming)
 				->where('gongxu', $gongxu)
 				->first();
 			
@@ -500,11 +502,11 @@ class qcreportController extends Controller
 			$res = Smt_pdreport::select('xianti', 'banci')
 				->where('jizhongming', $jizhongming)
 				->where('spno', 'like', $spno.'%')
-				->where('pinming', $pinming)
+				// ->where('pinming', $pinming)
 				->where('gongxu', $gongxu)
 				->first();
-			
-			// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
+
+				// 生产日报中的机种生产日期，暂保留，无用（返回但没用上）
 			// $jianchariqi = date('Y-m-d H:i:s', strtotime($res['created_at']));
 
 			$xianti = $res['xianti'];
