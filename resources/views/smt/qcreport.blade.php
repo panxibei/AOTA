@@ -258,12 +258,12 @@ SMT(QC report) -
 					机种名&nbsp;&nbsp;
 					<i-input v-model.lazy="jizhongming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" @on-keyup="jizhongming_filter=jizhongming_filter.toUpperCase()" size="small" clearable style="width: 120px"></i-input>
 				</i-col>
-				<i-col span="4">
+				<!-- <i-col span="4">
 					品名&nbsp;&nbsp;
 					<i-select v-model.lazy="pinming_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 					</i-select>
-				</i-col>
+				</i-col> -->
 				<i-col span="3">
 					工序&nbsp;&nbsp;
 					<i-select v-model.lazy="gongxu_filter" @on-change="qcreportgets(pagecurrent, pagelast)" clearable style="width:80px" size="small" placeholder="">
@@ -292,6 +292,9 @@ SMT(QC report) -
 							<i-option v-for="item in option_buliangneirong6" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
 						</Option-group>
 					</i-select>
+				</i-col>
+				<i-col span="4">
+					&nbsp;
 				</i-col>
 			</i-row>
 			<br><br><br>
@@ -345,10 +348,12 @@ SMT(QC report) -
 								机种名：@{{ jizhongming_edit }}
 							
 								&nbsp;&nbsp;&nbsp;&nbsp;
-								
+
+								<span style="display:none">
 								品名：@{{ pinming_edit }}
 								
 								&nbsp;&nbsp;&nbsp;&nbsp;
+								</span>
 								
 								工序：@{{ gongxu_edit }}
 							
@@ -387,10 +392,11 @@ SMT(QC report) -
 								机种名：@{{ jizhongming_edit }}
 							
 								&nbsp;&nbsp;&nbsp;&nbsp;
-								
+								<span style="display:none">
 								品名：@{{ pinming_edit }}
 								
 								&nbsp;&nbsp;&nbsp;&nbsp;
+								</span>
 								
 								工序：@{{ gongxu_edit }}
 							
@@ -486,9 +492,11 @@ SMT(QC report) -
 							
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								
+								<span style="display:none">
 								品名：@{{ pinming_append }}
 								
 								&nbsp;&nbsp;&nbsp;&nbsp;
+								</span>
 								
 								工序：@{{ gongxu_append }}
 							
@@ -937,14 +945,14 @@ var vm_app = new Vue({
 				title: '机种名',
 				key: 'jizhongming',
 				align: 'center',
-				width: 110,
+				width: 120,
 			},
-			{
-				title: '品名',
-				key: 'pinming',
-				align: 'center',
-				width: 80,
-			},
+			// {
+			// 	title: '品名',
+			// 	key: 'pinming',
+			// 	align: 'center',
+			// 	width: 80,
+			// },
 			{
 				title: '工序',
 				key: 'gongxu',
@@ -952,7 +960,7 @@ var vm_app = new Vue({
 				width: 50
 			},
 			{
-				title: 'SP NO.',
+				title: 'LOT NO.',
 				key: 'spno',
 				align: 'center',
 				width: 130,
@@ -2591,7 +2599,7 @@ var vm_app = new Vue({
 			var gongxu = _this.gongxu;
 			var dianmei = _this.dianmei;
 			var meishu = _this.meishu;
-			alert(dianmei);
+
 			// 基本信息不能为空
 			if (jianchariqi == '' || jianchariqi == undefined || saomiao == '' || saomiao == undefined || xianti == '' || xianti == undefined
 				|| banci == '' || banci == undefined || gongxu == '' || gongxu == undefined

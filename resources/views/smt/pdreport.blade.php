@@ -216,16 +216,16 @@ SMT - PD report
 					<i-input v-model.lazy="jizhongming" @on-keyup="jizhongming=jizhongming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
 				<i-col span="4">
-					SP NO.&nbsp;&nbsp;
+					LOT NO.&nbsp;&nbsp;
 					<i-input v-model.lazy="spno" size="small" clearable style="width: 120px" placeholder=""></i-input>
 				</i-col>
-				<i-col span="4">
+				<!-- <i-col span="4">
 					品名&nbsp;&nbsp;
-					<!-- <i-select v-model.lazy="pinming" clearable style="width:120px" size="small" placeholder="">
+					<!- <i-select v-model.lazy="pinming" clearable style="width:120px" size="small" placeholder="">
 						<i-option v-for="item in option_pinming" :value="item.value" :key="item.value">@{{ item.label }}</i-option>
-					</i-select> -->
+					</i-select> ->
 					<i-input v-model.lazy="pinming" @on-keyup="pinming=pinming.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
-				</i-col>
+				</i-col> -->
 				<i-col span="4">
 					LOT数&nbsp;&nbsp;
 					<Input-number v-model.lazy="lotshu" :min="1" size="small" style="width: 120px" placeholder=""></Input-number>
@@ -590,15 +590,17 @@ SMT - PD report
 
 					&nbsp;&nbsp;&nbsp;&nbsp;
 
-					SP NO.&nbsp;&nbsp;
-					<i-input v-model.lazy="spno_edit" size="small" clearable style="width: 120px" placeholder=""></i-input>
+					LOT NO.&nbsp;&nbsp;
+					<i-input v-model.lazy="spno_edit" size="small" clearable style="width: 160px" placeholder=""></i-input>
 
 					&nbsp;&nbsp;&nbsp;&nbsp;
 
+					<span style="display:none">
 					品名&nbsp;&nbsp;
 					<i-input v-model.lazy="pinming_edit" @on-keyup="pinming_edit=pinming_edit.toUpperCase()" size="small" clearable style="width: 120px" placeholder=""></i-input>
 
 					&nbsp;&nbsp;&nbsp;&nbsp;
+					</span>
 
 					工序&nbsp;&nbsp;
 					<i-input v-model.lazy="gongxu_edit" @on-keyup="gongxu_edit=gongxu_edit.toUpperCase()" size="small" clearable style="width: 80px" placeholder=""></i-input>
@@ -651,13 +653,15 @@ SMT - PD report
 
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						
-						SP NO：@{{ spno_edit }}
+						LOT NO：@{{ spno_edit }}
 
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						
+						<span style="display:none">
 						品名：@{{ pinming_edit }}
 						
 						&nbsp;&nbsp;&nbsp;&nbsp;
+						</span>
 						
 						工序：@{{ gongxu_edit }}
 
@@ -1184,7 +1188,7 @@ var vm_app = new Vue({
 						title: '机种名',
 						key: 'jizhongming',
 						align: 'center',
-						width: 110,
+						width: 120,
 						render: (h, params) => {
 							return h('div', [
 								params.row.jizhongming || ''
@@ -1192,7 +1196,7 @@ var vm_app = new Vue({
 						}
 					},
 					{
-						title: 'SP NO.',
+						title: 'LOT NO.',
 						key: 'spno',
 						align: 'center',
 						width: 130,
@@ -1202,17 +1206,17 @@ var vm_app = new Vue({
 							]);
 						}
 					},
-					{
-						title: '品名',
-						key: 'pinming',
-						align: 'center',
-						width: 80,
-						render: (h, params) => {
-							return h('div', [
-								params.row.pinming || ''
-							]);
-						}
-					},
+					// {
+					// 	title: '品名',
+					// 	key: 'pinming',
+					// 	align: 'center',
+					// 	width: 80,
+					// 	render: (h, params) => {
+					// 		return h('div', [
+					// 			params.row.pinming || ''
+					// 		]);
+					// 	}
+					// },
 					{
 						title: 'LOT数',
 						key: 'lotshu',
@@ -2293,13 +2297,13 @@ var vm_app = new Vue({
 				align: 'center',
 				width: 130,
 			},
-			{
-				title: '品名',
-				key: 'pinming',
-				align: 'center',
-				width: 80,
-				// fixed: 'left',
-			},
+			// {
+			// 	title: '品名',
+			// 	key: 'pinming',
+			// 	align: 'center',
+			// 	width: 80,
+			// 	// fixed: 'left',
+			// },
 			{
 				title: '工序',
 				key: 'gongxu',
@@ -3195,7 +3199,8 @@ var vm_app = new Vue({
 			var banci = _this.banci;
 			var jizhongming = _this.jizhongming;
 			var spno = _this.spno;
-			var pinming = _this.pinming;
+			// var pinming = _this.pinming;
+			var pinming = 'ABCD';
 			var lotshu = _this.lotshu;
 			var gongxu = _this.gongxu;
 			var meimiao = _this.meimiao;
@@ -3237,17 +3242,17 @@ var vm_app = new Vue({
 			}
 
 			// 正则判断spno（10位数字 + 横杠 + 一位或两位数字）
-			if (spno != undefined && spno != '' && spno != null) {
-				// var pattern = /^\d{10}-\d{1,2}$/;
-				var pattern = /^\d{10}-[0-9a-zA-Z]{1,2}$/;
-				// console.log(pattern.test(spno));
-				// return false;
-				if (! pattern.test(spno)) {
-					_this.warning(false, '警告', 'SP NO. 输入不正确！');
-					_this.disabled_create = false;
-					return false;
-				}
-			}
+			// if (spno != undefined && spno != '' && spno != null) {
+			// 	// var pattern = /^\d{10}-\d{1,2}$/;
+			// 	var pattern = /^\d{10}-[0-9a-zA-Z]{1,2}$/;
+			// 	// console.log(pattern.test(spno));
+			// 	// return false;
+			// 	if (! pattern.test(spno)) {
+			// 		_this.warning(false, '警告', 'SP NO. 输入不正确！');
+			// 		_this.disabled_create = false;
+			// 		return false;
+			// 	}
+			// }
 
 			var url = "{{ route('smt.pdreport.dailyreportcreate') }}";
 			axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
@@ -4291,7 +4296,8 @@ var vm_app = new Vue({
 			var id = _this.id_edit;
 			var spno = _this.spno_edit;
 			var jizhongming = _this.jizhongming_edit;
-			var pinming = _this.pinming_edit;
+			// var pinming = _this.pinming_edit;
+			var pinming = 'ABCD';
 			var lotshu = _this.lotshu_edit;
 			var gongxu = _this.gongxu_edit;
 			var meimiao = _this.meimiao_edit;

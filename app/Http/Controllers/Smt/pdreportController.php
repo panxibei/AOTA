@@ -165,7 +165,8 @@ class pdreportController extends Controller
 		try	{
 			$result = Smt_mpoint::where('id', $mpoint['id'])
 				->update([
-					'jizhongming'	=> strtoupper(substr($mpoint['jizhongming'], 0 , 8)),
+					// 'jizhongming'	=> strtoupper(substr($mpoint['jizhongming'], 0 , 8)),
+					'jizhongming'	=> strtoupper($mpoint['jizhongming']),
 					'pinming'		=> strtoupper($mpoint['pinming']),
 					'gongxu'		=> strtoupper($mpoint['gongxu']),
 					'diantai'		=> $mpoint['diantai'],
@@ -289,7 +290,8 @@ class pdreportController extends Controller
 		// dd($dailyreport['banci']);
 		
 		// 如果机种名等均为空，则判断为无计划
-		if (empty($dailyreport['jizhongming']) && empty($dailyreport['pinming']) && empty($dailyreport['gongxu'])) {
+		// if (empty($dailyreport['jizhongming']) && empty($dailyreport['pinming']) && empty($dailyreport['gongxu'])) {
+		if (empty($dailyreport['jizhongming']) && empty($dailyreport['gongxu'])) {
 			// dd('无计划');
 
 			$dianmei = null;
@@ -305,7 +307,7 @@ class pdreportController extends Controller
 			//读取点/枚
 			$t = Smt_mpoint::select('diantai', 'pinban')
 				->where('jizhongming', $dailyreport['jizhongming'])
-				->where('pinming', $dailyreport['pinming'])
+				// ->where('pinming', $dailyreport['pinming'])
 				->where('gongxu', $dailyreport['gongxu'])
 				->first();
 			// dd($t);
