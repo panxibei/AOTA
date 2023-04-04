@@ -170,7 +170,7 @@ return [
         // Spatie\Permission\PermissionServiceProvider::class,
         // Tightenco\Ziggy\ZiggyServiceProvider::class,
 
-        Milon\Barcode\BarcodeServiceProvider::class,
+        // Milon\Barcode\BarcodeServiceProvider::class,
 
     ],
 
@@ -228,8 +228,8 @@ return [
         // 'JWTAuth' => Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         // 'Ziggy' => Tightenco\Ziggy\ZiggyServiceProvider::class,
 
-        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
-        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+        // 'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        // 'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
 
     ],
 
