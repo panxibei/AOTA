@@ -482,14 +482,26 @@ class qcreportController extends Controller
 		if ($saomiao == null || $gongxu == null) return 0;
 		
 		try {
-			$saomiao_arr = explode('/', $saomiao);
+			// $saomiao_arr = explode('/', $saomiao);
+
+			// 二维码示例：
+			// [)>06T550120230406004037 1P66-44895Z13 Q24 1TC91S00123040714000 30TC91S00123040714000 32T
+			// $saomiao_arr = explode('/', $saomiao);
+			
+			$jizhongming = substr($saomiao, 26, 11);
+			$pinming = 'ABCD';
+
+			$QtmpString = substr($saomiao, 38, 4);
+			$Qpos = strpos($QtmpString, '1T');
+			$lotshu = substr($QtmpString, 0, 4 - $Qpos);
+
+			$spno = substr($saomiao, 40 + $Qpos, 18);
+
 			
 			// $jizhongming = substr($saomiao_arr[0], 0, 8);
-			$jizhongming = $saomiao_arr[0];
 			// $pinming = $saomiao_arr[1];
-			$pinming = 'ABCD';
-			$spno = $saomiao_arr[1];
-			$lotshu = $saomiao_arr[2];
+			// $spno = $saomiao_arr[1];
+			// $lotshu = $saomiao_arr[2];
 
 			$res = Smt_mpoint::select('diantai', 'pinban')
 				->where('jizhongming', $jizhongming)
@@ -548,16 +560,21 @@ class qcreportController extends Controller
 			return 0;
 		}
 // dd($jianchariqi);
-		$saomiao_arr = explode('/', $saomiao);
+		// 二维码示例：
+		// [)>06T550120230406004037 1P66-44895Z13 Q24 1TC91S00123040714000 30TC91S00123040714000 32T
+		// $saomiao_arr = explode('/', $saomiao);
 		
 		// $s['jizhongming'] = substr($saomiao_arr[0], 0, 8);
 		// $s['pinming'] = $saomiao_arr[1];
 		// $s['spno'] = $saomiao_arr[2];
 		// $s['lotshu'] = $saomiao_arr[3];
-		$s['jizhongming'] = $saomiao_arr[0];
+
+		$s['jizhongming'] = substr($saomiao, 26, 11);
 		$s['pinming'] = 'ABCD';
-		$s['spno'] = $saomiao_arr[1];
-		$s['lotshu'] = $saomiao_arr[2];
+		$QtmpString = substr($saomiao, 38, 4);
+		$Qpos = strpos($QtmpString, '1T');
+		$s['lotshu'] = substr($QtmpString, 0, 4 - $Qpos);
+		$s['spno'] = substr($saomiao, 40 + $Qpos, 18);
 
 		// 获取生产日期
 		// $jianchariqi = Smt_pdreport::select('jianchariqi')

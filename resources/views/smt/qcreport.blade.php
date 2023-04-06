@@ -77,7 +77,7 @@ SMT(QC report) -
 				<i-col span="8">
 					* <strong>扫描</strong>&nbsp;&nbsp;
 					<Poptip trigger="focus" placement="top-start" content="从这里开始扫描或输入...." transfer="true">
-					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao"  @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：66-41448Z67/C91S00123020890300/16" size="large" clearable autofocus style="width: 320px"></i-input>
+					<i-input ref="saomiao" element-id="id_saomiao" v-model.lazy="saomiao"  @on-keyup="saomiao=saomiao.toUpperCase()" placeholder="例：[)>06T5501202304060040371P66-44895Z13Q241TC91S0012304071400030TC91S0012304071400032T" size="large" clearable autofocus style="width: 320px"></i-input>
 					</Poptip>
 				</i-col>
 				<i-col span="3">
