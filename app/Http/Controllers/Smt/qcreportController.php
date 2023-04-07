@@ -493,8 +493,9 @@ class qcreportController extends Controller
 
 			$QtmpString = substr($saomiao, 38, 6);
 			$Qpos = strpos($QtmpString, '1T');
-			$lotshu = substr($QtmpString, 0, 6 - $Qpos);
 			
+			$lotshu = substr($QtmpString, 0, $Qpos);
+
 			$spno = substr($saomiao, 40 + $Qpos, 18);
 
 			
@@ -573,7 +574,7 @@ class qcreportController extends Controller
 		$s['pinming'] = 'ABCD';
 		$QtmpString = substr($saomiao, 38, 6);
 		$Qpos = strpos($QtmpString, '1T');
-		$s['lotshu'] = substr($QtmpString, 0, 6 - $Qpos);
+		$s['lotshu'] = substr($QtmpString, 0, $Qpos);
 		$s['spno'] = substr($saomiao, 40 + $Qpos, 18);
 
 		// 获取生产日期
